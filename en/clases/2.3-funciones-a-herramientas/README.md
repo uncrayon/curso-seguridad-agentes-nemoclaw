@@ -9,7 +9,6 @@ Goal: turn Python functions into tools the model uses well, with validated argum
 | **Video length** | ≈9 min |
 | **Practice** | Notebook (≈50 min), works without a key in MOCK mode |
 | **Skill** | Turn functions into agent tools |
-| **NVIDIA lesson** | [01c · Tools at Scale](https://nvdli.github.io/NemoClawDLI/nemoclaw/01c-tools.html) |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/2.3-funciones-a-herramientas/2.3-funciones-a-herramientas.ipynb) · [FAQ (Spanish)](../../../FAQ.md) |
 
 ## What you'll achieve
@@ -120,17 +119,6 @@ Run the two `ServidorMCPSimulado` (simulated MCP server) cells. You should see:
 
 `tools/list` returned a tool with an instruction hidden in its description. Your allowlist rejected it before the model could read it.
 
-### 10. (Optional) Practice in the browser with the NVIDIA lesson
-
-In [NVIDIA lesson 01c](https://nvdli.github.io/NemoClawDLI/nemoclaw/01c-tools.html), with your key saved in lesson 01a:
-
-1. In **two tools, the model routes**, edit the descriptions of `calculate` and `explain_concept` (the **Tool A · calculate** and **Tool B · explain_concept** nodes) and run the **LLM call · the model routes** node again with each question in `EXAMPLES`.
-2. In **agents as tools · ask a sub-agent about customer data**, ask "Who opened the most tickets in the last 30 days?" and read what the subagent returns to the main agent.
-3. In **MCP-shaped tool server · discovery + dispatch**, run the `tools/list` node and compare the discovered schemas with the ones in this notebook.
-4. In the chat panel at the bottom, try "What is 17.5% of 2,480?" and "What is a vector database?".
-
-NVIDIA's glossary is in English, so search with English terms ("vector database", "AI agent"). Queries in other languages may return no results.
-
 ## Check that it worked
 
 - [ ] `json.dumps(TOOLS[1])` shows the `estimar_costo_brev` schema with types, limits and descriptions.
@@ -165,7 +153,7 @@ Add the `herramienta` decorator, `validar_args`, `ejecutar`, `agente` and the tw
 
 ## Resources
 
-- [Lesson 01c · Tools at Scale](https://nvdli.github.io/NemoClawDLI/nemoclaw/01c-tools.html), NVIDIA DLI course. This class is based on it (Apache-2.0).
+- Lesson 01c · Tools at Scale, NVIDIA DLI course. This class is based on it (Apache-2.0).
 - [MCP (Model Context Protocol) specification](https://modelcontextprotocol.io/specification) and its [security best practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices) guide.
 - [JSON Schema specification](https://json-schema.org/specification).
 - Schick et al. (2023), [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761).

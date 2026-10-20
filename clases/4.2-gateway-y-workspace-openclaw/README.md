@@ -7,7 +7,6 @@ Abre la carpeta que define a tu agente, compara lo que el agente dice de sí mis
 | Duración del video | ≈8 min |
 | Práctica | Laboratorio en Brev: página del curso de NVIDIA + terminal ([cookbook.md](cookbook.md)) |
 | Habilidad | Orientación (sin habilidad evaluada) |
-| Lección de NVIDIA | [El agente OpenClaw (03b-openclaw)](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/03b-openclaw.html) |
 
 Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) · [preguntas frecuentes del curso](../../FAQ.md)
 

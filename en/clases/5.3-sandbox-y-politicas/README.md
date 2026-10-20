@@ -9,7 +9,6 @@ Read your sandbox's real policy, predict what it allows and what it blocks, chec
 | Video length | ≈9 min |
 | Practice | Brev lab ([`cookbook.md` (Spanish)](../../../clases/5.3-sandbox-y-politicas/cookbook.md)) + [notebook (Spanish)](../../../clases/5.3-sandbox-y-politicas/5.3-sandbox-y-politicas.ipynb) |
 | Skill | Define and verify a sandbox in OpenShell |
-| NVIDIA lesson | [04a · The OpenShell Sandbox](https://nvdli.github.io/NemoClawDLI/nemoclaw/04a-safety.html) (live policy, map and "Static verdict vs the live sandbox") |
 
 Materials: [slides](slides.html) · [lab cookbook (Spanish)](../../../clases/5.3-sandbox-y-politicas/cookbook.md) · [notebook (Spanish)](../../../clases/5.3-sandbox-y-politicas/5.3-sandbox-y-politicas.ipynb) · [FAQ (Spanish)](../../../FAQ.md)
 

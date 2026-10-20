@@ -7,7 +7,6 @@ Comprueba con evidencia quién es tu agente dentro del sandbox, qué binarios pu
 | Duración del video | ≈9 min |
 | Práctica | Laboratorio en Brev ([`cookbook.md`](cookbook.md)) |
 | Habilidad | Configurar identidades de agente en OpenShell |
-| Lección de NVIDIA | [04a · El sandbox de OpenShell](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html) (mecanismos 3 y 4, celda "Pregunta cualquier cosa al entorno") |
 
 Material: [diapositivas](slides.html) · [cookbook del lab](cookbook.md) · [FAQ del curso](../../FAQ.md)
 

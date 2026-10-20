@@ -7,7 +7,6 @@ Lee la política real de tu sandbox, predice qué permite y qué bloquea, compru
 | Duración del video | ≈9 min |
 | Práctica | Laboratorio en Brev ([`cookbook.md`](cookbook.md)) + [notebook](5.3-sandbox-y-politicas.ipynb) |
 | Habilidad | Definir y verificar un sandbox en OpenShell |
-| Lección de NVIDIA | [04a · El sandbox de OpenShell](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html) (política activa, mapa y "Veredicto estático frente al sandbox activo") |
 
 Material: [diapositivas](slides.html) · [cookbook del lab](cookbook.md) · [notebook](5.3-sandbox-y-politicas.ipynb) · [FAQ del curso](../../FAQ.md)
 

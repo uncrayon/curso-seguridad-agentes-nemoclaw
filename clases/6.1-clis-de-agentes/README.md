@@ -7,7 +7,6 @@ Aprende a comparar cualquier agente de CLI con cinco preguntas, y comprueba las 
 | **Duración del video** | ≈8 min |
 | **Práctica** | Laboratorio en Brev · [cookbook.md](cookbook.md) |
 | **Habilidad** | Comparar agentes por su superficie de riesgo y elegir según la tarea |
-| **Lección de NVIDIA** | [Agentes de CLI modernos (04b)](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04b-modern-clis.html) |
 | **Material** | [Diapositivas](slides.html) · [FAQ del curso](../../FAQ.md) |
 
 ## Lo esencial (sin tecnicismos)

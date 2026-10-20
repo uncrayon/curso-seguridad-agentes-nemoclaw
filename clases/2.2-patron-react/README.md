@@ -7,7 +7,6 @@ Objetivo: construir desde cero un loop ReAct que pide herramientas, las ejecuta 
 | **Duración del video** | ≈9 min |
 | **Práctica** | Notebook (≈45 min), funciona sin key en modo MOCK |
 | **Habilidad** | Implementar el patrón ReAct |
-| **Lección de NVIDIA** | [01b · El bucle ReAct](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01b-react.html) |
 | **Material** | [Diapositivas](slides.html) · [Notebook](2.2-patron-react.ipynb) · [Preguntas frecuentes](../../FAQ.md) |
 
 ## Lo esencial (sin tecnicismos)
@@ -107,16 +106,6 @@ Ejecuta la celda de `tokens_aprox`. Deberías ver cómo crecen los tokens por ll
 
 Ejecuta la celda de Soporte NemoClaw. Deberías ver `🔧 hora_local({"ciudad": "Bogotá"})` y una respuesta con la hora local. Fíjate en que **no tocaste `react`**: solo agregaste el esquema a `TOOLS_SOPORTE` y la función a `REGISTRO_SOPORTE`.
 
-### 9. (Opcional) Practica en el navegador con la lección de NVIDIA
-
-En la [lección 01b de NVIDIA](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01b-react.html), con tu key guardada en la lección 01a:
-
-1. En la celda **finish_reason · el campo que determina el siguiente paso**, quita de `QUESTION_2` la frase que pide usar `get_current_time` y vuelve a ejecutar.
-2. En **El bucle ReAct completo, construido desde cero**, nodo **Entrada del usuario**, cambia `state.userPrompt` por `"What is the capital of France?"` y mira el `finish_reason` del paso 1.
-3. En el mismo nodo, cambia el system prompt por `"You must always call get_current_time once, then answer."` y comprueba si el modelo obedece.
-4. Pregunta `"How many minutes until 17:00 UTC?"` y cuenta cuántas veces llama al reloj.
-5. En el panel de chat del final, pregunta "¿Cómo decide el loop del reloj cuándo detenerse?".
-
 ## Comprueba que funcionó
 
 - [ ] Puedes explicar qué hace el loop con cada `finish_reason`: `stop`, `tool_calls`, `length`.
@@ -151,7 +140,7 @@ Agrega `react`, `validar_tool_call`, `a_dict`, `hora_local` y su esquema a tu `s
 
 ## Recursos
 
-- [Lección 01b · El bucle ReAct](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01b-react.html), curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).
+- Lección 01b · El bucle ReAct, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).
 - Yao et al. (2022), [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629).
 - Liu et al. (2023), [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172): la evidencia del context rot.
 - Lilian Weng (2023), [LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/): modelo, memoria, planeación y herramientas.

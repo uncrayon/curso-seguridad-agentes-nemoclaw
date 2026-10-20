@@ -33,10 +33,6 @@
 <td>Enrutar subtareas entre llamadas a modelos</td>
 </tr>
 <tr>
-<td><strong>Lección de NVIDIA</strong></td>
-<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02a-routing.html">02a · El agente de flujo de trabajo</a></td>
-</tr>
-<tr>
 <td><strong>Material</strong></td>
 <td><a href="slides.html">Diapositivas</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.1-enrutamiento-y-workflows/3.1-enrutamiento-y-workflows.ipynb" target="_blank" rel="noopener">Notebook</a> · <a href="../../FAQ.html">Preguntas frecuentes</a></td>
 </tr>
@@ -117,15 +113,6 @@ llamadas al modelo: 2 ['planificador', 'sintetizador']
 </ul>
 <h3 id="10-avance-del-proyecto">10. Avance del proyecto</h3>
 <p>Ejecuta <code>soporte_nemoclaw</code>. Un ticket simple va a un especialista; el reporte del 401 tiene prioridad alta y pasa por el fan-out.</p>
-<h3 id="11-opcional-practica-en-el-navegador-con-la-lección-de-nvidia">11. (Opcional) Practica en el navegador con la lección de NVIDIA</h3>
-<p>En la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02a-routing.html">lección 02a</a>, con tu key guardada en el panel del curso:</p>
-<ol>
-<li>En <strong>Planificar búsquedas paralelas en el glosario</strong>, nodo <strong>Objetivo de investigación</strong>, cambia <code>state.goal</code> por una pregunta tuya y ejecuta el flujo. Cuenta las llamadas al modelo: siempre son 2.</li>
-<li>En <strong>Enviar un ticket a un especialista</strong>, nodo <strong>Ticket del usuario</strong>, cambia <code>state.ticket</code> por <code>"Mi pantalla parpadea y la VPN se cae"</code> (toca dos categorías). ¿Cuál elige?</li>
-<li>En <strong>Distribuir una entrada entre especialistas</strong>, compara el tiempo de reloj contra la suma de duraciones.</li>
-<li>En el panel <strong>Prueba · router de selección en vivo</strong>, escribe "I want a refund for last month's subscription".</li>
-</ol>
-<p><code>[VERIFICAR EN LAB]</code> los nombres en español de las celdas.</p>
 <h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
 <ul>
 <li>☐ <code>validar_triage</code> rechaza <code>facturacion</code>, <code>Brev</code> con mayúscula y el JSON cortado.</li>
@@ -189,7 +176,7 @@ llamadas al modelo: 2 ['planificador', 'sintetizador']
 <p>Agrega <code>clasificar</code>, <code>validar_triage</code>, <code>ESPECIALISTAS</code>, <code>fan_out</code>, <code>unir</code> y <code>con_reintento</code> a tu <code>soporte_nemoclaw.py</code>. En la clase 3.2 los especialistas dejan de responder de memoria: les das RAG sobre la FAQ, con citas.</p>
 <h2 id="recursos">Recursos</h2>
 <ul>
-<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02a-routing.html">Lección 02a · El agente de flujo de trabajo</a>, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
+<li>Lección 02a · El agente de flujo de trabajo, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
 <li>Xu et al. (2023), <a href="https://arxiv.org/abs/2305.18323">ReWOO: Decoupling Reasoning from Observations for Efficient Augmented Language Models</a>.</li>
 <li>Yao et al. (2022), <a href="https://arxiv.org/abs/2210.03629">ReAct</a>, para comparar.</li>
 <li>Documentación de Python: <a href="https://docs.python.org/es/3/library/concurrent.futures.html"><code>concurrent.futures</code></a>.</li>

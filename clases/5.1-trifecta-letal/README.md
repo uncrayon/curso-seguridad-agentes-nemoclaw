@@ -7,7 +7,6 @@ Entiende por qué un agente con herramientas es riesgoso por diseño y aprende a
 | Duración del video | ≈8 min |
 | Práctica | Guiada (hoja de análisis) + notebook opcional |
 | Habilidad | Analizar la superficie de riesgo de un agente |
-| Lección de NVIDIA | [04a · El sandbox de OpenShell](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html) (sección "Lo que el sandbox no puede capturar") |
 
 Material: [diapositivas](slides.html) · [notebook opcional](5.1-trifecta-letal.ipynb) · [FAQ del curso](../../FAQ.md)
 

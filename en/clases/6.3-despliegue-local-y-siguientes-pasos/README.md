@@ -9,7 +9,6 @@ Wrap up your project, learn what you need to run NemoClaw on your own machine, a
 | **Video length** | ≈8 min |
 | **Practice** | Guided on this page + [optional local install cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md) |
 | **Skill** | Plan a local deployment and close out an agent project with quality criteria |
-| **NVIDIA lesson** | [Going Further (04c)](https://nvdli.github.io/NemoClawDLI/nemoclaw/04c-going-further.html) |
 | **Materials** | [Slides](slides.html) · [FAQ (Spanish)](../../../FAQ.md) |
 
 ## What you'll achieve
@@ -146,7 +145,7 @@ Your project ends here. Publish it on your GitHub with:
 - **Before you take it to production**: test the application's controls **and** the runtime permissions separately; and verify administrative authority on its own: being able to read doesn't prove you control the agent.
 
 ## Resources
-- NVIDIA DLI · [Going Further (04c)](https://nvdli.github.io/NemoClawDLI/nemoclaw/04c-going-further.html). This class is based on lesson 04c of the NVIDIA DLI course (Apache-2.0).
+- NVIDIA DLI · Going Further (04c). This class is based on lesson 04c of the NVIDIA DLI course (Apache-2.0).
 - NemoClaw · [Documentation](https://docs.nvidia.com/nemoclaw/latest/) · [Prerequisites](https://docs.nvidia.com/nemoclaw/latest/get-started/prerequisites) · [Repo and issues](https://github.com/NVIDIA/NemoClaw)
 - NVIDIA · [NIM](https://docs.nvidia.com/nim/) · [NeMo Guardrails](https://github.com/NVIDIA/NeMo-Guardrails) · [NeMo Curator](https://github.com/NVIDIA/NeMo-Curator) · [AI-Q Blueprint](https://build.nvidia.com/nvidia/aiq)
 - NVIDIA · [NemoClaw playbooks for DGX Spark](https://build.nvidia.com/spark/nemoclaw-applications) · [NemoClaw on DGX Spark](https://build.nvidia.com/spark/nemoclaw/instructions)

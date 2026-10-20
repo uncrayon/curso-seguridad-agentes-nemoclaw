@@ -9,7 +9,6 @@ Understand why an agent with tools is risky by design, and learn to locate that 
 | Video length | ≈8 min |
 | Practice | Guided (analysis worksheet) + optional notebook |
 | Skill | Analyze an agent's risk surface |
-| NVIDIA lesson | [04a · The OpenShell Sandbox](https://nvdli.github.io/NemoClawDLI/nemoclaw/04a-safety.html) (section "What the sandbox cannot catch") |
 
 Materials: [slides](slides.html) · [optional notebook (Spanish)](../../../clases/5.1-trifecta-letal/5.1-trifecta-letal.ipynb) · [FAQ (Spanish)](../../../FAQ.md)
 

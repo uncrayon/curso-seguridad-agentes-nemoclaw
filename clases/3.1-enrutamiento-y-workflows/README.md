@@ -7,7 +7,6 @@ Objetivo: que tu código, y no el modelo, sea dueño de la forma del trabajo: un
 | **Duración del video** | ≈9 min |
 | **Práctica** | Notebook (≈50 min), funciona sin key en modo MOCK |
 | **Habilidad** | Enrutar subtareas entre llamadas a modelos |
-| **Lección de NVIDIA** | [02a · El agente de flujo de trabajo](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02a-routing.html) |
 | **Material** | [Diapositivas](slides.html) · [Notebook](3.1-enrutamiento-y-workflows.ipynb) · [Preguntas frecuentes](../../FAQ.md) |
 
 ## Lo esencial (sin tecnicismos)
@@ -133,17 +132,6 @@ Ejecuta la celda del `generalista`. Compara llamadas y segundos: 1 llamada contr
 
 Ejecuta `soporte_nemoclaw`. Un ticket simple va a un especialista; el reporte del 401 tiene prioridad alta y pasa por el fan-out.
 
-### 11. (Opcional) Practica en el navegador con la lección de NVIDIA
-
-En la [lección 02a](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02a-routing.html), con tu key guardada en el panel del curso:
-
-1. En **Planificar búsquedas paralelas en el glosario**, nodo **Objetivo de investigación**, cambia `state.goal` por una pregunta tuya y ejecuta el flujo. Cuenta las llamadas al modelo: siempre son 2.
-2. En **Enviar un ticket a un especialista**, nodo **Ticket del usuario**, cambia `state.ticket` por `"Mi pantalla parpadea y la VPN se cae"` (toca dos categorías). ¿Cuál elige?
-3. En **Distribuir una entrada entre especialistas**, compara el tiempo de reloj contra la suma de duraciones.
-4. En el panel **Prueba · router de selección en vivo**, escribe "I want a refund for last month's subscription".
-
-`[VERIFICAR EN LAB]` los nombres en español de las celdas.
-
 ## Comprueba que funcionó
 
 - [ ] `validar_triage` rechaza `facturacion`, `Brev` con mayúscula y el JSON cortado.
@@ -178,7 +166,7 @@ Agrega `clasificar`, `validar_triage`, `ESPECIALISTAS`, `fan_out`, `unir` y `con
 
 ## Recursos
 
-- [Lección 02a · El agente de flujo de trabajo](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02a-routing.html), curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).
+- Lección 02a · El agente de flujo de trabajo, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).
 - Xu et al. (2023), [ReWOO: Decoupling Reasoning from Observations for Efficient Augmented Language Models](https://arxiv.org/abs/2305.18323).
 - Yao et al. (2022), [ReAct](https://arxiv.org/abs/2210.03629), para comparar.
 - Documentación de Python: [`concurrent.futures`](https://docs.python.org/es/3/library/concurrent.futures.html).

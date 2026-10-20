@@ -36,10 +36,6 @@
 <td>Coordinate subagents with a planner</td>
 </tr>
 <tr>
-<td><strong>NVIDIA lesson</strong></td>
-<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02c-deep.html">02c · Deep Agents</a></td>
-</tr>
-<tr>
 <td><strong>Materials</strong></td>
 <td><a href="slides.html">Slides</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb" target="_blank" rel="noopener">Notebook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
 </tr>
@@ -97,14 +93,6 @@ s3 | Cómo renovar la sesión de acceso (cookie) del laboratorio
 <p>Run the <code>os.environ</code> cell. You should see that your process can see <code>NVIDIA_API_KEY</code> (without printing its value) and can list your home folder. Read the table in that section: OpenShell solves this in Modules 4 and 5.</p>
 <h3 id="10-project-milestone">10. Project milestone</h3>
 <p>Run the last cell with a different report. You should see the cost, the files in the virtual file system, and the full diagnostic report.</p>
-<h3 id="11-optional-practice-in-the-browser-with-the-nvidia-lesson">11. (Optional) Practice in the browser with the NVIDIA lesson</h3>
-<p>In <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02c-deep.html">lesson 02c</a>, with your key saved in the course panel:</p>
-<ol>
-<li>In <strong>Try it · plan, investigate, and synthesize</strong>, use the example "Compare the ReAct loop with the deep-agent pattern" and watch the board of parallel workers.</li>
-<li>In <strong>Assemble a workflow over saved drafts</strong>, change <code>state.expectedFiles</code> and <code>state.goal</code> together (for example, <code>["short_term.md", "long_term.md", "tradeoffs.md"]</code> with a goal about agent memory) and run the flow.</li>
-<li>Answer the <strong>Check your understanding</strong> questions at the end of the lesson.</li>
-</ol>
-<p><code>[VERIFY IN LAB]</code> the cell names.</p>
 <h2 id="check-that-it-worked">Check that it worked</h2>
 <ul>
 <li>☐ The plan has between 2 and 4 subtasks with ids <code>s1</code>, <code>s2</code>...</li>
@@ -168,7 +156,7 @@ s3 | Cómo renovar la sesión de acceso (cookie) del laboratorio
 <p>Add <code>planear</code>, <code>limpiar_plan</code>, <code>ejecutar_subagente</code>, <code>investigar</code>, <code>sintetizar</code>, <code>revisar_citas</code>, and <code>diagnosticar</code> to your <code>soporte_nemoclaw.py</code>. In Module 4 you take it to NemoClaw on Brev: the FAQ lives in the agent's workspace, and this flow becomes the <code>soporte-nemoclaw</code> skill, inside a real sandbox.</p>
 <h2 id="resources">Resources</h2>
 <ul>
-<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02c-deep.html">Lesson 02c · Deep Agents</a>, from the NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
+<li>Lesson 02c · Deep Agents, from the NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
 <li>Liu et al. (2023), <a href="https://arxiv.org/abs/2307.03172">Lost in the Middle: How Language Models Use Long Contexts</a>.</li>
 <li>LangChain, <a href="https://github.com/langchain-ai/deepagents"><code>deepagents</code></a>: the same idea (planner, subagents, and file system) as a library.</li>
 <li>NVIDIA AI Blueprints, <a href="https://github.com/NVIDIA-AI-Blueprints/aiq">AI-Q</a>: a reference for deep research.</li>

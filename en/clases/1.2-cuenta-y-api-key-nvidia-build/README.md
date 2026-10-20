@@ -9,7 +9,6 @@ Goal: have an `nvapi-` API key stored safely and a first model call that answers
 | **Video length** | ≈6 min |
 | **Practice** | Guided, in the browser and the terminal (≈20 min) |
 | **Skill** | Manage API usage in NVIDIA Build |
-| **NVIDIA lesson** | [Course home · "Entering Your API Key"](https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html) |
 | **Materials** | [Slides](slides.html) · [FAQ (Spanish)](../../../FAQ.md) |
 
 ## What you'll achieve
@@ -190,7 +189,7 @@ Soporte NemoClaw (NemoClaw Support) now has **credentials**. Your `.env` (or you
 ## Resources
 
 - [NVIDIA Build](https://build.nvidia.com/?ncid=ref-dli-146986): model catalog and your API keys
-- [NVIDIA DLI course: home](https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html) ("Entering Your API Key" section)
+- Home page of the NVIDIA DLI course, "Entering Your API Key" section. This class is based on it (Apache-2.0).
 - [NemoClaw issue #201: phone verification](https://github.com/NVIDIA/NemoClaw/issues/201)
 - [Credential rotation in NemoClaw](https://docs.nvidia.com/nemoclaw/latest/) (the *Credential Rotation* page, for when you use NemoClaw locally)
 - [Course FAQ (Spanish)](../../../FAQ.md)

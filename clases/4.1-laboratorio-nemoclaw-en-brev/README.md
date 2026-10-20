@@ -7,7 +7,6 @@ Despliega el launchable de NemoClaw en Brev, conéctate por navegador y por term
 | Duración del video | ≈9 min |
 | Práctica | Laboratorio en Brev: página del curso de NVIDIA + terminal ([cookbook.md](cookbook.md)) |
 | Habilidad | Desplegar NemoClaw en Brev |
-| Lección de NVIDIA | [Conecta NemoClaw (03a-kickstart)](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/03a-kickstart.html) |
 
 Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) · [preguntas frecuentes del curso](../../FAQ.md)
 

@@ -9,7 +9,6 @@ Open the folder that defines your agent, compare what the agent says about itsel
 | Video length | ≈8 min |
 | Practice | Lab on Brev: NVIDIA course page + terminal ([cookbook.md (Spanish)](../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.md)) |
 | Skill | Orientation (no assessed skill) |
-| NVIDIA lesson | [The OpenClaw Agent (03b-openclaw)](https://nvdli.github.io/NemoClawDLI/nemoclaw/03b-openclaw.html) |
 
 Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.md) · [FAQ (Spanish)](../../../FAQ.md)
 

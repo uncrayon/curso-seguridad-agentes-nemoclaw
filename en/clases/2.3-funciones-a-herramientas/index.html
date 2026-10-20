@@ -36,10 +36,6 @@
 <td>Turn functions into agent tools</td>
 </tr>
 <tr>
-<td><strong>NVIDIA lesson</strong></td>
-<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01c-tools.html">01c · Tools at Scale</a></td>
-</tr>
-<tr>
 <td><strong>Materials</strong></td>
 <td><a href="slides.html">Slides</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.3-funciones-a-herramientas/2.3-funciones-a-herramientas.ipynb" target="_blank" rel="noopener">Notebook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
 </tr>
@@ -111,15 +107,6 @@ borrar_instancia({"nombre": "mi-lab"})
 </code></pre></div>
 <p><code>faq_curso</code> (course FAQ) is accepted. <code>sincronizar_notas</code> (sync notes) is rejected: it's outside the allowlist, and it raised alerts for "api key", "antes de responder" (before answering) and "historial completo" (full history).</p>
 <p><code>tools/list</code> returned a tool with an instruction hidden in its description. Your allowlist rejected it before the model could read it.</p>
-<h3 id="10-optional-practice-in-the-browser-with-the-nvidia-lesson">10. (Optional) Practice in the browser with the NVIDIA lesson</h3>
-<p>In <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01c-tools.html">NVIDIA lesson 01c</a>, with your key saved in lesson 01a:</p>
-<ol>
-<li>In <strong>two tools, the model routes</strong>, edit the descriptions of <code>calculate</code> and <code>explain_concept</code> (the <strong>Tool A · calculate</strong> and <strong>Tool B · explain_concept</strong> nodes) and run the <strong>LLM call · the model routes</strong> node again with each question in <code>EXAMPLES</code>.</li>
-<li>In <strong>agents as tools · ask a sub-agent about customer data</strong>, ask "Who opened the most tickets in the last 30 days?" and read what the subagent returns to the main agent.</li>
-<li>In <strong>MCP-shaped tool server · discovery + dispatch</strong>, run the <code>tools/list</code> node and compare the discovered schemas with the ones in this notebook.</li>
-<li>In the chat panel at the bottom, try "What is 17.5% of 2,480?" and "What is a vector database?".</li>
-</ol>
-<p>NVIDIA's glossary is in English, so search with English terms ("vector database", "AI agent"). Queries in other languages may return no results.</p>
 <h2 id="check-that-it-worked">Check that it worked</h2>
 <ul>
 <li>☐ <code>json.dumps(TOOLS[1])</code> shows the <code>estimar_costo_brev</code> schema with types, limits and descriptions.</li>
@@ -183,7 +170,7 @@ borrar_instancia({"nombre": "mi-lab"})
 <p>Add the <code>herramienta</code> decorator, <code>validar_args</code>, <code>ejecutar</code>, <code>agente</code> and the two tools to your <code>soporte_nemoclaw.py</code>. In class 3.1 you add a triage router with the categories <code>instalacion | api_key | brev | seguridad | otro</code> (installation, API key, Brev, security, other).</p>
 <h2 id="resources">Resources</h2>
 <ul>
-<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01c-tools.html">Lesson 01c · Tools at Scale</a>, NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
+<li>Lesson 01c · Tools at Scale, NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
 <li><a href="https://modelcontextprotocol.io/specification">MCP (Model Context Protocol) specification</a> and its <a href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">security best practices</a> guide.</li>
 <li><a href="https://json-schema.org/specification">JSON Schema specification</a>.</li>
 <li>Schick et al. (2023), <a href="https://arxiv.org/abs/2302.04761">Toolformer: Language Models Can Teach Themselves to Use Tools</a>.</li>

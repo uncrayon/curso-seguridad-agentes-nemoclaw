@@ -9,7 +9,6 @@ Learn to compare any CLI agent with five questions, and check the answers in you
 | **Video length** | ≈8 min |
 | **Practice** | Brev lab · [cookbook.md (Spanish)](../../../clases/6.1-clis-de-agentes/cookbook.md) |
 | **Skill** | Compare agents by their risk surface and choose based on the task |
-| **NVIDIA lesson** | [Modern CLI Agents (04b)](https://nvdli.github.io/NemoClawDLI/nemoclaw/04b-modern-clis.html) |
 | **Materials** | [Slides](slides.html) · [FAQ (Spanish)](../../../FAQ.md) |
 
 ## What you'll achieve

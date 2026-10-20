@@ -7,7 +7,6 @@ Escribe skills reutilizables, mide si tu agente las encuentra solo y llévalas a
 | **Duración del video** | ≈9 min |
 | **Práctica** | Notebook · [6.2-biblioteca-de-skills.ipynb](6.2-biblioteca-de-skills.ipynb) (corre sin key, en modo MOCK) |
 | **Habilidad** | Crear skills de agente reutilizables |
-| **Lección de NVIDIA** | [El agente siempre activo (03c)](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/03c-always-on.html) |
 | **Material** | [Diapositivas](slides.html) · [Biblioteca del proyecto](../../skill-library/README.md) · [FAQ del curso](../../FAQ.md) |
 
 ## Lo esencial (sin tecnicismos)
@@ -130,7 +129,7 @@ El proyecto **Soporte NemoClaw** ya tiene su biblioteca en [`skill-library/`](..
 Entrega: las 4 skills instaladas en tu sandbox, tu tabla de evaluación (antes/después) en `docs/evaluacion-skills.md` y las descriptions mejoradas en el repo.
 
 ## Recursos
-- NVIDIA DLI · [El agente siempre activo (03c)](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/03c-always-on.html). Esta clase está basada en la lección 03c del curso de NVIDIA DLI (Apache-2.0).
+- NVIDIA DLI · El agente siempre activo (03c). Esta clase está basada en la lección 03c del curso de NVIDIA DLI (Apache-2.0).
 - NemoClaw · comandos `skill install | list | remove` en la [referencia de comandos](https://docs.nvidia.com/nemoclaw/latest/).
 - Anthropic · [Agent Skills](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview): el formato de `SKILL.md` que usa el curso.
 - Wang et al. 2023 · [Voyager](https://arxiv.org/abs/2305.16291): bibliotecas de habilidades que crecen.

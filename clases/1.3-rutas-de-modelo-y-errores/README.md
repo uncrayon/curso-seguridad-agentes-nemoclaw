@@ -7,7 +7,6 @@ Objetivo: dejar tu entorno verificado (chat, tools y embeddings) y saber leer cu
 | **Duración del video** | ≈7 min |
 | **Práctica** | Notebook [`1.3-rutas-de-modelo-y-errores.ipynb`](1.3-rutas-de-modelo-y-errores.ipynb) (≈30 min) |
 | **Habilidad** | Configurar rutas de modelo; diagnosticar errores 401, 403, 404, 429 y 5xx |
-| **Lección de NVIDIA** | [Inicio del curso · configuración](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/index.html) |
 | **Material** | [Diapositivas](slides.html) · [Preguntas frecuentes](../../FAQ.md) |
 
 ## Lo esencial (sin tecnicismos)
@@ -186,8 +185,7 @@ Soporte NemoClaw gana su primera pieza de código: **`reporte_entorno()`** (secc
 
 ## Recursos
 
-- [Curso de NVIDIA DLI en español: inicio y panel de configuración](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/index.html) (NVIDIA, Apache-2.0)
-- [Lección 1a de NVIDIA: un ejemplo real en el navegador](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01a-loop.html)
+- Página de inicio y panel de configuración del curso de NVIDIA DLI en español. Esta clase está basada en ellos (Apache-2.0).
 - [NVIDIA Build: catálogo de modelos](https://build.nvidia.com/?ncid=ref-dli-146986)
 - [Issue #106 de NemoClawDLI: el modelo retirado que devolvía 410](https://github.com/NVDLI/NemoClawDLI/issues/106)
 - [Preguntas frecuentes del curso](../../FAQ.md)

@@ -39,10 +39,6 @@
 <td>Convertir funciones en herramientas de agente</td>
 </tr>
 <tr>
-<td><strong>Lección de NVIDIA</strong></td>
-<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01c-tools.html">01c · Herramientas a escala</a></td>
-</tr>
-<tr>
 <td><strong>Material</strong></td>
 <td><a href="slides.html">Diapositivas</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.3-funciones-a-herramientas/2.3-funciones-a-herramientas.ipynb" target="_blank" rel="noopener">Notebook</a> · <a href="../../FAQ.html">Preguntas frecuentes</a></td>
 </tr>
@@ -110,15 +106,6 @@ borrar_instancia({"nombre": "mi-lab"})
 🚫 sincronizar_notas: rechazada · fuera de la lista blanca=True · alertas=['api key', 'antes de responder', 'historial completo']
 </code></pre></div>
 <p><code>tools/list</code> devolvió una herramienta con una instrucción escondida en la descripción. Tu lista blanca la rechazó antes de que el modelo la leyera.</p>
-<h3 id="10-opcional-practica-en-el-navegador-con-la-lección-de-nvidia">10. (Opcional) Practica en el navegador con la lección de NVIDIA</h3>
-<p>En la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01c-tools.html">lección 01c de NVIDIA</a>, con tu key guardada en la lección 01a:</p>
-<ol>
-<li>En <strong>dos herramientas, el modelo enruta</strong>, edita las descripciones de <code>calculate</code> y <code>explain_concept</code> (nodos <strong>Herramienta A</strong> y <strong>Herramienta B</strong>) y vuelve a ejecutar el nodo <strong>Llamada LLM · el modelo enruta</strong> con cada pregunta de <code>EXAMPLES</code>.</li>
-<li>En <strong>agentes como herramientas · consultar datos de clientes a un subagente</strong>, pregunta "Who opened the most tickets in the last 30 days?" y lee qué devuelve el subagente al agente principal.</li>
-<li>En <strong>Servidor de herramientas compatible con MCP</strong>, ejecuta el nodo de <code>tools/list</code> y compara los esquemas descubiertos con los de este notebook.</li>
-<li>En el panel de chat del final, prueba "¿Cuánto es el 17,5 % de 2480?" y "¿Qué es una base de datos vectorial?".</li>
-</ol>
-<p>El glosario de NVIDIA está en inglés: si buscas con palabras en español, puede no encontrar resultados. Escribe los términos en inglés ("vector database", "AI agent").</p>
 <h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
 <ul>
 <li>☐ <code>json.dumps(TOOLS[1])</code> muestra el esquema de <code>estimar_costo_brev</code> con tipos, límites y descripciones.</li>
@@ -182,7 +169,7 @@ borrar_instancia({"nombre": "mi-lab"})
 <p>Agrega a tu <code>soporte_nemoclaw.py</code> el decorador <code>herramienta</code>, <code>validar_args</code>, <code>ejecutar</code>, <code>agente</code> y las dos herramientas. En la clase 3.1 le pones un router de triage con las categorías <code>instalacion | api_key | brev | seguridad | otro</code>.</p>
 <h2 id="recursos">Recursos</h2>
 <ul>
-<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01c-tools.html">Lección 01c · Herramientas a escala</a>, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
+<li>Lección 01c · Herramientas a escala, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
 <li><a href="https://modelcontextprotocol.io/specification">Especificación de MCP (Model Context Protocol)</a> y su guía de <a href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">buenas prácticas de seguridad</a>.</li>
 <li><a href="https://json-schema.org/specification">Especificación de JSON Schema</a>.</li>
 <li>Schick et al. (2023), <a href="https://arxiv.org/abs/2302.04761">Toolformer: Language Models Can Teach Themselves to Use Tools</a>.</li>

@@ -36,10 +36,6 @@
 <td>Implement the ReAct pattern</td>
 </tr>
 <tr>
-<td><strong>NVIDIA lesson</strong></td>
-<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01b-react.html">01b · The ReAct Loop</a></td>
-</tr>
-<tr>
 <td><strong>Materials</strong></td>
 <td><a href="slides.html">Slides</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.2-patron-react/2.2-patron-react.ipynb" target="_blank" rel="noopener">Notebook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
 </tr>
@@ -103,15 +99,6 @@ jupyter<span class="w"> </span>lab<span class="w"> </span>clases/2.2-patron-reac
 <p>Run the <code>tokens_aprox</code> (approximate tokens) cell. You should see how the tokens per call grow with each round of tools (from hundreds to thousands).</p>
 <h3 id="8-project-milestone-hora_local-section-7">8. Project milestone: <code>hora_local</code> (section 7)</h3>
 <p>Run the Soporte NemoClaw cell. You should see <code>🔧 hora_local({"ciudad": "Bogotá"})</code> (local time for a city) and an answer with the local time. Notice that <strong>you didn't touch <code>react</code></strong>: you only added the schema to <code>TOOLS_SOPORTE</code> and the function to <code>REGISTRO_SOPORTE</code> (support tool registry).</p>
-<h3 id="9-optional-practice-in-the-browser-with-the-nvidia-lesson">9. (Optional) Practice in the browser with the NVIDIA lesson</h3>
-<p>In <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01b-react.html">NVIDIA lesson 01b</a>, with your key saved in lesson 01a:</p>
-<ol>
-<li>In the <strong>finish_reason · the one field the loop reads to decide what to do next</strong> cell, remove the sentence that asks to use <code>get_current_time</code> from <code>QUESTION_2</code> and run it again.</li>
-<li>In <strong>The complete ReAct loop, built from scratch</strong>, <strong>User input</strong> node, change <code>state.userPrompt</code> to <code>"What is the capital of France?"</code> and look at the <code>finish_reason</code> of step 1.</li>
-<li>In the same node, change the system prompt to <code>"You must always call get_current_time once, then answer."</code> and check whether the model obeys.</li>
-<li>Ask <code>"How many minutes until 17:00 UTC?"</code> and count how many times it calls the clock.</li>
-<li>In the chat panel at the bottom, ask "How does the clock loop decide when to stop?".</li>
-</ol>
 <h2 id="check-that-it-worked">Check that it worked</h2>
 <ul>
 <li>☐ You can explain what the loop does with each <code>finish_reason</code>: <code>stop</code>, <code>tool_calls</code>, <code>length</code>.</li>
@@ -175,7 +162,7 @@ jupyter<span class="w"> </span>lab<span class="w"> </span>clases/2.2-patron-reac
 <p>Add <code>react</code>, <code>validar_tool_call</code>, <code>a_dict</code>, <code>hora_local</code> and its schema to your <code>soporte_nemoclaw.py</code>. In class 2.3 you give it its real tools: <code>buscar_faq</code> (FAQ search) and <code>estimar_costo_brev</code> (Brev cost estimate).</p>
 <h2 id="resources">Resources</h2>
 <ul>
-<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01b-react.html">Lesson 01b · The ReAct Loop</a>, NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
+<li>Lesson 01b · The ReAct Loop, NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
 <li>Yao et al. (2022), <a href="https://arxiv.org/abs/2210.03629">ReAct: Synergizing Reasoning and Acting in Language Models</a>.</li>
 <li>Liu et al. (2023), <a href="https://arxiv.org/abs/2307.03172">Lost in the Middle: How Language Models Use Long Contexts</a>: the evidence for context rot.</li>
 <li>Lilian Weng (2023), <a href="https://lilianweng.github.io/posts/2023-06-23-agent/">LLM Powered Autonomous Agents</a>: model, memory, planning and tools.</li>

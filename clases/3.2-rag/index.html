@@ -33,10 +33,6 @@
 <td>Implementar RAG con tus propias fuentes</td>
 </tr>
 <tr>
-<td><strong>Lección de NVIDIA</strong></td>
-<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02b-rag.html">02b · El agente de indexación</a></td>
-</tr>
-<tr>
 <td><strong>Material</strong></td>
 <td><a href="slides.html">Diapositivas</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.2-rag/3.2-rag.ipynb" target="_blank" rel="noopener">Notebook</a> · <a href="../../FAQ.html">Preguntas frecuentes</a> · <a href="../../datos/faq/">Corpus <code>datos/faq/</code></a></td>
 </tr>
@@ -93,15 +89,6 @@ pregunta: ¿Dónde consigo mi API key de NVIDIA para el curso?
 </ul>
 <h3 id="9-avance-del-proyecto">9. Avance del proyecto</h3>
 <p>Ejecuta <code>soporte_nemoclaw</code>. Deberías ver una respuesta citada y la línea <code>[búsquedas: [...] · citas: 1]</code>.</p>
-<h3 id="10-opcional-practica-en-el-navegador-con-la-lección-de-nvidia">10. (Opcional) Practica en el navegador con la lección de NVIDIA</h3>
-<p>En la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02b-rag.html">lección 02b</a>, con tus rutas de chat y embeddings configuradas:</p>
-<ol>
-<li>En <strong>Inspeccionar un embedding</strong>, cambia <code>const EXAMPLE = 0;</code> por <code>1</code> y compara los valores: la misma idea en forma de pregunta.</li>
-<li>En <strong>Crear un índice vectorial en memoria</strong>, nodo <strong>Consulta del usuario</strong>, escribe una pregunta tuya y mira los puntajes del top-3.</li>
-<li>En <strong>Exponer la recuperación como herramienta del agente</strong>, prueba <code>"What is 12 times 8?"</code>: el agente no debería buscar.</li>
-<li>En <strong>Prueba · recuperación en vivo</strong>, pregunta "What does the OpenShell sandbox do?".</li>
-</ol>
-<p><code>[VERIFICAR EN LAB]</code> los nombres en español de las celdas.</p>
 <h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
 <ul>
 <li>☐ Cada fragmento tiene un id <code>archivo.md#pregunta</code> y ninguno se repite.</li>
@@ -170,7 +157,7 @@ pregunta: ¿Dónde consigo mi API key de NVIDIA para el curso?
 <p>Agrega <code>Indice</code>, <code>responder</code>, <code>buscar_faq</code> (la versión con embeddings), <code>verificar_citas</code> y <code>agente</code> a tu <code>soporte_nemoclaw.py</code>. En la clase 3.3, un planificador le da esta herramienta a varios subagentes para armar un reporte de diagnóstico.</p>
 <h2 id="recursos">Recursos</h2>
 <ul>
-<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02b-rag.html">Lección 02b · El agente de indexación</a>, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
+<li>Lección 02b · El agente de indexación, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
 <li>Lewis et al. (2020), <a href="https://arxiv.org/abs/2005.11401">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a>.</li>
 <li>Catálogo de modelos de NVIDIA Build: <a href="https://build.nvidia.com">build.nvidia.com</a> (busca <code>nemotron-3-embed-1b</code>).</li>
 <li>Edge et al. (2024), <a href="https://arxiv.org/abs/2404.16130">From Local to Global: A Graph RAG Approach</a>, para cuando top-K no alcanza.</li>

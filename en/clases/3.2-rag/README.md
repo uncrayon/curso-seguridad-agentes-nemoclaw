@@ -9,7 +9,6 @@ Goal: make Soporte NemoClaw (NemoClaw Support) answer from the course FAQ, cite 
 | **Video length** | ≈9 min |
 | **Practice** | Notebook (≈50 min), works without a key in MOCK mode |
 | **Skill** | Implement RAG with your own sources |
-| **NVIDIA lesson** | [02b · The Index Agent](https://nvdli.github.io/NemoClawDLI/nemoclaw/02b-rag.html) |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/3.2-rag/3.2-rag.ipynb) · [FAQ (Spanish)](../../../FAQ.md) · [`datos/faq/` corpus (Spanish)](../../../datos/faq/) |
 
 ## What you'll achieve
@@ -89,17 +88,6 @@ Run the `agente` (agent). You should see that with "¡Hola!" it does **not** sea
 
 Run `soporte_nemoclaw`. You should see a cited answer and the line `[búsquedas: [...] · citas: 1]`.
 
-### 10. (Optional) Practice in the browser with the NVIDIA lesson
-
-In [lesson 02b](https://nvdli.github.io/NemoClawDLI/nemoclaw/02b-rag.html), with your chat and embeddings routes configured:
-
-1. In **Inspect one embedding**, change `const EXAMPLE = 0;` to `1` and compare the values: the same idea phrased as a question.
-2. In **Build an in-memory vector index**, node **User query**, type a question of your own and look at the top-3 scores.
-3. In **Expose retrieval as an agent tool**, try `"What is 12 times 8?"`: the agent shouldn't search.
-4. In **Try it · retrieval, live**, ask "What does the OpenShell sandbox do?".
-
-`[VERIFY IN LAB]` the cell names.
-
 ## Check that it worked
 
 - [ ] Each chunk has an `archivo.md#pregunta` id, and none repeats.
@@ -135,7 +123,7 @@ Add `Indice`, `responder`, `buscar_faq` (FAQ search, the embeddings version), `v
 
 ## Resources
 
-- [Lesson 02b · The Index Agent](https://nvdli.github.io/NemoClawDLI/nemoclaw/02b-rag.html), from the NVIDIA DLI course. This class is based on it (Apache-2.0).
+- Lesson 02b · The Index Agent, from the NVIDIA DLI course. This class is based on it (Apache-2.0).
 - Lewis et al. (2020), [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401).
 - NVIDIA Build model catalog: [build.nvidia.com](https://build.nvidia.com) (search for `nemotron-3-embed-1b`).
 - Edge et al. (2024), [From Local to Global: A Graph RAG Approach](https://arxiv.org/abs/2404.16130), for when top-K isn't enough.

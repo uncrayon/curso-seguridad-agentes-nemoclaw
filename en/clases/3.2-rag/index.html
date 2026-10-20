@@ -36,10 +36,6 @@
 <td>Implement RAG with your own sources</td>
 </tr>
 <tr>
-<td><strong>NVIDIA lesson</strong></td>
-<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02b-rag.html">02b · The Index Agent</a></td>
-</tr>
-<tr>
 <td><strong>Materials</strong></td>
 <td><a href="slides.html">Slides</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.2-rag/3.2-rag.ipynb" target="_blank" rel="noopener">Notebook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a> · <a href="../../../datos/faq/"><code>datos/faq/</code> corpus (Spanish)</a></td>
 </tr>
@@ -96,15 +92,6 @@ pregunta: ¿Dónde consigo mi API key de NVIDIA para el curso?
 </ul>
 <h3 id="9-project-milestone">9. Project milestone</h3>
 <p>Run <code>soporte_nemoclaw</code>. You should see a cited answer and the line <code>[búsquedas: [...] · citas: 1]</code>.</p>
-<h3 id="10-optional-practice-in-the-browser-with-the-nvidia-lesson">10. (Optional) Practice in the browser with the NVIDIA lesson</h3>
-<p>In <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02b-rag.html">lesson 02b</a>, with your chat and embeddings routes configured:</p>
-<ol>
-<li>In <strong>Inspect one embedding</strong>, change <code>const EXAMPLE = 0;</code> to <code>1</code> and compare the values: the same idea phrased as a question.</li>
-<li>In <strong>Build an in-memory vector index</strong>, node <strong>User query</strong>, type a question of your own and look at the top-3 scores.</li>
-<li>In <strong>Expose retrieval as an agent tool</strong>, try <code>"What is 12 times 8?"</code>: the agent shouldn't search.</li>
-<li>In <strong>Try it · retrieval, live</strong>, ask "What does the OpenShell sandbox do?".</li>
-</ol>
-<p><code>[VERIFY IN LAB]</code> the cell names.</p>
 <h2 id="check-that-it-worked">Check that it worked</h2>
 <ul>
 <li>☐ Each chunk has an <code>archivo.md#pregunta</code> id, and none repeats.</li>
@@ -173,7 +160,7 @@ pregunta: ¿Dónde consigo mi API key de NVIDIA para el curso?
 <p>Add <code>Indice</code>, <code>responder</code>, <code>buscar_faq</code> (FAQ search, the embeddings version), <code>verificar_citas</code>, and <code>agente</code> to your <code>soporte_nemoclaw.py</code>. In class 3.3, a planner gives this tool to several subagents to build a diagnostic report.</p>
 <h2 id="resources">Resources</h2>
 <ul>
-<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02b-rag.html">Lesson 02b · The Index Agent</a>, from the NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
+<li>Lesson 02b · The Index Agent, from the NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
 <li>Lewis et al. (2020), <a href="https://arxiv.org/abs/2005.11401">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a>.</li>
 <li>NVIDIA Build model catalog: <a href="https://build.nvidia.com">build.nvidia.com</a> (search for <code>nemotron-3-embed-1b</code>).</li>
 <li>Edge et al. (2024), <a href="https://arxiv.org/abs/2404.16130">From Local to Global: A Graph RAG Approach</a>, for when top-K isn't enough.</li>

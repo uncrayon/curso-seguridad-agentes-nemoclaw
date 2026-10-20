@@ -74,6 +74,7 @@ PAGE = """<!doctype html>
 <title>{title_txt}</title>
 <link rel="preload" href="{assets}fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{assets}sinapsis.css?v={ver}">
+<link rel="stylesheet" href="{assets}diagramas.css?v={ver}">
 <link rel="stylesheet" href="{assets}slides.css?v={ver}">
 {modulos_css}
 </head><body>

@@ -36,10 +36,6 @@
 <td>Place each piece of the stack: OpenClaw, OpenShell and NemoClaw</td>
 </tr>
 <tr>
-<td><strong>NVIDIA lesson</strong></td>
-<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html">Course home</a></td>
-</tr>
-<tr>
 <td><strong>Materials</strong></td>
 <td><a href="slides.html">Slides</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
 </tr>
@@ -156,7 +152,6 @@ Sandbox (container, user "sandbox"; only /sandbox and /tmp are writable)
 <th>Module</th>
 <th>Class</th>
 <th>Practice</th>
-<th>NVIDIA lesson</th>
 </tr>
 </thead>
 <tbody>
@@ -164,121 +159,101 @@ Sandbox (container, user "sandbox"; only /sandbox and /tmp are writable)
 <td><strong>1 · Set up your environment</strong></td>
 <td>1.1 What NemoClaw, OpenClaw and OpenShell are</td>
 <td>Browser</td>
-<td>Course home</td>
 </tr>
 <tr>
 <td></td>
 <td>1.2 Create your NVIDIA Build account and API key</td>
 <td>Browser</td>
-<td>Course home</td>
 </tr>
 <tr>
 <td></td>
 <td>1.3 Configure model routes and diagnose errors</td>
 <td>Notebook</td>
-<td>Course home</td>
 </tr>
 <tr>
 <td><strong>2 · The basic loop</strong></td>
 <td>2.1 From a single call to the agent loop</td>
 <td>Notebook</td>
-<td>1a Loop</td>
 </tr>
 <tr>
 <td></td>
 <td>2.2 Reasoning with the ReAct pattern</td>
 <td>Notebook</td>
-<td>1b ReAct</td>
 </tr>
 <tr>
 <td></td>
 <td>2.3 Turn functions into tools</td>
 <td>Notebook</td>
-<td>1c Tools</td>
 </tr>
 <tr>
 <td><strong>3 · Coordinate, ground and plan</strong></td>
 <td>3.1 Route work across several calls</td>
 <td>Notebook</td>
-<td>2a Workflows</td>
 </tr>
 <tr>
 <td></td>
 <td>3.2 RAG to ground answers in your sources</td>
 <td>Notebook</td>
-<td>2b RAG</td>
 </tr>
 <tr>
 <td></td>
 <td>3.3 Deep agents that spawn subagents</td>
 <td>Notebook</td>
-<td>2c Deep Agents</td>
 </tr>
 <tr>
 <td></td>
 <td>3.4 Observe and debug your agent with traces</td>
 <td>Notebook</td>
-<td>(new)</td>
 </tr>
 <tr>
 <td><strong>4 · Take your agent to NemoClaw</strong></td>
 <td>4.1 Launch the NemoClaw lab on Brev</td>
 <td>Lab</td>
-<td>3a Kickstart</td>
 </tr>
 <tr>
 <td></td>
 <td>4.2 Explore the OpenClaw gateway and workspace</td>
 <td>Lab</td>
-<td>3b OpenClaw</td>
 </tr>
 <tr>
 <td></td>
 <td>4.3 Agents in continuous and scheduled operation</td>
 <td>Lab</td>
-<td>3c Always-On</td>
 </tr>
 <tr>
 <td></td>
 <td>4.4 Swap OpenClaw for Hermes in NemoClaw</td>
 <td>Lab</td>
-<td>(new)</td>
 </tr>
 <tr>
 <td><strong>5 · Secure the agent with OpenShell</strong></td>
 <td>5.1 The lethal trifecta and the risk surface</td>
 <td>Slides</td>
-<td>4a OpenShell</td>
 </tr>
 <tr>
 <td></td>
 <td>5.2 Identities and limits with OpenShell</td>
 <td>Lab</td>
-<td>4a OpenShell</td>
 </tr>
 <tr>
 <td></td>
 <td>5.3 Restrict tools, files and network</td>
 <td>Lab</td>
-<td>4a OpenShell</td>
 </tr>
 <tr>
 <td><strong>6 · Extend your practice</strong></td>
 <td>6.1 Compare modern agent CLIs</td>
 <td>Lab</td>
-<td>4b Modern CLIs</td>
 </tr>
 <tr>
 <td></td>
 <td>6.2 Build your skill library</td>
 <td>Notebook</td>
-<td>3c Always-On</td>
 </tr>
 <tr>
 <td></td>
 <td>6.3 Next steps and local deployment</td>
 <td>Slides</td>
-<td>4c Going Further</td>
 </tr>
 </tbody>
 </table>
@@ -288,19 +263,18 @@ Sandbox (container, user "sandbox"; only /sandbox and /tmp are writable)
 <li><strong>Modules 4 to 6</strong>: a <a href="https://brev.nvidia.com/">Brev</a> account to launch the lab (a cloud machine with NemoClaw already installed) and a desktop browser.</li>
 </ul>
 <h2 id="step-by-step-guided-practice-in-the-browser">Step by step (guided practice in the browser)</h2>
-<h3 id="1-tour-nvidias-course-home-page">1. Tour NVIDIA's course home page</h3>
+<h3 id="1-tour-the-course-home-page">1. Tour the course home page</h3>
 <ol>
-<li>Open <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html">https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html</a>.</li>
-<li>If it shows up in another language, use the page's language menu and pick English.</li>
-<li>Find the <strong>"What this course runs on"</strong> section. You should see three cards:
-   - <strong>Models · build.nvidia.com</strong>: the Nemotron models you call with your <code>nvapi-</code> key.
-   - <strong>Agent stack · NemoClaw launchable on Brev</strong>: the lab for Modules 4 to 6 of our course.
-   - <strong>Search · Materials catalog</strong>: the course glossary and articles.</li>
-<li>Scroll down to the module cards. NVIDIA's course has <strong>4 modules of 3 pages each</strong> (about 4 hours). Our course reorganizes them into <strong>6 modules and 20 classes</strong>: compare with the table above.</li>
-<li>Open the <strong>"Entering Your API Key"</strong> section. Don't paste anything yet: just find the fields. You'll set them up in class 1.3.</li>
-<li>Open the <strong>"If a model request fails"</strong> section and read it. It holds the golden rule: on a 401 or 403, check your credentials; on a 429, wait; on a 5xx, the provider may be the problem.</li>
+<li>Open the <a href="../../../index.html">course home page</a>: it's the link under the video, and from there you can reach all the course materials. It's in Spanish; there's also an <a href="../../index.html">English overview</a> with the same class-by-class map.</li>
+<li>Read <strong>"¿No programas? Este curso también es para ti"</strong> ("Don't code? This course is for you too"). It makes three points: every class opens with «Lo esencial» (The essentials: the idea in plain words and an activity with no coding), the notebooks run with one click in Colab even before you have an API key, and the lab runs from the browser, with nothing to install.</li>
+<li>Scroll down to <strong>"Cómo funciona el curso"</strong> (How the course works) and find the three stages: your access to models (a free <code>nvapi-</code> API key, all you need for Modules 1 to 3), the notebooks in Colab or on your machine, and the real lab on Brev from Module 4 on.</li>
+<li>Look at <strong>"El stack en un vistazo"</strong> (The stack at a glance): one card per piece (OpenClaw, the agent; OpenShell, the sandbox; NemoClaw, the blueprint) and a diagram showing that your API key stays outside the sandbox. Compare it with the "three pieces" table above.</li>
+<li>Read <strong>"Proyecto del curso: «Soporte NemoClaw»"</strong> (Course project): it shows how the agent grows from Module 2 to Module 6.</li>
+<li>Scroll down to <strong>"Clase por clase"</strong> (Class by class): 6 modules and 20 classes. Each card shows the length, what you'll learn and its links: <strong>Guía</strong> (the class guide, like this page), <strong>Diapositivas</strong> (slides) and, depending on the class, <strong>Colab</strong> (the notebook, which opens in your browser) or <strong>Recetario</strong> (the lab's command recipes). Compare it with the table above and find class 1.3: it's the first one with a Colab button.</li>
+<li>Read <strong>"Los errores que más vas a ver"</strong> (The errors you'll see most). It holds the golden rule: on a 401 or 403, check your key and your account; on a 404 or 410, check the model name; on a 429, wait a few seconds and retry.</li>
+<li>Find the support pages: the <strong>Glosario</strong> (glossary, button at the top), <strong>Tu laboratorio en Brev</strong> (your Brev lab: the «plan de 3 sesiones» link in the first section, covering credit, sessions and the cookie) and the <strong>Preguntas frecuentes</strong> (FAQ), with more than 50 solved cases. Bookmark the home page.</li>
 </ol>
-<p>You should see: a page with the NemoClaw mascot holding the OpenShell shield, the course abstract and the learning objectives.</p>
+<p>You should see: at the top, the course title with the buttons "Empieza con la clase 1.1" (Start with class 1.1), "Consigue tu API key" (Get your API key), "Laboratorio en Brev" (Brev lab), "Preguntas frecuentes" and "Glosario", and the line "6 módulos · 20 clases".</p>
 <h3 id="2-tour-the-nemoclaw-repository">2. Tour the NemoClaw repository</h3>
 <ol>
 <li>Open <a href="https://github.com/NVIDIA/NemoClaw">https://github.com/NVIDIA/NemoClaw</a> and read the top of the README.</li>
@@ -359,7 +333,7 @@ Sandbox (container, user "sandbox"; only /sandbox and /tmp are writable)
 <ul>
 <li>☐ I can explain in one sentence what separates a model call from an agent.</li>
 <li>☐ I know which piece is the agent, which is the sandbox and which is the blueprint.</li>
-<li>☐ I found the "Entering Your API Key" section on NVIDIA's course home page.</li>
+<li>☐ I found the "Clase por clase" (class by class) section on the course home page and I know which links each card has.</li>
 <li>☐ I found <code>blueprint.yaml</code> in the NemoClaw repo.</li>
 <li>☐ I know which modules need Brev and which only need an API key.</li>
 </ul>
@@ -377,16 +351,6 @@ Sandbox (container, user "sandbox"; only /sandbox and /tmp are writable)
 <td>I search for "NemoClaw" as a model on build.nvidia.com and can't call it through the API</td>
 <td>NemoClaw isn't a model: it's a blueprint and a CLI. build.nvidia.com has a <strong>blueprint card</strong>, not a chat endpoint</td>
 <td>To call a model, use a Nemotron model (class 1.2). You use NemoClaw in the lab</td>
-</tr>
-<tr>
-<td>NVIDIA's course home page shows up in Spanish or another language</td>
-<td>You opened a localized URL (for example, one with <code>/es/</code>) or the browser remembered another language</td>
-<td>Use <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html">https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html</a> or the language menu</td>
-</tr>
-<tr>
-<td>"NVIDIA's Modules 3 and 4 ask me for a launchable" and the numbering confuses me</td>
-<td>NVIDIA has 4 modules; we have 6. Their Module 3 is our Module 4</td>
-<td>Use the "NVIDIA lesson" column in the 20-class table</td>
 </tr>
 <tr>
 <td>I think I need a GPU to get started</td>
@@ -412,7 +376,8 @@ Sandbox (container, user "sandbox"; only /sandbox and /tmp are writable)
 </ul>
 <h2 id="resources">Resources</h2>
 <ul>
-<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html">NVIDIA DLI course: home</a> (NVIDIA, Apache-2.0)</li>
+<li><a href="../../../index.html">Course home page (Spanish)</a>, <a href="../../index.html">English overview</a>, <a href="../../../GLOSARIO.html">glossary (Spanish)</a> and <a href="../../../LABORATORIO.html">your Brev lab (Spanish)</a></li>
+<li>Home page of the NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
 <li><a href="https://github.com/NVDLI/NemoClawDLI">NVIDIA's course repository: NVDLI/NemoClawDLI</a></li>
 <li><a href="https://github.com/NVIDIA/NemoClaw">NemoClaw repository</a> and its <a href="https://docs.nvidia.com/nemoclaw/latest/">documentation</a></li>
 <li><a href="https://github.com/NVIDIA/OpenShell">OpenShell repository</a></li>

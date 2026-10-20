@@ -9,7 +9,6 @@ Goal: turn a student's report into a diagnostic report with citations, using a p
 | **Video length** | ≈9 min |
 | **Practice** | Notebook (≈50 min), works without a key in MOCK mode |
 | **Skill** | Coordinate subagents with a planner |
-| **NVIDIA lesson** | [02c · Deep Agents](https://nvdli.github.io/NemoClawDLI/nemoclaw/02c-deep.html) |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb) · [FAQ (Spanish)](../../../FAQ.md) |
 
 ## What you'll achieve
@@ -94,16 +93,6 @@ Run the `os.environ` cell. You should see that your process can see `NVIDIA_API_
 
 Run the last cell with a different report. You should see the cost, the files in the virtual file system, and the full diagnostic report.
 
-### 11. (Optional) Practice in the browser with the NVIDIA lesson
-
-In [lesson 02c](https://nvdli.github.io/NemoClawDLI/nemoclaw/02c-deep.html), with your key saved in the course panel:
-
-1. In **Try it · plan, investigate, and synthesize**, use the example "Compare the ReAct loop with the deep-agent pattern" and watch the board of parallel workers.
-2. In **Assemble a workflow over saved drafts**, change `state.expectedFiles` and `state.goal` together (for example, `["short_term.md", "long_term.md", "tradeoffs.md"]` with a goal about agent memory) and run the flow.
-3. Answer the **Check your understanding** questions at the end of the lesson.
-
-`[VERIFY IN LAB]` the cell names.
-
 ## Check that it worked
 
 - [ ] The plan has between 2 and 4 subtasks with ids `s1`, `s2`...
@@ -138,7 +127,7 @@ Add `planear`, `limpiar_plan`, `ejecutar_subagente`, `investigar`, `sintetizar`,
 
 ## Resources
 
-- [Lesson 02c · Deep Agents](https://nvdli.github.io/NemoClawDLI/nemoclaw/02c-deep.html), from the NVIDIA DLI course. This class is based on it (Apache-2.0).
+- Lesson 02c · Deep Agents, from the NVIDIA DLI course. This class is based on it (Apache-2.0).
 - Liu et al. (2023), [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172).
 - LangChain, [`deepagents`](https://github.com/langchain-ai/deepagents): the same idea (planner, subagents, and file system) as a library.
 - NVIDIA AI Blueprints, [AI-Q](https://github.com/NVIDIA-AI-Blueprints/aiq): a reference for deep research.

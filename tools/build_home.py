@@ -12,6 +12,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from course import CLASSES, COURSE, MODULES, NV  # noqa: E402
 from course_en import CLASSES_EN, COURSE_EN, MODULES_EN  # noqa: E402
+from diagramas import DIAGRAMAS  # noqa: E402
 
 NV_EN = "https://nvdli.github.io/NemoClawDLI/nemoclaw/"
 
@@ -23,10 +24,10 @@ PRACTICE_EN = {"notebook": "Notebook", "lab": "Brev lab", "slides": "Slides", "n
 
 # Etiquetas de la interfaz por idioma. En inglés, el material de cada clase sigue en español: se marca (ES).
 UI = {
-    "es": {"guide": "Guía", "slides": "Diapositivas", "nb": "Notebook", "cb": "Cookbook", "nv": "Lección NVIDIA ↗",
+    "es": {"guide": "Guía", "slides": "Diapositivas", "nb": "Colab", "cb": "Recetario",
            "skill": "Habilidad", "module": "Módulo", "classes": "clases",
            "mats": "Material", "names": ("guía", "diapositivas", "notebook", "cookbook")},
-    "en": {"guide": "Guide (ES)", "slides": "Slides (ES)", "nb": "Notebook (ES)", "cb": "Cookbook (ES)", "nv": "NVIDIA lesson ↗",
+    "en": {"guide": "Guide", "slides": "Slides", "nb": "Colab (ES)", "cb": "Cookbook (ES)",
            "skill": "Skill", "module": "Module", "classes": "classes",
            "mats": "Materials (ES)", "names": ("guide", "slides", "notebook", "cookbook")},
 }
@@ -53,25 +54,22 @@ def class_card(c, lang="es"):
     en_guide = ROOT / "en" / base / "README.md"
     # Las guías son páginas web (tools/build_guias.py): clases/<slug>/index.html, sin GitHub ni .md
     if lang == "en" and en_guide.exists():
-        links = [f'<a href="{base}/index.html">Guide</a>']
+        links = [f'<a href="{base}/index.html"><span class="icon">description</span>Guide</a>']
     else:
-        links = [f'<a href="{pre}{base}/index.html">{t["guide"]}</a>']
+        links = [f'<a href="{pre}{base}/index.html"><span class="icon">description</span>{t["guide"]}</a>']
     en_slides = ROOT / "en" / base / "slides.html"
     if lang == "en" and en_slides.exists():         # diapositivas traducidas
-        links.append(f'<a href="{base}/slides.html">Slides</a>')
+        links.append(f'<a href="{base}/slides.html"><span class="icon">pages</span>Slides</a>')
     elif (folder / "slides.html").exists():
-        links.append(f'<a href="{pre}{base}/slides.html">{t["slides"]}</a>')
+        links.append(f'<a href="{pre}{base}/slides.html"><span class="icon">pages</span>{t["slides"]}</a>')
     nb = folder / f"{c['slug']}.ipynb"
     if nb.exists():
         nb_href = (f"https://colab.research.google.com/github/{COURSE['github']}/blob/main/{base}/{nb.name}"
                    if COURSE.get("github") else pre + base + "/" + nb.name)
-        links.append(f'<a href="{nb_href}" target="_blank" rel="noopener">{t["nb"]}</a>')
+        links.append(f'<a href="{nb_href}" target="_blank" rel="noopener"><span class="icon">play_arrow</span>{t["nb"]}</a>')
     if (folder / "cookbook.md").exists():
-        links.append(f'<a href="{pre}{base}/cookbook.html">{t["cb"]}</a>')
-    if c["nvidia"]:
-        links.append(f'<a href="{nv}{c["nvidia"]}" target="_blank" rel="noopener">{t["nv"]}</a>')
-    elif c.get("ref"):
-        links.append(f'<a href="{c["ref"][1]}" target="_blank" rel="noopener">{E(c["ref"][0])}</a>')
+        links.append(f'<a href="{pre}{base}/cookbook.html"><span class="icon">terminal</span>{t["cb"]}</a>')
+
     have = [True, (folder / "slides.html").exists(), nb.exists(), (folder / "cookbook.md").exists()]
     names = [n for n, h in zip(t["names"], have) if h]
     if lang == "en" and en_guide.exists():
@@ -128,6 +126,44 @@ ERRORS_EN = [
 ]
 
 
+def estilos(pre):
+    import hashlib
+    ver = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("sinapsis.css", "diagramas.css", "home.css"))).hexdigest()[:8]
+    return "\n".join(f'<link rel="stylesheet" href="{pre}assets/{f}?v={ver}">' for f in ("sinapsis.css", "diagramas.css", "home.css"))
+
+
+def cabecera(lang, pre, n_clases, horas):
+    es = lang == "es"
+    title = COURSE["title"] if es else COURSE_EN["title"]
+    sub = COURSE["subtitle"] if es else COURSE_EN["subtitle"]
+    start = f"{pre}clases/{CLASSES[0]['slug']}/index.html" if es else f"clases/{CLASSES[0]['slug']}/index.html"
+    links = [(f"{pre}GLOSARIO.html", "menu_book", "Glosario" if es else "Glossary (ES)"),
+             (f"{pre}LABORATORIO.html", "paid", "Tu laboratorio" if es else "Your lab (ES)"),
+             (f"{pre}FAQ.html", "quiz", "Preguntas frecuentes" if es else "FAQ (ES)"),
+             ("en/index.html" if es else "../index.html", "translate", "English" if es else "Español")]
+    nav = "".join(f'<a href="{h}"><span class="icon">{i}</span>{E(t)}</a>' for h, i, t in links)
+    chips = ([f"6 módulos", f"{n_clases} clases", f"≈{horas} h de video", "en español", f"instructor: {COURSE['instructor']}"] if es else
+             [f"6 modules", f"{n_clases} classes", f"≈{horas} h of video", "taught in Spanish", f"instructor: {COURSE['instructor']}"])
+    iconos = ["view_kanban", "school", "smart_display", "translate", "person"]
+    facts = "".join(f'<span class="chip"><span class="icon">{i}</span>{E(c)}</span>' for i, c in zip(iconos, chips))
+    cta = ([("primary", start, "play_arrow", "Empieza con la clase 1.1", False),
+            ("", COURSE["build"], "key", "Consigue tu API key ↗", True),
+            ("", COURSE["launchable"], "computer", "Laboratorio en Brev ↗", True)] if es else
+           [("primary", start, "play_arrow", "Start with class 1.1", False),
+            ("", COURSE["build"], "key", "Get your API key ↗", True),
+            ("", COURSE["launchable"], "computer", "Brev lab ↗", True)])
+    botones = "".join(f'<a class="btn {c}" href="{h}"' + (' target="_blank" rel="noopener"' if ext else "") + f'><span class="icon">{i}</span>{E(t)}</a>'
+                      for c, h, i, t, ext in cta)
+    formas = "".join(f'<img src="{pre}assets/brand/{f}.svg" alt="">' for f in ("forma-4", "forma-1", "forma-8", "forma-3"))
+    edicion = "" if es else '<p class="edition printonly">Course overview · v1.0 · October 2026 · launch: NVIDIA AI Day Mexico City</p>'
+    return (f'<nav class="topbar"><div class="wrap"><a class="brand" href="{"index.html" if es else "index.html"}">'
+            f'<img src="{pre}assets/brand/platzi-isotype-solid.svg" alt="">{E(title)}</a><span class="links">{nav}</span></div></nav>'
+            f'<header class="hero"><div class="shapes" aria-hidden="true">{formas}</div><div class="wrap">'
+            f'<img class="logo" src="{pre}assets/brand/platzi-logo-new.svg" alt="Platzi">{edicion}'
+            f'<p class="tag">{E(COURSE["partner"])}</p><h1>{E(title)}</h1><p class="sub">{E(sub)}</p>'
+            f'<p class="cta">{botones}</p><p class="facts">{facts}</p></div></header>')
+
+
 def errores_html(lang="es"):
     data = ERRORES if lang == "es" else ERRORS_EN
     head = ("Síntoma", "Causa probable", "Qué hacer") if lang == "es" else ("Symptom", "Likely cause", "What to do")
@@ -141,22 +177,9 @@ PAGE_ES = """<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · {partner}</title>
 <meta name="description" content="{subtitle}">
-<link rel="stylesheet" href="assets/home.css">
+{estilos}
 </head><body>
-<header class="hero"><div class="wrap">
-  <p class="eyebrow">{partner}</p>
-  <h1>{title}</h1>
-  <p class="sub">{subtitle}</p>
-  <p class="cta">
-    <a class="btn primary" href="{start}">Empieza con la clase 1.1</a>
-    <a class="btn" href="{build}" target="_blank" rel="noopener">Consigue tu API key ↗</a>
-    <a class="btn" href="{launchable}" target="_blank" rel="noopener">Laboratorio en Brev ↗</a>
-    <a class="btn" href="{faq}">Preguntas frecuentes</a>
-    <a class="btn" href="{glosario}">Glosario</a>
-    <a class="btn" href="en/index.html" lang="en">English</a>
-  </p>
-  <p class="facts">6 módulos · {n_clases} clases · ≈{horas} h de video · en español · práctico de punta a punta · instructor: {instructor}</p>
-</div></header>
+{cabecera}
 
 <main class="wrap">
 <section id="para-todos">
@@ -186,22 +209,13 @@ PAGE_ES = """<!doctype html>
     <div class="pieza"><h3>OpenShell</h3><p class="rol">El sandbox · el cuarto con cerradura</p><p>Aísla al agente: red con lista de permitidos, archivos con Landlock, syscalls con seccomp, usuario sin privilegios. Enruta la inferencia sin meter tu key al sandbox.</p></div>
     <div class="pieza"><h3>NemoClaw</h3><p class="rol">El blueprint · el kit que arma todo</p><p>La pila de referencia de NVIDIA que instala, configura y opera OpenClaw dentro de OpenShell, con la CLI <code>nemoclaw</code> y políticas versionadas.</p></div>
   </div>
-  <pre class="flujo">Tú (operador) ─▶ nemoclaw (CLI) ─▶ OpenShell gateway ─▶ sandbox [ OpenClaw + plugin NemoClaw ]
-                                         │                         │
-                                         ├─▶ proveedor de modelos  └─▶ salidas permitidas por la política
-                                         └─▶ tu API key se queda aquí, nunca dentro del sandbox</pre>
+  <div class="home-dg">{diagrama_flujo}</div>
 </section>
 
 <section id="proyecto">
   <h2>Proyecto del curso: «Soporte NemoClaw»</h2>
   <p>Un solo agente que crece contigo: responde dudas de estudiantes sobre NemoClaw, Brev y el curso usando nuestras <a href="{faq}">preguntas frecuentes</a> como base de conocimiento.</p>
-  <ol class="linea">
-    <li><b>M2</b> Loop con memoria → ReAct → herramientas <code>buscar_faq</code> y <code>estimar_costo_brev</code></li>
-    <li><b>M3</b> Router de triage → RAG con citas sobre la FAQ → subagentes que arman un diagnóstico</li>
-    <li><b>M4</b> Se despliega en OpenClaw como la skill <code>soporte-nemoclaw</code> y corre en horario</li>
-    <li><b>M5</b> Análisis de trifecta letal y política del sandbox del propio agente</li>
-    <li><b>M6</b> Biblioteca de skills y camino a tu despliegue local</li>
-  </ol>
+  <div class="home-dg">{diagrama_proyecto}</div>
 </section>
 
 <section id="clases">
@@ -229,7 +243,7 @@ PAGE_ES = """<!doctype html>
 </main>
 
 <footer><div class="wrap">
-  <p>Basado en el curso open source <a href="{nvrepo}">«Securing Agents with OpenShell and NemoClaw»</a> de NVIDIA Deep Learning Institute (Apache-2.0) y en <a href="{nemoclaw}">NVIDIA NemoClaw</a>. Curso web original en español: <a href="{nvcourse}">nvdli.github.io/NemoClawDLI/es</a>.</p>
+  <p>Basado en el curso open source <a href="{nvrepo}">«Securing Agents with OpenShell and NemoClaw»</a> de NVIDIA Deep Learning Institute (Apache-2.0) y en <a href="{nemoclaw}">NVIDIA NemoClaw</a>.</p>
   <p>NVIDIA, NemoClaw y OpenShell son marcas de NVIDIA Corporation. Este material es una adaptación de Platzi; no es un producto oficial de NVIDIA.</p>
 </div></footer>
 </body></html>
@@ -240,25 +254,12 @@ PAGE_EN = """<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · {partner}</title>
 <meta name="description" content="{subtitle}">
-<link rel="stylesheet" href="../assets/home.css">
+{estilos}
 </head><body>
-<header class="hero"><div class="wrap">
-  <p class="eyebrow">{partner}</p>
-  <h1>{title}</h1>
-  <p class="sub">{subtitle}</p>
-  <p class="cta">
-    <a class="btn primary" href="{start}">Start with class 1.1</a>
-    <a class="btn" href="{build}" target="_blank" rel="noopener">Get your API key ↗</a>
-    <a class="btn" href="{launchable}" target="_blank" rel="noopener">Brev lab ↗</a>
-    <a class="btn" href="{faq}">FAQ (Spanish)</a>
-    <a class="btn" href="../index.html" lang="es">Español</a>
-  </p>
-  <p class="facts printonly">Course overview · v1.0 · October 2026 · launch: NVIDIA AI Day Mexico City</p>
-  <p class="facts">6 modules · {n_clases} classes · ≈{horas} h of video · taught in Spanish · hands-on from start to finish · instructor: {instructor}</p>
-</div></header>
+{cabecera}
 
 <main class="wrap">
-<p class="note">This is the English overview of a Spanish-language course. Class guides, slides, notebooks and cookbooks are in Spanish and marked <strong>(ES)</strong>; NVIDIA's original lessons are linked in English.</p>
+<p class="note">This is the English overview of a Spanish-language course. Class guides and slides are available in English; notebooks and cookbooks are in Spanish and marked <strong>(ES)</strong>.</p>
 
 <section id="como">
   <h2>How the course works</h2>
@@ -277,22 +278,13 @@ PAGE_EN = """<!doctype html>
     <div class="pieza"><h3>OpenShell</h3><p class="rol">The sandbox</p><p>Isolates the agent: allowlisted network, Landlock for files, seccomp for syscalls, an unprivileged user. It routes inference without putting your key inside the sandbox.</p></div>
     <div class="pieza"><h3>NemoClaw</h3><p class="rol">The blueprint</p><p>NVIDIA's reference stack that installs, configures and operates OpenClaw inside OpenShell, with the <code>nemoclaw</code> CLI and versioned policies.</p></div>
   </div>
-  <pre class="flujo">You (operator) ─▶ nemoclaw (CLI) ─▶ OpenShell gateway ─▶ sandbox [ OpenClaw + NemoClaw plugin ]
-                                          │                         │
-                                          ├─▶ model provider        └─▶ egress allowed by the policy
-                                          └─▶ your API key stays here, never inside the sandbox</pre>
+  <div class="home-dg">{diagrama_flujo}</div>
 </section>
 
 <section id="proyecto">
   <h2>Course project: “Soporte NemoClaw”</h2>
   <p>One agent that grows with you: it answers student questions about NemoClaw, Brev and the course, using our <a href="{faq}">FAQ</a> as its knowledge base.</p>
-  <ol class="linea">
-    <li><b>M2</b> Loop with memory → ReAct → the <code>buscar_faq</code> and <code>estimar_costo_brev</code> tools</li>
-    <li><b>M3</b> Triage router → RAG with citations over the FAQ → subagents that assemble a diagnosis</li>
-    <li><b>M4</b> Deployed to OpenClaw as the <code>soporte-nemoclaw</code> skill, running on a schedule</li>
-    <li><b>M5</b> Lethal-trifecta analysis and the sandbox policy for the agent itself</li>
-    <li><b>M6</b> A skill library and the path to your own local deployment</li>
-  </ol>
+  <div class="home-dg">{diagrama_proyecto}</div>
 </section>
 
 <section id="adaptacion">
@@ -334,7 +326,7 @@ PAGE_EN = """<!doctype html>
 </main>
 
 <footer><div class="wrap">
-  <p>Based on NVIDIA Deep Learning Institute's open-source course <a href="{nvrepo}">“Securing Agents with OpenShell and NemoClaw”</a> (Apache-2.0) and on <a href="{nemoclaw}">NVIDIA NemoClaw</a>. Original web course: <a href="{nvcourse}">nvdli.github.io/NemoClawDLI</a>.</p>
+  <p>Based on NVIDIA Deep Learning Institute's open-source course <a href="{nvrepo}">“Securing Agents with OpenShell and NemoClaw”</a> (Apache-2.0) and on <a href="{nemoclaw}">NVIDIA NemoClaw</a>.</p>
   <p>NVIDIA, NemoClaw and OpenShell are trademarks of NVIDIA Corporation. This material is an adaptation by Platzi; it is not an official NVIDIA product.</p>
 </div></footer>
 </body></html>
@@ -356,10 +348,7 @@ def readme_table():
                 mats.append(f"[notebook]({base}/{c['slug']}.ipynb)")
             if (folder / "cookbook.md").exists():
                 mats.append(f"[cookbook]({base}/cookbook.md)")
-            if c["nvidia"]:
-                mats.append(f"[NVIDIA]({NV}{c['nvidia']})")
-            elif c.get("ref"):
-                mats.append(f"[{c['ref'][0]}]({c['ref'][1]})")
+
             rows.append(f"| {c['id']} | {c['title']} | {PRACTICA[c['practica']]} | {c['minutes']} | {' · '.join(mats)} |")
     return "\n".join(rows)
 
@@ -389,6 +378,8 @@ def build(lang):
         nvrepo=COURSE["nvidia_repo"], nemoclaw=COURSE["nemoclaw_repo"], nvcourse=nvcourse,
         glosario=f"{pre}GLOSARIO.html", laboratorio=f"{pre}LABORATORIO.html",
         n_clases=len(CLASSES), horas=f"{sum(c['minutes'] for c in CLASSES) / 60:.1f}",
+        estilos=estilos(pre), cabecera=cabecera(lang, pre, len(CLASSES), f"{sum(c['minutes'] for c in CLASSES) / 60:.1f}"),
+        diagrama_flujo=DIAGRAMAS["flujo-peticion"](lang), diagrama_proyecto=DIAGRAMAS["proyecto-crece"](lang),
     )
     out.write_text(page, encoding="utf-8")
     print(f"  portada {out.relative_to(ROOT)}")

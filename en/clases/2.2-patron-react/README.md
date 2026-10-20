@@ -9,7 +9,6 @@ Goal: build a ReAct loop from scratch that requests tools, runs them safely and 
 | **Video length** | ≈9 min |
 | **Practice** | Notebook (≈45 min), works without a key in MOCK mode |
 | **Skill** | Implement the ReAct pattern |
-| **NVIDIA lesson** | [01b · The ReAct Loop](https://nvdli.github.io/NemoClawDLI/nemoclaw/01b-react.html) |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/2.2-patron-react/2.2-patron-react.ipynb) · [FAQ (Spanish)](../../../FAQ.md) |
 
 ## What you'll achieve
@@ -97,16 +96,6 @@ Run the `tokens_aprox` (approximate tokens) cell. You should see how the tokens 
 
 Run the Soporte NemoClaw cell. You should see `🔧 hora_local({"ciudad": "Bogotá"})` (local time for a city) and an answer with the local time. Notice that **you didn't touch `react`**: you only added the schema to `TOOLS_SOPORTE` and the function to `REGISTRO_SOPORTE` (support tool registry).
 
-### 9. (Optional) Practice in the browser with the NVIDIA lesson
-
-In [NVIDIA lesson 01b](https://nvdli.github.io/NemoClawDLI/nemoclaw/01b-react.html), with your key saved in lesson 01a:
-
-1. In the **finish_reason · the one field the loop reads to decide what to do next** cell, remove the sentence that asks to use `get_current_time` from `QUESTION_2` and run it again.
-2. In **The complete ReAct loop, built from scratch**, **User input** node, change `state.userPrompt` to `"What is the capital of France?"` and look at the `finish_reason` of step 1.
-3. In the same node, change the system prompt to `"You must always call get_current_time once, then answer."` and check whether the model obeys.
-4. Ask `"How many minutes until 17:00 UTC?"` and count how many times it calls the clock.
-5. In the chat panel at the bottom, ask "How does the clock loop decide when to stop?".
-
 ## Check that it worked
 
 - [ ] You can explain what the loop does with each `finish_reason`: `stop`, `tool_calls`, `length`.
@@ -141,7 +130,7 @@ Add `react`, `validar_tool_call`, `a_dict`, `hora_local` and its schema to your 
 
 ## Resources
 
-- [Lesson 01b · The ReAct Loop](https://nvdli.github.io/NemoClawDLI/nemoclaw/01b-react.html), NVIDIA DLI course. This class is based on it (Apache-2.0).
+- Lesson 01b · The ReAct Loop, NVIDIA DLI course. This class is based on it (Apache-2.0).
 - Yao et al. (2022), [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629).
 - Liu et al. (2023), [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172): the evidence for context rot.
 - Lilian Weng (2023), [LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/): model, memory, planning and tools.

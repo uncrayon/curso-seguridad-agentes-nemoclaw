@@ -7,7 +7,6 @@ Objetivo: construir un agente desde cero y entender qué cambia cuando la decisi
 | **Duración del video** | ≈9 min |
 | **Práctica** | Notebook (≈45 min), funciona sin key en modo MOCK |
 | **Habilidad** | Construir un loop básico de agente |
-| **Lección de NVIDIA** | [01a · Agente](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01a-loop.html) |
 | **Material** | [Diapositivas](slides.html) · [Notebook](2.1-loop-de-agente.ipynb) · [Preguntas frecuentes](../../FAQ.md) |
 
 ## Lo esencial (sin tecnicismos)
@@ -109,19 +108,6 @@ Ejecuta la celda de `ChatSoporte`. La misma conversación corre dos veces: con u
 
 Deberías ver que con 4 mensajes el bot **olvida tu nombre** ("No sé cómo te llamas") y con 20 lo recuerda. Si quieres conversar, pon `INTERACTIVO = True` en la celda siguiente.
 
-### 9. (Opcional) Practica en el navegador con la lección de NVIDIA
-
-En la [lección 01a de NVIDIA](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01a-loop.html) puedes hacer los mismos experimentos sin instalar nada:
-
-1. Guarda tu key `nvapi-` en el panel de la sección **Un ejemplo real en el navegador**.
-2. Busca la celda **Ejecución del laberinto con LLM · el modelo elige movimientos** y abre el nodo **Agente del laberinto · ejecución editable**.
-3. Ejecútala una vez como está. Luego cambia `includeHistory: true` por `includeHistory: false` y compara: el modelo deja de ver las coordenadas que ya recorrió.
-4. Borra del `DIRECTIVE` la línea que empieza con `Prefer unvisited branches` y vuelve a correr.
-5. Cambia `model: "direct"` por `"reasoning"` y luego por `"omni"`. Abre los detalles de la solicitud y compara `max_tokens`, temperatura y razonamiento de cada perfil.
-6. Al final de la página, en **Pruébalo · compara el historial de conversación**, escribe "Me llamo Ada. Recuérdalo." y luego "¿Cómo me llamo?". Repite con el interruptor de memoria 🧠 apagado.
-
-Es lo mismo que hiciste en el notebook: el perfil `direct` es nuestro `SIN_RAZONAR`, e `includeHistory:false` es como quitar el mapa en `describir`.
-
 ## Comprueba que funcionó
 
 - [ ] `siempre_derecha` se detiene por el tope de pasos y `decidir_bfs` llega a la meta.
@@ -157,7 +143,7 @@ Copia `SISTEMA_SOPORTE` y la clase `ChatSoporte` a un archivo `soporte_nemoclaw.
 
 ## Recursos
 
-- [Lección 01a · Agente](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01a-loop.html), curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).
+- Lección 01a · Agente, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).
 - [Repositorio del curso de NVIDIA (NVDLI/NemoClawDLI)](https://github.com/NVDLI/NemoClawDLI): código de las celdas del laberinto.
 - Russell y Norvig, *Artificial Intelligence: A Modern Approach*, cap. 2 (agentes y entornos): el origen del ciclo percibir → razonar → actuar.
 - [Preguntas frecuentes del curso](../../FAQ.md), secciones [Errores de la API](../../FAQ.md#errores-api) y [Notebooks](../../FAQ.md#notebooks).

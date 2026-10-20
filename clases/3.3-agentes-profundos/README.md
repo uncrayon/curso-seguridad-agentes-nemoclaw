@@ -7,7 +7,6 @@ Objetivo: convertir el reporte de un estudiante en un reporte de diagnóstico co
 | **Duración del video** | ≈9 min |
 | **Práctica** | Notebook (≈50 min), funciona sin key en modo MOCK |
 | **Habilidad** | Coordinar subagentes con un planificador |
-| **Lección de NVIDIA** | [02c · Agentes de investigación profunda](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02c-deep.html) |
 | **Material** | [Diapositivas](slides.html) · [Notebook](3.3-agentes-profundos.ipynb) · [Preguntas frecuentes](../../FAQ.md) |
 
 ## Lo esencial (sin tecnicismos)
@@ -102,16 +101,6 @@ Ejecuta la celda de `os.environ`. Deberías ver que tu proceso ve `NVIDIA_API_KE
 
 Ejecuta la última celda con otro reporte. Deberías ver el costo, los archivos del sistema virtual y el reporte de diagnóstico completo.
 
-### 11. (Opcional) Practica en el navegador con la lección de NVIDIA
-
-En la [lección 02c](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02c-deep.html), con tu key guardada en el panel del curso:
-
-1. En **Prueba · planifica, investiga y sintetiza**, usa el ejemplo "Compare the ReAct loop with the deep-agent pattern" y mira el tablero de trabajadores en paralelo.
-2. En **Construir un flujo de trabajo con borradores guardados**, cambia juntos `state.expectedFiles` y `state.goal` (por ejemplo, `["short_term.md", "long_term.md", "tradeoffs.md"]` con una meta sobre memoria de agentes) y ejecuta el flujo.
-3. Responde las preguntas de **Comprueba tu comprensión** del final de la lección.
-
-`[VERIFICAR EN LAB]` los nombres en español de las celdas.
-
 ## Comprueba que funcionó
 
 - [ ] El plan tiene entre 2 y 4 subtareas con ids `s1`, `s2`...
@@ -146,7 +135,7 @@ Agrega `planear`, `limpiar_plan`, `ejecutar_subagente`, `investigar`, `sintetiza
 
 ## Recursos
 
-- [Lección 02c · Agentes de investigación profunda](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02c-deep.html), curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).
+- Lección 02c · Agentes de investigación profunda, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).
 - Liu et al. (2023), [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172).
 - LangChain, [`deepagents`](https://github.com/langchain-ai/deepagents): la misma idea (planificador, subagentes y sistema de archivos) en una librería.
 - NVIDIA AI Blueprints, [AI-Q](https://github.com/NVIDIA-AI-Blueprints/aiq): investigación profunda de referencia.

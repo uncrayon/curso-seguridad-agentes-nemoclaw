@@ -87,7 +87,7 @@ Nuestro Módulo 4 es el Módulo 3 del curso de NVIDIA. El laboratorio es una com
 **Sin programar · 10 min**
 Clasifica 5 ejemplos: ¿agente o solo modelo?
 Completa: "OpenShell es ___"
-Busca "Dónde se ejecuta el curso" en la portada de NVIDIA
+Busca "Clase por clase" en la portada del curso
 |||
 **Dónde**
 En la página de esta clase

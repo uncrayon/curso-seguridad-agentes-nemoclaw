@@ -9,7 +9,6 @@ Goal: leave your environment verified (chat, tools and embeddings) and know how 
 | **Video length** | ≈7 min |
 | **Practice** | Notebook [`1.3-rutas-de-modelo-y-errores.ipynb` (Spanish)](../../../clases/1.3-rutas-de-modelo-y-errores/1.3-rutas-de-modelo-y-errores.ipynb) (≈30 min) |
 | **Skill** | Configure model routes; diagnose 401, 403, 404, 429 and 5xx errors |
-| **NVIDIA lesson** | [Course home · setup](https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html) |
 | **Materials** | [Slides](slides.html) · [FAQ (Spanish)](../../../FAQ.md) |
 
 ## What you'll achieve
@@ -176,8 +175,7 @@ Soporte NemoClaw (NemoClaw Support) gets its first piece of code: **`reporte_ent
 
 ## Resources
 
-- [NVIDIA DLI course: home and setup panel](https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html) (NVIDIA, Apache-2.0)
-- [NVIDIA lesson 1a: a real call, in your browser](https://nvdli.github.io/NemoClawDLI/nemoclaw/01a-loop.html)
+- Home page and setup panel of the NVIDIA DLI course. This class is based on them (Apache-2.0).
 - [NVIDIA Build: model catalog](https://build.nvidia.com/?ncid=ref-dli-146986)
 - [NemoClawDLI issue #106: the retired model that returned 410](https://github.com/NVDLI/NemoClawDLI/issues/106)
 - [Course FAQ (Spanish)](../../../FAQ.md)

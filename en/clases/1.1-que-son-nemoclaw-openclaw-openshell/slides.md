@@ -87,7 +87,7 @@ Our Module 4 is NVIDIA's Module 3. The lab is a cloud computer with no graphics 
 **No coding · 10 min**
 Sort 5 examples: agent or just a model?
 Complete: "OpenShell is ___"
-Find "What this course runs on" on NVIDIA's home page
+Find "Clase por clase" (class by class) on the course home page
 |||
 **Where**
 On this class page

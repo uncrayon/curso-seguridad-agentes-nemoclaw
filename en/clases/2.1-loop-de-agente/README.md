@@ -9,7 +9,6 @@ Goal: build an agent from scratch and understand what changes when an LLM makes 
 | **Video length** | ≈9 min |
 | **Practice** | Notebook (≈45 min), works without a key in MOCK mode |
 | **Skill** | Build a basic agent loop |
-| **NVIDIA lesson** | [01a · The Agent](https://nvdli.github.io/NemoClawDLI/nemoclaw/01a-loop.html) |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb) · [FAQ (Spanish)](../../../FAQ.md) |
 
 ## What you'll achieve
@@ -97,19 +96,6 @@ Run the `ChatSoporte` (support chat) cell. The same conversation runs twice: wit
 
 You should see that with 4 messages the bot **forgets your name** ("No sé cómo te llamas", I don't know your name) and with 20 it remembers it. If you want to chat with it, set `INTERACTIVO = True` (interactive) in the next cell.
 
-### 9. (Optional) Practice in the browser with the NVIDIA lesson
-
-In [NVIDIA lesson 01a](https://nvdli.github.io/NemoClawDLI/nemoclaw/01a-loop.html) you can run the same experiments without installing anything:
-
-1. Save your `nvapi-` key in the panel in the **A real call, in your browser** section.
-2. Find the **LLM maze run · model chooses moves** cell and open the **Maze agent · editable run** node.
-3. Run it once as is. Then change `includeHistory: true` to `includeHistory: false` and compare: the model no longer sees the coordinates it already visited.
-4. Delete the line that starts with `Prefer unvisited branches` from `DIRECTIVE` and run it again.
-5. Change `model: "direct"` to `"reasoning"` and then to `"omni"`. Open the request details and compare `max_tokens`, temperature and reasoning for each profile.
-6. At the bottom of the page, in **Try it · compare conversation history**, type "My name is Ada. Remember it." and then "What is my name?". Repeat with the 🧠 memory toggle off.
-
-It's the same thing you did in the notebook: the `direct` profile is our `SIN_RAZONAR` (no reasoning), and `includeHistory:false` is like removing the map in `describir` (describe).
-
 ## Check that it worked
 
 - [ ] `siempre_derecha` stops at the step cap and `decidir_bfs` reaches the goal.
@@ -145,7 +131,7 @@ Copy `SISTEMA_SOPORTE` (support system prompt) and the `ChatSoporte` class into 
 
 ## Resources
 
-- [Lesson 01a · The Agent](https://nvdli.github.io/NemoClawDLI/nemoclaw/01a-loop.html), NVIDIA DLI course. This class is based on it (Apache-2.0).
+- Lesson 01a · The Agent, NVIDIA DLI course. This class is based on it (Apache-2.0).
 - [NVIDIA's course repository (NVDLI/NemoClawDLI)](https://github.com/NVDLI/NemoClawDLI): the code for the maze cells.
 - Russell and Norvig, *Artificial Intelligence: A Modern Approach*, ch. 2 (agents and environments): the origin of the perceive → reason → act cycle.
 - [Course FAQ (Spanish)](../../../FAQ.md), sections [API errors](../../../FAQ.md#errores-api) and [Notebooks](../../../FAQ.md#notebooks).

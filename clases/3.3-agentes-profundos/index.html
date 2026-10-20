@@ -33,10 +33,6 @@
 <td>Coordinar subagentes con un planificador</td>
 </tr>
 <tr>
-<td><strong>Lección de NVIDIA</strong></td>
-<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02c-deep.html">02c · Agentes de investigación profunda</a></td>
-</tr>
-<tr>
 <td><strong>Material</strong></td>
 <td><a href="slides.html">Diapositivas</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb" target="_blank" rel="noopener">Notebook</a> · <a href="../../FAQ.html">Preguntas frecuentes</a></td>
 </tr>
@@ -93,14 +89,6 @@ s3 | Cómo renovar la sesión de acceso (cookie) del laboratorio
 <p>Ejecuta la celda de <code>os.environ</code>. Deberías ver que tu proceso ve <code>NVIDIA_API_KEY</code> (sin imprimir su valor) y puede listar tu carpeta personal. Lee la tabla de la sección: eso lo resuelve OpenShell en los Módulos 4 y 5.</p>
 <h3 id="10-avance-del-proyecto">10. Avance del proyecto</h3>
 <p>Ejecuta la última celda con otro reporte. Deberías ver el costo, los archivos del sistema virtual y el reporte de diagnóstico completo.</p>
-<h3 id="11-opcional-practica-en-el-navegador-con-la-lección-de-nvidia">11. (Opcional) Practica en el navegador con la lección de NVIDIA</h3>
-<p>En la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02c-deep.html">lección 02c</a>, con tu key guardada en el panel del curso:</p>
-<ol>
-<li>En <strong>Prueba · planifica, investiga y sintetiza</strong>, usa el ejemplo "Compare the ReAct loop with the deep-agent pattern" y mira el tablero de trabajadores en paralelo.</li>
-<li>En <strong>Construir un flujo de trabajo con borradores guardados</strong>, cambia juntos <code>state.expectedFiles</code> y <code>state.goal</code> (por ejemplo, <code>["short_term.md", "long_term.md", "tradeoffs.md"]</code> con una meta sobre memoria de agentes) y ejecuta el flujo.</li>
-<li>Responde las preguntas de <strong>Comprueba tu comprensión</strong> del final de la lección.</li>
-</ol>
-<p><code>[VERIFICAR EN LAB]</code> los nombres en español de las celdas.</p>
 <h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
 <ul>
 <li>☐ El plan tiene entre 2 y 4 subtareas con ids <code>s1</code>, <code>s2</code>...</li>
@@ -164,7 +152,7 @@ s3 | Cómo renovar la sesión de acceso (cookie) del laboratorio
 <p>Agrega <code>planear</code>, <code>limpiar_plan</code>, <code>ejecutar_subagente</code>, <code>investigar</code>, <code>sintetizar</code>, <code>revisar_citas</code> y <code>diagnosticar</code> a tu <code>soporte_nemoclaw.py</code>. En el Módulo 4 lo llevas a NemoClaw en Brev: la FAQ vive en el workspace del agente y este flujo se convierte en la skill <code>soporte-nemoclaw</code>, dentro de un sandbox de verdad.</p>
 <h2 id="recursos">Recursos</h2>
 <ul>
-<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02c-deep.html">Lección 02c · Agentes de investigación profunda</a>, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
+<li>Lección 02c · Agentes de investigación profunda, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
 <li>Liu et al. (2023), <a href="https://arxiv.org/abs/2307.03172">Lost in the Middle: How Language Models Use Long Contexts</a>.</li>
 <li>LangChain, <a href="https://github.com/langchain-ai/deepagents"><code>deepagents</code></a>: la misma idea (planificador, subagentes y sistema de archivos) en una librería.</li>
 <li>NVIDIA AI Blueprints, <a href="https://github.com/NVIDIA-AI-Blueprints/aiq">AI-Q</a>: investigación profunda de referencia.</li>

@@ -7,7 +7,6 @@ Instala la skill `soporte-nemoclaw` con la FAQ del curso, programa una tarea que
 | Duración del video | ≈8 min |
 | Práctica | Laboratorio en Brev: página del curso de NVIDIA + terminal ([cookbook.md](cookbook.md)) |
 | Habilidad | Operar agentes en modo continuo |
-| Lección de NVIDIA | [El agente siempre activo (03c-always-on)](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/03c-always-on.html) |
 
 Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) · [skill soporte-nemoclaw](skills/soporte-nemoclaw/SKILL.md) · [preguntas frecuentes del curso](../../FAQ.md)
 

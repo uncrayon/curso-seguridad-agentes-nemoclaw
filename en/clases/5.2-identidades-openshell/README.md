@@ -9,7 +9,6 @@ Prove with evidence who your agent is inside the sandbox, which binaries can rea
 | Video length | ≈9 min |
 | Practice | Brev lab ([`cookbook.md` (Spanish)](../../../clases/5.2-identidades-openshell/cookbook.md)) |
 | Skill | Configure agent identities in OpenShell |
-| NVIDIA lesson | [04a · The OpenShell Sandbox](https://nvdli.github.io/NemoClawDLI/nemoclaw/04a-safety.html) (mechanisms 3 and 4, cell "ask the box anything, in code") |
 
 Materials: [slides](slides.html) · [lab cookbook (Spanish)](../../../clases/5.2-identidades-openshell/cookbook.md) · [FAQ (Spanish)](../../../FAQ.md)
 

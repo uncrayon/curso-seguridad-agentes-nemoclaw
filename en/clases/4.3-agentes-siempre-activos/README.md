@@ -9,7 +9,6 @@ Install the `soporte-nemoclaw` skill with the course FAQ, schedule a task that w
 | Video length | ≈8 min |
 | Practice | Lab on Brev: NVIDIA course page + terminal ([cookbook.md (Spanish)](../../../clases/4.3-agentes-siempre-activos/cookbook.md)) |
 | Skill | Operate agents in continuous mode |
-| NVIDIA lesson | [The Always-On Agent (03c-always-on)](https://nvdli.github.io/NemoClawDLI/nemoclaw/03c-always-on.html) |
 
 Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clases/4.3-agentes-siempre-activos/cookbook.md) · [soporte-nemoclaw skill (Spanish)](../../../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.md) · [FAQ (Spanish)](../../../FAQ.md)
 

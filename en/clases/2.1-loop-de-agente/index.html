@@ -36,10 +36,6 @@
 <td>Build a basic agent loop</td>
 </tr>
 <tr>
-<td><strong>NVIDIA lesson</strong></td>
-<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01a-loop.html">01a · The Agent</a></td>
-</tr>
-<tr>
 <td><strong>Materials</strong></td>
 <td><a href="slides.html">Slides</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb" target="_blank" rel="noopener">Notebook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
 </tr>
@@ -96,17 +92,6 @@ jupyter<span class="w"> </span>lab<span class="w"> </span>clases/2.1-loop-de-age
 <h3 id="8-build-soporte-nemoclaw-v1-section-7">8. Build Soporte NemoClaw v1 (section 7)</h3>
 <p>Run the <code>ChatSoporte</code> (support chat) cell. The same conversation runs twice: with a 4-message window and with a 20-message window.</p>
 <p>You should see that with 4 messages the bot <strong>forgets your name</strong> ("No sé cómo te llamas", I don't know your name) and with 20 it remembers it. If you want to chat with it, set <code>INTERACTIVO = True</code> (interactive) in the next cell.</p>
-<h3 id="9-optional-practice-in-the-browser-with-the-nvidia-lesson">9. (Optional) Practice in the browser with the NVIDIA lesson</h3>
-<p>In <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01a-loop.html">NVIDIA lesson 01a</a> you can run the same experiments without installing anything:</p>
-<ol>
-<li>Save your <code>nvapi-</code> key in the panel in the <strong>A real call, in your browser</strong> section.</li>
-<li>Find the <strong>LLM maze run · model chooses moves</strong> cell and open the <strong>Maze agent · editable run</strong> node.</li>
-<li>Run it once as is. Then change <code>includeHistory: true</code> to <code>includeHistory: false</code> and compare: the model no longer sees the coordinates it already visited.</li>
-<li>Delete the line that starts with <code>Prefer unvisited branches</code> from <code>DIRECTIVE</code> and run it again.</li>
-<li>Change <code>model: "direct"</code> to <code>"reasoning"</code> and then to <code>"omni"</code>. Open the request details and compare <code>max_tokens</code>, temperature and reasoning for each profile.</li>
-<li>At the bottom of the page, in <strong>Try it · compare conversation history</strong>, type "My name is Ada. Remember it." and then "What is my name?". Repeat with the 🧠 memory toggle off.</li>
-</ol>
-<p>It's the same thing you did in the notebook: the <code>direct</code> profile is our <code>SIN_RAZONAR</code> (no reasoning), and <code>includeHistory:false</code> is like removing the map in <code>describir</code> (describe).</p>
 <h2 id="check-that-it-worked">Check that it worked</h2>
 <ul>
 <li>☐ <code>siempre_derecha</code> stops at the step cap and <code>decidir_bfs</code> reaches the goal.</li>
@@ -175,7 +160,7 @@ jupyter<span class="w"> </span>lab<span class="w"> </span>clases/2.1-loop-de-age
 <p>Copy <code>SISTEMA_SOPORTE</code> (support system prompt) and the <code>ChatSoporte</code> class into a <code>soporte_nemoclaw.py</code> file in your own repository. In class 2.2 you add the ReAct loop and its first tool.</p>
 <h2 id="resources">Resources</h2>
 <ul>
-<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01a-loop.html">Lesson 01a · The Agent</a>, NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
+<li>Lesson 01a · The Agent, NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
 <li><a href="https://github.com/NVDLI/NemoClawDLI">NVIDIA's course repository (NVDLI/NemoClawDLI)</a>: the code for the maze cells.</li>
 <li>Russell and Norvig, <em>Artificial Intelligence: A Modern Approach</em>, ch. 2 (agents and environments): the origin of the perceive → reason → act cycle.</li>
 <li><a href="../../../FAQ.html">Course FAQ (Spanish)</a>, sections <a href="../../../FAQ.html#errores-api">API errors</a> and <a href="../../../FAQ.html#notebooks">Notebooks</a>.</li>

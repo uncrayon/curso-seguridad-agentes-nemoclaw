@@ -9,7 +9,6 @@ Deploy the NemoClaw launchable on Brev, connect from the browser and from the te
 | Video length | ≈9 min |
 | Practice | Lab on Brev: NVIDIA course page + terminal ([cookbook.md (Spanish)](../../../clases/4.1-laboratorio-nemoclaw-en-brev/cookbook.md)) |
 | Skill | Deploy NemoClaw on Brev |
-| NVIDIA lesson | [Connect NemoClaw (03a-kickstart)](https://nvdli.github.io/NemoClawDLI/nemoclaw/03a-kickstart.html) |
 
 Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clases/4.1-laboratorio-nemoclaw-en-brev/cookbook.md) · [FAQ (Spanish)](../../../FAQ.md)
 

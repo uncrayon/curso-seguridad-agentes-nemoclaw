@@ -7,7 +7,6 @@ Objetivo: convertir funciones de Python en herramientas que el modelo usa bien, 
 | **Duración del video** | ≈9 min |
 | **Práctica** | Notebook (≈50 min), funciona sin key en modo MOCK |
 | **Habilidad** | Convertir funciones en herramientas de agente |
-| **Lección de NVIDIA** | [01c · Herramientas a escala](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01c-tools.html) |
 | **Material** | [Diapositivas](slides.html) · [Notebook](2.3-funciones-a-herramientas.ipynb) · [Preguntas frecuentes](../../FAQ.md) |
 
 ## Lo esencial (sin tecnicismos)
@@ -128,17 +127,6 @@ Ejecuta las dos celdas del `ServidorMCPSimulado`. Deberías ver:
 
 `tools/list` devolvió una herramienta con una instrucción escondida en la descripción. Tu lista blanca la rechazó antes de que el modelo la leyera.
 
-### 10. (Opcional) Practica en el navegador con la lección de NVIDIA
-
-En la [lección 01c de NVIDIA](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01c-tools.html), con tu key guardada en la lección 01a:
-
-1. En **dos herramientas, el modelo enruta**, edita las descripciones de `calculate` y `explain_concept` (nodos **Herramienta A** y **Herramienta B**) y vuelve a ejecutar el nodo **Llamada LLM · el modelo enruta** con cada pregunta de `EXAMPLES`.
-2. En **agentes como herramientas · consultar datos de clientes a un subagente**, pregunta "Who opened the most tickets in the last 30 days?" y lee qué devuelve el subagente al agente principal.
-3. En **Servidor de herramientas compatible con MCP**, ejecuta el nodo de `tools/list` y compara los esquemas descubiertos con los de este notebook.
-4. En el panel de chat del final, prueba "¿Cuánto es el 17,5 % de 2480?" y "¿Qué es una base de datos vectorial?".
-
-El glosario de NVIDIA está en inglés: si buscas con palabras en español, puede no encontrar resultados. Escribe los términos en inglés ("vector database", "AI agent").
-
 ## Comprueba que funcionó
 
 - [ ] `json.dumps(TOOLS[1])` muestra el esquema de `estimar_costo_brev` con tipos, límites y descripciones.
@@ -173,7 +161,7 @@ Agrega a tu `soporte_nemoclaw.py` el decorador `herramienta`, `validar_args`, `e
 
 ## Recursos
 
-- [Lección 01c · Herramientas a escala](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01c-tools.html), curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).
+- Lección 01c · Herramientas a escala, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).
 - [Especificación de MCP (Model Context Protocol)](https://modelcontextprotocol.io/specification) y su guía de [buenas prácticas de seguridad](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices).
 - [Especificación de JSON Schema](https://json-schema.org/specification).
 - Schick et al. (2023), [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761).

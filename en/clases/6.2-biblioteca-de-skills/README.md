@@ -9,7 +9,6 @@ Write reusable skills, measure whether your agent finds them on its own, and bri
 | **Video length** | ≈9 min |
 | **Practice** | Notebook · [6.2-biblioteca-de-skills.ipynb (Spanish)](../../../clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb) (runs without a key, in MOCK mode) |
 | **Skill** | Create reusable agent skills |
-| **NVIDIA lesson** | [The Always-On Agent (03c)](https://nvdli.github.io/NemoClawDLI/nemoclaw/03c-always-on.html) |
 | **Materials** | [Slides](slides.html) · [Project library (Spanish)](../../../skill-library/README.md) · [FAQ (Spanish)](../../../FAQ.md) |
 
 ## What you'll achieve
@@ -122,7 +121,7 @@ The **Soporte NemoClaw** (NemoClaw Support) project now has its library in [`ski
 Deliverable: the 4 skills installed in your sandbox, your evaluation table (before/after) in `docs/evaluacion-skills.md` (skills evaluation), and the improved descriptions in the repo.
 
 ## Resources
-- NVIDIA DLI · [The Always-On Agent (03c)](https://nvdli.github.io/NemoClawDLI/nemoclaw/03c-always-on.html). This class is based on lesson 03c of the NVIDIA DLI course (Apache-2.0).
+- NVIDIA DLI · The Always-On Agent (03c). This class is based on lesson 03c of the NVIDIA DLI course (Apache-2.0).
 - NemoClaw · `skill install | list | remove` commands in the [command reference](https://docs.nvidia.com/nemoclaw/latest/).
 - Anthropic · [Agent Skills](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview): the `SKILL.md` format the course uses.
 - Wang et al. 2023 · [Voyager](https://arxiv.org/abs/2305.16291): skill libraries that grow.

@@ -7,7 +7,6 @@ Objetivo: tener una API key `nvapi-` guardada de forma segura y una primera llam
 | **Duración del video** | ≈6 min |
 | **Práctica** | Guiada en el navegador y la terminal (≈20 min) |
 | **Habilidad** | Administrar el consumo de API en NVIDIA Build |
-| **Lección de NVIDIA** | [Inicio del curso · "Cómo introducir tu clave de API"](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/index.html) |
 | **Material** | [Diapositivas](slides.html) · [Preguntas frecuentes](../../FAQ.md) |
 
 ## Lo esencial (sin tecnicismos)
@@ -205,7 +204,7 @@ Soporte NemoClaw ya tiene **credenciales**. Tu `.env` (o tus Secrets de Colab) c
 ## Recursos
 
 - [NVIDIA Build](https://build.nvidia.com/?ncid=ref-dli-146986): catálogo de modelos y tus API keys
-- [Curso de NVIDIA DLI en español: inicio](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/index.html) (sección "Cómo introducir tu clave de API")
+- Página de inicio del curso de NVIDIA DLI en español, sección "Cómo introducir tu clave de API". Esta clase está basada en ella (Apache-2.0).
 - [Issue #201 de NemoClaw: verificación por teléfono](https://github.com/NVIDIA/NemoClaw/issues/201)
 - [Rotación de credenciales en NemoClaw](https://docs.nvidia.com/nemoclaw/latest/) (página *Credential Rotation*, para cuando uses NemoClaw local)
 - [Preguntas frecuentes del curso](../../FAQ.md)

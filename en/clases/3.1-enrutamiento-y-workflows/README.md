@@ -9,7 +9,6 @@ Goal: make your code, not the model, own the shape of the work: a triage router 
 | **Video length** | ≈9 min |
 | **Practice** | Notebook (≈50 min), works without a key in MOCK mode |
 | **Skill** | Route subtasks across model calls |
-| **NVIDIA lesson** | [02a · The Workflow Agent](https://nvdli.github.io/NemoClawDLI/nemoclaw/02a-routing.html) |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/3.1-enrutamiento-y-workflows/3.1-enrutamiento-y-workflows.ipynb) · [FAQ (Spanish)](../../../FAQ.md) |
 
 ## What you'll achieve
@@ -123,17 +122,6 @@ Run the `generalista` (generalist) cell. Compare calls and seconds: 1 call again
 
 Run `soporte_nemoclaw`. A simple ticket goes to one specialist; the 401 report gets high priority and goes through the fan-out.
 
-### 11. (Optional) Practice in the browser with the NVIDIA lesson
-
-In [lesson 02a](https://nvdli.github.io/NemoClawDLI/nemoclaw/02a-routing.html), with your key saved in the course panel:
-
-1. In **Plan parallel glossary research**, node **Research goal**, change `state.goal` to a question of your own and run the flow. Count the model calls: there are always 2.
-2. In **Route a ticket to a specialist**, node **User ticket**, change `state.ticket` to `"Mi pantalla parpadea y la VPN se cae"` ("My screen flickers and the VPN drops"; it touches two categories). Which one does it pick?
-3. In **Fan out one input to specialists**, compare the wall-clock time against the sum of the durations.
-4. In the **Try it · the triage router, live** panel, type "I want a refund for last month's subscription".
-
-`[VERIFY IN LAB]` the cell names.
-
 ## Check that it worked
 
 - [ ] `validar_triage` rejects `facturacion`, `Brev` with a capital letter, and the truncated JSON.
@@ -168,7 +156,7 @@ Add `clasificar`, `validar_triage`, `ESPECIALISTAS`, `fan_out`, `unir` (join), a
 
 ## Resources
 
-- [Lesson 02a · The Workflow Agent](https://nvdli.github.io/NemoClawDLI/nemoclaw/02a-routing.html), from the NVIDIA DLI course. This class is based on it (Apache-2.0).
+- Lesson 02a · The Workflow Agent, from the NVIDIA DLI course. This class is based on it (Apache-2.0).
 - Xu et al. (2023), [ReWOO: Decoupling Reasoning from Observations for Efficient Augmented Language Models](https://arxiv.org/abs/2305.18323).
 - Yao et al. (2022), [ReAct](https://arxiv.org/abs/2210.03629), for comparison.
 - Python documentation: [`concurrent.futures`](https://docs.python.org/3/library/concurrent.futures.html).
