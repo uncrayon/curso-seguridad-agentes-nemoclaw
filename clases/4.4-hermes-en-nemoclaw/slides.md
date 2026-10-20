@@ -68,7 +68,7 @@ Error en vivo. Clic 1: sin aprobación, "recuerda X" se guarda en MEMORY.md sin 
 :::diagrama c44-dos-capas
 
 Notas:
-Clic 1: tu programa en Python habla con Hermes por la puerta nueva (base_url http://127.0.0.1:8642/v1), con el token del gateway: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)", nunca en pantalla. Clic 2: capa 1, el instrumentador de la clase 3.4 (OpenAIInstrumentor) manda la traza a Phoenix, que corre en Docker en la misma VM: proyecto soporte-nemoclaw-hermes. Para confirmarlo sin abrir la interfaz web: curl -s http://127.0.0.1:6006/v1/projects. Clic 3: capa 2, lo que Hermes hizo adentro (sus grep y cat) no aparece en Phoenix: está en su historial, nemohermes mi-hermes sessions export. Clic 4: dos capas de observabilidad. Script: hermes_trazado.py.
+Clic 1: tu programa en Python habla con Hermes por la puerta nueva (base_url http://127.0.0.1:8642/v1), con el token del gateway: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)", nunca en pantalla. Clic 2: capa 1, tu programa recibe la respuesta: con el cliente normal de OpenAI (pip install openai), sin nada más. Clic 3: capa 2, lo que Hermes hizo adentro (sus grep y cat) no aparece en tu programa: está en su historial, nemohermes mi-hermes sessions export. Clic 4: dos capas distintas. Script: hermes_api.py.
 
 ---
 
@@ -92,7 +92,7 @@ El token: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)". Nunca muestres 
 
 :::diagrama c44-avance
 
-.lead Apaga el cuarto de Hermes y Phoenix, y vuelve a encender my-assistant.
+.lead Apaga el cuarto de Hermes y vuelve a encender my-assistant.
 
 Notas:
-Clic 1: Soporte NemoClaw corre en dos agentes, con la misma skill y la misma personalidad, dentro del mismo tipo de cuarto, y un cliente en Python con trazas. Clic 2: lo que abrimos para el Módulo 5: memoria que se escribe sola, skills que el agente crea y una API con token. Para apagar: docker stop phoenix, nemohermes mi-hermes stop, y volver a encender OpenClaw con nemoclaw my-assistant start (los módulos 5 y 6 lo usan). Si paras por hoy: Stop en la consola de Brev y vuelve pronto.
+Clic 1: Soporte NemoClaw corre en dos agentes, con la misma skill y la misma personalidad, dentro del mismo tipo de cuarto, y un cliente en Python que le habla por su API. Clic 2: lo que abrimos para el Módulo 5: memoria que se escribe sola, skills que el agente crea y una API con token. Para apagar: nemohermes mi-hermes stop, y volver a encender OpenClaw con nemoclaw my-assistant start (los módulos 5 y 6 lo usan). Si paras por hoy: Stop en la consola de Brev y vuelve pronto.

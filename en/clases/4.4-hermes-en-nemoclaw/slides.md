@@ -68,7 +68,7 @@ Live error. Click 1: without approval, "remember X" is saved to MEMORY.md withou
 :::diagrama c44-dos-capas
 
 Notes:
-Click 1: your Python program talks to Hermes through the new door (base_url http://127.0.0.1:8642/v1), with the gateway token: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)", never on screen. Click 2: layer 1, the instrumentor from class 3.4 (OpenAIInstrumentor) sends the trace to Phoenix, running in Docker on the same VM: project soporte-nemoclaw-hermes. To confirm it without opening the web UI: curl -s http://127.0.0.1:6006/v1/projects. Click 3: layer 2, what Hermes did inside (its grep and cat calls) doesn't show up in Phoenix: it's in its history, nemohermes mi-hermes sessions export. Click 4: two layers of observability. Script: hermes_trazado.py.
+Click 1: your Python program talks to Hermes through the new door (base_url http://127.0.0.1:8642/v1), with the gateway token: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)", never on screen. Click 2: layer 1, your program gets the answer: with the regular OpenAI client (pip install openai), nothing else. Click 3: layer 2, what Hermes did inside (its grep and cat calls) doesn't show up in your program: it's in its history, nemohermes mi-hermes sessions export. Click 4: two different layers. Script: hermes_api.py.
 
 ---
 
@@ -92,7 +92,7 @@ The token: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)". Never show the
 
 :::diagrama c44-avance
 
-.lead Shut down the Hermes room and Phoenix, and turn my-assistant back on.
+.lead Shut down the Hermes room and turn my-assistant back on.
 
 Notes:
-Click 1: Soporte NemoClaw runs on two agents, with the same skill and the same personality, inside the same kind of room, plus a Python client with traces. Click 2: what we opened for Module 5: memory that writes itself, skills the agent creates and an API with a token. To shut down: docker stop phoenix, nemohermes mi-hermes stop, and turn OpenClaw back on with nemoclaw my-assistant start (Modules 5 and 6 use it). If you stop for today: Stop in the Brev console and come back soon.
+Click 1: Soporte NemoClaw runs on two agents, with the same skill and the same personality, inside the same kind of room, plus a Python client that talks to it through its API. Click 2: what we opened for Module 5: memory that writes itself, skills the agent creates and an API with a token. To shut down: nemohermes mi-hermes stop, and turn OpenClaw back on with nemoclaw my-assistant start (Modules 5 and 6 use it). If you stop for today: Stop in the Brev console and come back soon.

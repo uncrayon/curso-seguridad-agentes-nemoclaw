@@ -46,7 +46,7 @@
 .dg-legend-row.c3-l-umbral .dg-ico{color:var(--sin-warning)}
 .dg-legend-row b code{font-size:.85em}
 /* Paso actual: tarjetas y filas del módulo también brillan */
-.slide .c3-two>.dg-card[data-paso].actual,.slide .c3-bug.actual,.slide .c3-mesa.actual,.slide .c3-carril.actual>.dg-row,
+.slide .c3-two>.dg-card[data-paso].actual,.slide .c3-mesa.actual,.slide .c3-carril.actual>.dg-row,
 .slide .c3-caso.actual .c3-resp,.slide .c3-medida.actual .c3-qs,.slide .c3-costo.actual .c3-puntos{
   box-shadow:0 0 0 3px color-mix(in srgb,var(--sin-primary) 30%,transparent);border-radius:var(--sin-radius-3xl)}
 
@@ -173,77 +173,5 @@
   background:var(--sin-surface-container-lowest);border:1px solid var(--sin-outline-variant);font-size:.8em;font-weight:700;color:var(--sin-on-surface-variant)}
 .c3-two .dg-room{margin-top:.5em}
 
-/* 3.4 · print contra traza */
-.c3-revuelto{position:relative;width:17em;height:9.5em}
-.c3-suelto{position:absolute;padding:.2em .7em;border-radius:var(--sin-radius-sm);background:var(--sin-surface-dim);border:1px solid var(--sin-outline-variant);
-  font:500 .78em var(--sin-font-mono);color:var(--sin-on-surface-variant);white-space:nowrap}
-.c3-suelto.s0{left:2%;top:4%;transform:rotate(-4deg)}
-.c3-suelto.s1{left:62%;top:10%;transform:rotate(5deg)}
-.c3-suelto.s2{left:30%;top:32%;transform:rotate(-2deg)}
-.c3-suelto.s3{left:4%;top:58%;transform:rotate(3deg)}
-.c3-suelto.s4{left:40%;top:74%;transform:rotate(-5deg)}
-.c3-suelto.s5{left:70%;top:48%;transform:rotate(6deg);color:var(--sin-error)}
-.c3-rastreo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.3em;width:100%;max-width:22em}
-.c3-rastreo li{display:grid;grid-template-columns:1.5em 1fr auto;align-items:center;gap:.5em;margin:0;padding:.3em .8em .3em .5em;
-  border-radius:var(--sin-radius-full);background:var(--sin-surface-container-low);border:1px solid var(--sin-outline-variant);font-size:.88em}
-.c3-rastreo li .dg-i{font-size:1.3em;color:var(--sin-primary)}
-.c3-rastreo li.mal{border-color:color-mix(in srgb,var(--sin-error) 55%,transparent)}
-.c3-rastreo li.mal .dg-i{color:var(--sin-error)}
-.c3-rastreo small{font-family:var(--sin-font-mono);color:var(--sin-on-surface-variant);font-size:.85em}
-/* 3.4 · paquete y agente */
-.c3-paquete{grid-template-columns:1fr auto 1.15fr;gap:1em;align-items:center}
-.c3-paquete>.dg-card{align-self:stretch}
-.c3-paquete h3{flex-wrap:wrap}
-/* 3.4 · tipos de paso (colores por tipo) */
-.k-agente{--k:var(--sin-primary)}
-.k-modelo{--k:var(--sin-tertiary)}
-.k-herr{--k:var(--sin-warning)}
-.k-busq{--k:var(--sin-on-secondary-container)}
-.dg-node.c3-tipo{border-top:3px solid var(--k);max-width:14em}
-.dg-node.c3-tipo .dg-ico{color:var(--k)}
-/* 3.4 · tachar secretos */
-.c3-texto{display:inline-block;font:500 .78em var(--sin-font-mono);padding:.2em .55em;border-radius:var(--sin-radius-sm);background:var(--sin-surface-dim);white-space:nowrap}
-.c3-tachon{display:inline-block;color:transparent;background:var(--sin-scrim);border-radius:2px;box-shadow:0 0 0 1px var(--sin-outline);margin-left:.1em}
-.c3-tachar .dg-node{max-width:13em}
-/* 3.4 · árbol de la traza */
-.c3-arbol{display:flex;flex-direction:column;width:100%}
-.c3-span{display:grid;grid-template-columns:minmax(0,1fr) 3.4em 1.6em;align-items:center;column-gap:.7em;min-height:2.05em}
-.c3-arbol.con-barras .c3-span{grid-template-columns:26em minmax(0,1fr) 3.4em 1.6em}
-.c3-cab{min-height:1.6em;font-size:.72em;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--sin-on-surface-variant);
-  border-bottom:1px solid var(--sin-outline-variant);margin-bottom:.25em}
-.c3-nombre{position:relative;align-self:stretch;display:flex;flex-wrap:wrap;align-items:center;column-gap:.5em;row-gap:.1em;
-  padding:.2em 0 .2em calc(var(--n) * 1.5em)}
-.c3-guia,.c3-codo{position:absolute;left:calc(var(--g) * 1.5em - .9em);border-color:var(--sin-outline);border-style:solid;border-width:0}
-.c3-guia{top:0;bottom:0;border-left-width:2px}
-.c3-codo{top:0;height:1.05em;width:.7em;border-left-width:2px;border-bottom-width:2px;border-bottom-left-radius:6px}
-.c3-kind{display:inline-flex;align-items:center;gap:.25em;padding:.08em .55em .08em .35em;border-radius:var(--sin-radius-full);font-size:.78em;font-weight:700;
-  color:var(--k);background:color-mix(in srgb,var(--k) 14%,transparent);border:1px solid color-mix(in srgb,var(--k) 40%,transparent)}
-.c3-kind .dg-i{font-size:1.15em}
-.c3-nombre code{font-size:.8em;background:none;padding:0;color:var(--sin-on-surface)}
-.c3-det{flex-basis:100%;font:500 .72em var(--sin-font-mono);color:var(--sin-on-surface-variant)}
-.c3-span.mal .c3-det{color:var(--sin-error)}
-.c3-pista{position:relative;height:.8em;border-radius:var(--sin-radius-sm);background:var(--sin-surface-container-high)}
-.c3-barra{position:absolute;top:0;bottom:0;border-radius:var(--sin-radius-sm);background:var(--k)}
-.c3-ms{text-align:right;font:500 .8em var(--sin-font-mono);color:var(--sin-on-surface-variant)}
-.c3-ok,.c3-mal{font-size:1.25em}
-.c3-ok{color:var(--sin-primary)}
-.c3-mal{color:var(--sin-error)}
-.c3-arbol.compacto{font-size:.85em;min-width:23em}
-.c3-arbol.compacto .c3-span{min-height:1.9em}
-/* 3.4 · cuatro bugs */
-.c3-bugs{grid-template-columns:1fr 1fr;gap:.8em}
-.dg-card.c3-bug{padding:.7em 1em;gap:.45em}
-.dg-card.c3-bug h3{margin:0;font-size:1em}
-.c3-bug h3 .dg-i{color:var(--sin-error)}
-.c3-bug-v{display:flex;align-items:center;gap:.35em;color:var(--sin-on-surface-variant);font-size:.8em}
-.c3-bug-v .dg-i{color:var(--sin-primary);font-size:1.2em}
-.c3-mini-span{display:flex;align-items:center;gap:.4em;font-size:.85em}
-.c3-mini-span .dg-i{color:var(--sin-error);font-size:1.25em}
-.c3-err{background:var(--sin-error-container);color:var(--sin-on-error-container);font-size:.78em}
-.c3-repite{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.3em}
-.c3-repite code{font-size:.72em}
-.c3-bug .c3-barras.mini{width:85%}
-
 @media (prefers-reduced-motion:reduce){.c3-papel.desborde{transform:none}}
-@media (max-width:900px){.c3-two,.c3-split,.c3-paquete,.c3-bugs,.c3-mesas{grid-template-columns:1fr}.c3-cuatro,.c3-topes{grid-template-columns:repeat(2,1fr)}
-  .c3-arbol.con-barras .c3-span{grid-template-columns:minmax(0,1fr) 6em 3em 1.4em}}
+@media (max-width:900px){.c3-two,.c3-split,.c3-mesas{grid-template-columns:1fr}.c3-cuatro,.c3-topes{grid-template-columns:repeat(2,1fr)}}

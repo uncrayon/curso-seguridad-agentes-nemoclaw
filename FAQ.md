@@ -19,9 +19,8 @@ En los comandos, `<sandbox>` es el nombre de tu sandbox (en el laboratorio es `m
 7. [OpenShell y políticas](#openshell)
 8. [NemoClaw instalado en tu máquina](#instalacion-local)
 9. [Seguridad](#seguridad)
-10. [Observabilidad y trazas](#trazas)
-11. [Hermes en NemoClaw](#hermes)
-12. [Cómo pedir ayuda bien](#pedir-ayuda)
+10. [Hermes en NemoClaw](#hermes)
+11. [Cómo pedir ayuda bien](#pedir-ayuda)
 
 ### Los 10 problemas que más vas a ver
 
@@ -1122,49 +1121,8 @@ No pongas `OLLAMA_HOST=0.0.0.0` (era el arreglo viejo y en WSL2 causa timeouts):
 
 ---
 
-<a id="trazas"></a>
-## 10. Observabilidad y trazas
-
-### ¿Qué herramienta de observabilidad uso? ¿NVIDIA tiene una propia?
-
-**Respuesta:** en el curso usamos **OpenTelemetry** (el estándar abierto) con convenciones **OpenInference** y **Arize Phoenix** (código abierto) como interfaz. NVIDIA tiene dos piezas: el **NeMo Agent Toolkit** (`nvidia-nat`), que instrumenta flujos de agentes y exporta a Phoenix, Langfuse, LangSmith, Weave u OTel con YAML; y en **NemoClaw**, `logs`, `sessions export` y `openshell term` para el sandbox, más exportación OTLP para Deep Agents (`--observability`). Todo habla OTel, así que puedes mezclarlas.
-
-**Fuente:** clase 3.4; [NeMo Agent Toolkit · Observar flujos](https://docs.nvidia.com/nemo/agent-toolkit/latest/run-workflows/observe/observe.html).
-
-### El notebook dice `Phoenix: no detectado` aunque lo tengo corriendo
-
-**Causa:** ejecutaste la celda del tracer antes de levantar Phoenix, o Phoenix escucha en otro host o puerto.
-
-**Solución:** con `phoenix serve` corriendo (o `docker run -p 6006:6006 arizephoenix/phoenix:latest`), vuelve a ejecutar la celda del tracer. Si usas otro puerto o un Phoenix remoto: `export PHOENIX_COLLECTOR_ENDPOINT=http://<host>:<puerto>` antes de abrir el notebook. En Colab no hace falta Phoenix: `ver_traza` dibuja la traza en texto.
-
-**Fuente:** clase 3.4.
-
-### `pip install arize-phoenix` falla con un error de versión de Python
-
-**Causa:** Phoenix requiere Python 3.11 o mayor.
-
-**Solución:** usa Docker (`arizephoenix/phoenix`) o un entorno con Python 3.11+. El notebook de la 3.4 funciona igual sin Phoenix: solo usa OpenTelemetry, que corre en 3.10.
-
-**Fuente:** [arize-phoenix en PyPI](https://pypi.org/project/arize-phoenix/).
-
-### Mi key (o un token) apareció en una traza
-
-**Causa:** las trazas guardan prompts completos y salidas de herramientas. Si alguien pegó una key en el chat, la traza la guardó.
-
-**Solución:** revoca la key en build.nvidia.com y genera otra. Borra la traza (en Phoenix, el proyecto o las trazas afectadas). En tu código, pasa **todo** atributo por una función de redacción, como `poner()`/`redactar()` de la clase 3.4, y no publiques un Phoenix sin autenticación.
-
-**Fuente:** clases 1.2 y 3.4.
-
-### ¿Puedo ver en Phoenix lo que hace el agente dentro del sandbox?
-
-**Respuesta:** no directamente. Desde el host trazas las **llamadas** al agente (por ejemplo, la API de Hermes con `hermes_trazado.py`), pero no las herramientas que el agente ejecuta dentro del sandbox. Esas están en el historial de sesiones: `nemoclaw <sandbox> sessions export` (OpenClaw) o `nemohermes <sandbox> sessions export` (Hermes). NemoClaw solo exporta trazas OTLP desde dentro del sandbox para Deep Agents, con el preset de red `observability-otlp-local`.
-
-**Fuente:** clase 4.4; [NemoClaw · Exportar trazas de Deep Agents](https://docs.nvidia.com/nemoclaw/latest/user-guide/deepagents/monitoring/set-up-deepagents-trace-export).
-
----
-
 <a id="hermes"></a>
-## 11. Hermes en NemoClaw
+## 10. Hermes en NemoClaw
 
 ### ¿Hermes reemplaza a NemoClaw?
 
@@ -1194,6 +1152,12 @@ No pongas `OLLAMA_HOST=0.0.0.0` (era el arreglo viejo y en WSL2 causa timeouts):
 
 **Fuente:** [NemoClaw · Quickstart con Hermes](https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/get-started/quickstart).
 
+### ¿Puedo ver desde mi programa lo que Hermes hace dentro del sandbox?
+
+**Respuesta:** no. Desde el host, un programa como `hermes_api.py` solo ve la pregunta y la respuesta. Las herramientas que Hermes ejecuta dentro del sandbox (sus `grep` o `cat`) están en su historial de sesiones: `nemohermes <sandbox> sessions export`. Con OpenClaw es igual: `nemoclaw <sandbox> sessions export`. El archivo exportado contiene prompts y salidas de herramientas: trátalo como dato sensible.
+
+**Fuente:** clase 4.4.
+
 ### Instalé una skill en Hermes y no la usa
 
 **Causa:** Hermes carga las skills al iniciar la sesión, o la `description` del `SKILL.md` no coincide con cómo pregunta el estudiante.
@@ -1213,7 +1177,7 @@ No pongas `OLLAMA_HOST=0.0.0.0` (era el arreglo viejo y en WSL2 causa timeouts):
 ---
 
 <a id="pedir-ayuda"></a>
-## 12. Cómo pedir ayuda bien
+## 11. Cómo pedir ayuda bien
 
 Una buena pregunta se responde en minutos; una vaga, en días. Antes de preguntar, busca tu mensaje de error exacto en esta página (Ctrl+F / Cmd+F).
 

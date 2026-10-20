@@ -25,6 +25,7 @@ No necesitas memorizar nada: vuelve a esta página cuando la necesites.
 | **Memoria** (de la conversación) | La lista de mensajes que se le reenvía al modelo en cada turno, porque él no recuerda solo. | Tomar notas en una libreta y releerlas antes de cada llamada. | 2.1 |
 | **ReAct** | Un patrón donde el agente alterna pensar y actuar, y usa lo que observa para decidir el siguiente paso. | Un detective: piensa una hipótesis, busca una pista, piensa de nuevo. | 2.2 |
 | **Herramienta** (tool) | Una función que el agente puede pedir que se ejecute: buscar, calcular, leer un archivo. | Las apps del celular de tu asistente. | 2.2 |
+| **Traza** | El registro de todo lo que hizo el agente para responder una pregunta, paso por paso. | El historial de rastreo de un paquete: dónde estuvo, cuándo y si hubo un problema. | 2.2 |
 | **`finish_reason`** | La señal con la que el modelo avisa por qué dejó de escribir: terminó (`stop`), quiere usar una herramienta (`tool_calls`) o se quedó sin espacio (`length`). | La nota que deja tu asistente al colgar: «listo», «necesito revisar algo» o «se cortó la llamada». | 2.2 |
 | **Contrato de una herramienta** | Lo que el modelo necesita saber de una herramienta: su nombre, para qué sirve, qué datos pide y qué devuelve. | La ventanilla de un trámite: el letrero dice qué resuelve y qué papeles llevar. | 2.3 |
 | **MCP** | Un estándar para conectar a un agente herramientas que ofrece otra empresa o programa. | Una tienda de apps de otra empresa: útil, pero revisas qué permisos pide cada app. | 2.3 |
@@ -36,9 +37,6 @@ No necesitas memorizar nada: vuelve a esta página cuando la necesites.
 | **Cita** | La referencia al documento de donde salió una respuesta. | La nota al pie de un libro. | 3.2 |
 | **Subagente** | Un agente que otro agente crea para una parte de la tarea, con su propia conversación. | Un jefe de proyecto que reparte encargos a su equipo. | 2.3 |
 | **Contexto** | Todo lo que el modelo tiene a la vista en un turno: instrucciones, mensajes y resultados. | El escritorio de trabajo: si está lleno de papeles, se pierden los importantes. | 3.3 |
-| **Traza** | El registro de todo lo que hizo el agente para responder una pregunta, paso por paso. | El historial de rastreo de un paquete: dónde estuvo, cuándo y si hubo un problema. | 3.4 |
-| **Span** | Cada paso dentro de una traza, con su inicio, su fin y si salió bien. | Cada línea del rastreo: "salió del almacén", "llegó a la ciudad". | 3.4 |
-| **Phoenix** | Una página web gratuita y de código abierto para ver trazas de agentes. | El mapa donde ves el recorrido del paquete. | 3.4 |
 
 ## El laboratorio
 
@@ -72,7 +70,6 @@ No necesitas memorizar nada: vuelve a esta página cuando la necesites.
 | **Skill** (`SKILL.md`) | Un archivo de texto con instrucciones paso a paso para una tarea. El agente lo lee cuando lo necesita. | Una tarjeta de receta. | 4.3 |
 | **Cron** / tarea programada | Una tarea que se ejecuta sola a una hora fija. | La alarma del despertador. | 4.3 |
 | **Automatización** (*Automations*) | Una tarea que el agente ejecuta solo, una vez o cada cierto tiempo, y que creas con clics en la sección **Automations** del chat. Cada ejecución gasta créditos del modelo. | Dejarle a tu asistente un encargo con fecha y hora en la agenda. | 4.3 |
-| **NeMo Agent Toolkit** | Herramientas de NVIDIA para construir agentes y enviar sus trazas a páginas como Phoenix. | La caja de herramientas del taller. | 3.4 |
 
 ## Tu práctica con agentes
 
@@ -99,7 +96,7 @@ No necesitas memorizar nada: vuelve a esta página cuando la necesites.
 | **Preset** | Un paquete de reglas ya escrito que se agrega a la política (por ejemplo, permitir GitHub). | Una hoja extra que engrapas al reglamento. | 5.3 |
 | **Mínimo privilegio** | Dar al agente solo los permisos que necesita y nada más. | Darle al asistente la llave de su oficina, no la llave maestra del edificio. | 5.2 |
 | **Landlock, seccomp, aislamiento de red** | Candados del sistema operativo que limitan archivos, acciones y conexiones del agente. | La cerradura, la reja y el guardia del cuarto. | 5.2 |
-| **Tachar un secreto** | Reemplazar una contraseña o key por `***` antes de guardarla o mostrarla. En el código del curso, la función se llama `redactar` (del inglés *redact*). | Tachar con plumón negro un dato en una fotocopia. | 3.4 |
+| **Tachar un secreto** | Reemplazar una contraseña o key por `***` antes de guardarla o mostrarla. En el código del curso, la función se llama `redactar` (del inglés *redact*). | Tachar con plumón negro un dato en una fotocopia. | 4.4 |
 
 ---
 

@@ -3,19 +3,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>3.1 Route work across several calls · Securing Agents with OpenShell and NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 3 · Class 3.1</span><h1>Route work across several calls</h1><p class="lead">Coordinate, ground and plan</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Route subtasks across model calls</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 3 · Class 3.1</span><h1>Route work across several calls</h1><p class="lead">Coordinate, ground and plan</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Route subtasks across model calls</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><span class="tag">Module 3 · Class 3.1</span><h2>Last class we learned</h2><p class="lead">Class 2.3 · Turn functions into tools</p><ul><li>A tool is a contract: name, description, schema and a text result</li><li>The description decides when the model uses it</li><li>Arguments are validated before running, and errors go back to the model</li></ul></section>
 <section class="slide"><span class="tag">Module 3 · Class 3.1</span><h2>When isn't a loop enough?</h2>
 <div class="c3-ticket" data-paso="1"><span class="dg-i">confirmation_number</span>“I get a 401 in the lab after resuming Brev”</div><div class="dg c3-two"><div class="dg-card " data-paso="2"><h3><span class="dg-i">replay</span>Loop: the model decides</h3><div class="dg-row "><div class="dg-node mini"><span class="dg-ico">visibility</span><b>Step 1</b><small>looks at the result</small></div><div class="dg-arrow h "></div><div class="dg-node mini warn"><span class="dg-ico">quiz</span><b>Now what?</b></div><div class="dg-arrow h "></div><div class="dg-node mini warn"><span class="dg-ico">quiz</span><b>Now what?</b></div></div><p class="dg-note"><span class="dg-i">replay</span>Great when step 2 depends on step 1</p></div><div class="dg-card is-primary" data-paso="3"><h3><span class="dg-i">code</span>Workflow: your code decides</h3><div class="dg-row "><div class="dg-node mini ok"><span class="dg-ico">key</span><b>Key</b></div><div class="dg-arrow h "></div><div class="dg-node mini ok"><span class="dg-ico">computer</span><b>Instance</b></div><div class="dg-arrow h "></div><div class="dg-node mini ok"><span class="dg-ico">cookie</span><b>Session</b></div></div><p class="dg-note"><span class="dg-i">check_circle</span>Great when you know what to check</p></div></div><aside class="notes"><p>Click 1: the project ticket. Click 2: the loop from class 2.2, where the model figures out what to check one step at a time. Click 3: the workflow, where your code already knows to check key, instance and session. The question for this class: who decides the shape of the work, the model or your code?</p></aside></section>
@@ -48,5 +48,5 @@ with ThreadPoolExecutor(max_workers=3) as pool:     # fan-out: every branch at o
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><span class="tag">Module 3 · Class 3.1</span><h2>Next class we'll learn</h2><p class="prox">Class 3.2 · RAG to ground answers in your sources</p><ul><li>Index documents with embeddings</li><li>Retrieve the relevant passages and cite them</li><li>Turn search into a tool the agent can call</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=293a8307"></script>
+<script src="../../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

@@ -15,7 +15,7 @@ Goal: understand what an agent is and what each piece of the stack does before y
 
 - Explain in your own words what an AI agent is: a model inside a loop, with tools and memory.
 - Tell apart OpenClaw (the agent), OpenShell (the sandbox and the gateway) and NemoClaw (the blueprint and the CLI that ties them together).
-- Know what you'll build across the 20 classes and what you need for each module.
+- Know what you'll build across the 19 classes and what you need for each module.
 
 ## Before you start
 
@@ -83,7 +83,7 @@ Throughout the course you build **Soporte NemoClaw** (NemoClaw Support), an agen
 | 5 | You analyze its risks and write its sandbox policy |
 | 6 | You build your skill library and see how to run it on your own machine |
 
-### The map of the 20 classes
+### The map of the 19 classes
 
 | Module | Class | Practice |
 |---|---|---|
@@ -96,7 +96,6 @@ Throughout the course you build **Soporte NemoClaw** (NemoClaw Support), an agen
 | **3 · Coordinate, ground and plan** | 3.1 Route work across several calls | Notebook |
 | | 3.2 RAG to ground answers in your sources | Notebook |
 | | 3.3 Deep agents that spawn subagents | Notebook |
-| | 3.4 Observe and debug your agent with traces | Notebook |
 | **4 · Take your agent to NemoClaw** | 4.1 Launch the NemoClaw lab on Brev | Lab |
 | | 4.2 Explore the OpenClaw gateway and workspace | Lab |
 | | 4.3 Agents in continuous and scheduled operation | Lab |
@@ -122,11 +121,11 @@ What you need at each stage:
 3. Scroll down to **"Cómo funciona el curso"** (How the course works) and find the three stages: your access to models (a free `nvapi-` API key, all you need for Modules 1 to 3), the notebooks in Colab or on your machine, and the real lab on Brev from Module 4 on.
 4. Look at **"El stack en un vistazo"** (The stack at a glance): one card per piece (OpenClaw, the agent; OpenShell, the sandbox; NemoClaw, the blueprint) and a diagram showing that your API key stays outside the sandbox. Compare it with the "three pieces" table above.
 5. Read **"Proyecto del curso: «Soporte NemoClaw»"** (Course project): it shows how the agent grows from Module 2 to Module 6.
-6. Scroll down to **"Clase por clase"** (Class by class): 6 modules and 20 classes. Each card shows the length, what you'll learn and its links: **Guía** (the class guide, like this page), **Diapositivas** (slides) and, depending on the class, **Colab** (the notebook, which opens in your browser) or **Recetario** (the lab's command recipes). Compare it with the table above and find class 1.3: it's the first one with a Colab button.
+6. Scroll down to **"Clase por clase"** (Class by class): 6 modules and 19 classes. Each card shows the length, what you'll learn and its links: **Guía** (the class guide, like this page), **Diapositivas** (slides) and, depending on the class, **Colab** (the notebook, which opens in your browser) or **Recetario** (the lab's command recipes). Compare it with the table above and find class 1.3: it's the first one with a Colab button.
 7. Read **"Los errores que más vas a ver"** (The errors you'll see most). It holds the golden rule: on a 401 or 403, check your key and your account; on a 404 or 410, check the model name; on a 429, wait a few seconds and retry.
 8. Find the support pages: the **Glosario** (glossary, button at the top), **Tu laboratorio en Brev** (your Brev lab: the «plan del laboratorio» link in the first section, covering what it costs and how to make your credit last) and the **Preguntas frecuentes** (FAQ), with more than 50 solved cases. Bookmark the home page.
 
-You should see: at the top, the course title with the buttons "Empieza con la clase 1.1" (Start with class 1.1), "Consigue tu API key" (Get your API key), "Laboratorio en Brev" (Brev lab), "Preguntas frecuentes" and "Glosario", and the line "6 módulos · 20 clases".
+You should see: at the top, the course title with the buttons "Empieza con la clase 1.1" (Start with class 1.1), "Consigue tu API key" (Get your API key), "Laboratorio en Brev" (Brev lab), "Preguntas frecuentes" and "Glosario", and the line "6 módulos · 19 clases".
 
 ### 2. Tour the NemoClaw repository
 

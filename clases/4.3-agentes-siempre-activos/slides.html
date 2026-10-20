@@ -3,20 +3,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>4.3 Agentes en operación continua y programada · Seguridad de agentes con OpenShell y NemoClaw</title>
 <link rel="preload" href="../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navegar · N notas · F pantalla completa</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Módulo 4 · Clase 4.3</span><h1>Agentes en operación continua y programada</h1><p class="lead">Lleva tu agente a NemoClaw</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈8 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Operar agentes en modo continuo</span></p></section>
-<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""></div><span class="tag">Módulo 4 · Clase 4.3</span><h2>La clase pasada aprendimos</h2><p class="lead">Clase 4.2 · Explora el gateway y el workspace de OpenClaw</p><ul><li>El gateway recibe los turnos y guarda las sesiones</li><li>El workspace es el contexto del agente: SOUL.md, AGENTS.md, MEMORY.md, skills/</li><li>Como operador, siempre verificas lo que el agente afirma</li></ul></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Módulo 4 · Clase 4.3</span><h1>Agentes en operación continua y programada</h1><p class="lead">Lleva tu agente a NemoClaw</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Operar agentes en modo continuo</span></p></section>
+<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""></div><span class="tag">Módulo 4 · Clase 4.3</span><h2>La clase pasada aprendimos</h2><p class="lead">Clase 4.2 · Explora el gateway y el workspace de OpenClaw</p><ul><li>El gateway recibe los turnos y guarda las sesiones</li><li>El workspace es el contexto del agente: SOUL.md, AGENTS.md, MEMORY.md, skills/</li><li>Como operador, siempre verificas lo que el agente afirma</li></ul></section>
 <section class="slide"><span class="tag">Módulo 4 · Clase 4.3</span><h2>Una receta y un despertador</h2>
 <div class="dg dg-two m4-two-eq"><div class="dg-card m4-card " data-paso="1"><h3><span class="dg-i">menu_book</span> Skill</h3><small class="dg-card-sub">una tarjeta de receta</small><div class="dg-row"><div class="dg-node mini"><span class="dg-ico">person</span><b>Pides algo</b></div><div class="dg-arrow h "></div><div class="dg-node mini is-primary"><span class="dg-ico">menu_book</span><b>Lee la receta</b><small>solo cuando la necesita</small></div><div class="dg-arrow h "></div><div class="dg-node mini ok"><span class="dg-ico">check_circle</span><b>Responde</b></div></div></div><div class="dg-card m4-card " data-paso="2"><h3><span class="dg-i">timer</span> Tarea programada</h3><small class="dg-card-sub">la alarma del despertador</small><div class="dg-row"><div class="dg-node mini"><span class="dg-ico">notifications</span><b>Suena la alarma</b></div><div class="dg-arrow h "></div><div class="dg-node mini is-primary"><span class="dg-ico">assistant</span><b>Trabaja solo</b></div><div class="dg-arrow h "></div><div class="dg-node mini ok"><span class="dg-ico">description</span><b>Deja un archivo</b></div></div></div></div><div class="call warn" data-paso="3"><p>Lo que corre solo, corre aunque nadie lo mire.</p></div><aside class="notes"><p>Las dos palabras nuevas. Clic 1: la skill, una tarjeta de receta que el agente lee cuando la necesita. Clic 2: la tarea programada (cron), la alarma del despertador: a la hora fijada, el agente trabaja solo. Clic 3: ese es todo el punto y todo el riesgo.</p></aside></section>
 <section class="slide"><span class="tag">Módulo 4 · Clase 4.3</span><h2>Los 3 controles</h2>
@@ -52,8 +52,8 @@ nemoclaw my-assistant exec -- ls /sandbox/.openclaw/workspace/skills/ /sandbox/.
 <p class="lead">Soporte NemoClaw ya vive en OpenClaw.</p>
 <ul><li>La skill <code>soporte-nemoclaw</code> y la FAQ en su escritorio</li><li>Una tarea en Automations que dejó un resumen de la FAQ</li><li>Repite la pregunta del 401 y compárala con la de la clase 4.1</li></ul>
 <p>¿Qué riesgos abrimos? Lo vemos en el Módulo 5.</p><aside class="notes"><p>Guardar la respuesta nueva debajo de la anterior en proyecto/linea-base-4.1.md. Si paras por hoy: Stop en la consola de Brev y vuelve pronto.</p></aside></section>
-<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""></div><span class="tag">Módulo 4 · Clase 4.3</span><h2>En la próxima clase aprenderemos</h2><p class="prox">Clase 4.4 · Cambia OpenClaw por Hermes en NemoClaw</p><ul><li>Crear un sandbox con Hermes Agent en lugar de OpenClaw</li><li>Dónde viven su personalidad, memoria, skills y sesiones</li><li>Llevar tu skill soporte-nemoclaw a Hermes y llamarlo por su API compatible con OpenAI</li></ul></section>
+<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""></div><span class="tag">Módulo 4 · Clase 4.3</span><h2>En la próxima clase aprenderemos</h2><p class="prox">Clase 4.4 · Cambia OpenClaw por Hermes en NemoClaw</p><ul><li>Crear un sandbox con Hermes Agent en lugar de OpenClaw</li><li>Dónde viven su personalidad, memoria, skills y sesiones</li><li>Llevar tu skill soporte-nemoclaw a Hermes y llamarlo por su API compatible con OpenAI</li></ul></section>
 <div class="foot"><span><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Guía de la clase</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../assets/slides.js?v=293a8307"></script>
+<script src="../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

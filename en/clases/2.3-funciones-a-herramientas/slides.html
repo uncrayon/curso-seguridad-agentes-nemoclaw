@@ -3,19 +3,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>2.3 Turn functions into tools · Securing Agents with OpenShell and NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 2 · Class 2.3</span><h1>Turn functions into tools</h1><p class="lead">Build the basic agent loop</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Turn functions into agent tools</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 2 · Class 2.3</span><h1>Turn functions into tools</h1><p class="lead">Build the basic agent loop</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Turn functions into agent tools</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""></div><span class="tag">Module 2 · Class 2.3</span><h2>Last class we learned</h2><p class="lead">Class 2.2 · Reasoning with the ReAct pattern</p><ul><li>ReAct alternates reasoning and actions until it has an answer</li><li>finish_reason decides: stop, tool_calls or length</li><li>Each tool_call is validated, executed, and its result comes back as a tool message</li></ul></section>
 <section class="slide"><span class="tag">Module 2 · Class 2.3</span><h2>A tool's contract</h2>
 <div class="dg m2"><div class="dg-card m2-vent"><h3><span class="dg-i">contract</span>Like a service window</h3><div class="dg-row"><div class="dg-node mini" data-paso="1"><span class="dg-ico">label</span><b>Name</b><small>which capability it is</small><span class="m2-ej"><code>estimar_costo_brev</code></span></div><div class="dg-node mini" data-paso="2"><span class="dg-ico">description</span><b>Description</b><small>when to use it, and when not</small><span class="m2-ej"><em>“Use it for cost questions”</em></span></div><div class="dg-node mini" data-paso="3"><span class="dg-ico">input</span><b>Inputs it needs</b><small>type and limits</small><span class="m2-ej"><code>hours: number ≥ 0.1</code></span></div><div class="dg-node mini" data-paso="4"><span class="dg-ico">output</span><b>What it returns</b><small>always text</small><span class="m2-ej"><code>≈ $10.80 USD</code></span></div></div></div></div><p class="dg-note" data-paso="5"><span class="dg-i">swap_vert</span>The sign doesn't change: what's behind it can</p><aside class="notes"><p>Based on NVIDIA's lesson 01c: "the tool-calling contract stays fixed". One click per part of the card: name (a capability), description (when to use it and when not), inputs it needs (the schema: arguments, types and limits) and what it returns (always text). Click 5: fixed contract = you can change everything inside.</p></aside></section>
@@ -42,5 +42,5 @@
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""></div><span class="tag">Module 2 · Class 2.3</span><h2>Next class we'll learn</h2><p class="prox">Class 3.1 · Route work across several calls</p><ul><li>When a single loop is not enough</li><li>A triage router with a fixed enum</li><li>ReWOO and fan-out: plan, run in parallel, and join</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=293a8307"></script>
+<script src="../../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

@@ -3,19 +3,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>3.2 RAG to ground answers in your sources · Securing Agents with OpenShell and NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 3 · Class 3.2</span><h1>RAG to ground answers in your sources</h1><p class="lead">Coordinate, ground and plan</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Implement RAG with your own sources</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 3 · Class 3.2</span><h1>RAG to ground answers in your sources</h1><p class="lead">Coordinate, ground and plan</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Implement RAG with your own sources</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><span class="tag">Module 3 · Class 3.2</span><h2>Last class we learned</h2><p class="lead">Class 3.1 · Route work across several calls</p><ul><li>A router classifies with a closed enum and never guesses</li><li>ReWOO plans first and runs the steps in parallel</li><li>Every branch needs a plan for when it fails</li></ul></section>
 <section class="slide"><span class="tag">Module 3 · Class 3.2</span><h2>The model doesn't know your FAQ</h2>
 <div class="dg c3-two"><div class="dg-card " data-paso="1"><h3><span class="dg-i">history</span>From memory</h3><div class="dg-col"><span class="c3-q-chip"><span class="dg-i">chat</span>“Session expired”: what do I do?</span><div class="dg-arrow v "></div><div class="dg-node mini"><span class="dg-ico">auto_awesome</span><b>Model</b></div><div class="dg-arrow v "></div><div class="c3-resp bad"><span class="dg-i">error</span>Answers very confidently… and sometimes wrong</div></div></div><div class="dg-card is-primary" data-paso="2"><h3><span class="dg-i">menu_book</span>Open book (RAG)</h3><div class="dg-col"><span class="c3-q-chip"><span class="dg-i">chat</span>“Session expired”: what do I do?</span><div class="dg-arrow v "></div><div class="dg-row "><div class="dg-node mini"><span class="dg-ico">menu_book</span><b>Your notes</b><small>the course FAQ</small></div><div class="dg-arrow h "></div><div class="dg-node mini is-primary"><span class="dg-ico">auto_awesome</span><b>Model</b></div></div><div class="dg-arrow v "></div><div class="c3-resp ok"><span class="dg-i">check_circle</span>Answers with its footnote <span class="c3-nota-pie">¹</span></div><div class="dg-chips "><span class="dg-chip">or says “I don't know”</span></div></div></div></div>
@@ -45,5 +45,5 @@ q = embed(pregunta, input_type=&quot;query&quot;)[0]        # when searching</co
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><span class="tag">Module 3 · Class 3.2</span><h2>Next class we'll learn</h2><p class="prox">Class 3.3 · Deep agents that spawn subagents</p><ul><li>Planners that split a large task</li><li>Subagents with isolated context that write to files</li><li>The difference between isolating context and isolating the operating system</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=293a8307"></script>
+<script src="../../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

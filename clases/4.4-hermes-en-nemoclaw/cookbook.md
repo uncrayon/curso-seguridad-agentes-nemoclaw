@@ -133,7 +133,7 @@ Hermes también trae su propio dashboard en el navegador (sin `#token=` en la UR
 Todo llega con el `git clone` de la clase 4.1. Para actualizarlo si ya lo tenías: `git -C ~/curso pull`.
 
 ```bash
-ls ~/curso/clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/ ~/curso/datos/faq/ ~/curso/clases/4.4-hermes-en-nemoclaw/hermes_trazado.py
+ls ~/curso/clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/ ~/curso/datos/faq/ ~/curso/clases/4.4-hermes-en-nemoclaw/hermes_api.py
 ```
 
 Salida esperada: `SKILL.md`, los `.md` de la FAQ y el script.
@@ -260,39 +260,28 @@ curl -fsS -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" 
 
 ---
 
-## Receta 12 · Trazas con Phoenix (clase 3.4)
+## Receta 12 · Llama a Hermes desde Python
 
-Todo corre en la VM. El usuario `ubuntu` está en el grupo `docker`, así que `docker run` funciona sin `sudo`.
+Todo corre en la VM, no dentro del sandbox.
 
 ```bash
-docker run -d --name phoenix -p 127.0.0.1:6006:6006 arizephoenix/phoenix:latest
-python3 -m venv ~/venv-trazas && source ~/venv-trazas/bin/activate
-pip install -q openai opentelemetry-sdk opentelemetry-exporter-otlp-proto-http openinference-instrumentation-openai
+python3 -m venv ~/venv-hermes && source ~/venv-hermes/bin/activate
+pip install -q openai
 export HERMES_TOKEN="$(nemohermes mi-hermes gateway-token --quiet)"
-python3 ~/curso/clases/4.4-hermes-en-nemoclaw/hermes_trazado.py "Mi notebook responde HTTP 401 cuando llamo al modelo"
+python3 ~/curso/clases/4.4-hermes-en-nemoclaw/hermes_api.py "Mi notebook responde HTTP 401 cuando llamo al modelo"
 ```
 
-Salida esperada: la respuesta de Hermes, una línea `modelo: … · N s · traza: <id>` y `Phoenix: proyecto 'soporte-nemoclaw-hermes' en http://127.0.0.1:6006`.
+Salida esperada: la respuesta de Hermes (con **Categoría** y **Fuente:** si usó la skill) y una línea `modelo: … · N s`.
 
-Comprueba que Phoenix recibió la traza:
+El script usa el cliente normal de OpenAI con `base_url="http://127.0.0.1:8642/v1"` y lee el token de la variable `HERMES_TOKEN`: nunca lo imprime. Si un mensaje de error trae una key o un token, lo tacha antes de mostrarlo.
 
-```bash
-curl -s http://127.0.0.1:6006/v1/projects; echo
-```
-
-Deberías ver `soporte-nemoclaw-hermes` en la lista de proyectos.
-
-La interfaz web de Phoenix queda en `127.0.0.1:6006` de la VM, y el laboratorio no la publica en tu navegador. En una instalación propia (clase 6.3) abres `http://127.0.0.1:6006` → **Projects → soporte-nemoclaw-hermes** y ves un span `AGENT` (`hermes · pregunta`) con un span `LLM` automático dentro, con la pregunta, la respuesta, la latencia y los tokens que reporte Hermes.
-
-Lo que **no** verás: los `grep` y `cat` que Hermes ejecutó dentro del sandbox. Esos están en las sesiones (receta 10). Trazar el cliente y trazar el agente son capas distintas.
+Lo que **no** verás: los `grep` y `cat` que Hermes ejecutó dentro del sandbox. Esos están en las sesiones (receta 10). Lo que ve el cliente y lo que hizo el agente son capas distintas.
 
 **Si falla:**
+- `Falta HERMES_TOKEN` → corre otra vez la línea `export HERMES_TOKEN=…` en la misma terminal.
 - `401: el token no es válido` → vuelve a leer el token (cambia si reconstruiste).
 - `No pude hablar con Hermes` → el puerto no es `8642`: `export HERMES_BASE_URL=http://127.0.0.1:<puerto>/v1`.
-- El proyecto no aparece en `/v1/projects` → `docker logs phoenix`; revisa que el contenedor esté corriendo (`docker ps`) y vuelve a ejecutar el script.
 - `python3 -m venv` falla → `sudo apt-get install -y python3-venv` y repite.
-
-Nunca publiques el puerto `6006` a internet: las trazas contienen las preguntas y respuestas completas.
 
 ---
 
@@ -312,7 +301,6 @@ Una línea `DENIED` en los logs significa que OpenShell bloqueó una conexión d
 ## Receta 14 · Apaga, enciende y limpia
 
 ```bash
-docker stop phoenix && docker rm phoenix     # cuando ya no lo uses
 nemohermes mi-hermes stop                    # detiene el sandbox y su dashboard
 nemohermes mi-hermes start                   # lo vuelve a encender
 nemoclaw my-assistant start                  # si detuviste el de OpenClaw

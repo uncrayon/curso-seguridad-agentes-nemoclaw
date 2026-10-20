@@ -108,8 +108,7 @@ def tag(c, lang="es"):
 
 def portada(c, lang="es", assets=""):
     t, l = T[lang], L(c, lang)
-    chips = (f'<span class="chip"><span class="icon">schedule</span>≈{c["minutes"]} min</span>'
-             f'<span class="chip"><span class="icon">person</span>{html.escape(COURSE["instructor"])}</span>')
+    chips = f'<span class="chip"><span class="icon">person</span>{html.escape(COURSE["instructor"])}</span>'
     if l["skill"]:
         chips += f'<span class="chip primary"><span class="icon">bolt</span>{t["skill"]}: {html.escape(l["skill"])}</span>'
     return (f'<section class="slide portada">{deco(c, 3, assets)}'

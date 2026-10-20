@@ -161,58 +161,6 @@ T = {
         "c33_a3": "Guarda notas", "c33_a3s": "un borrador por subagente",
         "c33_a4": "Revisa citas", "c33_a4s": "reporte de diagnóstico confiable",
         "c33_mod4": "<strong>Módulo 4:</strong> lo llevas a NemoClaw en Brev, con la FAQ en su carpeta de trabajo y dentro de un sandbox.",
-        # 3.4 · print vs traza
-        "c34_print": "Con print", "c34_print_pie": "Pedazos sueltos, sin orden ni tiempos",
-        "c34_j1": "buscando…", "c34_j2": "ok", "c34_j3": "paso 2", "c34_j4": "respuesta: …",
-        "c34_j5": "llamando al modelo", "c34_j6": "¿error?",
-        "c34_traza": "Con una traza", "c34_traza_pie": "Cada paso en orden, con su tiempo y su estado",
-        "c34_r1": "Pregunta recibida", "c34_r2": "Modelo · paso 1", "c34_r3": "Herramienta · estado de Brev",
-        "c34_r4": "Respuesta enviada",
-        # 3.4 · paquete
-        "c34_paquete": "Tu paquete", "c34_pq1": "Salió del almacén", "c34_pq2": "Llegó a tu ciudad",
-        "c34_pq3": "Retraso en la aduana", "c34_pq4": "Entregado",
-        "c34_tag_traza": "traza = todo el historial", "c34_tag_span": "span = una línea",
-        "c34_tu_agente": "Tu agente",
-        "c34_paquete_pie": "OpenTelemetry es el formato de la guía de envío. Phoenix es el mapa donde ves el recorrido.",
-        # 3.4 · tipos de paso
-        "k_agente": "Agente", "k_modelo": "Modelo", "k_herr": "Herramienta", "k_busq": "Búsqueda",
-        "c34_m_sub": "LLM · cada pregunta al modelo", "c34_h_sub": "TOOL · cada herramienta que usa",
-        "c34_b_sub": "RETRIEVER · cada búsqueda en la FAQ",
-        "c34_mensajes": "mensajes", "c34_tokens": "texto usado", "c34_paro": "por qué paró",
-        "c34_args": "con qué datos", "c34_salida": "qué devolvió", "c34_error": "el error",
-        "c34_docs": "qué documentos", "c34_puntaje": "con qué puntaje",
-        "c34_tipos_pie": "Cada paso lleva su etiqueta: así sabes si falló el modelo, la herramienta o la búsqueda",
-        # 3.4 · tachar
-        "c34_llega": "Lo que llega", "c34_texto": "mi key es nvapi-AbCd…",
-        "c34_redactar": "redactar()", "c34_redactar_sub": "plumón negro antes de guardar",
-        "c34_guarda": "Lo que se guarda", "c34_guardado": "mi key es nvapi-",
-        "c34_destino": "Traza y Phoenix", "c34_destino_sub": "sin secretos",
-        "c34_tachar_pie": "Una traza guarda los mensajes completos: si alguien pega su key, ahí se queda",
-        # 3.4 · árbol
-        "c34_t_paso": "Paso", "c34_t_tiempo": "Cuándo y cuánto tardó", "c34_t_ms": "ms",
-        # 3.4 · cuatro bugs
-        "c34_bug1": "La herramienta falla", "c34_bug1_v": "un paso con ✖ y el error exacto",
-        "c34_bug2": "El loop no termina", "c34_bug2_v": "la misma búsqueda en cada paso",
-        "c34_bug3": "Una cita inventada", "c34_bug3_v": "ninguna búsqueda devolvió ese documento",
-        "c34_bug4": "Tardó mucho", "c34_bug4_v": "lo lento es la herramienta, no el modelo",
-        "c34_factura": "buscar_faq «factura de Brev»",
-        # 3.4 · error no es respuesta rota
-        "c34_e1": "La herramienta falló", "c34_e1s": "el error le llega al agente como un dato más",
-        "c34_e2": "El agente siguió", "c34_e2s": "la raíz queda en ✔",
-        "c34_e3": "«No pude verificar tu instancia…»", "c34_e3s": "la respuesta lo dice: eso es lo correcto",
-        # 3.4 · NVIDIA
-        "c34_capa1": "Tu código de agente", "c34_capa2": "El sandbox",
-        "c34_nat_sub": "la caja de herramientas de NVIDIA", "c34_trazas": "trazas",
-        "c34_phoenix_sub": "el mapa del recorrido", "c34_otras": "u otras: Langfuse, LangSmith, Weave",
-        "c34_sandbox": "NemoClaw · sandbox", "c34_agente": "Tu agente",
-        "c34_regs": "Registros de NemoClaw", "c34_regs_sub": "lo que pasó en el cuarto",
-        "c34_msgs": "mensajes", "c34_bloq": "bloqueos de OpenShell", "c34_conv": "conversaciones",
-        "c34_nv_pie": "Hablan el mismo idioma que lo de hoy. Las dos capas las usas desde el Módulo 4.",
-        # 3.4 · avance
-        "c34_a1": "Su traza", "c34_a1s": "en cada respuesta",
-        "c34_a2": "Revisión automática", "c34_a2s": "citas, repeticiones y errores",
-        "c34_a3": "Secretos tachados", "c34_a3s": "un archivo listo para reportar",
-        "c34_mod4": "<strong>Módulo 4:</strong> dos capas. Trazas para tu agente y registros para el sandbox. En la 4.4 trazas las llamadas a Hermes.",
     },
     "en": {
         "modelo": "Model", "llamada": "1 call", "avance": "Soporte NemoClaw",
@@ -339,49 +287,6 @@ T = {
         "c33_a3": "Keeps notes", "c33_a3s": "one draft per subagent",
         "c33_a4": "Checks citations", "c33_a4s": "a trustworthy diagnostic report",
         "c33_mod4": "<strong>Module 4:</strong> you take it to NemoClaw on Brev, with the FAQ in its working folder and inside a sandbox.",
-        "c34_print": "With print", "c34_print_pie": "Loose fragments, no order or timing",
-        "c34_j1": "searching…", "c34_j2": "ok", "c34_j3": "step 2", "c34_j4": "answer: …",
-        "c34_j5": "calling the model", "c34_j6": "error?",
-        "c34_traza": "With a trace", "c34_traza_pie": "Every step in order, with its time and status",
-        "c34_r1": "Question received", "c34_r2": "Model · step 1", "c34_r3": "Tool · Brev status",
-        "c34_r4": "Answer sent",
-        "c34_paquete": "Your parcel", "c34_pq1": "Left the warehouse", "c34_pq2": "Arrived in your city",
-        "c34_pq3": "Held at customs", "c34_pq4": "Delivered",
-        "c34_tag_traza": "trace = the whole history", "c34_tag_span": "span = one line",
-        "c34_tu_agente": "Your agent",
-        "c34_paquete_pie": "OpenTelemetry is the shipping-label format. Phoenix is the map where you see the route.",
-        "k_agente": "Agent", "k_modelo": "Model", "k_herr": "Tool", "k_busq": "Search",
-        "c34_m_sub": "LLM · each question to the model", "c34_h_sub": "TOOL · each tool it uses",
-        "c34_b_sub": "RETRIEVER · each FAQ search",
-        "c34_mensajes": "messages", "c34_tokens": "text used", "c34_paro": "why it stopped",
-        "c34_args": "with what data", "c34_salida": "what it returned", "c34_error": "the error",
-        "c34_docs": "which documents", "c34_puntaje": "with what score",
-        "c34_tipos_pie": "Every step carries its label: that's how you know if the model, the tool or the search failed",
-        "c34_llega": "What comes in", "c34_texto": "my key is nvapi-AbCd…",
-        "c34_redactar": "redactar()", "c34_redactar_sub": "black marker before saving",
-        "c34_guarda": "What gets saved", "c34_guardado": "my key is nvapi-",
-        "c34_destino": "Trace and Phoenix", "c34_destino_sub": "no secrets",
-        "c34_tachar_pie": "A trace stores full messages: if someone pastes their key, there it stays",
-        "c34_t_paso": "Step", "c34_t_tiempo": "When, and how long it took", "c34_t_ms": "ms",
-        "c34_bug1": "The tool fails", "c34_bug1_v": "a step with ✖ and the exact error",
-        "c34_bug2": "The loop never ends", "c34_bug2_v": "the same search at every step",
-        "c34_bug3": "An invented citation", "c34_bug3_v": "no search ever returned that document",
-        "c34_bug4": "It took too long", "c34_bug4_v": "the tool is slow, not the model",
-        "c34_factura": "buscar_faq “Brev invoice”",
-        "c34_e1": "The tool failed", "c34_e1s": "the agent gets the error as one more piece of data",
-        "c34_e2": "The agent kept going", "c34_e2s": "the root stays ✔",
-        "c34_e3": "“I couldn't verify your instance…”", "c34_e3s": "the answer says so: that's correct",
-        "c34_capa1": "Your agent code", "c34_capa2": "The sandbox",
-        "c34_nat_sub": "NVIDIA's toolbox", "c34_trazas": "traces",
-        "c34_phoenix_sub": "the map of the route", "c34_otras": "or others: Langfuse, LangSmith, Weave",
-        "c34_sandbox": "NemoClaw · sandbox", "c34_agente": "Your agent",
-        "c34_regs": "NemoClaw logs", "c34_regs_sub": "what happened in the room",
-        "c34_msgs": "messages", "c34_bloq": "OpenShell blocks", "c34_conv": "conversations",
-        "c34_nv_pie": "They speak the same language as today's work. You use both layers from Module 4.",
-        "c34_a1": "Its trace", "c34_a1s": "with every answer",
-        "c34_a2": "Automatic review", "c34_a2s": "citations, repeats and errors",
-        "c34_a3": "Redacted secrets", "c34_a3s": "a file ready to report",
-        "c34_mod4": "<strong>Module 4:</strong> two layers. Traces for your agent and logs for the sandbox. In 4.4 you trace the calls to Hermes.",
     },
 }
 
@@ -430,50 +335,6 @@ def _avance(t, version, items, nota, tipo="tip"):
     return ('<div class="dg dg-flow">'
             + _card(f'{t["avance"]} {version}', f'<div class="dg-row">{fila}</div>', clase="is-primary", icono="forum")
             + "</div>" + _call(tipo, nota, paso=len(items) + 1))
-
-
-# Árbol de una traza: cada fila (nivel, tipo, etiqueta, nombre, inicio_ms, ms, ok, paso, detalle)
-_TIPOS = {"agente": ("k_agente", "assistant"), "modelo": ("k_modelo", "auto_awesome"),
-          "herr": ("k_herr", "settings"), "busq": ("k_busq", "search")}
-
-
-def _arbol(t, filas, total=None, cabecera=True, clase=""):
-    niveles = [f[0] for f in filas]
-    html_filas = []
-    for i, (n, tipo, nombre, inicio, ms, ok, paso, detalle) in enumerate(filas):
-        resto = niveles[i + 1:]
-
-        def sigue(k):                         # ¿hay otro hermano de nivel k más abajo, antes de subir?
-            for m in resto:
-                if m < k:
-                    return False
-                if m == k:
-                    return True
-            return False
-        guias = "".join(f'<i class="c3-guia" style="--g:{k}"></i>' for k in range(1, n) if sigue(k))
-        if n > 0:
-            guias += f'<i class="c3-codo" style="--g:{n}"></i>'
-            if sigue(n):
-                guias += f'<i class="c3-guia" style="--g:{n}"></i>'
-        clave, ico = _TIPOS[tipo]
-        det = f'<small class="c3-det">{detalle}</small>' if detalle else ""
-        nombre_html = (f'<div class="c3-nombre" style="--n:{n}">{guias}'
-                       f'<span class="c3-kind k-{tipo}"><span class="dg-i">{ico}</span>{t[clave]}</span>'
-                       f'<code>{nombre}</code>{det}</div>')
-        barra = ""
-        if total:
-            izq, ancho = 100 * inicio / total, 100 * ms / total
-            barra = (f'<div class="c3-pista"><span class="c3-barra k-{tipo}" '
-                     f'style="left:{izq:.1f}%;width:max({ancho:.1f}%,4px)"></span></div>')
-        estado = ('<span class="dg-i c3-ok">check_circle</span>' if ok else '<span class="dg-i c3-mal">cancel</span>')
-        html_filas.append(f'<div class="c3-span{" mal" if not ok else ""}"{_p(paso)}>{nombre_html}{barra}'
-                          f'<span class="c3-ms">{ms}</span>{estado}</div>')
-    cab = ""
-    if cabecera:
-        cab = (f'<div class="c3-span c3-cab"><span>{t["c34_t_paso"]}</span>'
-               + (f'<span>{t["c34_t_tiempo"]} · 0 → {total} ms</span>' if total else "")
-               + f'<span class="c3-ms">{t["c34_t_ms"]}</span><span></span></div>')
-    return f'<div class="c3-arbol {clase}{" con-barras" if total else ""}">{cab}{"".join(html_filas)}</div>'
 
 
 # ------------------------------------------------------------------------------------------
@@ -797,134 +658,6 @@ def c33_avance(lang):
                    t["c33_mod4"])
 
 
-# ------------------------------------------------------------------------------------------
-# 3.4 · Observabilidad y trazas
-# ------------------------------------------------------------------------------------------
-def _rastreo(filas, clase=""):
-    """Lista tipo «rastreo de paquete»: (ok, texto, tiempo, extra)."""
-    out = "".join(f'<li class="{"ok" if ok else "mal"}"><span class="dg-i">{"check_circle" if ok else "cancel"}</span>'
-                  f'<span>{tx}{ex}</span><small>{tm}</small></li>' for ok, tx, tm, ex in filas)
-    return f'<ul class="c3-rastreo {clase}">{out}</ul>'
-
-
-def c34_print_vs_traza(lang):
-    t = T[lang]
-    sueltos = "".join(f'<span class="c3-suelto s{i}">{t[k]}</span>'
-                      for i, k in enumerate(("c34_j1", "c34_j2", "c34_j3", "c34_j4", "c34_j5", "c34_j6")))
-    izq = _card(t["c34_print"], f'<div class="c3-revuelto">{sueltos}</div>' + pie(t["c34_print_pie"], icono="quiz"),
-                paso=1, icono="terminal")
-    der = _card(t["c34_traza"], _rastreo([(True, t["c34_r1"], "0 ms", ""), (True, t["c34_r2"], "310 ms", ""),
-                                          (False, t["c34_r3"], "503", ""), (True, t["c34_r4"], "952 ms", "")])
-                + pie(t["c34_traza_pie"], icono="timeline"), paso=2, clase="is-primary", icono="timeline")
-    return f'<div class="dg c3-two">{izq}{der}</div>'
-
-
-def c34_paquete(lang):
-    t = T[lang]
-    tag_span = f'<span class="c3-tag" data-paso="2">{t["c34_tag_span"]}</span>'
-    paquete = (f'<div class="dg-card" data-paso="1"><h3><span class="dg-i">box</span>{t["c34_paquete"]}'
-               f'<span class="c3-tag" data-paso="2">{t["c34_tag_traza"]}</span></h3>'
-               + _rastreo([(True, t["c34_pq1"], "9:02", ""), (True, t["c34_pq2"], "14:30", tag_span),
-                           (False, t["c34_pq3"], "16:10", ""), (True, t["c34_pq4"], "18:45", "")]) + "</div>")
-    filas = [(0, "agente", "agente · soporte", 0, 936, True, None, ""),
-             (1, "modelo", "llm · paso 1", 0, 310, True, None, ""),
-             (1, "herr", "tool · buscar_faq", 0, 4, True, None, ""),
-             (2, "busq", "retriever · buscar_faq", 0, 4, True, None, ""),
-             (1, "modelo", "llm · paso 2", 0, 311, True, None, "")]
-    agente = (f'<div class="dg-card is-primary" data-paso="3"><h3><span class="dg-i">assistant</span>{t["c34_tu_agente"]}</h3>'
-              + _arbol(t, filas, cabecera=False, clase="compacto") + "</div>")
-    return (f'<div class="dg c3-paquete">{paquete}<div class="dg-arrow h" data-paso="3"></div>{agente}</div>'
-            + pie(t["c34_paquete_pie"], paso=4, icono="insights"))
-
-
-def c34_tipos(lang):
-    t = T[lang]
-    datos = [("auto_awesome", "k_modelo", "c34_m_sub", ("c34_mensajes", "c34_tokens", "c34_paro"), "k-modelo"),
-             ("settings", "k_herr", "c34_h_sub", ("c34_args", "c34_salida", "c34_error"), "k-herr"),
-             ("search", "k_busq", "c34_b_sub", ("c34_docs", "c34_puntaje"), "k-busq")]
-    fila = "".join(nodo(ic, t[k], t[s], clase=f"c3-tipo {c}", paso=i + 1, extra=chips([t[x] for x in xs]))
-                   for i, (ic, k, s, xs, c) in enumerate(datos))
-    return f'<div class="dg dg-row">{fila}</div>' + pie(t["c34_tipos_pie"], paso=4, icono="label")
-
-
-def c34_tachar(lang):
-    t = T[lang]
-    antes = f'<span class="c3-texto">{t["c34_texto"]}</span>'
-    despues = f'<span class="c3-texto">{t["c34_guardado"]}<span class="c3-tachon">AbCd…</span></span>'
-    return (_fila(nodo("chat", t["c34_llega"], extra=antes, clase="warn", paso=1), flecha("h", paso=2),
-                  nodo("brush", t["c34_redactar"], t["c34_redactar_sub"], clase="is-primary", paso=2), flecha("h", paso=3),
-                  nodo("check_circle", t["c34_guarda"], extra=despues, clase="ok", paso=3), flecha("h", paso=4),
-                  nodo("storage", t["c34_destino"], t["c34_destino_sub"], paso=4), clase="dg c3-tachar")
-            + pie(t["c34_tachar_pie"], paso=5, icono="warning"))
-
-
-def c34_arbol(lang):
-    t = T[lang]
-    filas = [(0, "agente", "agente · soporte", 0, 936, True, 1, ""),
-             (1, "modelo", "llm · paso 1", 0, 310, True, 2, ""),
-             (1, "herr", "tool · estado_laboratorio", 310, 0, True, 2, ""),
-             (1, "modelo", "llm · paso 2", 311, 311, True, 3, ""),
-             (1, "herr", "tool · buscar_faq", 622, 4, True, 3, ""),
-             (2, "busq", "retriever · buscar_faq", 622, 4, True, 3, "conexion-laboratorio.md · 0.408"),
-             (1, "modelo", "llm · paso 3", 625, 311, True, 4, "")]
-    return f'<div class="dg">{_arbol(t, filas, total=936)}</div>'
-
-
-def c34_cuatro_bugs(lang):
-    t = T[lang]
-    v1 = ('<div class="c3-mini-span mal"><span class="dg-i">cancel</span><code>tool · estado_laboratorio</code></div>'
-          '<code class="c3-err">503 Service Unavailable</code>')
-    v2 = ('<div class="c3-repite">' + "".join(f'<code>{t["c34_factura"]}</code>' for _ in range(3))
-          + '<span class="dg-chip">× 5</span></div>')
-    v3 = '<code class="c3-err">[brev.md#la-gpu-es-gratis-para-siempre]</code>'
-    v4 = ('<div class="c3-barras mini">'
-          f'<div class="c3-bar-fila modelo"><span class="c3-bar-lab">{t["k_modelo"]}</span><div class="c3-bar-pista">'
-          '<span class="c3-bar" style="width:14%"></span><b>0.3 s</b></div></div>'
-          f'<div class="c3-bar-fila lento"><span class="c3-bar-lab">{t["k_herr"]}</span><div class="c3-bar-pista">'
-          '<span class="c3-bar" style="width:70%"></span><b>1.5 s</b></div></div></div>')
-    bugs = [("error", "c34_bug1", v1), ("replay", "c34_bug2", v2), ("bookmark", "c34_bug3", v3), ("timer", "c34_bug4", v4)]
-    cards = "".join(f'<div class="dg-card c3-bug"{_p(i + 1)}><h3><span class="dg-i">{ic}</span>{t[k]}</h3>{v}'
-                    f'<small class="c3-bug-v"><span class="dg-i">visibility</span>{t[k + "_v"]}</small></div>'
-                    for i, (ic, k, v) in enumerate(bugs))
-    return f'<div class="dg c3-bugs">{cards}</div>'
-
-
-def c34_error_ok(lang):
-    t = T[lang]
-    filas = [(0, "agente", "agente · soporte", 0, 952, True, None, ""),
-             (1, "modelo", "llm · paso 1", 0, 310, True, None, ""),
-             (1, "herr", "tool · estado_laboratorio", 0, 1, False, None, "503 Service Unavailable"),
-             (1, "modelo", "llm · paso 2", 0, 312, True, None, ""),
-             (1, "herr", "tool · buscar_faq", 0, 4, True, None, ""),
-             (2, "busq", "retriever · buscar_faq", 0, 4, True, None, ""),
-             (1, "modelo", "llm · paso 3", 0, 318, True, None, "")]
-    arbol = f'<div class="dg-card">{_arbol(t, filas, cabecera=False, clase="compacto")}</div>'
-    leyenda = (f'<div class="dg-legend-row c3-l-mal" data-paso="1"><span class="dg-ico">cancel</span>'
-               f'<div><b>{t["c34_e1"]}</b><small>{t["c34_e1s"]}</small></div></div>'
-               f'<div class="dg-legend-row is-primary" data-paso="2"><span class="dg-ico">check_circle</span>'
-               f'<div><b>{t["c34_e2"]}</b><small>{t["c34_e2s"]}</small></div></div>'
-               f'<div class="dg-legend-row is-primary" data-paso="3"><span class="dg-ico">chat</span>'
-               f'<div><b>{t["c34_e3"]}</b><small>{t["c34_e3s"]}</small></div></div>')
-    return f'<div class="dg c3-split">{arbol}<div class="dg-legend">{leyenda}</div></div>'
-
-
-def c34_nvidia(lang):
-    t = T[lang]
-    capa1 = (nodo("tune", "NeMo Agent Toolkit", t["c34_nat_sub"], clase="is-primary") + flecha("h", t["c34_trazas"])
-             + nodo("insights", "Phoenix", t["c34_phoenix_sub"], clase="ok", extra=chips([t["c34_otras"]])))
-    capa2 = (cuarto(t["c34_sandbox"], nodo("assistant", t["c34_agente"], clase="mini")) + flecha("h")
-             + nodo("history", t["c34_regs"], t["c34_regs_sub"],
-                    extra=chips([t["c34_msgs"], t["c34_bloq"], t["c34_conv"]])))
-    return ('<div class="dg c3-carriles libre">' + _carril(t["c34_capa1"], "code", capa1, paso=1)
-            + _carril(t["c34_capa2"], "lock", capa2, paso=2) + "</div>" + pie(t["c34_nv_pie"], paso=3, icono="verified"))
-
-
-def c34_avance(lang):
-    t = T[lang]
-    return _avance(t, "v3.4", [("timeline", t["c34_a1"], t["c34_a1s"]), ("verified", t["c34_a2"], t["c34_a2s"]),
-                               ("brush", t["c34_a3"], t["c34_a3s"])], t["c34_mod4"])
-
-
 DIAGRAMAS = {
     # 3.1
     "c31-loop-vs-flujo": c31_loop_vs_flujo,
@@ -954,14 +687,4 @@ DIAGRAMAS = {
     "c33-no-es-sandbox": c33_no_es_sandbox,
     "c33-costo": c33_costo,
     "c33-avance": c33_avance,
-    # 3.4
-    "c34-print-vs-traza": c34_print_vs_traza,
-    "c34-paquete": c34_paquete,
-    "c34-tipos": c34_tipos,
-    "c34-tachar": c34_tachar,
-    "c34-arbol": c34_arbol,
-    "c34-cuatro-bugs": c34_cuatro_bugs,
-    "c34-error-ok": c34_error_ok,
-    "c34-nvidia": c34_nvidia,
-    "c34-avance": c34_avance,
 }

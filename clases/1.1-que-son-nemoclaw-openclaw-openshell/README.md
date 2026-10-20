@@ -33,7 +33,7 @@ Después, completa en una hoja estas tres frases con tus palabras: "OpenClaw es 
 
 - Explicar con tus palabras qué es un agente de IA: un modelo dentro de un loop, con herramientas y memoria.
 - Distinguir OpenClaw (el agente), OpenShell (el sandbox y el gateway) y NemoClaw (el blueprint y la CLI que los une).
-- Saber qué vas a construir en las 20 clases y qué necesitas para cada módulo.
+- Saber qué vas a construir en las 19 clases y qué necesitas para cada módulo.
 
 ## Antes de empezar
 
@@ -101,7 +101,7 @@ A lo largo del curso construyes **Soporte NemoClaw**, un agente que responde dud
 | 5 | Analizas sus riesgos y escribes la política de su sandbox |
 | 6 | Armas tu biblioteca de skills y ves cómo correrlo en tu máquina |
 
-### El mapa de las 20 clases
+### El mapa de las 19 clases
 
 | Módulo | Clase | Práctica |
 |---|---|---|
@@ -114,7 +114,6 @@ A lo largo del curso construyes **Soporte NemoClaw**, un agente que responde dud
 | **3 · Coordina, fundamenta y planea** | 3.1 Enruta trabajo entre varias llamadas | Notebook |
 | | 3.2 RAG para fundamentar en tus fuentes | Notebook |
 | | 3.3 Agentes profundos que crean subagentes | Notebook |
-| | 3.4 Observa y depura tu agente con trazas | Notebook |
 | **4 · Lleva tu agente a NemoClaw** | 4.1 Levanta el laboratorio NemoClaw en Brev | Laboratorio |
 | | 4.2 Explora el gateway y el workspace de OpenClaw | Laboratorio |
 | | 4.3 Agentes en operación continua y programada | Laboratorio |
@@ -140,11 +139,11 @@ Qué necesitas en cada etapa:
 3. Baja a **"Cómo funciona el curso"** y ubica las tres etapas: tu acceso a modelos (una API key `nvapi-` gratuita, lo único que necesitas en los módulos 1 a 3), los notebooks en Colab o en tu máquina, y el laboratorio real en Brev desde el Módulo 4.
 4. Mira **"El stack en un vistazo"**: una tarjeta por pieza (OpenClaw, el agente; OpenShell, el sandbox; NemoClaw, el blueprint) y un diagrama que muestra que tu API key se queda fuera del sandbox. Compáralo con la tabla de "Las tres piezas" de arriba.
 5. Lee **"Proyecto del curso: «Soporte NemoClaw»"**: ahí ves cómo crece el agente del Módulo 2 al 6.
-6. Baja a **"Clase por clase"**: 6 módulos y 20 clases. Cada tarjeta trae la duración, lo que vas a aprender y sus enlaces: **Guía** (la página de la clase, como esta), **Diapositivas** y, según la clase, **Colab** (el notebook, que se abre en tu navegador) o **Recetario** (las recetas de comandos del laboratorio). Compara con la tabla de arriba y ubica la clase 1.3: es la primera con botón de Colab.
+6. Baja a **"Clase por clase"**: 6 módulos y 19 clases. Cada tarjeta trae la duración, lo que vas a aprender y sus enlaces: **Guía** (la página de la clase, como esta), **Diapositivas** y, según la clase, **Colab** (el notebook, que se abre en tu navegador) o **Recetario** (las recetas de comandos del laboratorio). Compara con la tabla de arriba y ubica la clase 1.3: es la primera con botón de Colab.
 7. Lee **"Los errores que más vas a ver"**. Ahí está la regla de oro: ante un 401 o 403, revisa tu key y tu cuenta; ante un 404 o 410, revisa el nombre del modelo; ante un 429, espera unos segundos y reintenta.
 8. Ubica las páginas de apoyo: el **Glosario** (botón de arriba), **Tu laboratorio en Brev** (el enlace «plan del laboratorio», en la primera sección: cuánto cuesta y cómo hacer que te alcance el crédito) y las **Preguntas frecuentes**, con más de 50 casos resueltos. Guarda la portada en tus marcadores.
 
-Deberías ver: arriba, el título del curso con los botones "Empieza con la clase 1.1", "Consigue tu API key", "Laboratorio en Brev", "Preguntas frecuentes" y "Glosario", y la línea "6 módulos · 20 clases".
+Deberías ver: arriba, el título del curso con los botones "Empieza con la clase 1.1", "Consigue tu API key", "Laboratorio en Brev", "Preguntas frecuentes" y "Glosario", y la línea "6 módulos · 19 clases".
 
 ### 2. Recorre el repositorio de NemoClaw
 

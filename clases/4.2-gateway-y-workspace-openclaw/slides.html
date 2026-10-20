@@ -3,20 +3,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>4.2 Explora el gateway y el workspace de OpenClaw · Seguridad de agentes con OpenShell y NemoClaw</title>
 <link rel="preload" href="../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navegar · N notas · F pantalla completa</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Módulo 4 · Clase 4.2</span><h1>Explora el gateway y el workspace de OpenClaw</h1><p class="lead">Lleva tu agente a NemoClaw</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈8 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span></p></section>
-<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""></div><span class="tag">Módulo 4 · Clase 4.2</span><h2>La clase pasada aprendimos</h2><p class="lead">Clase 4.1 · Levanta el laboratorio NemoClaw en Brev</p><ul><li>Tu laboratorio NemoClaw corre en Brev y lo abres con el botón NemoClaw</li><li>Configuraste tu agente en el navegador y conoces los 4 botones del tablero</li><li>Sabes cuánto cuesta (≈0.25 USD/h) y cuándo usar Stop o Delete</li></ul></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-4.svg" alt=""><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Módulo 4 · Clase 4.2</span><h1>Explora el gateway y el workspace de OpenClaw</h1><p class="lead">Lleva tu agente a NemoClaw</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span></p></section>
+<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-4.svg" alt=""><img src="../../assets/brand/forma-1.svg" alt=""></div><span class="tag">Módulo 4 · Clase 4.2</span><h2>La clase pasada aprendimos</h2><p class="lead">Clase 4.1 · Levanta el laboratorio NemoClaw en Brev</p><ul><li>Tu laboratorio NemoClaw corre en Brev y lo abres con el botón NemoClaw</li><li>Configuraste tu agente en el navegador y conoces los 4 botones del tablero</li><li>Sabes cuánto cuesta (≈0.25 USD/h) y cuándo usar Stop o Delete</li></ul></section>
 <section class="slide"><span class="tag">Módulo 4 · Clase 4.2</span><h2>Las tres piezas de OpenClaw</h2>
 <div class="dg dg-row"><div class="dg-node " data-paso="1"><span class="dg-ico">person</span><b>Tú</b><small>escribes un mensaje</small></div><div class="dg-arrow h " data-paso="2"></div><div class="dg-node " data-paso="2"><span class="dg-ico">domain</span><b>Gateway</b><small>la recepción del edificio</small><div class="dg-chips "><span class="dg-chip">Recibe cada turno</span><span class="dg-chip">Guarda el historial</span></div></div><div class="dg-arrow h " data-paso="3"></div><div class="dg-room " data-paso="3"><span class="dg-label"><span class="dg-i">lock</span>Sandbox · cuarto con cerradura</span><div class="dg-row tight"><div class="dg-node is-primary"><span class="dg-ico">assistant</span><b>OpenClaw</b><small>el asistente</small></div><div class="dg-node ok" data-paso="4"><span class="dg-ico">folder_open</span><b>Workspace</b><small>su escritorio, con sus papeles</small></div></div></div></div><p class="dg-note" data-paso="5"><span class="dg-i">description</span>Tu agente es lo que dicen los papeles de su escritorio</p><aside class="notes"><p>El edificio de oficinas. Clic 1: tú escribes. Clic 2: la recepción (gateway) recibe cada turno y guarda las conversaciones. Clic 3: el cuarto con cerradura y el asistente adentro. Clic 4: su escritorio (workspace). Clic 5: la idea de la clase, el directorio es la configuración. Hay dos gateways: el de OpenShell en el host (puerto 18080, solo local, ciclo de vida del sandbox; se ve con openshell gateway info) y el de OpenClaw dentro del sandbox (18789, el agente y su chat). Hoy hablamos del de OpenClaw.</p></aside></section>
 <section class="slide"><span class="tag">Módulo 4 · Clase 4.2</span><h2>El workspace, archivo por archivo</h2>
@@ -50,8 +50,8 @@ nemoclaw my-assistant agent --session-key soul-42 -m &#x27;¿Quien eres?&#x27;</
 <p class="lead">Tu agente ya es Soporte NemoClaw.</p>
 <ul><li>En <code>SOUL.md</code>: a quién ayuda, en qué idioma responde y qué nunca hace</li><li>En <code>MEMORY.md</code>: una preferencia, comprobada en el archivo</li><li>Repite la pregunta del 401 de la clase 4.1 y anota qué cambió</li></ul>
 <p>Le falta conocimiento: en la clase 4.3 llega la skill con la FAQ.</p><aside class="notes"><p>Copiar la sección de SOUL.md en las notas del proyecto. La preferencia de memoria del proyecto es soporte-pref-01: citar el archivo de la FAQ. La pregunta del 401 se repite con una sesión nueva (linea-base-42).</p></aside></section>
-<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""></div><span class="tag">Módulo 4 · Clase 4.2</span><h2>En la próxima clase aprenderemos</h2><p class="prox">Clase 4.3 · Agentes en operación continua y programada</p><ul><li>Instalar una skill y hacer que el agente la use</li><li>Programar una tarea que corre sin que nadie escriba en el chat</li><li>Los 3 controles: sesión, directiva y disparador</li></ul></section>
+<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-4.svg" alt=""><img src="../../assets/brand/forma-1.svg" alt=""></div><span class="tag">Módulo 4 · Clase 4.2</span><h2>En la próxima clase aprenderemos</h2><p class="prox">Clase 4.3 · Agentes en operación continua y programada</p><ul><li>Instalar una skill y hacer que el agente la use</li><li>Programar una tarea que corre sin que nadie escriba en el chat</li><li>Los 3 controles: sesión, directiva y disparador</li></ul></section>
 <div class="foot"><span><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Guía de la clase</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../assets/slides.js?v=293a8307"></script>
+<script src="../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

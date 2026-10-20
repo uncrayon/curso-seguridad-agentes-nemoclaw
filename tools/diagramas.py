@@ -77,7 +77,7 @@ T = {
         "net": "Internet", "net_sub": "bloqueado, salvo la lista permitida",
         # proyecto
         "m": "Módulo", "p2": "Conversa, usa herramientas y busca en la FAQ",
-        "p3": "Clasifica, cita sus fuentes, reparte trabajo y deja trazas",
+        "p3": "Clasifica, cita sus fuentes y reparte trabajo",
         "p4": "Vive en un laboratorio real y trabaja solo",
         "p5": "Lo revisas y lo encierras con reglas", "p6": "Le das recetas nuevas y lo llevas a tu casa",
         "proy": "Soporte NemoClaw: un agente que responde dudas del curso",
@@ -139,7 +139,7 @@ T = {
         "nv": "NVIDIA model", "nv_sub": "build.nvidia.com · key added outside",
         "net": "Internet", "net_sub": "blocked, except the allow list",
         "m": "Module", "p2": "Talks, uses tools and searches the FAQ",
-        "p3": "Classifies, cites sources, splits work and leaves traces",
+        "p3": "Classifies, cites sources and splits work",
         "p4": "Lives in a real lab and works on its own",
         "p5": "You review it and lock it in with rules", "p6": "New recipes, and you take it home",
         "proy": "Soporte NemoClaw: an agent that answers course questions",

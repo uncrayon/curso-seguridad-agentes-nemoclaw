@@ -3,19 +3,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>1.3 Configura rutas de modelo y diagnostica errores · Seguridad de agentes con OpenShell y NemoClaw</title>
 <link rel="preload" href="../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navegar · N notas · F pantalla completa</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Módulo 1 · Clase 1.3</span><h1>Configura rutas de modelo y diagnostica errores</h1><p class="lead">Prepara tu entorno de agentes</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈7 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Configurar rutas de modelo; diagnosticar errores 401, 403, 404, 429 y 5xx</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Módulo 1 · Clase 1.3</span><h1>Configura rutas de modelo y diagnostica errores</h1><p class="lead">Prepara tu entorno de agentes</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Configurar rutas de modelo; diagnosticar errores 401, 403, 404, 429 y 5xx</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""></div><span class="tag">Módulo 1 · Clase 1.3</span><h2>La clase pasada aprendimos</h2><p class="lead">Clase 1.2 · Crea tu cuenta y tu API key en NVIDIA Build</p><ul><li>Tienes una cuenta en NVIDIA Build y una API key nvapi-</li><li>La key vive en una variable de entorno o un .env, nunca en el código</li><li>Hiciste tu primera llamada con curl y conoces los límites de la cuenta gratuita</li></ul></section>
 <section class="slide"><span class="tag">Módulo 1 · Clase 1.3</span><h2>Casi todos los problemas no son de agentes</h2>
 <div class="dg dg-row"><div class="c13-causas"><div class="c13-causa" data-paso="1"><span class="dg-ico">key</span><div><b>Key mal copiada</b><small>falta un pedazo o sobra un espacio</small></div></div><div class="c13-causa" data-paso="2"><span class="dg-ico">edit</span><div><b>Modelo mal escrito</b><small>una letra de más</small></div></div><div class="c13-causa" data-paso="3"><span class="dg-ico">speed</span><div><b>Límite de uso</b><small>demasiadas preguntas seguidas</small></div></div></div><div class="dg-arrow h " data-paso="4"></div><div class="dg-node is-primary big" data-paso="4"><span class="dg-ico">account_balance</span><b>Un aviso con número</b><small>como los de un cajero automático</small><div class="dg-chips c13-codigos"><span class="dg-chip">401</span><span class="dg-chip">404</span><span class="dg-chip">429</span></div></div></div><p class="dg-note" data-paso="5"><span class="dg-i">verified</span>Hoy los provocamos a propósito y dejamos tu entorno verificado</p><aside class="notes"><p>Clics 1 a 3: las tres causas de casi todo (key mal copiada, ID de modelo con un error, límite de uso). Clic 4: NVIDIA responde con un aviso con número, como un cajero automático. Clic 5: hoy los provocamos a propósito y dejamos el entorno verificado antes del Módulo 2. El objetivo es que nadie vuelva a entrar en pánico con un 401.</p></aside></section>
@@ -39,5 +39,5 @@
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""></div><span class="tag">Módulo 1 · Clase 1.3</span><h2>En la próxima clase aprenderemos</h2><p class="prox">Clase 2.1 · De una sola llamada al loop de agente</p><ul><li>Qué separa una llamada a un modelo de un agente</li><li>El ciclo observar → decidir → actuar y su condición de parada</li><li>Por qué el modelo no tiene memoria y cómo se la damos</li></ul></section>
 <div class="foot"><span><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Guía de la clase</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../assets/slides.js?v=293a8307"></script>
+<script src="../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

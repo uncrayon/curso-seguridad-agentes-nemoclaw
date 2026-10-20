@@ -3,19 +3,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>2.1 From a single call to the agent loop · Securing Agents with OpenShell and NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 2 · Class 2.1</span><h1>From a single call to the agent loop</h1><p class="lead">Build the basic agent loop</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Build a basic agent loop</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 2 · Class 2.1</span><h1>From a single call to the agent loop</h1><p class="lead">Build the basic agent loop</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Build a basic agent loop</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><span class="tag">Module 2 · Class 2.1</span><h2>Last class we learned</h2><p class="lead">Class 1.3 · Configure model routes and diagnose errors</p><ul><li>You configured the chat and embedding routes</li><li>Your setup-check notebook passes (or you know why it doesn't)</li><li>You know what each API error means and what to do about it</li></ul></section>
 <section class="slide"><span class="tag">Module 2 · Class 2.1</span><h2>A model is not an agent</h2>
 <div class="dg dg-two"><div class="dg-card" data-paso="1"><h3>A call to a model</h3><div class="dg-col"><div class="dg-chips "><span class="dg-chip">Text in</span></div><div class="dg-arrow v "></div><div class="dg-node "><span class="dg-ico">auto_awesome</span><b>Model</b></div><div class="dg-arrow v "></div><div class="dg-chips "><span class="dg-chip">Text out</span></div></div><p class="dg-note"><span class="dg-i">history</span>Answers once and forgets</p></div><div class="dg-card is-primary" data-paso="2"><h3>An agent</h3><div class="dg-loop"><div class="dg-loop-ring"></div><div class="dg-loop-step s0"><span class="dg-ico">visibility</span><b>Observe</b></div><div class="dg-loop-step s1"><span class="dg-ico">insights</span><b>Decide</b></div><div class="dg-loop-step s2"><span class="dg-ico">bolt</span><b>Act</b></div><div class="dg-loop-step s3"><span class="dg-ico">flag</span><b>Stop?</b></div><div class="dg-loop-center"><div class="dg-node mini"><span class="dg-ico">auto_awesome</span><b>Model</b></div></div></div><div class="dg-chips dg-pop"><span class="dg-chip"><span class="dg-i">settings</span>Tools</span><span class="dg-chip"><span class="dg-i">edit_note</span>Memory</span></div><p class="dg-note"><span class="dg-i">replay</span>Repeats until the task is done</p></div></div>
@@ -40,5 +40,5 @@
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><span class="tag">Module 2 · Class 2.1</span><h2>Next class we'll learn</h2><p class="prox">Class 2.2 · Reasoning with the ReAct pattern</p><ul><li>The ReAct pattern: reason, act, observe, repeat</li><li>How finish_reason tells the loop what to do</li><li>Build a ReAct loop from scratch with one tool</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=293a8307"></script>
+<script src="../../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

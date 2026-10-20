@@ -3,19 +3,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>3.3 Deep agents that spawn subagents · Securing Agents with OpenShell and NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 3 · Class 3.3</span><h1>Deep agents that spawn subagents</h1><p class="lead">Coordinate, ground and plan</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Coordinate subagents with a planner</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 3 · Class 3.3</span><h1>Deep agents that spawn subagents</h1><p class="lead">Coordinate, ground and plan</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Coordinate subagents with a planner</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><span class="tag">Module 3 · Class 3.3</span><h2>Last class we learned</h2><p class="lead">Class 3.2 · RAG to ground answers in your sources</p><ul><li>RAG = index, retrieve, and generate with the passages cited</li><li>Embeddings are requested with input_type query or passage</li><li>Retrieval is one more tool the agent decides to use</li></ul></section>
 <section class="slide"><span class="tag">Module 3 · Class 3.3</span><h2>Why a single context breaks</h2>
 <div class="dg c3-split"><div class="dg-card c3-escritorio"><h3><span class="dg-i">table</span>A single desk</h3><div class="c3-pila"><span class="c3-papel ">Instructions</span><span class="c3-papel ">The 401 report</span><span class="c3-papel tenue">Search: key</span><span class="c3-papel tenue">Result: key</span><span class="c3-papel tenue">Search: instance</span><span class="c3-papel tenue">Result: instance</span><span class="c3-papel ">Search: cookie</span><span class="c3-papel ">Result: cookie</span><span class="c3-papel desborde">+ …</span></div></div><div class="dg-legend"><div class="dg-legend-row c3-l-mal" data-paso="1"><span class="dg-ico">height</span><div><b>It no longer fits</b><small>the desk overflows</small></div></div><div class="dg-legend-row c3-l-mal" data-paso="2"><span class="dg-ico">visibility_off</span><div><b>The middle gets lost</b><small>it fits, but the model barely notices it</small></div></div><div class="dg-legend-row c3-l-mal" data-paso="3"><span class="dg-ico">swap_vert</span><div><b>One topic muddies another</b><small>the key stuff confuses the cookie stuff</small></div></div></div></div>
@@ -43,8 +43,8 @@
 <p class="lead">Optional: all of this is in the class notebook, ready for ▶.</p><aside class="notes"><p>For people who code: ejecutar_subagente builds this list from scratch for each subagent; escribir_archivo rejects any path outside /borradores/&lt;id&gt;.md.</p></aside></section>
 <section class="slide"><span class="tag">Module 3 · Class 3.3</span><h2>Project progress</h2>
 <div class="dg dg-flow"><div class="dg-card is-primary"><h3><span class="dg-i">forum</span>Soporte NemoClaw v3.3</h3><div class="dg-row"><div class="dg-node " data-paso="1"><span class="dg-ico">edit_note</span><b>Plans</b><small>splits the report into parts</small></div><div class="dg-node " data-paso="2"><span class="dg-ico">groups</span><b>Delegates</b><small>subagents with their own desk</small></div><div class="dg-node " data-paso="3"><span class="dg-ico">description</span><b>Keeps notes</b><small>one draft per subagent</small></div><div class="dg-node " data-paso="4"><span class="dg-ico">verified</span><b>Checks citations</b><small>a trustworthy diagnostic report</small></div></div></div></div><div class="call tip" data-paso="5"><p><strong>Module 4:</strong> you take it to NemoClaw on Brev, with the FAQ in its working folder and inside a sandbox.</p></div><aside class="notes"><p>One click per new Soporte NemoClaw capability. Click 5: Module 4, where you take it to NemoClaw on Brev; the FAQ goes in the workspace and the soporte-nemoclaw skill runs in a sandbox. Your agent routes, grounds itself and plans; now it needs a safe place to live.</p></aside></section>
-<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><span class="tag">Module 3 · Class 3.3</span><h2>Next class we'll learn</h2><p class="prox">Class 3.4 · Observe and debug your agent with traces</p><ul><li>What a trace is and why print isn't enough to debug an agent</li><li>Instrument your agent with OpenTelemetry and view it in Phoenix</li><li>Find in the trace the failing tool, the stuck loop and the made-up citation</li></ul></section>
+<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><span class="tag">Module 3 · Class 3.3</span><h2>Next class we'll learn</h2><p class="prox">Class 4.1 · Launch the NemoClaw lab on Brev</p><ul><li>Launch the NemoClaw launchable on Brev with your coupon</li><li>Set up your agent in the browser and open its dashboard</li><li>Look after your credit: what it costs and when to use Stop or Delete</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=293a8307"></script>
+<script src="../../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

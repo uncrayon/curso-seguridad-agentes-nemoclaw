@@ -3,19 +3,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>3.1 Enruta trabajo entre varias llamadas · Seguridad de agentes con OpenShell y NemoClaw</title>
 <link rel="preload" href="../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navegar · N notas · F pantalla completa</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Módulo 3 · Clase 3.1</span><h1>Enruta trabajo entre varias llamadas</h1><p class="lead">Coordina, fundamenta y planea</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Enrutar subtareas entre llamadas a modelos</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Módulo 3 · Clase 3.1</span><h1>Enruta trabajo entre varias llamadas</h1><p class="lead">Coordina, fundamenta y planea</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Enrutar subtareas entre llamadas a modelos</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""></div><span class="tag">Módulo 3 · Clase 3.1</span><h2>La clase pasada aprendimos</h2><p class="lead">Clase 2.3 · Convierte funciones en herramientas</p><ul><li>Una herramienta es un contrato: nombre, descripción, esquema y resultado en texto</li><li>La descripción decide cuándo el modelo la usa</li><li>Los argumentos se validan antes de ejecutar y los errores vuelven al modelo</li></ul></section>
 <section class="slide"><span class="tag">Módulo 3 · Clase 3.1</span><h2>¿Cuándo un loop no alcanza?</h2>
 <div class="c3-ticket" data-paso="1"><span class="dg-i">confirmation_number</span>«Me sale 401 en el laboratorio después de reanudar Brev»</div><div class="dg c3-two"><div class="dg-card " data-paso="2"><h3><span class="dg-i">replay</span>Loop: el modelo decide</h3><div class="dg-row "><div class="dg-node mini"><span class="dg-ico">visibility</span><b>Paso 1</b><small>mira el resultado</small></div><div class="dg-arrow h "></div><div class="dg-node mini warn"><span class="dg-ico">quiz</span><b>¿Y ahora?</b></div><div class="dg-arrow h "></div><div class="dg-node mini warn"><span class="dg-ico">quiz</span><b>¿Y ahora?</b></div></div><p class="dg-note"><span class="dg-i">replay</span>Ideal si el paso 2 depende del 1</p></div><div class="dg-card is-primary" data-paso="3"><h3><span class="dg-i">code</span>Flujo: tu código decide</h3><div class="dg-row "><div class="dg-node mini ok"><span class="dg-ico">key</span><b>Key</b></div><div class="dg-arrow h "></div><div class="dg-node mini ok"><span class="dg-ico">computer</span><b>Instancia</b></div><div class="dg-arrow h "></div><div class="dg-node mini ok"><span class="dg-ico">cookie</span><b>Sesión</b></div></div><p class="dg-note"><span class="dg-i">check_circle</span>Ideal si ya sabes qué revisar</p></div></div><aside class="notes"><p>Clic 1: el ticket del proyecto. Clic 2: el loop de la clase 2.2, donde el modelo descubre qué revisar un paso a la vez. Clic 3: el flujo de trabajo, donde tu código ya sabe que toca revisar key, instancia y sesión. La pregunta de la clase: ¿quién decide la forma del trabajo, el modelo o tu código?</p></aside></section>
@@ -48,5 +48,5 @@ with ThreadPoolExecutor(max_workers=3) as pool:     # fan-out: todas las ramas a
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""></div><span class="tag">Módulo 3 · Clase 3.1</span><h2>En la próxima clase aprenderemos</h2><p class="prox">Clase 3.2 · RAG para fundamentar en tus fuentes</p><ul><li>Indexar documentos con embeddings</li><li>Recuperar los fragmentos relevantes y citarlos</li><li>Convertir la búsqueda en una herramienta del agente</li></ul></section>
 <div class="foot"><span><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Guía de la clase</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../assets/slides.js?v=293a8307"></script>
+<script src="../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

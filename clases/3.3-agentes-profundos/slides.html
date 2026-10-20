@@ -3,19 +3,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>3.3 Agentes profundos que crean subagentes · Seguridad de agentes con OpenShell y NemoClaw</title>
 <link rel="preload" href="../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navegar · N notas · F pantalla completa</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Módulo 3 · Clase 3.3</span><h1>Agentes profundos que crean subagentes</h1><p class="lead">Coordina, fundamenta y planea</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Coordinar subagentes con un planificador</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Módulo 3 · Clase 3.3</span><h1>Agentes profundos que crean subagentes</h1><p class="lead">Coordina, fundamenta y planea</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Coordinar subagentes con un planificador</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""></div><span class="tag">Módulo 3 · Clase 3.3</span><h2>La clase pasada aprendimos</h2><p class="lead">Clase 3.2 · RAG para fundamentar en tus fuentes</p><ul><li>RAG = indexar, recuperar y generar con los fragmentos citados</li><li>Los embeddings se piden con input_type query o passage</li><li>La recuperación es una herramienta más que el agente decide usar</li></ul></section>
 <section class="slide"><span class="tag">Módulo 3 · Clase 3.3</span><h2>Por qué un solo contexto se rompe</h2>
 <div class="dg c3-split"><div class="dg-card c3-escritorio"><h3><span class="dg-i">table</span>Un solo escritorio</h3><div class="c3-pila"><span class="c3-papel ">Instrucciones</span><span class="c3-papel ">Reporte del 401</span><span class="c3-papel tenue">Búsqueda: key</span><span class="c3-papel tenue">Resultado: key</span><span class="c3-papel tenue">Búsqueda: instancia</span><span class="c3-papel tenue">Resultado: instancia</span><span class="c3-papel ">Búsqueda: cookie</span><span class="c3-papel ">Resultado: cookie</span><span class="c3-papel desborde">+ …</span></div></div><div class="dg-legend"><div class="dg-legend-row c3-l-mal" data-paso="1"><span class="dg-ico">height</span><div><b>Ya no cabe</b><small>el escritorio se desborda</small></div></div><div class="dg-legend-row c3-l-mal" data-paso="2"><span class="dg-ico">visibility_off</span><div><b>Lo de en medio se pierde</b><small>cabe, pero el modelo lo atiende poco</small></div></div><div class="dg-legend-row c3-l-mal" data-paso="3"><span class="dg-ico">swap_vert</span><div><b>Un tema ensucia al otro</b><small>lo de la key confunde lo de la cookie</small></div></div></div></div>
@@ -43,8 +43,8 @@
 <p class="lead">Es opcional: todo esto está, listo para ▶, en el notebook de la clase.</p><aside class="notes"><p>Para quien programa: ejecutar_subagente crea esta lista desde cero para cada subagente; escribir_archivo rechaza cualquier ruta fuera de /borradores/&lt;id&gt;.md.</p></aside></section>
 <section class="slide"><span class="tag">Módulo 3 · Clase 3.3</span><h2>Avance del proyecto</h2>
 <div class="dg dg-flow"><div class="dg-card is-primary"><h3><span class="dg-i">forum</span>Soporte NemoClaw v3.3</h3><div class="dg-row"><div class="dg-node " data-paso="1"><span class="dg-ico">edit_note</span><b>Planea</b><small>divide el reporte en partes</small></div><div class="dg-node " data-paso="2"><span class="dg-ico">groups</span><b>Reparte</b><small>subagentes con escritorio propio</small></div><div class="dg-node " data-paso="3"><span class="dg-ico">description</span><b>Guarda notas</b><small>un borrador por subagente</small></div><div class="dg-node " data-paso="4"><span class="dg-ico">verified</span><b>Revisa citas</b><small>reporte de diagnóstico confiable</small></div></div></div></div><div class="call tip" data-paso="5"><p><strong>Módulo 4:</strong> lo llevas a NemoClaw en Brev, con la FAQ en su carpeta de trabajo y dentro de un sandbox.</p></div><aside class="notes"><p>Un clic por capacidad nueva de Soporte NemoClaw. Clic 5: el Módulo 4, donde lo llevas a NemoClaw en Brev; la FAQ va en el workspace y la skill soporte-nemoclaw corre en un sandbox. Tu agente enruta, se fundamenta y planea; ahora necesita un lugar seguro donde vivir.</p></aside></section>
-<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""></div><span class="tag">Módulo 3 · Clase 3.3</span><h2>En la próxima clase aprenderemos</h2><p class="prox">Clase 3.4 · Observa y depura tu agente con trazas</p><ul><li>Qué es una traza y por qué print no alcanza para depurar un agente</li><li>Instrumentar tu agente con OpenTelemetry y verlo en Phoenix</li><li>Encontrar en la traza la herramienta que falla, el loop atascado y la cita inventada</li></ul></section>
+<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""></div><span class="tag">Módulo 3 · Clase 3.3</span><h2>En la próxima clase aprenderemos</h2><p class="prox">Clase 4.1 · Levanta el laboratorio NemoClaw en Brev</p><ul><li>Lanzar el launchable de NemoClaw en Brev con tu cupón</li><li>Configurar tu agente desde el navegador y abrir su tablero</li><li>Cuidar tu crédito: cuánto cuesta y cuándo usar Stop o Delete</li></ul></section>
 <div class="foot"><span><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Guía de la clase</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../assets/slides.js?v=293a8307"></script>
+<script src="../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

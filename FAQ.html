@@ -28,7 +28,6 @@
 <li><a href="#openshell">OpenShell y políticas</a></li>
 <li><a href="#instalacion-local">NemoClaw instalado en tu máquina</a></li>
 <li><a href="#seguridad">Seguridad</a></li>
-<li><a href="#trazas">Observabilidad y trazas</a></li>
 <li><a href="#hermes">Hermes en NemoClaw</a></li>
 <li><a href="#pedir-ayuda">Cómo pedir ayuda bien</a></li>
 </ol>
@@ -837,29 +836,8 @@ nemoclaw<span class="w"> </span>onboard
 <p><strong>Solución:</strong> NemoClaw registra las keys de proveedores en el gateway de OpenShell, del lado del host. Desde la v0.0.132–0.0.133, los sandboxes nuevos usan proveedores adjuntos al sandbox y las credenciales se quedan en el host. Por eso <strong>no</strong> debes poner keys dentro de <code>openclaw.json</code> ni en archivos del workspace: lo que está dentro del sandbox, el agente lo puede leer.</p>
 <p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/security/credential-storage">credential storage</a>; troubleshooting "Change OpenClaw Configuration Inside the Sandbox"; changelog v0.0.132 y v0.0.133.</p>
 <hr />
-<p><a id="trazas"></a></p>
-<h2 id="10-observabilidad-y-trazas">10. Observabilidad y trazas</h2>
-<h3 id="qué-herramienta-de-observabilidad-uso-nvidia-tiene-una-propia">¿Qué herramienta de observabilidad uso? ¿NVIDIA tiene una propia?</h3>
-<p><strong>Respuesta:</strong> en el curso usamos <strong>OpenTelemetry</strong> (el estándar abierto) con convenciones <strong>OpenInference</strong> y <strong>Arize Phoenix</strong> (código abierto) como interfaz. NVIDIA tiene dos piezas: el <strong>NeMo Agent Toolkit</strong> (<code>nvidia-nat</code>), que instrumenta flujos de agentes y exporta a Phoenix, Langfuse, LangSmith, Weave u OTel con YAML; y en <strong>NemoClaw</strong>, <code>logs</code>, <code>sessions export</code> y <code>openshell term</code> para el sandbox, más exportación OTLP para Deep Agents (<code>--observability</code>). Todo habla OTel, así que puedes mezclarlas.</p>
-<p><strong>Fuente:</strong> clase 3.4; <a href="https://docs.nvidia.com/nemo/agent-toolkit/latest/run-workflows/observe/observe.html">NeMo Agent Toolkit · Observar flujos</a>.</p>
-<h3 id="el-notebook-dice-phoenix-no-detectado-aunque-lo-tengo-corriendo">El notebook dice <code>Phoenix: no detectado</code> aunque lo tengo corriendo</h3>
-<p><strong>Causa:</strong> ejecutaste la celda del tracer antes de levantar Phoenix, o Phoenix escucha en otro host o puerto.</p>
-<p><strong>Solución:</strong> con <code>phoenix serve</code> corriendo (o <code>docker run -p 6006:6006 arizephoenix/phoenix:latest</code>), vuelve a ejecutar la celda del tracer. Si usas otro puerto o un Phoenix remoto: <code>export PHOENIX_COLLECTOR_ENDPOINT=http://&lt;host&gt;:&lt;puerto&gt;</code> antes de abrir el notebook. En Colab no hace falta Phoenix: <code>ver_traza</code> dibuja la traza en texto.</p>
-<p><strong>Fuente:</strong> clase 3.4.</p>
-<h3 id="pip-install-arize-phoenix-falla-con-un-error-de-versión-de-python"><code>pip install arize-phoenix</code> falla con un error de versión de Python</h3>
-<p><strong>Causa:</strong> Phoenix requiere Python 3.11 o mayor.</p>
-<p><strong>Solución:</strong> usa Docker (<code>arizephoenix/phoenix</code>) o un entorno con Python 3.11+. El notebook de la 3.4 funciona igual sin Phoenix: solo usa OpenTelemetry, que corre en 3.10.</p>
-<p><strong>Fuente:</strong> <a href="https://pypi.org/project/arize-phoenix/">arize-phoenix en PyPI</a>.</p>
-<h3 id="mi-key-o-un-token-apareció-en-una-traza">Mi key (o un token) apareció en una traza</h3>
-<p><strong>Causa:</strong> las trazas guardan prompts completos y salidas de herramientas. Si alguien pegó una key en el chat, la traza la guardó.</p>
-<p><strong>Solución:</strong> revoca la key en build.nvidia.com y genera otra. Borra la traza (en Phoenix, el proyecto o las trazas afectadas). En tu código, pasa <strong>todo</strong> atributo por una función de redacción, como <code>poner()</code>/<code>redactar()</code> de la clase 3.4, y no publiques un Phoenix sin autenticación.</p>
-<p><strong>Fuente:</strong> clases 1.2 y 3.4.</p>
-<h3 id="puedo-ver-en-phoenix-lo-que-hace-el-agente-dentro-del-sandbox">¿Puedo ver en Phoenix lo que hace el agente dentro del sandbox?</h3>
-<p><strong>Respuesta:</strong> no directamente. Desde el host trazas las <strong>llamadas</strong> al agente (por ejemplo, la API de Hermes con <code>hermes_trazado.py</code>), pero no las herramientas que el agente ejecuta dentro del sandbox. Esas están en el historial de sesiones: <code>nemoclaw &lt;sandbox&gt; sessions export</code> (OpenClaw) o <code>nemohermes &lt;sandbox&gt; sessions export</code> (Hermes). NemoClaw solo exporta trazas OTLP desde dentro del sandbox para Deep Agents, con el preset de red <code>observability-otlp-local</code>.</p>
-<p><strong>Fuente:</strong> clase 4.4; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/deepagents/monitoring/set-up-deepagents-trace-export">NemoClaw · Exportar trazas de Deep Agents</a>.</p>
-<hr />
 <p><a id="hermes"></a></p>
-<h2 id="11-hermes-en-nemoclaw">11. Hermes en NemoClaw</h2>
+<h2 id="10-hermes-en-nemoclaw">10. Hermes en NemoClaw</h2>
 <h3 id="hermes-reemplaza-a-nemoclaw">¿Hermes reemplaza a NemoClaw?</h3>
 <p><strong>Respuesta:</strong> no. NemoClaw es el sandbox de OpenShell, las políticas, la inferencia administrada y el ciclo de vida. Hermes (de Nous Research) es <strong>un agente</strong> que vive dentro, como OpenClaw o LangChain Deep Agents. Cambias el agente con <code>nemohermes onboard</code> (o <code>NEMOCLAW_AGENT=hermes</code>) y la seguridad se queda igual.</p>
 <p><strong>Fuente:</strong> clase 4.4; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/about/ecosystem">NemoClaw · Ecosistema</a>.</p>
@@ -874,6 +852,9 @@ nemoclaw<span class="w"> </span>onboard
 <p><strong>Causa:</strong> la API tomó otro puerto (8642 a 8652 si hay otro sandbox), el forward se cayó tras un reinicio, o el token es incorrecto.</p>
 <p><strong>Solución:</strong> <code>openshell forward list</code> para ver el puerto real; si no aparece, <code>nemohermes &lt;sandbox&gt; recover</code>. Para el token: <code>TOKEN="$(nemohermes &lt;sandbox&gt; gateway-token --quiet)"</code> y envíalo como <code>Authorization: Bearer $TOKEN</code>. El token cambia si reconstruyes el sandbox.</p>
 <p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/get-started/quickstart">NemoClaw · Quickstart con Hermes</a>.</p>
+<h3 id="puedo-ver-desde-mi-programa-lo-que-hermes-hace-dentro-del-sandbox">¿Puedo ver desde mi programa lo que Hermes hace dentro del sandbox?</h3>
+<p><strong>Respuesta:</strong> no. Desde el host, un programa como <code>hermes_api.py</code> solo ve la pregunta y la respuesta. Las herramientas que Hermes ejecuta dentro del sandbox (sus <code>grep</code> o <code>cat</code>) están en su historial de sesiones: <code>nemohermes &lt;sandbox&gt; sessions export</code>. Con OpenClaw es igual: <code>nemoclaw &lt;sandbox&gt; sessions export</code>. El archivo exportado contiene prompts y salidas de herramientas: trátalo como dato sensible.</p>
+<p><strong>Fuente:</strong> clase 4.4.</p>
 <h3 id="instalé-una-skill-en-hermes-y-no-la-usa">Instalé una skill en Hermes y no la usa</h3>
 <p><strong>Causa:</strong> Hermes carga las skills al iniciar la sesión, o la <code>description</code> del <code>SKILL.md</code> no coincide con cómo pregunta el estudiante.</p>
 <p><strong>Solución:</strong> confirma con <code>nemohermes &lt;sandbox&gt; skill list</code>, sal con <code>/exit</code> y abre una sesión nueva. Prueba la skill como comando (<code>/soporte-nemoclaw ...</code>). Si quieres reemplazarla, primero <code>skill remove</code>: sin comando nativo de Hermes, <code>skill install</code> no sobrescribe una carpeta con el mismo nombre.</p>
@@ -884,7 +865,7 @@ nemoclaw<span class="w"> </span>onboard
 <p><strong>Fuente:</strong> <a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/memory">Hermes Agent · Memoria</a>; clase 4.4 y Módulo 5.</p>
 <hr />
 <p><a id="pedir-ayuda"></a></p>
-<h2 id="12-cómo-pedir-ayuda-bien">12. Cómo pedir ayuda bien</h2>
+<h2 id="11-cómo-pedir-ayuda-bien">11. Cómo pedir ayuda bien</h2>
 <p>Una buena pregunta se responde en minutos; una vaga, en días. Antes de preguntar, busca tu mensaje de error exacto en esta página (Ctrl+F / Cmd+F).</p>
 <h3 id="qué-incluir">Qué incluir</h3>
 <ol>

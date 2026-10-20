@@ -157,7 +157,7 @@ hermes
 <hr />
 <h2 id="receta-6--revisa-que-la-skill-la-faq-y-el-script-estén-en-la-máquina">Receta 6 · Revisa que la skill, la FAQ y el script estén en la máquina</h2>
 <p>Todo llega con el <code>git clone</code> de la clase 4.1. Para actualizarlo si ya lo tenías: <code>git -C ~/curso pull</code>.</p>
-<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>~/curso/clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/<span class="w"> </span>~/curso/datos/faq/<span class="w"> </span>~/curso/clases/4.4-hermes-en-nemoclaw/hermes_trazado.py
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>~/curso/clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/<span class="w"> </span>~/curso/datos/faq/<span class="w"> </span>~/curso/clases/4.4-hermes-en-nemoclaw/hermes_api.py
 </code></pre></div>
 <p>Salida esperada: <code>SKILL.md</code>, los <code>.md</code> de la FAQ y el script.</p>
 <hr />
@@ -273,27 +273,21 @@ curl<span class="w"> </span>-fsS<span class="w"> </span>-H<span class="w"> </spa
 <li>Usa en <code>"model"</code> el id que devolvió <code>/v1/models</code>.</li>
 </ul>
 <hr />
-<h2 id="receta-12--trazas-con-phoenix-clase-34">Receta 12 · Trazas con Phoenix (clase 3.4)</h2>
-<p>Todo corre en la VM. El usuario <code>ubuntu</code> está en el grupo <code>docker</code>, así que <code>docker run</code> funciona sin <code>sudo</code>.</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>phoenix<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:6006:6006<span class="w"> </span>arizephoenix/phoenix:latest
-python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/venv-trazas<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/venv-trazas/bin/activate
-pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>openai<span class="w"> </span>opentelemetry-sdk<span class="w"> </span>opentelemetry-exporter-otlp-proto-http<span class="w"> </span>openinference-instrumentation-openai
+<h2 id="receta-12--llama-a-hermes-desde-python">Receta 12 · Llama a Hermes desde Python</h2>
+<p>Todo corre en la VM, no dentro del sandbox.</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/venv-hermes<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/venv-hermes/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>openai
 <span class="nb">export</span><span class="w"> </span><span class="nv">HERMES_TOKEN</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>gateway-token<span class="w"> </span>--quiet<span class="k">)</span><span class="s2">"</span>
-python3<span class="w"> </span>~/curso/clases/4.4-hermes-en-nemoclaw/hermes_trazado.py<span class="w"> </span><span class="s2">"Mi notebook responde HTTP 401 cuando llamo al modelo"</span>
+python3<span class="w"> </span>~/curso/clases/4.4-hermes-en-nemoclaw/hermes_api.py<span class="w"> </span><span class="s2">"Mi notebook responde HTTP 401 cuando llamo al modelo"</span>
 </code></pre></div>
-<p>Salida esperada: la respuesta de Hermes, una línea <code>modelo: … · N s · traza: &lt;id&gt;</code> y <code>Phoenix: proyecto 'soporte-nemoclaw-hermes' en http://127.0.0.1:6006</code>.</p>
-<p>Comprueba que Phoenix recibió la traza:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6006/v1/projects<span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
-</code></pre></div>
-<p>Deberías ver <code>soporte-nemoclaw-hermes</code> en la lista de proyectos.</p>
-<p>La interfaz web de Phoenix queda en <code>127.0.0.1:6006</code> de la VM, y el laboratorio no la publica en tu navegador. En una instalación propia (clase 6.3) abres <code>http://127.0.0.1:6006</code> → <strong>Projects → soporte-nemoclaw-hermes</strong> y ves un span <code>AGENT</code> (<code>hermes · pregunta</code>) con un span <code>LLM</code> automático dentro, con la pregunta, la respuesta, la latencia y los tokens que reporte Hermes.</p>
-<p>Lo que <strong>no</strong> verás: los <code>grep</code> y <code>cat</code> que Hermes ejecutó dentro del sandbox. Esos están en las sesiones (receta 10). Trazar el cliente y trazar el agente son capas distintas.</p>
+<p>Salida esperada: la respuesta de Hermes (con <strong>Categoría</strong> y <strong>Fuente:</strong> si usó la skill) y una línea <code>modelo: … · N s</code>.</p>
+<p>El script usa el cliente normal de OpenAI con <code>base_url="http://127.0.0.1:8642/v1"</code> y lee el token de la variable <code>HERMES_TOKEN</code>: nunca lo imprime. Si un mensaje de error trae una key o un token, lo tacha antes de mostrarlo.</p>
+<p>Lo que <strong>no</strong> verás: los <code>grep</code> y <code>cat</code> que Hermes ejecutó dentro del sandbox. Esos están en las sesiones (receta 10). Lo que ve el cliente y lo que hizo el agente son capas distintas.</p>
 <p><strong>Si falla:</strong>
+- <code>Falta HERMES_TOKEN</code> → corre otra vez la línea <code>export HERMES_TOKEN=…</code> en la misma terminal.
 - <code>401: el token no es válido</code> → vuelve a leer el token (cambia si reconstruiste).
 - <code>No pude hablar con Hermes</code> → el puerto no es <code>8642</code>: <code>export HERMES_BASE_URL=http://127.0.0.1:&lt;puerto&gt;/v1</code>.
-- El proyecto no aparece en <code>/v1/projects</code> → <code>docker logs phoenix</code>; revisa que el contenedor esté corriendo (<code>docker ps</code>) y vuelve a ejecutar el script.
 - <code>python3 -m venv</code> falla → <code>sudo apt-get install -y python3-venv</code> y repite.</p>
-<p>Nunca publiques el puerto <code>6006</code> a internet: las trazas contienen las preguntas y respuestas completas.</p>
 <hr />
 <h2 id="receta-13--logs-política-y-bloqueos">Receta 13 · Logs, política y bloqueos</h2>
 <div class="highlight"><pre><span></span><code>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">50</span><span class="w">          </span><span class="c1"># gateway + auditoría de OpenShell</span>
@@ -304,8 +298,7 @@ openshell<span class="w"> </span>term<span class="w">                           
 <p>Una línea <code>DENIED</code> en los logs significa que OpenShell bloqueó una conexión de salida: es la política funcionando, igual que con OpenClaw.</p>
 <hr />
 <h2 id="receta-14--apaga-enciende-y-limpia">Receta 14 · Apaga, enciende y limpia</h2>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>stop<span class="w"> </span>phoenix<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>rm<span class="w"> </span>phoenix<span class="w">     </span><span class="c1"># cuando ya no lo uses</span>
-nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>stop<span class="w">                    </span><span class="c1"># detiene el sandbox y su dashboard</span>
+<div class="highlight"><pre><span></span><code>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>stop<span class="w">                    </span><span class="c1"># detiene el sandbox y su dashboard</span>
 nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>start<span class="w">                   </span><span class="c1"># lo vuelve a encender</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>start<span class="w">                  </span><span class="c1"># si detuviste el de OpenClaw</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status<span class="w">                 </span><span class="c1"># debe decir Phase Ready e Inference healthy</span>

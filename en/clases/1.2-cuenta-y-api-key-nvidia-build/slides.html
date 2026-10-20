@@ -3,19 +3,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>1.2 Create your NVIDIA Build account and API key · Securing Agents with OpenShell and NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/slides.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=293a8307">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=293a8307">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/slides.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=3d14d45e">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=3d14d45e">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 1 · Class 1.2</span><h1>Create your NVIDIA Build account and API key</h1><p class="lead">Set up your agent environment</p><p class="meta"><span class="chip"><span class="icon">schedule</span>≈6 min</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Manage API usage in NVIDIA Build</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><span class="tag">Platzi × NVIDIA Deep Learning Institute · Module 1 · Class 1.2</span><h1>Create your NVIDIA Build account and API key</h1><p class="lead">Set up your agent environment</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Manage API usage in NVIDIA Build</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><span class="tag">Module 1 · Class 1.2</span><h2>Last class we learned</h2><p class="lead">Class 1.1 · What NemoClaw, OpenClaw and OpenShell are</p><ul><li>An agent is a model inside a loop, with tools and memory</li><li>OpenClaw is the agent; OpenShell, the sandbox; NemoClaw, the blueprint that ties them together</li><li>The course goes from a Python loop to a real agent inside a sandbox on Brev</li></ul></section>
 <section class="slide"><span class="tag">Module 1 · Class 1.2</span><h2>Your key to the models</h2>
 <div class="dg dg-row"><div class="dg-node " data-paso="1"><span class="dg-ico">person</span><b>You</b><small>your free account</small></div><div class="dg-arrow h " data-paso="2"></div><div class="dg-node is-primary c12-acceso" data-paso="2"><span class="dg-ico">key</span><b>API key</b><small>your access card</small><code class="c12-nvapi">nvapi-••••••••</code></div><div class="dg-arrow h " data-paso="3" style="width:7.5em"><span class="dg-lab">gets in as you</span></div><div class="dg-node " data-paso="3"><span class="dg-ico">language</span><b>build.nvidia.com</b><small>NVIDIA's model catalog</small></div><div class="dg-arrow h " data-paso="4"></div><div class="dg-node ok" data-paso="4"><span class="dg-ico">auto_awesome</span><b>Nemotron</b><small>the course model</small></div></div><p class="dg-note" data-paso="5"><span class="dg-i">lock</span>Whoever has your key gets in as you: treat it like a password</p><aside class="notes"><p>The API key is a building's access card. Click 1: you, with your free account. Click 2: the key (starts with nvapi-). Click 3: build.nvidia.com, the catalog of NVIDIA-hosted models (OpenAI-compatible API, address https://integrate.api.nvidia.com/v1). Click 4: Nemotron, the course model. Click 5: treat it like a password. Modules 1 to 3 use this address; you don't need your own GPU.</p></aside></section>
@@ -41,5 +41,5 @@ curl -s https://integrate.api.nvidia.com/v1/models \
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><span class="tag">Module 1 · Class 1.2</span><h2>Next class we'll learn</h2><p class="prox">Class 1.3 · Configure model routes and diagnose errors</p><ul><li>Configure the chat and embedding routes used throughout the course</li><li>Use the NVIDIA course panel and the setup-check notebook</li><li>Read and fix 401, 403, 404, 410, 429 and 5xx errors</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=293a8307"></script>
+<script src="../../../assets/slides.js?v=3d14d45e"></script>
 </body></html>

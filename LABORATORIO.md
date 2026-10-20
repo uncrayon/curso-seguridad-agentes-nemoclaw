@@ -37,12 +37,12 @@ Primero mira los videos de los Módulos 4, 5 y 6. Después enciende la instancia
 | [4.1](clases/4.1-laboratorio-nemoclaw-en-brev/README.md) | Crear el laboratorio y conocer el tablero | ≈30 min |
 | [4.2](clases/4.2-gateway-y-workspace-openclaw/README.md) | Gateway, workspace y memoria de la conversación | ≈20 min |
 | [4.3](clases/4.3-agentes-siempre-activos/README.md) | Una skill y una automatización | ≈25 min |
-| [4.4](clases/4.4-hermes-en-nemoclaw/README.md) | Hermes en un segundo sandbox | ≈35 min |
+| [4.4](clases/4.4-hermes-en-nemoclaw/README.md) | Hermes en un segundo sandbox | ≈30 min |
 | [5.2](clases/5.2-identidades-openshell/README.md) | Quién es quién: operador y sandbox | ≈20 min |
 | [5.3](clases/5.3-sandbox-y-politicas/README.md) | Políticas de red y archivos | ≈25 min |
 | [6.1](clases/6.1-clis-de-agentes/README.md) | Comparar CLIs de agentes | ≈20 min |
 | [6.2](clases/6.2-biblioteca-de-skills/README.md) (opcional) | Instalar la biblioteca de skills | ≈15 min |
-| **Total** | | **≈2 h 55 min ≈ USD 0.73** (≈3 h 10 min ≈ USD 0.79 con la 6.2) |
+| **Total** | | **≈2 h 50 min ≈ USD 0.71** (≈3 h 05 min ≈ USD 0.77 con la 6.2) |
 
 Te sobran unos USD 0.25 por si algo tarda más de lo previsto. Si vas rápido, puedes terminar en ≈2 h 30 min (≈USD 0.65).
 
