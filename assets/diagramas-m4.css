@@ -1,0 +1,109 @@
+/* Estilos propios de los diagramas del Módulo 4 (tools/diagramas_m4.py). */
+
+/* Dos tarjetas del mismo ancho */
+.dg-two.m4-two-eq{grid-template-columns:1fr 1fr}
+.dg-card.m4-warn{border-color:color-mix(in srgb,var(--sin-warning) 45%,transparent);background:color-mix(in srgb,var(--sin-warning) 5%,var(--sin-surface-container-lowest))}
+.dg-card.m4-warn h3 .dg-i{color:var(--sin-warning)}
+.m4-card h3 .dg-i{color:var(--sin-primary)}
+
+/* Lo que alguien escribe en el chat */
+.m4-quote{margin:.2em 0 .1em;padding:.6em .9em;border-radius:var(--sin-radius-3xl) var(--sin-radius-3xl) var(--sin-radius-3xl) var(--sin-radius-sm);
+  background:var(--sin-surface-container-high);border:1px solid var(--sin-outline-variant);font-style:italic;color:var(--sin-on-surface);max-width:22em;text-align:left}
+
+/* Nodo horizontal: ícono a la izquierda, texto a la derecha */
+.dg-node.m4-h{display:grid;grid-template-columns:auto 1fr;column-gap:.7em;row-gap:.05em;text-align:left;align-items:center;max-width:20em;min-width:0}
+.dg-node.m4-h .dg-ico{grid-row:span 2}
+.dg-node.m4-h>b{align-self:end}
+.dg-node.m4-h>small{align-self:start}
+.dg-node.m4-h>b:last-child{grid-row:span 2;align-self:center}
+.dg-node.m4-off{border-style:dashed;background:transparent}
+.dg-node.m4-off .dg-ico{background:var(--sin-surface-container);color:var(--sin-on-surface-variant)}
+
+/* Operadores entre nodos: + y = */
+.m4-op{font-family:var(--sin-font-display);font-weight:800;font-size:1.6em;color:var(--sin-primary);padding:0 .1em}
+
+/* Un nodo que se abre en ramas */
+.dg.m4-fork{display:flex;align-items:center;justify-content:center;gap:.6em}
+
+/* El escritorio del asistente: cuadrícula de 4 */
+.dg.m4-desk{display:flex;justify-content:center}
+.m4-desk .dg-card{padding:.9em 1.2em 1em}
+.m4-desk .dg-grid{grid-template-columns:repeat(4,1fr);gap:.5em .6em}
+.m4-desk .dg-node{max-width:none}
+.m4-desk .dg-card-sub{font-family:var(--sin-font-mono);font-size:.8em}
+
+/* Lista de archivos reales */
+.m4-files .dg-chip{font-family:var(--sin-font-mono);font-weight:500}
+
+/* Tabla dibujada */
+.dg.m4-matrix{gap:.35em .45em;align-items:stretch;justify-content:center;max-width:52em;margin-left:auto;margin-right:auto;width:100%}
+.m4-mx-h{display:flex;align-items:center;justify-content:center;gap:.35em;font-weight:700;color:var(--sin-on-surface-variant);font-size:.88em;padding:.15em 0}
+.m4-mx-h .dg-i{color:var(--sin-primary);font-size:1.2em}
+.m4-mx-name{display:flex;align-items:center;gap:.5em;padding:.35em .8em .35em .4em;border-radius:var(--sin-radius-full);background:var(--sin-surface-container-low);border:1px solid var(--sin-outline-variant)}
+.m4-mx-name .dg-ico{width:1.7em;height:1.7em;font-size:1.05em}
+.m4-mx-name b{font-family:var(--sin-font-display);white-space:nowrap}
+.m4-mx-cell{display:flex;align-items:center;justify-content:center;text-align:center;padding:.35em .7em;border-radius:var(--sin-radius-3xl);
+  background:var(--sin-surface-container-lowest);border:1px solid var(--sin-outline-variant);font-size:.9em}
+.m4-mx-name.m4-dim,.m4-mx-cell.m4-dim{border-style:dashed;background:transparent;color:var(--sin-on-surface-variant)}
+.m4-mx-name.m4-dim .dg-ico{background:var(--sin-surface-container);color:var(--sin-on-surface-variant)}
+.m4-compare .m4-mx-cell.m4-mx-c1{font-family:var(--sin-font-mono);font-size:.8em}
+.m4-compare .m4-mx-cell.m4-mx-c2{font-family:var(--sin-font-mono);font-size:.8em;background:var(--sin-primary-container);border-color:color-mix(in srgb,var(--sin-primary) 40%,transparent)}
+.m4-compare .m4-mx-h.m4-mx-c2{color:var(--sin-primary)}
+
+/* La tarjeta de receta (anatomía de una skill) */
+.dg.m4-recipe{display:flex;flex-direction:column;align-items:stretch;gap:0;max-width:46em;margin-left:auto;margin-right:auto;width:100%;
+  background:var(--sin-surface-container-lowest);border:1px solid color-mix(in srgb,var(--sin-primary) 40%,transparent);border-radius:var(--sin-radius-4xl);padding:.4em 1.1em}
+.m4-rc-sec{display:grid;grid-template-columns:10.5em 1fr;gap:1em;align-items:center;padding:.55em 0;border-top:1px dashed var(--sin-outline-variant)}
+.m4-rc-sec:first-child{border-top:0}
+.m4-rc-lab{display:grid;grid-template-columns:auto 1fr;column-gap:.5em;align-items:center}
+.m4-rc-lab .dg-i{grid-row:span 2;width:1.9em;height:1.9em;border-radius:50%;display:grid;place-items:center;background:var(--sin-primary-container);color:var(--sin-primary);font-size:1.1em}
+.m4-rc-lab b{font-family:var(--sin-font-display)}
+.m4-rc-lab small{color:var(--sin-on-surface-variant);font-size:.8em}
+.m4-rc-body p{margin:.1em 0;font-size:.9em}
+.m4-rc-body ol{margin:0;padding-left:1.2em}
+.m4-rc-body li{margin:.05em 0}
+.m4-rc-body .dg-chips{justify-content:flex-start}
+
+/* Dos entradas que llegan al mismo cuarto */
+.dg.m4-merge{grid-template-columns:auto auto auto;justify-content:center;column-gap:.6em;row-gap:1em}
+.m4-merge>.dg-node{justify-self:end}
+.m4-merge>.m4-merge-room{grid-column:3;grid-row:1/span 2;align-self:stretch;justify-content:center;padding:1.6em 1.4em 1.2em}
+
+/* Carriles con etiqueta */
+.dg.m4-lanes{display:flex;flex-direction:column;gap:.9em;align-items:center}
+.m4-lane{display:flex;align-items:center;gap:1em;width:100%;padding:.6em 1em;border-radius:var(--sin-radius-4xl);
+  border:1px solid var(--sin-outline-variant);background:var(--sin-surface-container-lowest)}
+.m4-lane>.dg-row{flex:1}
+.m4-lane-lab{flex:0 0 8.5em;font-family:var(--sin-font-display);font-weight:700;font-size:.95em;padding:.3em .8em;border-radius:var(--sin-radius-full);text-align:center}
+.m4-lane.warn{border-color:color-mix(in srgb,var(--sin-warning) 45%,transparent)}
+.m4-lane.warn .m4-lane-lab{background:var(--sin-warning-container);color:var(--sin-on-warning-container)}
+.m4-lane.ok{border-color:color-mix(in srgb,var(--sin-primary) 45%,transparent)}
+.m4-lane.ok .m4-lane-lab{background:var(--sin-primary-container);color:var(--sin-on-primary-container)}
+
+/* Dos capas de observación: el cliente afuera, el agente adentro */
+.dg.m4-layers{grid-template-columns:auto auto auto;justify-content:center;column-gap:.6em;row-gap:.5em}
+.m4-layers>.dg-node,.m4-layers>.dg-room{justify-self:center}
+.m4-layers .m4-l1{grid-column:1;justify-self:center}
+.m4-layers .m4-l2{grid-column:3;justify-self:center}
+
+/* Cambia el asistente: leyenda más angosta */
+.m4-swap .dg-legend{max-width:19em}
+.m4-swap.dg-pieces{gap:1.8em}
+.m4-swap .dg-room{padding:1.8em 1.4em 1.3em}
+.m4-swap .dg-kit{padding:1.8em 1.4em 1.4em}
+
+/* En las ramas, las flechas miden lo mismo para que los nodos queden alineados */
+.dg.m4-fork .dg-fan-row{display:grid;grid-template-columns:8.2em auto;align-items:center;gap:.5em}
+.dg.m4-fork .dg-fan-row>.dg-arrow{width:auto!important;justify-self:stretch}
+.m4-swap.dg-pieces{grid-template-columns:auto auto}
+.dg-node.m4-wide{max-width:15em}
+.m4-card .dg-col{align-items:stretch}
+.m4-card .dg-col>.dg-node.m4-h{max-width:none}
+.m4-stack{gap:.4em}
+.m4-stack .dg-node.m4-h{width:100%}
+.m4-lane .dg-node.m4-h{padding:.55em .8em}
+.m4-lane .dg-node.m4-h>b{white-space:nowrap}
+.m4-lane .dg-arrow:not([style]){width:2.2em}
+.m4-lane .dg-node{flex-shrink:0}
+.m4-lane{font-size:.92em}
+.m4-lane-lab{flex:0 0 7.5em}

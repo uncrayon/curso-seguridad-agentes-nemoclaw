@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3.4 Observa y depura tu agente con trazas · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 3 · Coordina, fundamenta y planea</span><h1><span class="num">3.4</span>Observa y depura tu agente con trazas</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Instrumentar y depurar agentes con trazas (OpenTelemetry + Phoenix)</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.4-observabilidad-y-trazas/3.4-observabilidad-y-trazas.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Cuando un agente responde mal, la pregunta es en qué paso se equivocó. Una traza guarda cada paso que dio (cada pregunta al modelo, cada herramienta, cada búsqueda) con cuánto tardó y si salió bien o mal. Así encuentras el paso exacto que falló, que tardó o que inventó algo, sin adivinar. Y antes de guardarla, se tachan las contraseñas.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>El historial de rastreo de un paquete: dónde estuvo, cuándo y si hubo un problema.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#traza" class="glos" data-def="El registro de todo lo que hizo el agente para responder una pregunta, paso por paso. · El historial de rastreo de un paquete: dónde estuvo, cuándo y si hubo un problema.">traza</a>, <a href="../../GLOSARIO.html#span" class="glos" data-def="Cada paso dentro de una traza, con su inicio, su fin y si salió bien. · Cada línea del rastreo: &quot;salió del almacén&quot;, &quot;llegó a la ciudad&quot;.">span</a>, <a href="../../GLOSARIO.html#phoenix" class="glos" data-def="Una página web gratuita y de código abierto para ver trazas de agentes. · El mapa donde ves el recorrido del paquete.">Phoenix</a>.</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Lee esta traza, tal como la dibuja el notebook. Cada línea es un paso; ✔ es "salió bien", ✖ es "hubo un error" y ms son milésimas de segundo. Responde: (1) ¿qué paso falló?; (2) según la línea de <code>error</code>, ¿por qué falló?; (3) la primera línea tiene ✔: ¿el agente se detuvo o siguió?, y ¿qué debería decirle al estudiante en su respuesta? Para confirmar, abre el notebook en Google Colab (menú <strong>Archivo → Subir notebook</strong>), presiona ▶ en cada celda en orden, sin leer el código, y busca la misma traza en la sección 9, parte a).</p>
+<p><code>text
+✔ AGENT     agente · soporte                  952 ms  pasos=3
+├─ ✔ LLM       llm · paso 1                     310 ms  finish=tool_calls · tokens=141
+├─ ✖ TOOL      tool · estado_laboratorio          1 ms  args={"instancia": "mi-lab"}
+│     └ error: ConnectionError: 503 Service Unavailable desde la API de Brev (simulado)
+├─ ✔ LLM       llm · paso 2                     312 ms  finish=tool_calls · tokens=176
+├─ ✔ TOOL      tool · buscar_faq                  4 ms  args={"consulta": "cookie de acceso vencida al reanudar el launch
+│  └─ ✔ RETRIEVER retriever · buscar_faq             4 ms  docs=conexion-laboratorio.md:0.408, ...
+└─ ✔ LLM       llm · paso 3                     318 ms  finish=stop · tokens=590</code></p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Puedes leer el recorrido de un agente paso por paso y señalar dónde falló, en lugar de adivinar o culpar al modelo.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Objetivo: instrumentar tu agente de soporte con OpenTelemetry, ver cada paso como un árbol (en el notebook y en Phoenix) y encontrar con la traza, no a ojo, la herramienta que falla, el loop atascado, la cita inventada y el paso lento.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Duración del video</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Práctica</strong></td>
+<td>Notebook (≈45 min), funciona sin key en modo MOCK y sin Phoenix</td>
+</tr>
+<tr>
+<td><strong>Habilidad</strong></td>
+<td>Instrumentar y depurar agentes con trazas (OpenTelemetry + Phoenix)</td>
+</tr>
+<tr>
+<td><strong>Referencia</strong></td>
+<td><a href="https://docs.nvidia.com/nemo/agent-toolkit/latest/run-workflows/observe/observe-workflow-with-phoenix.html">NeMo Agent Toolkit · Observar con Phoenix</a> (no hay lección equivalente en el curso de NVIDIA)</td>
+</tr>
+<tr>
+<td><strong>Material</strong></td>
+<td><a href="slides.html">Diapositivas</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.4-observabilidad-y-trazas/3.4-observabilidad-y-trazas.ipynb" target="_blank" rel="noopener">Notebook</a> · <a href="../../FAQ.html#trazas">Preguntas frecuentes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Entender <strong>traza</strong> y <strong>span</strong>, y por qué OpenTelemetry (OTel) es el estándar: no te amarra a una herramienta.</li>
+<li><strong>Instrumentar a mano</strong> las tres piezas de tu agente: llamadas al modelo (<code>LLM</code>), búsqueda en la FAQ (<code>RETRIEVER</code>) y herramientas (<code>TOOL</code>), dentro de un span raíz <code>AGENT</code>.</li>
+<li><strong>Depurar con código</strong> sobre la traza: errores de herramientas, repeticiones, citas sin respaldo y el paso más lento.</li>
+<li><strong>Tachar los secretos</strong> (con la función <code>redactar</code>) antes de guardar una traza y exportarla en JSON para un reporte de error.</li>
+<li>Ubicar las opciones de NVIDIA: el <strong>NeMo Agent Toolkit</strong> (exporta a Phoenix, Langfuse, LangSmith, Weave u OTel) y la observabilidad del sandbox de <strong>NemoClaw</strong>.</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Terminaste la clase 3.3 y recuerdas el loop ReAct (2.2) y <code>buscar_faq</code> (3.2).</li>
+<li>Python 3.10+ o Colab. Tu key <code>nvapi-</code> es opcional: sin key corre en MOCK.</li>
+<li><strong>Opcional, para ver la interfaz web:</strong> Phoenix en tu computadora, en otra terminal (requiere Python 3.11+):</li>
+</ul>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>arize-phoenix
+phoenix<span class="w"> </span>serve
+</code></pre></div>
+<p>O con Docker: <code>docker run -p 6006:6006 arizephoenix/phoenix:latest</code>. La interfaz queda en <code>http://localhost:6006</code>. En Colab no la necesitas: el notebook dibuja las trazas en texto.</p>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<h3 id="1-abre-el-notebook-y-ejecuta-la-configuración">1. Abre el notebook y ejecuta la configuración</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/3.4-observabilidad-y-trazas/3.4-observabilidad-y-trazas.ipynb
+</code></pre></div>
+<p>Ejecuta las cuatro primeras celdas. Deberías ver <code>Reglas mock de la clase 3.4 listas</code> (o <code>Modo: EN VIVO</code> con tu key).</p>
+<h3 id="2-faq-índice-y-tracer-secciones-2-y-3">2. FAQ, índice y tracer (secciones 2 y 3)</h3>
+<p>Ejecuta la FAQ, el índice y la celda del tracer. Deberías ver:</p>
+<div class="highlight"><pre><span></span><code>Índice listo: 61 vectores de 256 dimensiones
+Trazas en memoria: sí · Phoenix: no detectado (todo funciona igual, solo sin la interfaz web)
+</code></pre></div>
+<p>Si levantaste Phoenix, la segunda línea dice <code>Phoenix: http://localhost:6006/v1/traces</code>. Si lo levantaste después, vuelve a ejecutar esa celda.</p>
+<h3 id="3-tacha-los-secretos-antes-de-guardar-sección-4">3. Tacha los secretos antes de guardar (sección 4)</h3>
+<p>Deberías ver <code>mi key es nvapi-*** y mi cookie=***</code>. Todo atributo de una traza pasa por <code>redactar()</code>.</p>
+<h3 id="4-instrumenta-y-corre-el-agente-secciones-5-y-6">4. Instrumenta y corre el agente (secciones 5 y 6)</h3>
+<p>Ejecuta la instrumentación y el agente con <em>"Me sale 401 en el laboratorio después de reanudar Brev"</em>. Deberías ver la respuesta (cookie de sesión vencida, con citas a <code>conexion-laboratorio.md</code>) y <code>traza: &lt;32 caracteres&gt; · pasos: 3</code>.</p>
+<h3 id="5-lee-la-traza-sección-7">5. Lee la traza (sección 7)</h3>
+<p><code>ver_traza</code> dibuja el árbol:</p>
+<div class="highlight"><pre><span></span><code>✔ AGENT     agente · soporte                 936 ms  pasos=3
+├─ ✔ LLM       llm · paso 1                     310 ms  finish=tool_calls · tokens=139
+├─ ✔ TOOL      tool · estado_laboratorio          0 ms  args={"instancia": "mi-lab"}
+├─ ✔ LLM       llm · paso 2                     311 ms  finish=tool_calls · tokens=179
+├─ ✔ TOOL      tool · buscar_faq                  4 ms  args={"consulta": "cookie de acceso vencida al reanudar el launch
+│  └─ ✔ RETRIEVER retriever · buscar_faq             4 ms  docs=conexion-laboratorio.md:0.408, ...
+└─ ✔ LLM       llm · paso 3                     311 ms  finish=stop · tokens=600
+</code></pre></div>
+<p>Con Phoenix abierto: <strong>Projects → soporte-nemoclaw</strong>, elige la traza más reciente y recorre los mismos spans. Haz clic en <code>retriever · buscar_faq</code> y busca los documentos recuperados con su puntaje.</p>
+<h3 id="6-métricas-sección-8">6. Métricas (sección 8)</h3>
+<p>Deberías ver una tabla por tipo de span (<code>AGENT</code>, <code>LLM</code>, <code>RETRIEVER</code>, <code>TOOL</code>) con spans, milisegundos, tokens y errores. En MOCK los tokens son estimados.</p>
+<h3 id="7--depura-con-la-traza-sección-9">7. 🧯 Depura con la traza (sección 9)</h3>
+<ul>
+<li><strong>a) La herramienta falla.</strong> Con <code>FALLAS["estado_laboratorio"] = "503"</code>, deberías ver <code>✖ TOOL tool · estado_laboratorio</code> y debajo <code>error: ConnectionError: 503 Service Unavailable...</code>. La raíz queda en ✔ porque el harness convirtió el error en observación, y la respuesta empieza con <em>"No pude verificar el estado de tu instancia"</em>.</li>
+<li><strong>b) El loop atascado.</strong> Con la pregunta de la factura, deberías ver <code>✖ AGENT ... error: límite de 5 pasos</code> y <code>repeticiones</code> con la misma búsqueda en cada paso.</li>
+<li><strong>c) La cita inventada.</strong> Deberías ver <code>citas sin respaldo: ['brev.md#la-gpu-es-gratis-para-siempre']</code> y, para la primera traza, <code>[]</code>.</li>
+<li><strong>d) El paso lento.</strong> Deberías ver <code>('tool · estado_laboratorio', 1507)</code> como el span más lento, muy por encima de las llamadas al modelo.</li>
+</ul>
+<h3 id="8-auto-instrumentación-y-nvidia-sección-10">8. Auto-instrumentación y NVIDIA (sección 10)</h3>
+<p>Sin key, la celda dice que necesita el cliente real. Con key, activa <code>OpenAIInstrumentor</code> y verás spans <code>ChatCompletion</code> automáticos <strong>dentro</strong> de tus spans <code>llm · paso N</code>. Lee la tabla de opciones de NVIDIA y el YAML del NeMo Agent Toolkit.</p>
+<h3 id="9-una-traza-es-un-dato-sensible-sección-11">9. Una traza es un dato sensible (sección 11)</h3>
+<p>Deberías ver <code>¿la key quedó en la traza?: False</code> y la pregunta con <code>nvapi-***</code>.</p>
+<h3 id="10-avance-del-proyecto-sección-12">10. Avance del proyecto (sección 12)</h3>
+<p>Deberías ver la respuesta a <em>"¿Por qué mi notebook responde HTTP 401...?"</em>, <code>problemas: {'citas_sin_respaldo': [], 'repeticiones': {}, 'errores': []}</code> y la ruta <code>trazas/&lt;id&gt;.json</code>.</p>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ <code>ver_traza</code> muestra un árbol con <code>AGENT</code>, <code>LLM</code>, <code>TOOL</code> y <code>RETRIEVER</code>.</li>
+<li>☐ Ubicaste el span con ✖ del caso <strong>a</strong> y leíste el error exacto.</li>
+<li>☐ <code>repeticiones</code> encontró el loop del caso <strong>b</strong> y sabes cómo cortarlo en el harness.</li>
+<li>☐ <code>citas_sin_respaldo</code> detectó la cita inventada del caso <strong>c</strong>.</li>
+<li>☐ <code>mas_lentos</code> apuntó a la herramienta, no al modelo, en el caso <strong>d</strong>.</li>
+<li>☐ La key falsa de la sección 11 no aparece en ningún atributo.</li>
+<li>☐ (Opcional) Viste tus trazas en Phoenix, en el proyecto <code>soporte-nemoclaw</code>.</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Phoenix: no detectado</code> aunque <code>phoenix serve</code> está corriendo</td>
+<td>Ejecutaste la celda del tracer antes de levantar Phoenix, o Phoenix usa otro puerto</td>
+<td>Vuelve a ejecutar la celda del tracer. Si usas otro puerto o un Phoenix remoto: <code>export PHOENIX_COLLECTOR_ENDPOINT=http://&lt;host&gt;:&lt;puerto&gt;</code></td>
+</tr>
+<tr>
+<td>La interfaz de Phoenix no muestra trazas nuevas</td>
+<td>Las trazas van en lotes (<code>BatchSpanProcessor</code>) o miras otro proyecto</td>
+<td><code>agente()</code> ya llama a <code>PROVEEDOR.force_flush()</code>; refresca y elige el proyecto <strong>soporte-nemoclaw</strong></td>
+</tr>
+<tr>
+<td><code>pip install arize-phoenix</code> falla con un error de versión de Python</td>
+<td>Phoenix requiere Python 3.11 o mayor</td>
+<td>Usa Docker (<code>arizephoenix/phoenix</code>) o un entorno con Python 3.11+. El notebook funciona igual sin Phoenix</td>
+</tr>
+<tr>
+<td><code>Overriding of current TracerProvider is not allowed</code></td>
+<td>Otro código llamó a <code>trace.set_tracer_provider</code> dos veces</td>
+<td>El notebook no usa el proveedor global; si lo mezclas con otra librería, reinicia el kernel</td>
+</tr>
+<tr>
+<td><code>ModuleNotFoundError: No module named 'opentelemetry'</code></td>
+<td>La celda del tracer no pudo instalar el SDK</td>
+<td><code>pip install opentelemetry-sdk opentelemetry-exporter-otlp-proto-http</code> y reinicia el kernel</td>
+</tr>
+<tr>
+<td><code>401 Unauthorized</code> al exportar a un Phoenix remoto</td>
+<td>El Phoenix tiene autenticación</td>
+<td>Define <code>PHOENIX_API_KEY</code> antes de la celda del tracer. <code>[VERIFICAR EN LAB]</code> el formato de la cabecera con tu despliegue</td>
+</tr>
+<tr>
+<td>La traza muestra tu key o tu cookie</td>
+<td>Pusiste un atributo sin pasar por <code>poner()</code></td>
+<td>Usa siempre <code>poner(span, ...)</code>; agrega el patrón que falte en <code>_SECRETOS</code></td>
+</tr>
+<tr>
+<td>En vivo, los casos b y c salen "limpios"</td>
+<td>El modelo real no repitió la búsqueda ni inventó la cita esta vez</td>
+<td>Es normal: las funciones de revisión siguen sirviendo. En MOCK los errores siempre se reproducen</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto">Reto</h2>
+<p><strong>Corta el loop en el harness.</strong> Modifica <code>ejecutar_herramienta</code> para que, si una herramienta recibe <strong>los mismos argumentos</strong> que en la llamada anterior, no la ejecute y devuelva: <em>"Ya buscaste esto y no hubo evidencia nueva. Responde con lo que tienes o di que la FAQ no lo cubre."</em></p>
+<p><strong>Criterio de éxito:</strong> vuelve a correr el caso <strong>b</strong>. En la traza, el span <code>RETRIEVER</code> aparece <strong>una sola vez</strong> (la búsqueda real) y los <code>TOOL</code> repetidos traen la observación nueva en <code>output.value</code>. En MOCK el agente igual llega al tope (sus reglas son fijas); con key, el modelo real debería responder en cuanto lee la observación.</p>
+<h2 id="avance-del-proyecto">Avance del proyecto</h2>
+<p><strong>Soporte NemoClaw v3.4: cada respuesta con su traza.</strong> <code>soporte_nemoclaw(pregunta)</code> devuelve la respuesta, la traza, una revisión automática (<code>citas_sin_respaldo</code>, <code>repeticiones</code>, <code>errores</code>) y un JSON con los secretos tachados en <code>trazas/</code>. Agrega <code>redactar</code>, <code>poner</code>, <code>llamar_trazado</code>, <code>buscar_faq_trazado</code>, <code>ejecutar_herramienta</code>, <code>ver_traza</code> y <code>exportar_traza</code> a tu <code>soporte_nemoclaw.py</code>.</p>
+<p>En el Módulo 4 tu agente se va a NemoClaw: ahí la observabilidad tiene dos capas, la del agente (trazas) y la del sandbox (logs, sesiones y bloqueos de OpenShell). En la clase 4.4 trazas con este mismo código las llamadas a Hermes.</p>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li><a href="https://opentelemetry.io/docs/concepts/signals/traces/">OpenTelemetry · Conceptos de trazas</a></li>
+<li><a href="https://github.com/Arize-ai/openinference/tree/main/spec">OpenInference · Convenciones semánticas</a> (los <code>openinference.span.kind</code> y atributos <code>llm.*</code>, <code>retrieval.*</code>, <code>tool.*</code>)</li>
+<li><a href="https://arize.com/docs/phoenix">Arize Phoenix · Documentación</a> y <a href="https://github.com/Arize-ai/phoenix">repositorio</a> (código abierto)</li>
+<li><a href="https://docs.nvidia.com/nemo/agent-toolkit/latest/run-workflows/observe/observe.html">NVIDIA NeMo Agent Toolkit · Observar flujos</a> y <a href="https://docs.nvidia.com/nemo/agent-toolkit/latest/run-workflows/observe/observe-workflow-with-phoenix.html">con Phoenix</a></li>
+<li><a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/monitoring/monitor-sandbox-activity">NemoClaw · Monitorear la actividad del sandbox</a> y <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/deepagents/monitoring/set-up-deepagents-trace-export">exportar trazas de Deep Agents</a></li>
+<li><a href="../../FAQ.html#trazas">Preguntas frecuentes del curso</a></li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../3.3-agentes-profundos/index.html"><small>Clase anterior</small>3.3 · Agentes profundos que crean subagentes</a><a class="pn next" href="../4.1-laboratorio-nemoclaw-en-brev/index.html"><small>Clase siguiente</small>4.1 · Levanta el laboratorio NemoClaw en Brev</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

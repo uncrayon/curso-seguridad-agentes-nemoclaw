@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4.3 Agents in continuous and scheduled operation · Securing Agents with OpenShell and NemoClaw</title>
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Module 4 · Take your agent to NemoClaw</span><h1><span class="num">4.3</span>Agents in continuous and scheduled operation</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈8 min</span><span class="chip"><span class="icon">computer</span>Lab on Brev</span><span class="chip primary"><span class="icon">bolt</span>Skill: Operate agents in continuous mode</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/4.3-agentes-siempre-activos/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
+<section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
+<p>🇪🇸 Original Spanish guide: <a href="../../../clases/4.3-agentes-siempre-activos/index.html"><code>clases/4.3-agentes-siempre-activos/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
+</blockquote>
+<p>Install the <code>soporte-nemoclaw</code> skill with the course FAQ, schedule a task that writes a summary without anyone typing in the chat, and learn to describe any automation with 3 controls.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Video length</td>
+<td>≈8 min</td>
+</tr>
+<tr>
+<td>Practice</td>
+<td>Lab on Brev: NVIDIA course page + terminal (<a href="../../../clases/4.3-agentes-siempre-activos/cookbook.html">cookbook.md (Spanish)</a>)</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td>Operate agents in continuous mode</td>
+</tr>
+<tr>
+<td>NVIDIA lesson</td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/03c-always-on.html">The Always-On Agent (03c-always-on)</a></td>
+</tr>
+</tbody>
+</table>
+<p>Materials: <a href="slides.html">slides</a> · <a href="../../../clases/4.3-agentes-siempre-activos/cookbook.html">terminal cookbook (Spanish)</a> · <a href="../../../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.html">soporte-nemoclaw skill (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></p>
+<blockquote>
+<p>Based on lesson 03c-always-on from the NVIDIA DLI course (Apache-2.0).</p>
+</blockquote>
+<h2 id="what-youll-achieve">What you'll achieve</h2>
+<ul>
+<li>Install a skill (a folder with a <code>SKILL.md</code>) in your agent and check that it uses it, first explicitly and then automatically.</li>
+<li>Schedule a task with the gateway's cron that writes a file without any chat message, and verify it as the operator.</li>
+<li>Describe any "always-on" mechanism with 3 controls: session, directive, and trigger.</li>
+</ul>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>Classes 4.1 and 4.2 finished: instance in <code>RUNNING</code>, <strong>Test connection</strong> green in <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/03a-kickstart.html">lesson 03a</a>, and a customized <code>SOUL.md</code>.</li>
+<li><code>brev shell &lt;instancia&gt;</code> working.</li>
+<li>On your computer, the course repository with:</li>
+<li>the skill: <a href="../../../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.html"><code>clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.md</code></a> (Spanish)</li>
+<li>the course FAQ: <code>datos/faq/*.md</code></li>
+</ul>
+<h2 id="the-3-controls">The 3 controls</h2>
+<p>Every agent run, whether you asked for it or not, is described by three questions:</p>
+<ul>
+<li><strong>Session:</strong> what context does the run inherit?</li>
+<li><strong>Directive:</strong> where do its instructions come from?</li>
+<li><strong>Trigger:</strong> what makes it start?</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Session</th>
+<th>The directive lives in</th>
+<th>Trigger</th>
+<th>In this class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Skill</td>
+<td>Reuses the caller's</td>
+<td><code>workspace/skills/&lt;nombre&gt;/SKILL.md</code></td>
+<td>A request in the conversation</td>
+<td>You install it and use it</td>
+</tr>
+<tr>
+<td>Heartbeat</td>
+<td>A session dedicated to the heartbeat</td>
+<td><code>HEARTBEAT.md</code></td>
+<td>Gateway timer, every 30 min by default</td>
+<td>Concept only</td>
+</tr>
+<tr>
+<td>Cron</td>
+<td>Isolated: a new session on every fire</td>
+<td>The job's <code>payload.message</code></td>
+<td>A scheduled time</td>
+<td>You schedule it and verify it</td>
+</tr>
+<tr>
+<td>Subagent</td>
+<td>New; the parent agent keeps the handle</td>
+<td>The instructions the parent gives it</td>
+<td>The parent agent decides mid-turn</td>
+<td>Concept only</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step-by-step">Step by step</h2>
+<h3 id="part-a--see-what-a-skill-looks-like-course-page">Part A · See what a skill looks like (course page)</h3>
+<ol>
+<li>
+<p><strong>Open the lesson</strong> <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/03c-always-on.html">The Always-On Agent</a>. Check that the pill says <strong>OpenClaw ✓</strong>.</p>
+</li>
+<li>
+<p><strong>Run Step 1 · Read a skill and its runbook.</strong> In the <strong>Install a practice skill, then explicitly read it in a fresh session</strong> flow, click <strong>▶ Run all</strong>:
+   - <strong>Install and verify the fixture</strong> creates <code>/sandbox/.openclaw/workspace/skills/course-triage-&lt;id&gt;/</code> with a <code>SKILL.md</code> and a <code>runbook.md</code>, and reads them back.
+   - <strong>Use the installed skill</strong> opens a new session and asks the agent to read that <code>SKILL.md</code> and follow it for a practice incident.</p>
+</li>
+</ol>
+<p>Open the code of the first node and look at the shape of the <code>SKILL.md</code>:
+   <div class="highlight"><pre><span></span><code>---
+name: course-triage-&lt;id&gt;
+<span class="gu">description: Review a checkout-service incident using the bundled practice runbook; propose changes without executing them.</span>
+<span class="gu">---</span>
+Read runbook.md in this skill directory. Confirm service and time window. ...
+</code></pre></div>
+   You should see: the agent's answer with the runbook's <code>BOOK-…</code> reference. The cell warns you: this proves <strong>explicit use</strong> (you gave it the path), not that the agent discovers the skill on its own.</p>
+<h3 id="part-b--install-the-soporte-nemoclaw-skill-terminal">Part B · Install the soporte-nemoclaw skill (terminal)</h3>
+<ol start="3">
+<li>
+<p><strong>Bring the skill and the FAQ to the Brev machine.</strong> Pick one option (details in the <a href="../../../clases/4.3-agentes-siempre-activos/cookbook.html">cookbook (Spanish)</a>, recipe 1):
+   <div class="highlight"><pre><span></span><code><span class="c1"># On your computer, from the root of the course repo</span>
+brev<span class="w"> </span>copy<span class="w"> </span>./clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw<span class="w"> </span>&lt;instancia&gt;:/home/ubuntu/soporte-nemoclaw
+brev<span class="w"> </span>copy<span class="w"> </span>./datos/faq<span class="w"> </span>&lt;instancia&gt;:/home/ubuntu/faq
+</code></pre></div>
+   <code>[VERIFY IN LAB: that brev copy accepts folders and that home is /home/ubuntu]</code>. If not, the cookbook has the skill ready to paste with a heredoc.</p>
+</li>
+<li>
+<p><strong>Install it in the sandbox.</strong> In <code>brev shell &lt;instancia&gt;</code>:
+   <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>./soporte-nemoclaw/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>list
+</code></pre></div>
+   NemoClaw checks that the folder has a <code>SKILL.md</code> with frontmatter and a <code>name</code>, and then calls OpenClaw's native command (<code>openclaw skills install … --agent main --force</code>).
+   You should see: <code>soporte-nemoclaw</code> in the list. <code>[VERIFY IN LAB: output of skill install and skill list]</code></p>
+</li>
+<li>
+<p><strong>Copy the FAQ into the workspace:</strong>
+   <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>upload<span class="w"> </span>./faq/<span class="w"> </span>/sandbox/.openclaw/workspace/faq/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--workdir<span class="w"> </span>/sandbox/.openclaw/workspace<span class="w"> </span>--<span class="w"> </span>ls<span class="w"> </span>-la<span class="w"> </span>faq
+</code></pre></div>
+   You should see: the FAQ <code>.md</code> files inside <code>faq/</code> (not in <code>faq/faq/</code>). <code>[VERIFY IN LAB: how upload nests a folder]</code></p>
+</li>
+</ol>
+<h3 id="part-c--check-that-the-agent-uses-it">Part C · Check that the agent uses it</h3>
+<ol start="6">
+<li><strong>Explicit use.</strong> On the 03c page, scroll down to <strong>Try it · trigger a skill in conversation</strong> and type (or use cookbook recipe 4):<blockquote>
+<p>Read /sandbox/.openclaw/workspace/skills/soporte-nemoclaw/SKILL.md and follow it for this student question: "brev shell gives me ssh: Could not resolve hostname".</p>
+</blockquote>
+</li>
+</ol>
+<p>You should see: an answer with <strong>Categoría:</strong> (category) <code>brev</code>, numbered steps, and <strong>Fuente:</strong> (source) <code>faq/&lt;archivo&gt;.md</code>. The skill is written in Spanish, so its labels are too. Check the <code>⚙️</code> rows: the agent ran <code>ls</code>, <code>grep</code>, or <code>cat</code> on <code>faq/</code>. <code>[VERIFY IN LAB: path where the skill was installed]</code></p>
+<ol start="7">
+<li><strong>Automatic use.</strong> Open a <strong>new</strong> conversation and ask <strong>without</strong> giving the path:<blockquote>
+<p>A student says: "My notebook returns HTTP 401 when I call the model". What do you tell them?</p>
+</blockquote>
+</li>
+</ol>
+<p>If the agent uses the skill on its own, the answer follows the skill's format and cites the FAQ. If not, the description wasn't good enough: that's this class's challenge.</p>
+<h3 id="part-d--watch-a-scheduled-write-course-page">Part D · Watch a scheduled write (course page)</h3>
+<ol start="8">
+<li><strong>Run Step 2 · Inspect your running agent.</strong> In the <strong>Observe one scheduled write and remove the owned job</strong> flow, click <strong>▶ Run</strong> on the <strong>Schedule, verify, and clean up</strong> node. The cell calls the gateway with:
+   <div class="highlight"><pre><span></span><code><span class="nx">state</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s2">"cron.add"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">schedule</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">kind</span><span class="o">:</span><span class="w"> </span><span class="s2">"at"</span><span class="p">,</span><span class="w"> </span><span class="nx">at</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">15000</span><span class="p">).</span><span class="nx">toISOString</span><span class="p">()},</span><span class="w"> </span><span class="nx">deleteAfterRun</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">sessionTarget</span><span class="o">:</span><span class="w"> </span><span class="s2">"isolated"</span><span class="p">,</span><span class="w"> </span><span class="nx">wakeMode</span><span class="o">:</span><span class="w"> </span><span class="s2">"now"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">delivery</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">},</span>
+<span class="w">  </span><span class="nx">payload</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">kind</span><span class="o">:</span><span class="w"> </span><span class="s2">"agentTurn"</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="s2">"Write the file specified by the JSON object below. …"</span><span class="p">,</span><span class="w"> </span><span class="nx">timeoutSeconds</span><span class="o">:</span><span class="w"> </span><span class="mf">120</span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+   Then it queries <code>cron.runs</code> every 5 seconds, for up to 3 minutes.</li>
+</ol>
+<p><strong>Don't type anything in the chat while it waits.</strong> Leave the tab open until the cleanup finishes.</p>
+<p>You should see: <code>Scheduled run: Ns elapsed; ok</code> and the message <code>Verified a successful scheduled run and its new file. No new chat message was sent when it fired.</code></p>
+<ol start="9">
+<li><strong>Read it yourself, as the operator.</strong> In <code>brev shell &lt;instancia&gt;</code>:
+   <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-lc<span class="w"> </span><span class="s1">'ls -la /sandbox/.openclaw/workspace/course-cron-*.txt; cat /sandbox/.openclaw/workspace/course-cron-*.txt'</span>
+</code></pre></div>
+   You should see: a <code>course-cron-&lt;id&gt;.txt</code> file with <code>CRON-&lt;id&gt;</code> as its content. Nobody typed in the chat, and the file exists: that's the proof.</li>
+</ol>
+<h3 id="part-e--schedule-the-soporte-nemoclaw-summary">Part E · Schedule the Soporte NemoClaw summary</h3>
+<ol start="10">
+<li>
+<p><strong>Open lesson 03a</strong> and scroll down to the <strong>Gateway · WebSocket protocol, step by step</strong> flow.</p>
+<ol>
+<li>Run <strong>Open the gateway connection</strong>.</li>
+<li>Open the code of the <strong>Call models.list and cron.list</strong> node, delete its contents, and paste this:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// Soporte NemoClaw scheduled job: a FAQ summary, with no chat messages.</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">state</span><span class="p">.</span><span class="nx">call</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">helpers</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Ejecuta primero el nodo Abre la conexión del gateway."</span><span class="p">);</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">helpers</span><span class="p">.</span><span class="nx">randomId</span><span class="p">();</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">archivo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/sandbox/.openclaw/workspace/reportes/resumen-faq-"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">".md"</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">cuando</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">60000</span><span class="p">).</span><span class="nx">toISOString</span><span class="p">();</span><span class="w"> </span><span class="c1">// 60 s from now, in UTC (ends in Z)</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">job</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">state</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s2">"cron.add"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"soporte-resumen-"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">id</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">schedule</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">kind</span><span class="o">:</span><span class="w"> </span><span class="s2">"at"</span><span class="p">,</span><span class="w"> </span><span class="nx">at</span><span class="o">:</span><span class="w"> </span><span class="nx">cuando</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">deleteAfterRun</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">        </span><span class="c1">// deletes itself after it runs</span>
+<span class="w">  </span><span class="nx">sessionTarget</span><span class="o">:</span><span class="w"> </span><span class="s2">"isolated"</span><span class="p">,</span><span class="w">   </span><span class="c1">// a new session on every fire</span>
+<span class="w">  </span><span class="nx">wakeMode</span><span class="o">:</span><span class="w"> </span><span class="s2">"now"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">delivery</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">},</span><span class="w">  </span><span class="c1">// doesn't send messages to any channel</span>
+<span class="w">  </span><span class="nx">payload</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">kind</span><span class="o">:</span><span class="w"> </span><span class="s2">"agentTurn"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">timeoutSeconds</span><span class="o">:</span><span class="w"> </span><span class="mf">180</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="s2">"Read /sandbox/.openclaw/workspace/skills/soporte-nemoclaw/SKILL.md and follow its Modo reporte section. "</span><span class="w"> </span><span class="o">+</span>
+<span class="w">      </span><span class="s2">"Write the FAQ summary to "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">archivo</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">". Do not modify other files or send messages."</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">job</span><span class="o">?</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">"cron.add no devolvió un id; revisa cron.list"</span><span class="p">);</span>
+<span class="nx">helpers</span><span class="p">.</span><span class="nx">log</span><span class="p">({</span><span class="w"> </span><span class="nx">jobId</span><span class="o">:</span><span class="w"> </span><span class="nx">job</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">programadaPara</span><span class="o">:</span><span class="w"> </span><span class="nx">cuando</span><span class="p">,</span><span class="w"> </span><span class="nx">archivo</span><span class="w"> </span><span class="p">});</span>
+
+<span class="c1">// Check the run history every 5 s, for up to 4 minutes</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">limite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">240000</span><span class="p">;</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">limite</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">historial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">state</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s2">"cron.runs"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">job</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">limit</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">corridas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">historial</span><span class="o">?</span><span class="p">.</span><span class="nx">entries</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">historial</span><span class="o">?</span><span class="p">.</span><span class="nx">runs</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">helpers</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"estado: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">corridas</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="o">?</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">"todavía no corre"</span><span class="p">));</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">corridas</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">helpers</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Listo. Ahora léelo como operador."</span><span class="p">);</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">archivo</span><span class="w"> </span><span class="p">};</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">mala</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">corridas</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"error"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"skipped"</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">mala</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">helpers</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">details</span><span class="p">(</span><span class="s2">"corrida fallida"</span><span class="p">,</span><span class="w"> </span><span class="nx">mala</span><span class="p">);</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">"La ejecución programada falló: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">mala</span><span class="p">.</span><span class="nx">error</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">mala</span><span class="p">.</span><span class="nx">status</span><span class="p">));</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">helpers</span><span class="p">.</span><span class="nx">delay</span><span class="p">(</span><span class="mf">5000</span><span class="p">,</span><span class="w"> </span><span class="nx">helpers</span><span class="p">.</span><span class="nx">signal</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">"No hubo una ejecución correcta en 4 minutos; revisa cron.list y la hora programada"</span><span class="p">);</span>
+</code></pre></div>
+<p>The prompt points the agent to the skill's <code>Modo reporte</code> (report mode) section, so keep that name exactly as written. The log and error strings are in Spanish, like the rest of the course code: <code>estado</code> is the run status, and <code>Listo. Ahora léelo como operador.</code> means "Done. Now read it as the operator."</p>
+<ol start="3">
+<li>Click <strong>▶ Run</strong> on that node. Don't type in the chat.</li>
+</ol>
+<p><code>[VERIFY IN LAB: this snippet reuses the same cron.add parameters as lesson 03c; test it before recording]</code></p>
+<p>To get the node's original code back, use <strong>↺ Reset</strong>. Running it afterward shows you <code>cron.list</code>: your job should no longer appear, because <code>deleteAfterRun</code> deletes it.</p>
+</li>
+<li>
+<p><strong>Read the summary as the operator:</strong>
+    <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-lc<span class="w"> </span><span class="s1">'ls -la /sandbox/.openclaw/workspace/reportes/ &amp;&amp; cat /sandbox/.openclaw/workspace/reportes/resumen-faq-*.md'</span>
+</code></pre></div>
+    You should see: a Markdown file with one section per category, questions with their source file, and the line "Generado por la skill soporte-nemoclaw" ("Generated by the soporte-nemoclaw skill").</p>
+</li>
+</ol>
+<h3 id="part-f--heartbeat-and-subagents-concept-only">Part F · Heartbeat and subagents (concept only)</h3>
+<ul>
+<li><strong>Heartbeat:</strong> every so often (30 min by default in OpenClaw), the agent wakes up in a dedicated session, checks pending items, and reads <code>HEARTBEAT.md</code> if it exists. NemoClaw configures that isolated session so your normal activity doesn't replace it. Don't change it in the lab; in your own install, you adjust it with <code>NEMOCLAW_AGENT_HEARTBEAT_EVERY</code> before onboarding, or with <code>openclaw config set agents.defaults.heartbeat.every 2h</code> inside the sandbox (<code>0m</code> turns it off). No step in this class fires it: don't wait for it.</li>
+<li><strong>Subagents:</strong> the parent agent launches a child with a new session and passes it task instructions, like the subagents from class 3.3. The difference: here the child runs inside the same sandbox, under the same policy.</li>
+</ul>
+<p><strong>Warning:</strong> a scheduled job runs even when nobody is watching. An instruction like "send the daily report" fires all the same. Each fire uses an isolated session, but shared files in the workspace can still influence future runs. Name your jobs, review <code>cron.list</code>, and delete the ones you don't recognize.</p>
+<h2 id="check-that-it-worked">Check that it worked</h2>
+<ul>
+<li>☐ The 03c practice skill flow finished with the <code>BOOK-…</code> reference.</li>
+<li>☐ <code>nemoclaw my-assistant skill list</code> shows <code>soporte-nemoclaw</code>.</li>
+<li>☐ <code>faq/</code> is in the workspace with the FAQ files.</li>
+<li>☐ A question with the skill path returns <strong>Categoría</strong>, steps, and <strong>Fuente: faq/…</strong>.</li>
+<li>☐ The 03c cron finished in <code>ok</code>, and you read <code>course-cron-&lt;id&gt;.txt</code> as the operator.</li>
+<li>☐ Your <code>soporte-resumen-…</code> cron left <code>reportes/resumen-faq-&lt;id&gt;.md</code>, and you read it as the operator.</li>
+<li>☐ You can explain skill, heartbeat, cron, and subagent in terms of session, directive, and trigger.</li>
+</ul>
+<h2 id="common-errors">Common errors</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>No successful scheduled run observed within three minutes</code> (or your snippet runs out its 4 min)</td>
+<td>The <code>at</code> time ended up in the past or too far away, the gateway restarted, or the instance was paused.</td>
+<td>Check <code>cron.list</code> (the original 03a node). Always use <code>new Date(Date.now() + 60000).toISOString()</code>. Run <strong>Test connection</strong> again and retry.</td>
+</tr>
+<tr>
+<td>The cron fired at a different time</td>
+<td>You wrote the time without a time zone. <code>toISOString()</code> always returns UTC (it ends in <code>Z</code>); Mexico City is at UTC-6.</td>
+<td>Write the time with an explicit offset, for example <code>"2026-10-20T09:00:00-06:00"</code>, or compute it from <code>Date.now()</code>. <code>[VERIFY IN LAB: how the gateway interprets a time without an offset]</code></td>
+</tr>
+<tr>
+<td><code>Scheduled agent run reported an error: …</code></td>
+<td>The agent turn failed (model, timeout, or permissions).</td>
+<td>Read the run details. Raise <code>timeoutSeconds</code>. Run the <strong>Health check</strong> (the <em>Detect &amp; recover</em> flow).</td>
+</tr>
+<tr>
+<td>The job "ran" but there's no file</td>
+<td>The agent reported success without writing, or wrote to another path.</td>
+<td>Cron proves nothing on its own: read the file as the operator. Look with <code>nemoclaw my-assistant exec -- bash -lc 'ls -la /sandbox/.openclaw/workspace/reportes/'</code>.</td>
+</tr>
+<tr>
+<td><code>Inspect/remove the prior owned job before starting another</code></td>
+<td>The page saved the ID of a previous job that wasn't cleaned up.</td>
+<td>Run the <strong>Retry removal of the owned job</strong> node.</td>
+</tr>
+<tr>
+<td><code>Cleanup incomplete; run Remove owned job. Retained id: …</code></td>
+<td>You closed the tab, or <code>cron.remove</code> failed.</td>
+<td>Use the ID with <strong>Retry removal of the owned job</strong>. With <code>deleteAfterRun</code>, some OpenClaw versions reject <code>cron.remove</code> because the job already deleted itself: confirm with <code>cron.list</code>.</td>
+</tr>
+<tr>
+<td>The agent doesn't use the skill unless you give it the path</td>
+<td>The frontmatter <code>description</code> is vague ("skill de soporte", support skill) and doesn't match the question.</td>
+<td>Rewrite the <code>description</code>: what it does, who it's for, and the words a student would use to ask. Reinstall with <code>skill install</code> (it replaces the one with the same name) and test in a <strong>new</strong> session.</td>
+</tr>
+<tr>
+<td><code>skill install</code> fails because of the <code>SKILL.md</code></td>
+<td>The frontmatter is missing, <code>name</code> is missing, or the name has characters that aren't allowed.</td>
+<td>YAML frontmatter between <code>---</code> with <code>name</code> (only letters, numbers, dots, hyphens, and underscores) and <code>description</code>. Files that start with <code>.</code> are skipped.</td>
+</tr>
+<tr>
+<td>The skill answers "No encuentro la FAQ del curso en el workspace" ("I can't find the course FAQ in the workspace")</td>
+<td>You didn't copy the FAQ, or it ended up in <code>faq/faq/</code>.</td>
+<td><code>nemoclaw my-assistant exec --workdir /sandbox/.openclaw/workspace -- ls -R faq</code> and fix it with <code>upload</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="challenge">Challenge</h2>
+<p><strong>Get the agent to discover the skill on its own.</strong> Temporarily replace the <code>description</code> in your <code>SKILL.md</code> with <code>Skill de soporte.</code> (support skill), reinstall it, and ask the step 7 question in a new session. Then restore a good description (the original or a better one) and repeat.</p>
+<p>Success criteria: with the vague description, the agent doesn't follow the skill's format; with the good one, in a new session and <strong>without giving it the path</strong>, it answers with <strong>Categoría</strong>, steps, and <strong>Fuente:</strong> <code>faq/…</code>. Write down both answers.</p>
+<h2 id="project-milestone">Project milestone</h2>
+<p><strong>Soporte NemoClaw (NemoClaw Support) is now deployed on OpenClaw:</strong></p>
+<ul>
+<li>The <code>soporte-nemoclaw</code> skill installed, with the course FAQ in <code>faq/</code> inside the workspace.</li>
+<li>A scheduled job that leaves <code>reportes/resumen-faq-&lt;id&gt;.md</code> with no intervention.</li>
+</ul>
+<p>Repeat the 4.1 baseline question ("My notebook returns HTTP 401") and compare. Save the new answer in <code>proyecto/linea-base-4.1.md</code>, below the previous one, and write down the difference: does it cite the FAQ now? Does it follow the categories from the class 3.1 router? In Module 5 you'll review the risks all this opened up: an agent with data, tools, and jobs that run on their own.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/03c-always-on.html">Lesson 03c · The Always-On Agent (NVIDIA DLI)</a></li>
+<li><a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands.md">NemoClaw · Command reference: <code>skill install</code>, <code>skill list</code>, <code>skill remove</code>, <code>upload</code></a></li>
+<li><a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/configure-agents/configure-agent-heartbeats.md">NemoClaw · Configure agent heartbeats</a></li>
+<li><a href="https://docs.openclaw.ai/cron-vs-heartbeat">OpenClaw · Automation: cron vs. heartbeat</a></li>
+<li><a href="https://www.anthropic.com/news/skills">Anthropic · Agent Skills</a> and <a href="https://arxiv.org/abs/2305.16291">Voyager (arXiv 2305.16291)</a></li>
+<li><code>man 8 cron</code> for classic Unix cron (the idea is the same: a time and a command)</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../4.2-gateway-y-workspace-openclaw/index.html"><small>Previous class</small>4.2 · Explore the OpenClaw gateway and workspace</a><a class="pn next" href="../4.4-hermes-en-nemoclaw/index.html"><small>Next class</small>4.4 · Swap OpenClaw for Hermes in NemoClaw</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copy$/, "").trim()).then(function () {
+      b.textContent = "Copied!"; setTimeout(function () { b.textContent = "Copy"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2.1 De una sola llamada al loop de agente · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 2 · Construye el loop básico del agente</span><h1><span class="num">2.1</span>De una sola llamada al loop de agente</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Construir un loop básico de agente</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Un agente es un modelo que trabaja en ciclo: mira, decide, actúa y revisa si ya terminó. Lo que decide puede ser una regla fija, una búsqueda o un modelo de IA, y el ciclo es el mismo. El modelo no recuerda nada: la memoria es la conversación que le volvemos a enviar cada vez.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Seguir una receta: lees el paso, lo haces, pruebas, y sigues hasta que el platillo está listo. La memoria es como tomar notas en una libreta y releerlas antes de cada llamada.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#loop-de-agente" class="glos" data-def="El ciclo que repite el agente: mirar, decidir, actuar y revisar si ya terminó. · Seguir una receta: lees el paso, lo haces, pruebas, y sigues hasta que el platillo está listo.">loop de agente</a>, <a href="../../GLOSARIO.html#memoria" class="glos" data-def="La lista de mensajes que se le reenvía al modelo en cada turno, porque él no recuerda solo. · Tomar notas en una libreta y releerlas antes de cada llamada.">memoria</a>, <a href="../../GLOSARIO.html#prompt" class="glos" data-def="El texto que le mandas al modelo: tu pregunta y sus instrucciones. · El mensaje que le dejas a tu asistente antes de que empiece.">prompt</a>.</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Descarga el notebook de esta clase, súbelo a <a href="https://colab.research.google.com/">Colab</a> con <strong>Archivo → Subir notebook</strong> y presiona ▶ en cada celda, en orden, sin leer el código (o usa <strong>Entorno de ejecución → Ejecutar todo</strong>) (sin key funciona con respuestas simuladas). Luego responde:</p>
+<ol>
+<li>En la sección 3, ¿cuántos pasos da el agente de "siempre a la derecha" antes de detenerse, y cuántos el de la búsqueda?</li>
+<li>En la sección 5, ¿qué frase respondió el modelo con el prompt flojo y por qué el laberinto no la aceptó?</li>
+<li>En la sección 7, ¿con cuántos mensajes de memoria el asistente olvida tu nombre?</li>
+</ol></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Sabes por qué todo agente necesita un límite de pasos, por qué lo que dice el modelo se revisa antes de obedecerlo y que recordar más cuesta más.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Objetivo: construir un agente desde cero y entender qué cambia cuando la decisión la toma un LLM.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Duración del video</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Práctica</strong></td>
+<td>Notebook (≈45 min), funciona sin key en modo MOCK</td>
+</tr>
+<tr>
+<td><strong>Habilidad</strong></td>
+<td>Construir un loop básico de agente</td>
+</tr>
+<tr>
+<td><strong>Lección de NVIDIA</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01a-loop.html">01a · Agente</a></td>
+</tr>
+<tr>
+<td><strong>Material</strong></td>
+<td><a href="slides.html">Diapositivas</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb" target="_blank" rel="noopener">Notebook</a> · <a href="../../FAQ.html">Preguntas frecuentes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Escribir el loop <strong>observar → decidir → actuar → ¿parar?</strong> y usarlo con tres "cerebros" distintos: una regla fija, una búsqueda (BFS) y un LLM.</li>
+<li>Validar la salida del modelo antes de actuar, para que un movimiento inválido no rompa tu agente.</li>
+<li>Darle memoria a un chat con la lista <code>messages</code> y ponerle un límite de contexto: la primera versión de <strong>Soporte NemoClaw</strong>.</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Python 3.10 o superior en tu máquina, o una cuenta de Google para usar Colab.</li>
+<li>Tu API key <code>nvapi-</code> de la clase 1.2. <strong>Es opcional:</strong> sin key, el notebook corre completo en modo MOCK (un modelo simulado).</li>
+<li>El notebook de la clase 1.3 en verde, o al menos saber leer sus errores (401, 404, 429, <code>length</code>).</li>
+</ul>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<h3 id="1-abre-el-notebook">1. Abre el notebook</h3>
+<p><strong>En Colab:</strong> sube <code>2.1-loop-de-agente.ipynb</code> (Archivo → Subir notebook). Para usar tu key, abre el panel de la llave 🔑 (<em>Secrets</em>), crea <code>NVIDIA_API_KEY</code> con tu key y activa el acceso del notebook.</p>
+<p><strong>En tu máquina</strong>, desde la raíz del repositorio del curso:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">          </span><span class="c1"># en Windows: .venv\Scripts\activate</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"NVIDIA_API_KEY=nvapi-xxxxxxxx"</span><span class="w"> </span>&gt;<span class="w"> </span>.env<span class="w">    </span><span class="c1"># pon tu key real; .env no se sube a git</span>
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb
+</code></pre></div>
+<h3 id="2-ejecuta-las-celdas-de-configuración">2. Ejecuta las celdas de configuración</h3>
+<p>Ejecuta las dos primeras celdas y la del simulador.</p>
+<p>Deberías ver <code>Modo: EN VIVO · nvidia/nemotron-3.5-lightning-30b-a3b</code> si tu key está bien, o <code>Modo: MOCK (sin NVIDIA_API_KEY: respuestas simuladas)</code> si no hay key. Las dos opciones sirven para seguir.</p>
+<h3 id="3-haz-una-sola-llamada-sección-1">3. Haz una sola llamada (sección 1)</h3>
+<p>Ejecuta la celda de la pregunta "¿Qué significa que una API de LLM sea 'sin estado'?".</p>
+<p>Deberías ver <code>finish_reason: stop</code>, una respuesta de una oración y, en vivo, el <code>usage</code> con los tokens gastados. Luego cambia la pregunta por "¿Qué te pregunté hace un momento?": el modelo no lo sabe, porque cada llamada empieza de cero.</p>
+<h3 id="4-construye-el-entorno-y-un-agente-sin-llm-secciones-2-y-3">4. Construye el entorno y un agente sin LLM (secciones 2 y 3)</h3>
+<p>Ejecuta la celda del <code>Laberinto</code> y luego la de <code>correr_agente</code>.</p>
+<p>Deberías ver que <code>siempre_derecha</code> avanza un paso y se atora: <code>'derecha' no es válido → no se aplica</code>, hasta <code>⛔ Se acabó el presupuesto de 6 pasos sin llegar.</code> Ese tope es lo que impide un loop infinito.</p>
+<p>Luego ejecuta <code>decidir_bfs</code>. Deberías ver <code>✅ Meta en 15 pasos.</code> y el mapa con el camino marcado con <code>·</code>.</p>
+<p>Mira <code>correr_agente</code> otra vez: no dice "laberinto" ni "BFS" en ningún lado. Esa función no va a cambiar en toda la clase.</p>
+<h3 id="5-cambia-la-decisión-por-un-llm-sección-4">5. Cambia la decisión por un LLM (sección 4)</h3>
+<p>Ejecuta <code>decidir_llm</code>. Le describimos el mapa en texto y le pedimos <strong>una palabra</strong>.</p>
+<p>Deberías ver los pasos del agente y, en algún momento, una línea como <code>⚠ el modelo respondió 'arriba': no es legal. Se lo decimos y reintenta.</code> (en MOCK pasa siempre en el primer paso; en vivo, cuando el modelo se equivoca). Al final, la comparación <code>BFS: 15 pasos · LLM: N pasos</code>.</p>
+<p>Haz los experimentos de <strong>✏️ Tu turno</strong>: quita la línea de estrategia, quita el mapa o sube la temperatura, y compara cuántos pasos tarda.</p>
+<h3 id="6-provoca-el-error-un-movimiento-inválido-sección-5">6. Provoca el error: un movimiento inválido (sección 5)</h3>
+<p>Ejecuta <code>decidir_ingenuo</code>, que usa un prompt flojo y pasa el texto del modelo directo al entorno.</p>
+<p>Deberías ver algo como:</p>
+<div class="highlight"><pre><span></span><code>El modelo dijo: 'Te sugiero ir hacia abajo: a la derecha casi todo es pared...'
+💥 Movimiento inválido: 'Te sugiero ir hacia abajo: ...'. Desde (0, 0) solo puedes: ['abajo', 'derecha']
+</code></pre></div>
+<p>Ejecuta la celda siguiente: <code>extraer_movimiento</code> saca <code>'abajo'</code>, se valida contra los movimientos legales y se aplica. La lección: <strong>la salida del modelo es una entrada no confiable; el harness la valida antes de actuar.</strong></p>
+<h3 id="7-comprueba-que-la-memoria-es-messages-sección-6">7. Comprueba que la memoria es <code>messages</code> (sección 6)</h3>
+<p>Ejecuta la celda de "Me llamo Ada".</p>
+<p>Deberías ver que con historial responde "Te llamas Ada" y sin historial dice que no lo sabe. Abajo aparece el JSON exacto que se envió en el turno 2: esa lista <strong>es</strong> la memoria.</p>
+<h3 id="8-construye-soporte-nemoclaw-v1-sección-7">8. Construye Soporte NemoClaw v1 (sección 7)</h3>
+<p>Ejecuta la celda de <code>ChatSoporte</code>. La misma conversación corre dos veces: con una ventana de 4 mensajes y con una de 20.</p>
+<p>Deberías ver que con 4 mensajes el bot <strong>olvida tu nombre</strong> ("No sé cómo te llamas") y con 20 lo recuerda. Si quieres conversar, pon <code>INTERACTIVO = True</code> en la celda siguiente.</p>
+<h3 id="9-opcional-practica-en-el-navegador-con-la-lección-de-nvidia">9. (Opcional) Practica en el navegador con la lección de NVIDIA</h3>
+<p>En la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01a-loop.html">lección 01a de NVIDIA</a> puedes hacer los mismos experimentos sin instalar nada:</p>
+<ol>
+<li>Guarda tu key <code>nvapi-</code> en el panel de la sección <strong>Un ejemplo real en el navegador</strong>.</li>
+<li>Busca la celda <strong>Ejecución del laberinto con LLM · el modelo elige movimientos</strong> y abre el nodo <strong>Agente del laberinto · ejecución editable</strong>.</li>
+<li>Ejecútala una vez como está. Luego cambia <code>includeHistory: true</code> por <code>includeHistory: false</code> y compara: el modelo deja de ver las coordenadas que ya recorrió.</li>
+<li>Borra del <code>DIRECTIVE</code> la línea que empieza con <code>Prefer unvisited branches</code> y vuelve a correr.</li>
+<li>Cambia <code>model: "direct"</code> por <code>"reasoning"</code> y luego por <code>"omni"</code>. Abre los detalles de la solicitud y compara <code>max_tokens</code>, temperatura y razonamiento de cada perfil.</li>
+<li>Al final de la página, en <strong>Pruébalo · compara el historial de conversación</strong>, escribe "Me llamo Ada. Recuérdalo." y luego "¿Cómo me llamo?". Repite con el interruptor de memoria 🧠 apagado.</li>
+</ol>
+<p>Es lo mismo que hiciste en el notebook: el perfil <code>direct</code> es nuestro <code>SIN_RAZONAR</code>, e <code>includeHistory:false</code> es como quitar el mapa en <code>describir</code>.</p>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ <code>siempre_derecha</code> se detiene por el tope de pasos y <code>decidir_bfs</code> llega a la meta.</li>
+<li>☐ <code>decidir_llm</code> llega a la meta usando <strong>la misma</strong> función <code>correr_agente</code>.</li>
+<li>☐ Viste el <code>💥 Movimiento inválido</code> y lo arreglaste con <code>extraer_movimiento</code> + validación.</li>
+<li>☐ Puedes explicar por qué "¿Cómo me llamo?" funciona con historial y falla sin él.</li>
+<li>☐ <code>ChatSoporte</code> con ventana de 4 olvida el nombre y con ventana de 20 lo recuerda.</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Modo: MOCK (sin NVIDIA_API_KEY: respuestas simuladas)</code> aunque configuraste tu key</td>
+<td>El kernel arrancó antes de crear el <code>.env</code>, el <code>.env</code> no está en la raíz del repo o en Colab no activaste el acceso al secret</td>
+<td>Reinicia el kernel y vuelve a ejecutar desde la primera celda. Ver <a href="../../FAQ.html#emock">FAQ: Modo MOCK</a></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 401 · Key rechazada: ...</code></td>
+<td>Key incompleta, con espacios o regenerada</td>
+<td>Copia otra vez la key completa (<code>nvapi-...</code>). Ver <a href="../../FAQ.html#e401">FAQ: 401</a></td>
+</tr>
+<tr>
+<td><code>ValueError: Movimiento inválido: 'Te sugiero ir hacia abajo...'</code></td>
+<td>Pasaste el texto del modelo directo a <code>env.actuar</code></td>
+<td>Extrae el movimiento con <code>extraer_movimiento</code> y valida contra <code>obs["legales"]</code> antes de actuar</td>
+</tr>
+<tr>
+<td><code>⛔ Se acabó el presupuesto de 30 pasos sin llegar.</code></td>
+<td>El modelo da vueltas: le quitaste el mapa o la estrategia, o la temperatura es alta</td>
+<td>Restaura el mapa en <code>describir</code>, baja la temperatura a 0 o sube <code>max_pasos</code>. Es el comportamiento esperado del tope</td>
+</tr>
+<tr>
+<td><code>⚠ finish_reason=length sin contenido: el modelo gastó max_tokens razonando.</code></td>
+<td>Nemotron razonó y se acabó <code>max_tokens</code> antes de responder</td>
+<td>Deja <code>extra_body=SIN_RAZONAR</code> en la llamada o sube <code>max_tokens</code>. Ver <a href="../../FAQ.html#elength">FAQ: length</a></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 400 · Solicitud inválida: ...</code> al cambiar <code>MODEL</code></td>
+<td>El modelo nuevo no acepta <code>chat_template_kwargs</code></td>
+<td>Quita <code>extra_body=SIN_RAZONAR</code> de las llamadas o vuelve a <code>nvidia/nemotron-3.5-lightning-30b-a3b</code></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 429 · Demasiadas solicitudes por minuto.</code></td>
+<td>Cada paso del laberinto es una llamada; ejecutaste varias corridas seguidas</td>
+<td>Espera unos segundos entre corridas. Ver <a href="../../FAQ.html#e429">FAQ: 429</a></td>
+</tr>
+<tr>
+<td>Soporte NemoClaw "olvida" lo que le dijiste</td>
+<td>La ventana (<code>max_mensajes</code>) ya no incluye ese mensaje</td>
+<td>Es el intercambio memoria vs. costo: agranda la ventana o resuelve el reto de abajo</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto-memoria-de-hechos">Reto: memoria de hechos</h2>
+<p>Con <code>max_mensajes=4</code>, Soporte NemoClaw olvida tu nombre. Haz que lo recuerde <strong>sin agrandar la ventana</strong>: cuando el usuario diga "me llamo X", guarda <code>X</code> en un diccionario <code>hechos</code> y agrégalo al system prompt en cada llamada.</p>
+<p><strong>Criterio de éxito</strong> (en vivo): con <code>max_mensajes=4</code>, la <code>CONVERSACION</code> del notebook y dos preguntas extra, el bot responde bien "¿Cómo me llamo?" y <code>len(soporte.historial)</code> nunca pasa de 5. Escribe tu solución en la celda <code>ChatSoporteConHechos</code>.</p>
+<h2 id="avance-del-proyecto">Avance del proyecto</h2>
+<p><strong>Soporte NemoClaw v1: un chat con memoria y límites.</strong> Tiene un system prompt con su rol y reglas (nunca pide ni repite una API key), memoria en <code>historial</code>, una ventana de <code>max_mensajes</code> y un tope de <code>max_turnos</code> por sesión.</p>
+<p>Copia <code>SISTEMA_SOPORTE</code> y la clase <code>ChatSoporte</code> a un archivo <code>soporte_nemoclaw.py</code> en tu propio repositorio. En la clase 2.2 le agregas el loop ReAct y su primera herramienta.</p>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01a-loop.html">Lección 01a · Agente</a>, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
+<li><a href="https://github.com/NVDLI/NemoClawDLI">Repositorio del curso de NVIDIA (NVDLI/NemoClawDLI)</a>: código de las celdas del laberinto.</li>
+<li>Russell y Norvig, <em>Artificial Intelligence: A Modern Approach</em>, cap. 2 (agentes y entornos): el origen del ciclo percibir → razonar → actuar.</li>
+<li><a href="../../FAQ.html">Preguntas frecuentes del curso</a>, secciones <a href="../../FAQ.html#errores-api">Errores de la API</a> y <a href="../../FAQ.html#notebooks">Notebooks</a>.</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../1.3-rutas-de-modelo-y-errores/index.html"><small>Clase anterior</small>1.3 · Configura rutas de modelo y diagnostica errores</a><a class="pn next" href="../2.2-patron-react/index.html"><small>Clase siguiente</small>2.2 · Razonamiento con el patrón ReAct</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

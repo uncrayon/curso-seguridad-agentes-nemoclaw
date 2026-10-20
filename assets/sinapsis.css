@@ -1,0 +1,25 @@
+/* Platzi Sinapsis: tipografías y tokens de color compartidos por diapositivas y guías. */
+@font-face{font-family:"Bricolage Grotesque";src:url("fonts/BricolageGrotesque-Variable.woff2") format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Plus Jakarta Sans";src:url("fonts/PlusJakartaSans-Variable.woff2") format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url("fonts/IBMPlexMono-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url("fonts/IBMPlexMono-Medium.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Material Symbols Rounded";src:url("fonts/material-symbols-rounded-subset.woff2") format("woff2");font-weight:100 700;font-display:block}
+
+:root{color-scheme:dark;
+  --sin-primary:#09e989;--sin-on-primary:#033922;--sin-primary-container:#0a492e;--sin-on-primary-container:#6debb4;
+  --sin-secondary-container:#4b6350;--sin-on-secondary-container:#c8dfcb;
+  --sin-tertiary:#a3cddb;--sin-tertiary-container:#2d6671;--sin-on-tertiary-container:#cae9f2;
+  --sin-error:#feb4ab;--sin-error-container:#93000a;--sin-on-error-container:#f7cdcb;
+  --sin-warning:#f9d894;--sin-warning-container:#65470b;--sin-on-warning-container:#f9e4b8;
+  --sin-surface:#121413;--sin-surface-dim:#080b0a;
+  --sin-surface-container-lowest:#1c1f1e;--sin-surface-container-low:#212422;--sin-surface-container:#252726;
+  --sin-surface-container-high:#2e3130;--sin-surface-container-highest:#383b3a;
+  --sin-on-surface:#dce5e4;--sin-on-surface-variant:#bec8c9;
+  --sin-outline:#899394;--sin-outline-variant:rgba(137,147,148,0.36);
+  --sin-shadow:#000000;--sin-scrim:#000000;
+  --sin-font-display:"Bricolage Grotesque",system-ui,sans-serif;
+  --sin-font-body:"Plus Jakarta Sans",system-ui,sans-serif;
+  --sin-font-mono:"IBM Plex Mono",ui-monospace,monospace;
+  --sin-radius-sm:6px;--sin-radius-xl:12px;--sin-radius-3xl:16px;--sin-radius-4xl:20px;--sin-radius-full:999px;
+  --shadow-raised:0 4px 8px color-mix(in srgb,var(--sin-shadow) 30%,transparent),0 8px 24px color-mix(in srgb,var(--sin-shadow) 18%,transparent);
+}

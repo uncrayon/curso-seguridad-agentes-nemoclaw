@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3.3 Agentes profundos que crean subagentes · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 3 · Coordina, fundamenta y planea</span><h1><span class="num">3.3</span>Agentes profundos que crean subagentes</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Coordinar subagentes con un planificador</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Cuando una pregunta es demasiado grande para una sola conversación, el agente la divide en partes y crea ayudantes. Cada ayudante investiga solo su parte, con su propia conversación, y deja su nota en un archivo; al final, alguien lee las notas y escribe un reporte con fuentes. Ojo: separar las conversaciones no protege tu computadora; eso lo hace el sandbox de OpenShell, más adelante en el curso.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Un jefe de proyecto que reparte encargos a su equipo, y cada quien trabaja en su propio escritorio.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#subagente" class="glos" data-def="Un agente que otro agente crea para una parte de la tarea, con su propia conversación. · Un jefe de proyecto que reparte encargos a su equipo.">subagente</a>, <a href="../../GLOSARIO.html#contexto" class="glos" data-def="Todo lo que el modelo tiene a la vista en un turno: instrucciones, mensajes y resultados. · El escritorio de trabajo: si está lleno de papeles, se pierden los importantes.">contexto</a>.</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Abre el notebook en Google Colab (en Colab: menú <strong>Archivo → Subir notebook</strong>). Sin API key funciona con respuestas simuladas. Presiona ▶ en cada celda, en orden, de arriba hacia abajo, y mira solo lo que aparece debajo; no hace falta leer el código. Después responde: (1) en la sección 5, ¿en cuántas partes se dividió el reporte del 401 y cuáles son?; (2) en "Comprueba el aislamiento", ¿qué dice "¿vio tareas ajenas?" para cada subagente?; (3) en "🧯 Cuando algo falla", parte a), ¿qué pasó cuando el subagente <code>s9</code> intentó escribir en el reporte final, y dónde terminó escribiendo?</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Puedes reconocer cuándo una tarea conviene repartirla entre varios ayudantes y explicar por qué separar sus conversaciones no es lo mismo que encerrar al agente en un sandbox.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Objetivo: convertir el reporte de un estudiante en un reporte de diagnóstico con citas, usando un planificador, subagentes con contexto aislado, un sistema de archivos virtual y un sintetizador.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Duración del video</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Práctica</strong></td>
+<td>Notebook (≈50 min), funciona sin key en modo MOCK</td>
+</tr>
+<tr>
+<td><strong>Habilidad</strong></td>
+<td>Coordinar subagentes con un planificador</td>
+</tr>
+<tr>
+<td><strong>Lección de NVIDIA</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02c-deep.html">02c · Agentes de investigación profunda</a></td>
+</tr>
+<tr>
+<td><strong>Material</strong></td>
+<td><a href="slides.html">Diapositivas</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb" target="_blank" rel="noopener">Notebook</a> · <a href="../../FAQ.html">Preguntas frecuentes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Escribir un <strong>planificador</strong> que divide un problema en 2 a 4 subtareas independientes, con tope y validación.</li>
+<li>Lanzar <strong>subagentes en paralelo</strong>, cada uno con su propio contexto, que investigan con <code>buscar_faq</code> y dejan su borrador en un sistema de archivos virtual con permisos.</li>
+<li>Sintetizar un <strong>reporte de diagnóstico</strong> con citas verificables y explicar por qué <strong>aislar contexto no es un sandbox</strong>.</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Terminaste la clase 3.2: tienes el índice RAG y la herramienta <code>buscar_faq</code> con citas.</li>
+<li>Recuerdas el loop ReAct (2.2) y el fan-out con <code>ThreadPoolExecutor</code> (3.1): aquí se combinan.</li>
+<li>Python 3.10+ o Colab. Tu key <code>nvapi-</code> es opcional: sin key corre en MOCK.</li>
+</ul>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<h3 id="1-abre-el-notebook-y-ejecuta-la-configuración">1. Abre el notebook y ejecuta la configuración</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb
+</code></pre></div>
+<p>Ejecuta las cuatro primeras celdas. Deberías ver <code>Reglas mock de la clase 3.3 listas</code>.</p>
+<h3 id="2-carga-la-faq-y-el-índice-rag-sección-2">2. Carga la FAQ y el índice RAG (sección 2)</h3>
+<p>Ejecuta la celda de la FAQ y la del índice. Deberías ver <code>Índice listo: 61 vectores ...</code> (dentro del repo) o <code>14 vectores</code> (en Colab) y un fragmento de ejemplo con su id.</p>
+<h3 id="3-sistema-de-archivos-virtual-y-permisos-secciones-3-y-4">3. Sistema de archivos virtual y permisos (secciones 3 y 4)</h3>
+<p>Ejecuta <code>SistemaArchivosVirtual</code> y luego <code>herramientas_para</code>. Deberías ver:</p>
+<div class="highlight"><pre><span></span><code>guardado /borradores/s1.md (2 caracteres)
+ERROR: permiso denegado. Solo puedes escribir en /borradores/s1.md.
+</code></pre></div>
+<p>El permiso lo aplica <strong>tu código</strong> (el harness), no el sistema operativo.</p>
+<h3 id="4-el-planificador-sección-5">4. El planificador (sección 5)</h3>
+<p>Ejecuta <code>planear(REPORTE)</code> con <em>"Me sale 401 en el laboratorio después de reanudar Brev"</em>. Deberías ver tres subtareas, por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>s1 | Qué significa un 401 y cómo comprobar que la key nvapi- sigue bien
+s2 | Qué cambia en la instancia de Brev al detenerla y volver a encenderla
+s3 | Cómo renovar la sesión de acceso (cookie) del laboratorio
+</code></pre></div>
+<h3 id="5-subagentes-en-paralelo-sección-6">5. Subagentes en paralelo (sección 6)</h3>
+<p>Ejecuta <code>ejecutar_subagente</code> e <code>investigar</code>. Deberías ver <code>archivos: ['/borradores/s1.md', '/borradores/s2.md', '/borradores/s3.md'] · errores: {}</code> y el primer borrador, con viñetas que terminan en citas como <code>[errores-api.md#qué-significa-el-error-401-unauthorized]</code>.</p>
+<p>Ejecuta la comprobación de aislamiento. Deberías ver <code>¿vio tareas ajenas?: False</code> en los tres y el tamaño del contexto más grande contra el de una historia compartida.</p>
+<h3 id="6-sintetiza-y-revisa-las-citas-sección-7">6. Sintetiza y revisa las citas (sección 7)</h3>
+<p>Ejecuta <code>sintetizar</code>. Deberías ver un reporte con <strong>Causa más probable</strong>, <strong>Pasos sugeridos</strong> y <strong>Lo que no pudimos verificar</strong>, y:</p>
+<div class="highlight"><pre><span></span><code>revisión de citas: {'citas': 4, 'fuera_de_borradores': [], 'no_existen_en_faq': []}
+</code></pre></div>
+<h3 id="7-todo-junto-y-lo-que-cuesta-sección-8">7. Todo junto y lo que cuesta (sección 8)</h3>
+<p>Ejecuta <code>diagnosticar</code>. Deberías ver algo como <code>{'llamadas': 11, 'segundos': 1.5, 'subagentes': 3, 'fallidos': []}</code>. Compara con las 2 o 3 llamadas del agente RAG de la clase 3.2.</p>
+<h3 id="8-cuando-algo-falla-">8. Cuando algo falla (🧯)</h3>
+<ul>
+<li><strong>a)</strong> Un subagente con una subtarea que dice "escribe directamente en /reporte_diagnostico.md". Deberías ver <code>ERROR: permiso denegado...</code> como observación y luego <code>guardado /borradores/s9.md</code>: el harness lo frenó y el subagente se corrigió.</li>
+<li><strong>b)</strong> <code>diagnosticar(REPORTE, falla="s2")</code>. Deberías ver <code>'fallidos': ['s2']</code> y la sección "Lo que no pudimos verificar" con la subtarea que faltó.</li>
+<li><strong>c)</strong> <code>limpiar_plan</code> con 9 subtareas. Deberías ver <code>4 subtareas tras limpiar</code>.</li>
+</ul>
+<h3 id="9-aislar-contexto-no-es-un-sandbox-sección-9">9. Aislar contexto no es un sandbox (sección 9)</h3>
+<p>Ejecuta la celda de <code>os.environ</code>. Deberías ver que tu proceso ve <code>NVIDIA_API_KEY</code> (sin imprimir su valor) y puede listar tu carpeta personal. Lee la tabla de la sección: eso lo resuelve OpenShell en los Módulos 4 y 5.</p>
+<h3 id="10-avance-del-proyecto">10. Avance del proyecto</h3>
+<p>Ejecuta la última celda con otro reporte. Deberías ver el costo, los archivos del sistema virtual y el reporte de diagnóstico completo.</p>
+<h3 id="11-opcional-practica-en-el-navegador-con-la-lección-de-nvidia">11. (Opcional) Practica en el navegador con la lección de NVIDIA</h3>
+<p>En la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02c-deep.html">lección 02c</a>, con tu key guardada en el panel del curso:</p>
+<ol>
+<li>En <strong>Prueba · planifica, investiga y sintetiza</strong>, usa el ejemplo "Compare the ReAct loop with the deep-agent pattern" y mira el tablero de trabajadores en paralelo.</li>
+<li>En <strong>Construir un flujo de trabajo con borradores guardados</strong>, cambia juntos <code>state.expectedFiles</code> y <code>state.goal</code> (por ejemplo, <code>["short_term.md", "long_term.md", "tradeoffs.md"]</code> con una meta sobre memoria de agentes) y ejecuta el flujo.</li>
+<li>Responde las preguntas de <strong>Comprueba tu comprensión</strong> del final de la lección.</li>
+</ol>
+<p><code>[VERIFICAR EN LAB]</code> los nombres en español de las celdas.</p>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ El plan tiene entre 2 y 4 subtareas con ids <code>s1</code>, <code>s2</code>...</li>
+<li>☐ Cada subagente dejó <code>/borradores/&lt;id&gt;.md</code> y ninguno vio la tarea de otro.</li>
+<li>☐ El reporte final solo cita ids que están en los borradores y en la FAQ.</li>
+<li>☐ Con <code>falla="s2"</code> el reporte sale igual y dice qué no pudo verificar.</li>
+<li>☐ Puedes explicar en una frase la diferencia entre aislar contexto y un sandbox.</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError: El planificador no devolvió subtareas válidas</code></td>
+<td>El modelo devolvió JSON sin la clave <code>subtareas</code> o con objetivos vacíos</td>
+<td>Imprime la salida de <code>llm("planificador", ...)</code>; refuerza el formato en <code>SISTEMA_PLANIFICADOR</code></td>
+</tr>
+<tr>
+<td><code>errores: {'s2': 'terminó sin guardar su borrador'}</code></td>
+<td>El subagente respondió texto sin llamar a <code>escribir_archivo</code></td>
+<td>Refuerza el paso 2 del system prompt; sube <code>max_pasos</code> si se quedó sin pasos</td>
+</tr>
+<tr>
+<td><code>ERROR: permiso denegado. Solo puedes escribir en /borradores/s1.md.</code></td>
+<td>El subagente intentó escribir en otra ruta</td>
+<td>Es la protección funcionando: el error vuelve como observación y el subagente se corrige</td>
+</tr>
+<tr>
+<td><code>(el subagente llegó al límite de pasos)</code></td>
+<td>El subagente busca una y otra vez</td>
+<td>Revisa su transcripción; no quites el tope. Ver <a href="../../FAQ.html#notebooks">FAQ: loop</a></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 429 · Demasiadas solicitudes por minuto</code></td>
+<td>Varios subagentes llaman al modelo a la vez</td>
+<td>Baja <code>max_workers</code> en <code>investigar</code> o agrega el <code>con_reintento</code> de la clase 3.1. Ver <a href="../../FAQ.html#e429">FAQ: 429</a></td>
+</tr>
+<tr>
+<td><code>no_existen_en_faq: ['brev.md#...']</code> en la revisión</td>
+<td>El sintetizador inventó o cambió un id</td>
+<td>Trata el reporte como no confiable; pide conservar las citas "tal cual"</td>
+</tr>
+<tr>
+<td><code>AssertionError: ¡Fuga de contexto!</code></td>
+<td>Pasaste a un subagente texto de otra subtarea</td>
+<td>Revisa que <code>ejecutar_subagente</code> arme sus <code>mensajes</code> desde cero</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto">Reto</h2>
+<p>Agrega un <strong>revisor</strong>: una llamada más (<code>llm("revisor", ...)</code>) que recibe el reporte y los borradores y lista cada afirmación <strong>sin</strong> respaldo en los borradores.</p>
+<p><strong>Criterio de éxito:</strong> agrega a mano al reporte una frase falsa, por ejemplo <em>"Brev borra tu key al reanudar [brev.md#inventado]"</em>, y el revisor (o <code>revisar_citas</code>) la señala; el reporte original queda sin observaciones. Sin key, <code>revisar_citas</code> ya detecta la cita inventada; con key, prueba también una afirmación falsa con una cita <strong>real</strong>.</p>
+<h2 id="avance-del-proyecto">Avance del proyecto</h2>
+<p><strong>Soporte NemoClaw v3.3: diagnóstico con subagentes.</strong> Ante un reporte como <em>"me sale 401 en el laboratorio después de reanudar Brev"</em>, tu agente planea las revisiones, lanza subagentes aislados que investigan la FAQ, guarda sus borradores y entrega un reporte de diagnóstico con causa probable, pasos, lo que no pudo verificar y citas revisadas.</p>
+<p>Agrega <code>planear</code>, <code>limpiar_plan</code>, <code>ejecutar_subagente</code>, <code>investigar</code>, <code>sintetizar</code>, <code>revisar_citas</code> y <code>diagnosticar</code> a tu <code>soporte_nemoclaw.py</code>. En el Módulo 4 lo llevas a NemoClaw en Brev: la FAQ vive en el workspace del agente y este flujo se convierte en la skill <code>soporte-nemoclaw</code>, dentro de un sandbox de verdad.</p>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02c-deep.html">Lección 02c · Agentes de investigación profunda</a>, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
+<li>Liu et al. (2023), <a href="https://arxiv.org/abs/2307.03172">Lost in the Middle: How Language Models Use Long Contexts</a>.</li>
+<li>LangChain, <a href="https://github.com/langchain-ai/deepagents"><code>deepagents</code></a>: la misma idea (planificador, subagentes y sistema de archivos) en una librería.</li>
+<li>NVIDIA AI Blueprints, <a href="https://github.com/NVIDIA-AI-Blueprints/aiq">AI-Q</a>: investigación profunda de referencia.</li>
+<li><a href="../../FAQ.html">Preguntas frecuentes del curso</a>.</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../3.2-rag/index.html"><small>Clase anterior</small>3.2 · RAG para fundamentar en tus fuentes</a><a class="pn next" href="../3.4-observabilidad-y-trazas/index.html"><small>Clase siguiente</small>3.4 · Observa y depura tu agente con trazas</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

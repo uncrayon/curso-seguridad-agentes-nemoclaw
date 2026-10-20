@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cookbook 4.2 · Workspace, sesiones y memoria de OpenClaw · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero doc"><h1>Cookbook 4.2 · Workspace, sesiones y memoria de OpenClaw</h1></section>
+<div class="md"><p>Recetas para inspeccionar y editar el workspace de un agente OpenClaw dentro de NemoClaw, como operador. Funcionan en el launchable del curso y en cualquier instalación de NemoClaw.</p>
+<p>Convenciones:
+- Todo se corre <strong>en la máquina</strong> (<code>brev shell &lt;instancia&gt;</code>), salvo que diga <strong>dentro del sandbox</strong>.
+- <code>my-assistant</code> es el sandbox del launchable; confírmalo con <code>nemoclaw list</code>. <code>[VERIFICAR EN LAB]</code>
+- El workspace está en <code>/sandbox/.openclaw/workspace/</code>. Dentro del sandbox, <code>~</code> es <code>/sandbox</code>.</p>
+<p>Basado en la lección 03b-openclaw del curso de NVIDIA DLI (Apache-2.0) y en la documentación de NemoClaw.</p>
+<hr />
+<h2 id="receta-1--entra-al-sandbox">Receta 1 · Entra al sandbox</h2>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>connect<span class="w">            </span><span class="c1"># espera a que esté Ready y arregla llaves SSH viejas</span>
+<span class="c1"># o, sin las comprobaciones de NemoClaw:</span>
+openshell<span class="w"> </span>sandbox<span class="w"> </span>connect<span class="w"> </span>my-assistant
+</code></pre></div>
+<p><strong>Dentro del sandbox:</strong></p>
+<div class="highlight"><pre><span></span><code>whoami<span class="w">          </span><span class="c1"># sandbox</span>
+<span class="nb">pwd</span><span class="w">             </span><span class="c1"># /sandbox</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">"</span><span class="w">    </span><span class="c1"># /sandbox</span>
+<span class="nb">exit</span><span class="w">            </span><span class="c1"># vuelves a la máquina</span>
+</code></pre></div>
+<p>Salida esperada: el usuario <code>sandbox</code> y la carpeta <code>/sandbox</code>. <code>connect</code> imprime una pista al entrar; si abriste la TUI del agente, sal con <code>/exit</code> antes de <code>exit</code>. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Si falla:</strong>
+- <code>connect</code> se queda mostrando una fase (por ejemplo, la imagen todavía se descarga) → espera; el límite por defecto es 120 s. Súbelo con <code>NEMOCLAW_CONNECT_TIMEOUT=300 nemoclaw my-assistant connect</code>.
+- <code>connect</code> sale porque el gateway está caído → <code>nemoclaw my-assistant status</code> y luego <code>nemoclaw my-assistant recover</code>.
+- Después de reanudar la instancia, <code>connect</code> limpia solo las llaves SSH viejas de <code>~/.ssh/known_hosts</code>; no necesitas repetir el onboarding.</p>
+<hr />
+<h2 id="receta-2--inventario-del-workspace">Receta 2 · Inventario del workspace</h2>
+<p><strong>Dentro del sandbox:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/sandbox/.openclaw/workspace
+ls<span class="w"> </span>-la
+head<span class="w"> </span>-n<span class="w"> </span><span class="m">20</span><span class="w"> </span>SOUL.md
+head<span class="w"> </span>-n<span class="w"> </span><span class="m">30</span><span class="w"> </span>AGENTS.md
+ls<span class="w"> </span>-la<span class="w"> </span>skills/<span class="w"> </span>memory/<span class="w"> </span><span class="m">2</span>&gt;/dev/null
+cat<span class="w"> </span>MEMORY.md<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"(todavía no hay MEMORY.md)"</span>
+</code></pre></div>
+<p>Salida esperada: <code>AGENTS.md</code>, <code>HEARTBEAT.md</code>, <code>IDENTITY.md</code>, <code>SOUL.md</code>, <code>TOOLS.md</code>, <code>USER.md</code> y <code>POLICY.md</code>; <code>skills/</code> con las skills de inicio. <code>MEMORY.md</code> y <code>memory/</code> aparecen cuando el agente guarda memoria por primera vez. <code>[VERIFICAR EN LAB: lista exacta y skills de inicio]</code></p>
+<p><strong>Si falla:</strong> <code>Permission denied</code> al leer algo fuera de <code>/sandbox</code> o <code>/tmp</code> → es la política del sandbox; lo vemos en el módulo 5. Dentro del workspace no debería pasar.</p>
+<hr />
+<h2 id="receta-3--lee-sin-entrar-al-sandbox">Receta 3 · Lee sin entrar al sandbox</h2>
+<p>Útil para scripts y para comprobar rápido lo que el agente afirma.</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--workdir<span class="w"> </span>/sandbox/.openclaw/workspace<span class="w"> </span>--<span class="w"> </span>ls<span class="w"> </span>-la
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"REF-"</span><span class="w"> </span>/sandbox/.openclaw/workspace/MEMORY.md
+</code></pre></div>
+<p>Salida esperada: la misma información que en la receta 2. <code>exec</code> corre como el usuario <code>sandbox</code> con <code>HOME=/sandbox</code>.</p>
+<p><strong>Si falla:</strong>
+- <code>error: --workdir: &lt;dir&gt; does not exist inside the sandbox</code> → la carpeta no existe; revisa la ruta.
+- Ves <code>nemoclaw: recent network policy denial detected for …</code> → no es un error de tu comando: es una pista de que la política bloqueó una conexión hace poco. La retomamos en el módulo 5.
+- Nunca uses <code>docker exec</code> para esto: corre como root con <code>HOME=/root</code> y no ve la configuración del agente.</p>
+<hr />
+<h2 id="receta-4--pide-al-agente-que-se-describa-y-compara">Receta 4 · Pide al agente que se describa y compara</h2>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--session-id<span class="w"> </span>describe-01<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Enumera brevemente los archivos de tu workspace y explica cada uno en una viñeta, sin volcar su contenido."</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--workdir<span class="w"> </span>/sandbox/.openclaw/workspace<span class="w"> </span>--<span class="w"> </span>ls<span class="w"> </span>-1
+</code></pre></div>
+<p>Compara las dos listas. Lo que el agente dice es su relato; <code>ls</code> es la evidencia.</p>
+<p><strong>Si falla:</strong> <code>agent</code> necesita un selector (<code>--agent</code>, <code>--session-id</code>, <code>--session-key</code> o <code>--to</code>). Si el turno se cuelga sin usar herramientas, corre la <strong>Comprobación de estado</strong> de la página del curso.</p>
+<hr />
+<h2 id="receta-5--lista-y-administra-sesiones">Receta 5 · Lista y administra sesiones</h2>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>sessions<span class="w">                          </span><span class="c1"># sesiones del agente por defecto</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>sessions<span class="w"> </span>list<span class="w"> </span>--agent<span class="w"> </span>main<span class="w"> </span>--json
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>sessions<span class="w"> </span>reset<span class="w"> </span>describe-01<span class="w"> </span>--agent<span class="w"> </span>main
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>sessions<span class="w"> </span><span class="nb">export</span><span class="w"> </span>describe-01<span class="w"> </span>--agent<span class="w"> </span>main
+</code></pre></div>
+<p>Salida esperada: la lista muestra tus sesiones (por ejemplo <code>describe-01</code> y las <code>quick-3b-…</code> que creó la página). <code>reset</code> archiva el historial y deja la clave apuntando a una sesión nueva. <code>export</code> copia los <code>.jsonl</code> a <code>./sessions-my-assistant/</code>. <code>[VERIFICAR EN LAB: que el alias describe-01 resuelva a la sesión creada con --session-id]</code></p>
+<p><strong>Atención:</strong> los <code>.jsonl</code> exportados pueden tener secretos que alguien pegó en el chat. Se guardan con permisos <code>0600</code>; no los subas a tu repo.</p>
+<p><strong>Si falla:</strong> <code>delete</code> se niega a borrar la sesión principal del agente: es intencional.</p>
+<hr />
+<h2 id="receta-6--respalda-el-workspace-o-un-archivo">Receta 6 · Respalda el workspace (o un archivo)</h2>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>~/respaldo
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>download<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md<span class="w"> </span>~/respaldo/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>download<span class="w"> </span>/sandbox/.openclaw/workspace/<span class="w"> </span>~/respaldo/workspace/
+ls<span class="w"> </span>-la<span class="w"> </span>~/respaldo
+</code></pre></div>
+<p>Salida esperada: los archivos en <code>~/respaldo</code>. Haz esto antes de cualquier edición o de eliminar la instancia.</p>
+<p><strong>Si falla:</strong> código de salida <code>2</code> → la ruta no existe en el sandbox. Los enlaces simbólicos y archivos especiales se rechazan a propósito.</p>
+<hr />
+<h2 id="receta-7--personaliza-soulmd-download--editar--upload">Receta 7 · Personaliza SOUL.md (download → editar → upload)</h2>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>~/soporte<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/soporte
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>download<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md<span class="w"> </span>./
+cp<span class="w"> </span>SOUL.md<span class="w"> </span>SOUL.md.original
+
+cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>SOUL.md<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+
+<span class="s">## Proyecto: Soporte NemoClaw</span>
+<span class="s">- Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".</span>
+<span class="s">- Respondes en español neutro, con frases cortas y pasos numerados.</span>
+<span class="s">- Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.</span>
+<span class="s">- Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.</span>
+<span class="s">- Nunca pides, repites ni guardas API keys, tokens o cookies. Si alguien pega una, le pides que la revoque.</span>
+<span class="s">- Si no sabes algo, lo dices y sugieres abrir un issue o preguntar en el foro del curso.</span>
+<span class="s">EOF</span>
+
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>upload<span class="w"> </span>./SOUL.md<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">9</span><span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>ls<span class="w"> </span>-la<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md
+</code></pre></div>
+<p>Prueba en una sesión <strong>nueva</strong>:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--session-id<span class="w"> </span>soul-check-01<span class="w"> </span>-m<span class="w"> </span><span class="s2">"¿Quién eres, a quién ayudas y qué nunca haces?"</span>
+</code></pre></div>
+<p>Salida esperada: la sección nueva al final del archivo y una respuesta que menciona el curso, el español neutro y la regla de las keys. <code>[VERIFICAR EN LAB: que el archivo subido quede con dueño y permisos que el agente puede leer]</code></p>
+<p>Para deshacer:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>upload<span class="w"> </span>./SOUL.md.original<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md
+</code></pre></div>
+<p><strong>Si falla:</strong>
+- El agente no cambia → ¿preguntaste en una sesión nueva? El workspace se lee al inicio de cada sesión.
+- Subiste a <code>/sandbox/SOUL.md</code> → ruta equivocada. Repite con la ruta del workspace.
+- Alternativa sin subir archivos: entra con <code>nemoclaw my-assistant connect</code> y usa el mismo <code>cat &gt;&gt; /sandbox/.openclaw/workspace/SOUL.md &lt;&lt;'EOF' … EOF</code> dentro del sandbox.</p>
+<hr />
+<h2 id="receta-8--edita-memorymd-por-medio-del-agente-y-verifícalo">Receta 8 · Edita MEMORY.md por medio del agente y verifícalo</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. El agente escribe (sesión A)</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--session-id<span class="w"> </span>memoria-a<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Añade esta preferencia a /sandbox/.openclaw/workspace/MEMORY.md sin sustituir el contenido existente: soporte-pref-01: responde en español neutro y cita el archivo de la FAQ que usaste; referencia REF-4821. Después léelo de vuelta y cita la línea."</span>
+
+<span class="c1"># 2. Tú verificas como operador</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"REF-4821"</span><span class="w"> </span>/sandbox/.openclaw/workspace/MEMORY.md
+
+<span class="c1"># 3. Otra sesión lo recupera desde el archivo (sesión B)</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--session-id<span class="w"> </span>memoria-b<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Lee MEMORY.md e indica la preferencia y la referencia de soporte-pref-01."</span>
+</code></pre></div>
+<p>Salida esperada: <code>grep</code> imprime la línea con <code>REF-4821</code> y la sesión B responde con esa referencia.</p>
+<p><strong>Si falla:</strong>
+- <code>grep</code> no encuentra nada aunque el agente dijo que guardó → no le creas. Revisa si escribió en otra ruta: <code>nemoclaw my-assistant exec -- grep -rn "REF-4821" /sandbox/.openclaw/</code>.
+- La sesión B no la encuentra → pídele explícitamente que lea <code>MEMORY.md</code>. Por defecto <code>MEMORY.md</code> entra al contexto de la sesión principal, no de todas: que no lo "recuerde" no significa que no pueda leerlo.</p>
+<hr />
+<h2 id="receta-9--resuelve-pairing-required">Receta 9 · Resuelve <code>Pairing required</code></h2>
+<p>Desde OpenClaw 2026.9.1 el emparejamiento de dispositivos es obligatorio. <code>NEMOCLAW_DISABLE_DEVICE_AUTH=1</code> ya no lo salta.</p>
+<p>Primero, en el dashboard: espera un par de minutos y recarga, o ve a <strong>Overview → Gateway Access → Connect</strong>.</p>
+<p>Si sigue:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>connect
+</code></pre></div>
+<p><strong>Dentro del sandbox:</strong></p>
+<div class="highlight"><pre><span></span><code>openclaw<span class="w"> </span>devices<span class="w"> </span>list<span class="w"> </span>--json<span class="w">              </span><span class="c1"># busca la solicitud pendiente y su requestId</span>
+openclaw<span class="w"> </span>devices<span class="w"> </span>approve<span class="w"> </span>&lt;requestId&gt;
+<span class="nb">exit</span>
+</code></pre></div>
+<p>Salida esperada: la solicitud pasa a aprobada y el dashboard deja de pedir pairing. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Si falla:</strong> hay un bug abierto (v0.0.133) en el que la autoaprobación rechaza scopes adicionales. Aprueba a mano como arriba y aprueba solo solicitudes que tú iniciaste. Referencia: <a href="https://github.com/NVIDIA/NemoClaw/issues/13092">NemoClaw #13092</a>.</p>
+<hr />
+<h2 id="receta-10--mira-qué-pasa-en-el-gateway">Receta 10 · Mira qué pasa en el gateway</h2>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">50</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>5m
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--follow<span class="w">       </span><span class="c1"># Ctrl+C para salir</span>
+</code></pre></div>
+<p>Salida esperada: los turnos recientes del gateway y la auditoría de OpenShell (por ejemplo, conexiones denegadas).</p>
+<hr />
+<h2 id="receta-11--comandos-que-no-debes-correr-en-la-máquina-ni-en-el-sandbox">Receta 11 · Comandos que NO debes correr (en la máquina ni en el sandbox)</h2>
+<table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Por qué no</th>
+<th>Qué hacer en su lugar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>openclaw update</code></td>
+<td>OpenClaw viene fijado en la imagen. Se cuelga o agota el tiempo.</td>
+<td>En una instalación propia: <code>nemoclaw update</code> y luego <code>nemoclaw my-assistant rebuild</code>. En el launchable del curso: no cambies versiones.</td>
+</tr>
+<tr>
+<td><code>openshell self-update</code> / <code>npm update -g openshell</code></td>
+<td>NemoClaw exige una versión exacta de OpenShell.</td>
+<td>Deja que el instalador de NemoClaw maneje OpenShell.</td>
+</tr>
+<tr>
+<td><code>openshell sandbox create</code></td>
+<td>Crea un sandbox fuera del control de NemoClaw.</td>
+<td><code>nemoclaw onboard</code> (fuera del alcance de este curso).</td>
+</tr>
+<tr>
+<td>Escribir en <code>~/SOUL.md</code></td>
+<td><code>~</code> es <code>/sandbox</code>, no el workspace.</td>
+<td>Usa <code>/sandbox/.openclaw/workspace/SOUL.md</code>.</td>
+</tr>
+</tbody>
+</table></div>
+
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

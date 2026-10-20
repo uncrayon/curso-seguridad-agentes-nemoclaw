@@ -1,0 +1,109 @@
+/* Páginas de las guías (tools/build_guias.py). Estilo Platzi Sinapsis, tema oscuro. */
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+[id]{scroll-margin-top:84px}
+body{margin:0;background:var(--sin-surface);color:var(--sin-on-surface);font:400 17px/1.65 var(--sin-font-body);-webkit-font-smoothing:antialiased}
+::selection{background:color-mix(in srgb,var(--sin-primary) 30%,transparent)}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+a{color:var(--sin-primary);text-underline-offset:.15em}
+a:hover{color:var(--sin-on-primary-container)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--sin-primary);outline-offset:2px;border-radius:6px}
+.icon{font-family:"Material Symbols Rounded";font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;
+  direction:ltr;font-feature-settings:"liga";font-variation-settings:"FILL" 1,"wght" 500;font-size:1.2em;vertical-align:-.2em}
+
+/* Barra superior */
+.topbar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--sin-surface) 88%,transparent);backdrop-filter:blur(12px) saturate(1.4);
+  border-bottom:1px solid var(--sin-outline-variant)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:var(--sin-on-surface);text-decoration:none;font-family:var(--sin-font-display);font-weight:700;font-size:15px}
+.brand img{height:26px;width:auto}
+.topbar nav{display:flex;gap:6px;flex-wrap:wrap}
+.topbar nav a{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:var(--sin-radius-full);color:var(--sin-on-surface-variant);
+  text-decoration:none;font-size:14px;font-weight:600}
+.topbar nav a:hover{background:var(--sin-surface-container-high);color:var(--sin-on-surface)}
+.topbar nav .icon{color:var(--sin-primary)}
+
+/* Encabezado de la clase */
+.hero{padding:48px 0 28px}
+.hero.doc{padding-bottom:8px}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:var(--sin-radius-full);background:var(--sin-surface-container-high);
+  border:1px solid var(--sin-outline-variant);color:var(--sin-on-surface-variant);font-size:13px;font-weight:600}
+.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--sin-primary)}
+h1,h2,h3,h4{font-family:var(--sin-font-display);color:var(--sin-on-surface);text-wrap:balance}
+.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.08;letter-spacing:-.02em;font-weight:800;margin:16px 0 14px;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.hero h1 .num{color:var(--sin-primary)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:var(--sin-radius-full);background:var(--sin-surface-container-high);
+  border:1px solid var(--sin-outline-variant);font-size:14px;font-weight:600}
+.chip .icon{color:var(--sin-primary)}
+.chip.primary{background:var(--sin-primary);color:var(--sin-on-primary);border-color:transparent}
+.chip.primary .icon{color:var(--sin-on-primary)}
+.acciones{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:var(--sin-radius-full);text-decoration:none;font-weight:700;font-size:15px;
+  background:var(--sin-surface-container-high);color:var(--sin-on-surface);border:1px solid var(--sin-outline-variant);transition:transform .18s cubic-bezier(.16,1,.3,1)}
+.btn:hover{transform:translateY(-1px);color:var(--sin-on-surface);background:var(--sin-surface-container-highest)}
+.btn .icon{color:var(--sin-primary)}
+.btn.primary{background:var(--sin-primary);color:var(--sin-on-primary);border-color:transparent}
+.btn.primary .icon{color:var(--sin-on-primary)}
+.btn.primary:hover{color:var(--sin-on-primary);filter:brightness(1.08)}
+
+/* Lo esencial: tarjetas */
+.esencial{margin:12px 0 40px;padding:28px;border-radius:24px;background:linear-gradient(160deg,color-mix(in srgb,var(--sin-primary) 9%,var(--sin-surface-container-lowest)),var(--sin-surface-container-lowest) 60%);
+  border:1px solid color-mix(in srgb,var(--sin-primary) 30%,transparent)}
+.esencial>h2{margin:0 0 18px;font-size:26px;display:flex;align-items:center;gap:10px}
+.esencial>h2 .icon{color:var(--sin-primary)}
+.esencial-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.es-card{background:var(--sin-surface-container-low);border:1px solid var(--sin-outline-variant);border-radius:var(--sin-radius-3xl);padding:16px 18px}
+.es-card header{display:flex;align-items:center;gap:8px;font-family:var(--sin-font-display);font-weight:700;font-size:16px;margin-bottom:6px;color:var(--sin-primary)}
+.es-card p{margin:.3em 0}
+.es-card.wide{grid-column:1/-1;background:var(--sin-primary-container);border-color:color-mix(in srgb,var(--sin-primary) 45%,transparent)}
+.es-card.wide header{color:var(--sin-on-primary-container)}
+.es-card.credit{grid-column:1/-1;background:var(--sin-warning-container);border-color:transparent;color:var(--sin-on-warning-container)}
+.es-card.credit header{color:var(--sin-warning)}
+.es-card.credit a{color:var(--sin-on-warning-container)}
+
+/* El resto de la guía */
+.fondo-h{display:flex;align-items:center;gap:10px;font-size:24px;margin:0 0 4px}
+.fondo-h .icon{color:var(--sin-primary)}
+.fondo-sub{color:var(--sin-on-surface-variant);margin:0 0 20px}
+.md h2{font-size:26px;margin:44px 0 12px;padding-top:12px;border-top:1px solid var(--sin-outline-variant)}
+.md h3{font-size:20px;margin:30px 0 8px}
+.md h4{font-size:17px;margin:22px 0 6px}
+.md p,.md li{color:var(--sin-on-surface)}
+.md ul,.md ol{padding-left:1.4em}
+.md li{margin:.35em 0}
+.md li::marker{color:var(--sin-primary)}
+.md strong{color:var(--sin-on-surface)}
+.md blockquote{margin:18px 0;padding:12px 18px;border-left:4px solid var(--sin-primary);background:var(--sin-surface-container-low);border-radius:0 var(--sin-radius-xl) var(--sin-radius-xl) 0;color:var(--sin-on-surface-variant)}
+.md blockquote p{margin:.3em 0}
+code{background:var(--sin-surface-container-high);color:var(--sin-on-surface);padding:.1em .4em;border-radius:var(--sin-radius-sm);font:400 .88em var(--sin-font-mono)}
+pre{position:relative;background:var(--sin-surface-dim);border:1px solid var(--sin-outline-variant);border-radius:var(--sin-radius-xl);padding:16px 18px;overflow:auto;font-size:14px;line-height:1.55}
+pre code{background:none;padding:0;color:var(--sin-on-primary-container);font-size:1em}
+.copy{position:absolute;top:8px;right:8px;border:1px solid var(--sin-outline-variant);background:var(--sin-surface-container-high);color:var(--sin-on-surface);
+  border-radius:var(--sin-radius-full);padding:4px 12px;font:600 12px var(--sin-font-body);cursor:pointer;opacity:.85}
+.copy:hover{opacity:1;background:var(--sin-surface-container-highest)}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:15px;background:var(--sin-surface-container-lowest);border-radius:var(--sin-radius-3xl);overflow:hidden;display:block;overflow-x:auto}
+th,td{border-bottom:1px solid var(--sin-outline-variant);padding:10px 14px;text-align:left;vertical-align:top}
+th{background:var(--sin-surface-container);color:var(--sin-on-surface-variant);font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:0}
+tr:target td{background:var(--sin-primary-container)}
+hr{border:0;border-top:1px solid var(--sin-outline-variant);margin:32px 0}
+
+/* Palabras del glosario: definición al pasar el mouse o con el foco */
+a.glos{position:relative;text-decoration:underline dotted;text-decoration-color:color-mix(in srgb,var(--sin-primary) 70%,transparent)}
+a.glos:hover::after,a.glos:focus::after{content:attr(data-def);position:absolute;left:0;top:calc(100% + 8px);z-index:10;width:max-content;max-width:300px;
+  background:var(--sin-surface-container-highest);color:var(--sin-on-surface);border:1px solid var(--sin-outline-variant);border-radius:var(--sin-radius-xl);
+  padding:10px 12px;font:400 14px/1.45 var(--sin-font-body);box-shadow:var(--shadow-raised);white-space:normal}
+
+/* Navegación entre clases y pie */
+.prevnext{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:48px 0 24px}
+.pn{display:flex;flex-direction:column;gap:2px;padding:16px 18px;border-radius:var(--sin-radius-3xl);background:var(--sin-surface-container-low);
+  border:1px solid var(--sin-outline-variant);text-decoration:none;color:var(--sin-on-surface);font-weight:700}
+.pn small{color:var(--sin-on-surface-variant);font-weight:600}
+.pn.next{text-align:right}
+.pn:hover{border-color:var(--sin-primary);color:var(--sin-on-surface)}
+.foot{border-top:1px solid var(--sin-outline-variant);color:var(--sin-on-surface-variant);font-size:13px;padding:20px 0 32px;margin-top:24px}
+
+@media (max-width:700px){.esencial{padding:18px}.esencial-grid{grid-template-columns:1fr}.prevnext{grid-template-columns:1fr}.pn.next{text-align:left}}
+@media print{.topbar,.copy,.prevnext{display:none}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}

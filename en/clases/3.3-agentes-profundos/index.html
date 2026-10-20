@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3.3 Deep agents that spawn subagents · Securing Agents with OpenShell and NemoClaw</title>
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Module 3 · Coordinate, ground and plan</span><h1><span class="num">3.3</span>Deep agents that spawn subagents</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Skill: Coordinate subagents with a planner</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Open in Colab</a></p></section>
+<section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
+<p>🇪🇸 Original Spanish guide: <a href="../../../clases/3.3-agentes-profundos/index.html"><code>clases/3.3-agentes-profundos/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
+</blockquote>
+<p>Goal: turn a student's report into a diagnostic report with citations, using a planner, subagents with isolated context, a virtual file system, and a synthesizer.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Video length</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Practice</strong></td>
+<td>Notebook (≈50 min), works without a key in MOCK mode</td>
+</tr>
+<tr>
+<td><strong>Skill</strong></td>
+<td>Coordinate subagents with a planner</td>
+</tr>
+<tr>
+<td><strong>NVIDIA lesson</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02c-deep.html">02c · Deep Agents</a></td>
+</tr>
+<tr>
+<td><strong>Materials</strong></td>
+<td><a href="slides.html">Slides</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb" target="_blank" rel="noopener">Notebook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-youll-achieve">What you'll achieve</h2>
+<ul>
+<li>Write a <strong>planner</strong> that splits a problem into 2 to 4 independent subtasks, with a cap and validation.</li>
+<li>Launch <strong>subagents in parallel</strong>, each with its own context, that research with <code>buscar_faq</code> (FAQ search) and leave their draft in a virtual file system with permissions.</li>
+<li>Synthesize a <strong>diagnostic report</strong> with verifiable citations, and explain why <strong>isolating context is not a sandbox</strong>.</li>
+</ul>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>You finished class 3.2: you have the RAG index and the <code>buscar_faq</code> tool with citations.</li>
+<li>You remember the ReAct loop (2.2) and the fan-out with <code>ThreadPoolExecutor</code> (3.1): here they come together.</li>
+<li>Python 3.10+ or Colab. Your <code>nvapi-</code> key is optional: without a key, it runs in MOCK mode.</li>
+</ul>
+<h2 id="step-by-step">Step by step</h2>
+<h3 id="1-open-the-notebook-and-run-the-setup">1. Open the notebook and run the setup</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb
+</code></pre></div>
+<p>Run the first four cells. You should see <code>Reglas mock de la clase 3.3 listas</code>.</p>
+<h3 id="2-load-the-faq-and-the-rag-index-section-2">2. Load the FAQ and the RAG index (section 2)</h3>
+<p>Run the FAQ cell and the index cell. You should see <code>Índice listo: 61 vectores ...</code> (inside the repo) or <code>14 vectores</code> (in Colab) and a sample chunk with its id.</p>
+<h3 id="3-virtual-file-system-and-permissions-sections-3-and-4">3. Virtual file system and permissions (sections 3 and 4)</h3>
+<p>Run <code>SistemaArchivosVirtual</code> (virtual file system) and then <code>herramientas_para</code> (tools for). You should see:</p>
+<div class="highlight"><pre><span></span><code>guardado /borradores/s1.md (2 caracteres)
+ERROR: permiso denegado. Solo puedes escribir en /borradores/s1.md.
+</code></pre></div>
+<p><strong>Your code</strong> (the harness) enforces the permission, not the operating system.</p>
+<h3 id="4-the-planner-section-5">4. The planner (section 5)</h3>
+<p>Run <code>planear(REPORTE)</code> (plan the report) with <em>"Me sale 401 en el laboratorio después de reanudar Brev"</em> ("I get a 401 in the lab after resuming Brev"). You should see three subtasks, for example:</p>
+<div class="highlight"><pre><span></span><code>s1 | Qué significa un 401 y cómo comprobar que la key nvapi- sigue bien
+s2 | Qué cambia en la instancia de Brev al detenerla y volver a encenderla
+s3 | Cómo renovar la sesión de acceso (cookie) del laboratorio
+</code></pre></div>
+<p>(What a 401 means and how to check the <code>nvapi-</code> key; what changes in the Brev instance when you stop and restart it; how to renew the lab's access session cookie.)</p>
+<h3 id="5-subagents-in-parallel-section-6">5. Subagents in parallel (section 6)</h3>
+<p>Run <code>ejecutar_subagente</code> (run subagent) and <code>investigar</code> (research). You should see <code>archivos: ['/borradores/s1.md', '/borradores/s2.md', '/borradores/s3.md'] · errores: {}</code> and the first draft, with bullets that end in citations like <code>[errores-api.md#qué-significa-el-error-401-unauthorized]</code>.</p>
+<p>Run the isolation check. You should see <code>¿vio tareas ajenas?: False</code> ("did it see other tasks?") for all three, and the size of the largest context compared with a shared history.</p>
+<h3 id="6-synthesize-and-review-the-citations-section-7">6. Synthesize and review the citations (section 7)</h3>
+<p>Run <code>sintetizar</code> (synthesize). You should see a report with <strong>Causa más probable</strong> (most likely cause), <strong>Pasos sugeridos</strong> (suggested steps), and <strong>Lo que no pudimos verificar</strong> (what we couldn't verify), plus:</p>
+<div class="highlight"><pre><span></span><code>revisión de citas: {'citas': 4, 'fuera_de_borradores': [], 'no_existen_en_faq': []}
+</code></pre></div>
+<h3 id="7-all-together-and-what-it-costs-section-8">7. All together, and what it costs (section 8)</h3>
+<p>Run <code>diagnosticar</code> (diagnose). You should see something like <code>{'llamadas': 11, 'segundos': 1.5, 'subagentes': 3, 'fallidos': []}</code>. Compare it with the 2 or 3 calls of the RAG agent from class 3.2.</p>
+<h3 id="8-when-something-fails-">8. When something fails (🧯)</h3>
+<ul>
+<li><strong>a)</strong> A subagent with a subtask that says "escribe directamente en /reporte_diagnostico.md" ("write directly to /reporte_diagnostico.md"). You should see <code>ERROR: permiso denegado...</code> as an observation and then <code>guardado /borradores/s9.md</code>: the harness stopped it and the subagent corrected itself.</li>
+<li><strong>b)</strong> <code>diagnosticar(REPORTE, falla="s2")</code>. You should see <code>'fallidos': ['s2']</code> and the "Lo que no pudimos verificar" section listing the missing subtask.</li>
+<li><strong>c)</strong> <code>limpiar_plan</code> (clean plan) with 9 subtasks. You should see <code>4 subtareas tras limpiar</code>.</li>
+</ul>
+<h3 id="9-isolating-context-is-not-a-sandbox-section-9">9. Isolating context is not a sandbox (section 9)</h3>
+<p>Run the <code>os.environ</code> cell. You should see that your process can see <code>NVIDIA_API_KEY</code> (without printing its value) and can list your home folder. Read the table in that section: OpenShell solves this in Modules 4 and 5.</p>
+<h3 id="10-project-milestone">10. Project milestone</h3>
+<p>Run the last cell with a different report. You should see the cost, the files in the virtual file system, and the full diagnostic report.</p>
+<h3 id="11-optional-practice-in-the-browser-with-the-nvidia-lesson">11. (Optional) Practice in the browser with the NVIDIA lesson</h3>
+<p>In <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02c-deep.html">lesson 02c</a>, with your key saved in the course panel:</p>
+<ol>
+<li>In <strong>Try it · plan, investigate, and synthesize</strong>, use the example "Compare the ReAct loop with the deep-agent pattern" and watch the board of parallel workers.</li>
+<li>In <strong>Assemble a workflow over saved drafts</strong>, change <code>state.expectedFiles</code> and <code>state.goal</code> together (for example, <code>["short_term.md", "long_term.md", "tradeoffs.md"]</code> with a goal about agent memory) and run the flow.</li>
+<li>Answer the <strong>Check your understanding</strong> questions at the end of the lesson.</li>
+</ol>
+<p><code>[VERIFY IN LAB]</code> the cell names.</p>
+<h2 id="check-that-it-worked">Check that it worked</h2>
+<ul>
+<li>☐ The plan has between 2 and 4 subtasks with ids <code>s1</code>, <code>s2</code>...</li>
+<li>☐ Each subagent left <code>/borradores/&lt;id&gt;.md</code>, and none saw another's task.</li>
+<li>☐ The final report only cites ids that are in the drafts and in the FAQ.</li>
+<li>☐ With <code>falla="s2"</code>, the report still comes out and says what it couldn't verify.</li>
+<li>☐ You can explain in one sentence the difference between isolating context and a sandbox.</li>
+</ul>
+<h2 id="common-errors">Common errors</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError: El planificador no devolvió subtareas válidas</code></td>
+<td>The model returned JSON without the <code>subtareas</code> key, or with empty goals</td>
+<td>Print the output of <code>llm("planificador", ...)</code>; reinforce the format in <code>SISTEMA_PLANIFICADOR</code></td>
+</tr>
+<tr>
+<td><code>errores: {'s2': 'terminó sin guardar su borrador'}</code></td>
+<td>The subagent answered with text without calling <code>escribir_archivo</code> (write file)</td>
+<td>Reinforce step 2 of the system prompt; raise <code>max_pasos</code> if it ran out of steps</td>
+</tr>
+<tr>
+<td><code>ERROR: permiso denegado. Solo puedes escribir en /borradores/s1.md.</code></td>
+<td>The subagent tried to write to another path</td>
+<td>That's the protection working: the error goes back as an observation and the subagent corrects itself</td>
+</tr>
+<tr>
+<td><code>(el subagente llegó al límite de pasos)</code></td>
+<td>The subagent searches over and over</td>
+<td>Review its transcript; don't remove the cap. See <a href="../../../FAQ.html#notebooks">FAQ (Spanish): loop</a></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 429 · Demasiadas solicitudes por minuto</code></td>
+<td>Several subagents call the model at once</td>
+<td>Lower <code>max_workers</code> in <code>investigar</code> or add the <code>con_reintento</code> from class 3.1. See <a href="../../../FAQ.html#e429">FAQ (Spanish): 429</a></td>
+</tr>
+<tr>
+<td><code>no_existen_en_faq: ['brev.md#...']</code> in the review</td>
+<td>The synthesizer invented or changed an id</td>
+<td>Treat the report as untrusted; ask it to keep the citations "exactly as given"</td>
+</tr>
+<tr>
+<td><code>AssertionError: ¡Fuga de contexto!</code></td>
+<td>You passed a subagent text from another subtask</td>
+<td>Check that <code>ejecutar_subagente</code> builds its <code>mensajes</code> (messages) from scratch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="challenge">Challenge</h2>
+<p>Add a <strong>reviewer</strong>: one more call (<code>llm("revisor", ...)</code>) that receives the report and the drafts and lists every claim <strong>without</strong> support in the drafts.</p>
+<p><strong>Success criteria:</strong> add a false sentence to the report by hand, for example <em>"Brev borra tu key al reanudar [brev.md#inventado]"</em> ("Brev deletes your key when it resumes"), and the reviewer (or <code>revisar_citas</code>) flags it; the original report gets no findings. Without a key, <code>revisar_citas</code> already catches the invented citation; with a key, also try a false claim with a <strong>real</strong> citation.</p>
+<h2 id="project-milestone">Project milestone</h2>
+<p><strong>Soporte NemoClaw (NemoClaw Support) v3.3: diagnosis with subagents.</strong> Given a report like <em>"me sale 401 en el laboratorio después de reanudar Brev"</em>, your agent plans the checks, launches isolated subagents that research the FAQ, saves their drafts, and delivers a diagnostic report with the likely cause, steps, what it couldn't verify, and reviewed citations.</p>
+<p>Add <code>planear</code>, <code>limpiar_plan</code>, <code>ejecutar_subagente</code>, <code>investigar</code>, <code>sintetizar</code>, <code>revisar_citas</code>, and <code>diagnosticar</code> to your <code>soporte_nemoclaw.py</code>. In Module 4 you take it to NemoClaw on Brev: the FAQ lives in the agent's workspace, and this flow becomes the <code>soporte-nemoclaw</code> skill, inside a real sandbox.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02c-deep.html">Lesson 02c · Deep Agents</a>, from the NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
+<li>Liu et al. (2023), <a href="https://arxiv.org/abs/2307.03172">Lost in the Middle: How Language Models Use Long Contexts</a>.</li>
+<li>LangChain, <a href="https://github.com/langchain-ai/deepagents"><code>deepagents</code></a>: the same idea (planner, subagents, and file system) as a library.</li>
+<li>NVIDIA AI Blueprints, <a href="https://github.com/NVIDIA-AI-Blueprints/aiq">AI-Q</a>: a reference for deep research.</li>
+<li><a href="../../../FAQ.html">Course FAQ (Spanish)</a>.</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../3.2-rag/index.html"><small>Previous class</small>3.2 · RAG to ground answers in your sources</a><a class="pn next" href="../3.4-observabilidad-y-trazas/index.html"><small>Next class</small>3.4 · Observe and debug your agent with traces</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copy$/, "").trim()).then(function () {
+      b.textContent = "Copied!"; setTimeout(function () { b.textContent = "Copy"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

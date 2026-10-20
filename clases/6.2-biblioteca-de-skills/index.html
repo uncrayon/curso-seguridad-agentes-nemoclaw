@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>6.2 Construye tu biblioteca de skills · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 6 · Amplía tu práctica con agentes</span><h1><span class="num">6.2</span>Construye tu biblioteca de skills</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Crear skills de agente reutilizables</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Una skill es un archivo de texto con instrucciones paso a paso para una tarea, escrito en español normal. El agente ve solo una lista con el nombre y la descripción de cada skill, y abre la completa cuando tu pedido coincide. Por eso la descripción es la línea más importante: decide si el agente encuentra la skill solo.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Una tarjeta de receta (<a href="../../GLOSARIO.html#skill" class="glos" data-def="Un archivo de texto con instrucciones paso a paso para una tarea. El agente lo lee cuando lo necesita. · Una tarjeta de receta.">skill</a>).</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p>Frontmatter (la etiqueta de la tarjeta: nombre y descripción), <em>progressive disclosure</em> (el menú primero: el agente ve los nombres de los platillos y abre la receta solo cuando hace falta), selección explícita o automática (pedir el platillo por su nombre, o describir lo que quieres y dejar que el mesero elija).</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Escribe una skill para una tarea real de tu trabajo, en español normal y con esta forma: un nombre corto en minúsculas y con guiones (por ejemplo, <code>responder-cotizaciones</code>); una descripción de una o dos frases que diga qué hace y "úsala cuando…", con las palabras que usaría quien la pide; de 3 a 6 pasos numerados; y una sección de límites ("nunca…"). Después escribe cinco pedidos que deberían activarla y dos que no, y revisa si tu descripción los distingue. Si la descripción lleva dos puntos, ponla entre comillas. Es configuración real: el mismo texto se instala en tu agente.</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Puedes convertir una tarea repetitiva de tu trabajo en instrucciones que un agente sabe encontrar y seguir, y juzgar si una descripción está bien escrita.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Escribe skills reutilizables, mide si tu agente las encuentra solo y llévalas a tu sandbox de NemoClaw.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Duración del video</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Práctica</strong></td>
+<td>Notebook · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb" target="_blank" rel="noopener">6.2-biblioteca-de-skills.ipynb</a> (corre sin key, en modo MOCK)</td>
+</tr>
+<tr>
+<td><strong>Habilidad</strong></td>
+<td>Crear skills de agente reutilizables</td>
+</tr>
+<tr>
+<td><strong>Lección de NVIDIA</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/03c-always-on.html">El agente siempre activo (03c)</a></td>
+</tr>
+<tr>
+<td><strong>Material</strong></td>
+<td><a href="slides.html">Diapositivas</a> · <a href="../../skill-library/index.html">Biblioteca del proyecto</a> · <a href="../../FAQ.html">FAQ del curso</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Escribir un <code>SKILL.md</code> correcto: frontmatter (<code>name</code>, <code>description</code>) y un runbook que un agente puede seguir.</li>
+<li>Construir un mini harness que descubre skills, arma el menú (<em>progressive disclosure</em>) y las ejecuta con selección <strong>explícita</strong> o <strong>automática</strong>.</li>
+<li>Medir la <strong>tasa de acierto</strong> de tus descriptions con un set de pedidos y llevar la biblioteca <code>skill-library/</code> a tu laboratorio.</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Python 3.10+ o Google Colab. La key <code>nvapi-</code> es opcional: sin key, el notebook usa un modelo simulado.</li>
+<li>Haber hecho la clase <a href="../2.3-funciones-a-herramientas/index.html">2.3</a> (loop con herramientas) y la <a href="../4.3-agentes-siempre-activos/index.html">4.3</a> (instalaste tu primera skill en OpenClaw).</li>
+<li>Para la parte de laboratorio: tu instancia de Brev y la CLI <code>brev</code> con sesión iniciada.</li>
+</ul>
+<h2 id="la-idea-en-un-minuto">La idea en un minuto</h2>
+<p>Cada sesión, tu agente empieza de cero. Una <strong>skill</strong> es la forma de decir algo una vez y conservarlo: una carpeta con un <code>SKILL.md</code>.</p>
+<div class="highlight"><pre><span></span><code>skill-library/diagnostico-api/SKILL.md
+---
+name: diagnostico-api
+description: Diagnostica errores ... 401, 403, 404, 410, 429 o 5xx ... Úsala cuando el usuario pegue un error de la API ...
+---
+# diagnostico-api
+## Pasos
+1. Extrae el código HTTP del mensaje.
+2. Herramienta: `diagnosticar_http` con `{"codigo": "&lt;codigo&gt;"}`.
+3. Responde: qué pasó, causa probable, qué hacer.
+</code></pre></div>
+<ul>
+<li><strong>Progressive disclosure:</strong> el agente ve solo <code>nombre: descripción</code> de cada skill (el menú). El cuerpo se carga cuando lo necesita.</li>
+<li><strong>Selección explícita:</strong> tú nombras la skill (<code>/diagnostico-api ...</code> o "lee la skill X y síguela").</li>
+<li><strong>Selección automática:</strong> el modelo la elige comparando tu pedido con las descriptions. <strong>Por eso la description es la línea más importante que escribes.</strong></li>
+</ul>
+<p>La idea viene de <em>Voyager</em> (2023): un agente que guardaba lo que le funcionaba como habilidades reutilizables en una biblioteca que crecía.</p>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<ol>
+<li>
+<p><strong>Abre el notebook.</strong> En Colab o local:
+   <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>openai<span class="w"> </span>python-dotenv<span class="w"> </span>pyyaml
+jupyter<span class="w"> </span>notebook<span class="w"> </span>clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb
+</code></pre></div>
+   Ejecuta las celdas de configuración. Deberías ver: <code>Modo: MOCK (...)</code> o <code>Modo: EN VIVO · nvidia/nemotron-3.5-lightning-30b-a3b</code>.</p>
+</li>
+<li>
+<p><strong>Lee la anatomía (sección 1).</strong> La celda imprime <code>diagnostico-api/SKILL.md</code> completo. Identifica: frontmatter, propósito, pasos, límites.</p>
+</li>
+<li>
+<p><strong>Descubre las skills (sección 2).</strong> El harness valida cada <code>SKILL.md</code> con un parser YAML real. Deberías ver 4 ✅.</p>
+</li>
+<li>
+<p><strong>Compara el menú con el libro completo (sección 3).</strong> Deberías ver algo como <code>Prompt con menú: ~1400 caracteres</code> contra <code>~7100</code> de todas las skills. Con 50 skills, esa diferencia decide si el prompt cabe.</p>
+</li>
+<li>
+<p><strong>Corre el harness (sección 6).</strong>
+   - Automática: <em>"Me sale error 401 cuando llamo al modelo"</em> → <code>cargar_skill(diagnostico-api)</code> → <code>diagnosticar_http(401)</code>.
+   - Explícita: <code>/lector-seguro-archivos muéstrame notas.txt</code> → el harness inyecta la skill y no hay <code>cargar_skill</code>.</p>
+</li>
+<li>
+<p><strong>Evalúa tus descriptions (sección 7).</strong> 15 pedidos con la skill esperada. En MOCK deberías ver <code>Tasa de acierto: 12/15 = 80%</code>, y con descriptions vagas, <code>13%</code>.</p>
+</li>
+<li>
+<p><strong>Arregla los fallos (✏️ Tu turno 2).</strong> Cambia las descriptions, <strong>no</strong> el runbook, hasta llegar a ≥ 90 %. Luego copia las descriptions nuevas a <code>skill-library/&lt;skill&gt;/SKILL.md</code>.</p>
+</li>
+<li>
+<p><strong>Provoca las fallas (sección 8 · 🧯).</strong> YAML roto por <code>:</code>, nombre inválido, skill inexistente y rutas de escape (<code>../.env</code>).</p>
+</li>
+<li>
+<p><strong>Exporta y lleva la biblioteca al laboratorio (sección 9).</strong>
+   <div class="highlight"><pre><span></span><code><span class="c1"># en tu computadora, en la raíz del repo</span>
+brev<span class="w"> </span>copy<span class="w"> </span>./skill-library<span class="w"> </span>&lt;instancia&gt;:/home/ubuntu/skill-library
+brev<span class="w"> </span>shell<span class="w"> </span>&lt;instancia&gt;
+<span class="c1"># ya en la VM</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/skill-library/diagnostico-api/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>list
+</code></pre></div>
+   Deberías ver <code>diagnostico-api</code> en la lista. Repite con las otras tres.</p>
+</li>
+<li>
+<p><strong>Prueba las dos selecciones en el chat del agente</strong>, en una <strong>sesión nueva</strong>:</p>
+<ul>
+<li>Explícita: <em>"Lee /sandbox/.openclaw/workspace/skills/diagnostico-api/SKILL.md y síguela: me sale 401."</em></li>
+<li>Automática: <em>"Me sale 401 al llamar al modelo, ¿qué hago?"</em></li>
+</ul>
+</li>
+</ol>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ Las 4 skills pasan <code>validar_skill</code> sin ❌.</li>
+<li>☐ Viste una selección automática (<code>cargar_skill</code>) y una explícita (<code>/nombre</code>).</li>
+<li>☐ Tu tasa de acierto en MOCK es ≥ 90 % después de mejorar las descriptions.</li>
+<li>☐ El harness rechazó <code>../.env</code> y <code>/etc/passwd</code>.</li>
+<li>☐ <code>nemoclaw &lt;sandbox&gt; skill list</code> muestra tus skills en el laboratorio.</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>YAML inválido en el frontmatter: mapping values are not allowed here</code></td>
+<td>La description tiene <code>:</code> (dos puntos y espacio) sin comillas</td>
+<td>Pon la description entre comillas o quita los dos puntos</td>
+</tr>
+<tr>
+<td><code>skill install</code> dice que falta <code>SKILL.md</code> o el <code>name</code> <code>[VERIFICAR EN LAB]</code> texto exacto</td>
+<td>Pasaste la carpeta equivocada o el frontmatter no tiene <code>name</code></td>
+<td>La ruta debe apuntar a la carpeta que <strong>contiene</strong> <code>SKILL.md</code>, con frontmatter YAML y <code>name</code></td>
+</tr>
+<tr>
+<td>Nombre rechazado</td>
+<td><code>name</code> con espacios, tildes o mayúsculas raras</td>
+<td>Solo letras, números, <code>.</code>, <code>-</code> y <code>_</code>. Igual al nombre de la carpeta</td>
+</tr>
+<tr>
+<td>La skill está instalada pero el agente no la usa sola</td>
+<td>La description no dice <strong>cuándo</strong> usarla, o no usa las palabras del usuario</td>
+<td>Reescribe la description y vuelve a evaluar. Abre una <strong>sesión nueva</strong></td>
+</tr>
+<tr>
+<td>El agente usa la skill equivocada</td>
+<td>Dos descriptions compiten por las mismas palabras (p. ej. "403")</td>
+<td>Agrega a cada una cuándo <strong>no</strong> usarla y palabras que las distingan</td>
+</tr>
+<tr>
+<td><code>skill install</code> falla con una skill del mismo nombre (Hermes o Deep Agents)</td>
+<td>El fallback no reemplaza una skill existente</td>
+<td><code>nemoclaw &lt;sandbox&gt; skill remove &lt;nombre&gt;</code> y reinstala</td>
+</tr>
+<tr>
+<td><code>ssh: Could not resolve hostname</code> en <code>brev copy</code></td>
+<td>La IP cambió o falta el <code>Include</code> de Brev</td>
+<td><code>brev refresh</code> y reintenta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto">Reto</h2>
+<p>Crea la quinta skill, <strong><code>estimar-costo-brev</code></strong>, que use la herramienta <code>estimar_costo_brev</code> de la clase 2.3.
+<strong>Criterio de éxito:</strong> <code>validar_skill</code> no marca ❌ ni ⚠️; agregas 3 pedidos a <code>PEDIDOS_EVAL</code> y la tasa total queda en <strong>≥ 90 %</strong> sin que bajen las otras 4 skills.</p>
+<h2 id="avance-del-proyecto">Avance del proyecto</h2>
+<p>El proyecto <strong>Soporte NemoClaw</strong> ya tiene su biblioteca en <a href="../../skill-library/index.html"><code>skill-library/</code></a>:</p>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>soporte-nemoclaw</code></td>
+<td>Responde con la FAQ y cita la fuente. Es la skill de la 4.3 con la description recortada para no competir con <code>diagnostico-api</code></td>
+</tr>
+<tr>
+<td><code>diagnostico-api</code></td>
+<td>Explica errores 401/403/404/410/429/5xx</td>
+</tr>
+<tr>
+<td><code>lector-seguro-archivos</code></td>
+<td>Lee solo dentro de <code>datos/</code></td>
+</tr>
+<tr>
+<td><code>resumen-diario</code></td>
+<td>El resumen que dispara el cron de la 4.3</td>
+</tr>
+</tbody>
+</table>
+<p>Entrega: las 4 skills instaladas en tu sandbox, tu tabla de evaluación (antes/después) en <code>docs/evaluacion-skills.md</code> y las descriptions mejoradas en el repo.</p>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li>NVIDIA DLI · <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/03c-always-on.html">El agente siempre activo (03c)</a>. Esta clase está basada en la lección 03c del curso de NVIDIA DLI (Apache-2.0).</li>
+<li>NemoClaw · comandos <code>skill install | list | remove</code> en la <a href="https://docs.nvidia.com/nemoclaw/latest/">referencia de comandos</a>.</li>
+<li>Anthropic · <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview">Agent Skills</a>: el formato de <code>SKILL.md</code> que usa el curso.</li>
+<li>Wang et al. 2023 · <a href="https://arxiv.org/abs/2305.16291">Voyager</a>: bibliotecas de habilidades que crecen.</li>
+<li>OpenClaw · <a href="https://docs.openclaw.ai/cron-vs-heartbeat">Automatización y tareas (cron vs. heartbeat)</a>.</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../6.1-clis-de-agentes/index.html"><small>Clase anterior</small>6.1 · Compara CLIs de agentes modernos</a><a class="pn next" href="../6.3-despliegue-local-y-siguientes-pasos/index.html"><small>Clase siguiente</small>6.3 · Próximos pasos y despliegue local</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

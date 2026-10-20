@@ -1,0 +1,249 @@
+/* Estilos propios de los diagramas del Módulo 3 (tools/diagramas_m3.py). Prefijo c3-. Solo tokens --sin-*. */
+
+/* Piezas comunes */
+.c3-two{grid-template-columns:1fr 1fr;align-items:stretch}
+.c3-split{grid-template-columns:auto minmax(0,1fr);gap:2em;justify-content:center;align-items:center}
+.c3-split>.dg-legend{max-width:26em}
+.c3-ticket{display:flex;align-items:center;gap:.5em;width:fit-content;margin:.2em auto .1em;padding:.45em 1.15em;border-radius:var(--sin-radius-full);
+  background:var(--sin-surface-container-high);border:1px solid var(--sin-outline-variant);font-weight:600;font-size:.95em}
+.c3-ticket .dg-i{color:var(--sin-primary);font-size:1.3em}
+.c3-pill{display:inline-flex;align-items:center;gap:.35em;padding:.28em .85em .28em .45em;border-radius:var(--sin-radius-full);white-space:nowrap;
+  background:var(--sin-surface-container-high);border:1px solid var(--sin-outline-variant);font-size:.85em;font-weight:600;color:var(--sin-on-surface)}
+.c3-pill .dg-i{color:var(--sin-primary);font-size:1.2em}
+.c3-pill code{font-size:.9em}
+.c3-pill.ok{border-color:color-mix(in srgb,var(--sin-primary) 60%,transparent);background:color-mix(in srgb,var(--sin-primary) 10%,var(--sin-surface-container-high))}
+.c3-pill.is-primary{background:var(--sin-primary-container);border-color:color-mix(in srgb,var(--sin-primary) 45%,transparent)}
+.c3-pill.warn{border-color:color-mix(in srgb,var(--sin-warning) 55%,transparent);background:var(--sin-warning-container);color:var(--sin-on-warning-container)}
+.c3-pill.warn .dg-i{color:var(--sin-warning)}
+.c3-pill.bad{border-color:color-mix(in srgb,var(--sin-error) 55%,transparent);color:var(--sin-on-surface-variant)}
+.c3-pill.bad .dg-i{color:var(--sin-error)}
+.c3-badge{display:inline-flex;align-items:center;gap:.15em;margin-left:.45em;padding:.05em .5em .05em .3em;border-radius:var(--sin-radius-full);
+  background:var(--sin-primary);color:var(--sin-on-primary);font-size:.85em}
+.c3-badge .dg-i{color:var(--sin-on-primary);font-size:1.1em}
+.c3-q-chip{display:inline-flex;align-items:center;gap:.4em;padding:.35em .9em .35em .55em;border-radius:var(--sin-radius-full);
+  background:var(--sin-surface-container-high);border:1px solid var(--sin-outline-variant);font-size:.85em;font-weight:600;white-space:nowrap}
+.c3-q-chip .dg-i{color:var(--sin-primary);font-size:1.2em}
+.c3-resp{display:flex;align-items:center;gap:.45em;padding:.5em .95em;border-radius:var(--sin-radius-3xl) var(--sin-radius-3xl) var(--sin-radius-3xl) var(--sin-radius-sm);
+  background:var(--sin-surface-container-high);border:1px solid var(--sin-outline-variant);font-size:.88em;font-weight:600}
+.c3-resp .dg-i{font-size:1.25em;color:var(--sin-primary)}
+.c3-resp.ok{background:var(--sin-primary-container);border-color:color-mix(in srgb,var(--sin-primary) 45%,transparent);color:var(--sin-on-primary-container)}
+.c3-resp.bad{background:var(--sin-error-container);border-color:transparent;color:var(--sin-on-error-container)}
+.c3-resp.bad .dg-i{color:var(--sin-error)}
+.c3-resp.warn{background:var(--sin-warning-container);border-color:transparent;color:var(--sin-on-warning-container)}
+.c3-resp.warn .dg-i{color:var(--sin-warning)}
+.c3-nota-pie{display:inline-grid;place-items:center;min-width:1.3em;height:1.3em;border-radius:50%;background:var(--sin-primary);color:var(--sin-on-primary);
+  font-size:.75em;font-weight:800;vertical-align:super}
+.c3-abanico{grid-template-columns:auto auto auto;justify-content:center;gap:.5em}
+.c3-abanico .dg-fan{gap:.45em}
+.c3-hueco{flex:0 0 2.6em}
+.c3-grupo{display:flex;align-items:center;gap:.5em}
+.c3-mini-lab{font-size:.7em;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--sin-on-surface-variant);margin:.5em 0 .1em}
+.c3-tag{display:inline-block;margin-left:.6em;padding:.15em .65em;border-radius:var(--sin-radius-full);font:600 .62em var(--sin-font-mono);
+  background:color-mix(in srgb,var(--sin-tertiary) 18%,transparent);color:var(--sin-tertiary);white-space:nowrap;vertical-align:middle}
+.dg-node.c3-dim{opacity:.6}
+.dg-legend-row.c3-l-mal .dg-ico{background:var(--sin-error-container);color:var(--sin-on-error-container)}
+.dg-legend-row.c3-l-dot .dg-ico{color:var(--sin-on-surface-variant)}
+.dg-legend-row.c3-l-umbral .dg-ico{color:var(--sin-warning)}
+.dg-legend-row b code{font-size:.85em}
+/* Paso actual: tarjetas y filas del módulo también brillan */
+.slide .c3-two>.dg-card[data-paso].actual,.slide .c3-bug.actual,.slide .c3-mesa.actual,.slide .c3-carril.actual>.dg-row,
+.slide .c3-caso.actual .c3-resp,.slide .c3-medida.actual .c3-qs,.slide .c3-costo.actual .c3-puntos{
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--sin-primary) 30%,transparent);border-radius:var(--sin-radius-3xl)}
+
+/* 3.1 · cuatro patrones */
+.c3-cuatro{grid-template-columns:repeat(4,1fr);gap:.8em;justify-items:center;align-items:stretch}
+.c3-cuatro>.dg-node{width:100%;justify-content:flex-start}
+/* 3.1 · ReWOO: el ejecutor con sus búsquedas */
+.dg-card.c3-ejec{padding:.7em .9em;flex:0 0 auto}
+.dg-card.c3-ejec h3{font-size:.95em;margin-bottom:.4em}
+.dg-card.c3-ejec .dg-card-sub{margin:.4em 0 0;font-size:.8em}
+.c3-pilas{display:flex;flex-direction:column;align-items:flex-start;gap:.3em}
+.c3-pilas .c3-pill.bad{text-decoration:line-through;text-decoration-color:var(--sin-error)}
+/* 3.1 · fan-out: lo que faltó */
+.c3-falta{display:inline-flex;align-items:center;gap:.3em;margin-top:.2em;padding:.2em .65em;border-radius:var(--sin-radius-full);
+  background:var(--sin-warning-container);color:var(--sin-on-warning-container);font-size:.72em;font-weight:600}
+.c3-falta .dg-i{color:var(--sin-warning);font-size:1.15em}
+/* Barras de tiempo */
+.c3-barras{gap:.7em;width:100%;max-width:46em;margin-inline:auto;font-size:1.05em}
+.c3-bar-fila{display:grid;grid-template-columns:13em 1fr;align-items:center;gap:.8em}
+.c3-bar-lab{text-align:right;font-weight:600;font-size:.92em}
+.c3-bar-pista{display:flex;align-items:center;gap:.6em}
+.c3-bar{display:block;height:1.4em;border-radius:var(--sin-radius-sm);background:var(--sin-primary);flex:0 0 auto}
+.c3-bar-fila.modelo .c3-bar{background:var(--sin-tertiary)}
+.c3-bar-fila.lento .c3-bar{background:var(--sin-warning)}
+.c3-bar-pista b{font-family:var(--sin-font-mono);font-size:.85em}
+.c3-chip-vivo{padding:.15em .65em;border-radius:var(--sin-radius-full);background:var(--sin-warning-container);color:var(--sin-on-warning-container);font-size:.75em;font-weight:600}
+.c3-barras.mini{display:grid;gap:.3em;font-size:.8em;max-width:none}
+.c3-barras.mini .c3-bar{height:1em}
+.c3-barras.mini .c3-bar-fila{grid-template-columns:6.5em 1fr}
+/* Puntos (llamadas al modelo) */
+.c3-puntos{display:flex;flex-wrap:wrap;gap:.3em;justify-content:center;padding:.25em}
+.c3-punto{display:grid;place-items:center;width:1.9em;height:1.9em;border-radius:50%;background:var(--sin-tertiary-container);color:var(--sin-on-tertiary-container)}
+.c3-punto .dg-i{font-size:1.05em}
+.c3-two .c3-punto{width:2.6em;height:2.6em;font-size:1.2em}
+.c3-punto.tal-vez{opacity:.45;outline:1px dashed var(--sin-tertiary);outline-offset:1px}
+
+/* 3.2 · carriles (una vez / en cada pregunta) */
+.c3-carriles{gap:1em;justify-items:center}
+.c3-carril{display:grid;grid-template-columns:7.5em auto;align-items:center;gap:.8em}
+.c3-carril-lab{display:flex;flex-direction:column;align-items:flex-end;text-align:right;gap:.2em;color:var(--sin-primary);font-weight:700;font-size:.85em}
+.c3-carril-lab .dg-i{font-size:1.5em}
+.c3-carril>.dg-row{padding:.35em}
+.c3-carril .dg-node,.c3-carril .dg-node.mini{width:8.6em;min-width:0}
+.c3-carril .dg-arrow.h{width:4.4em!important}
+.c3-carril .dg-room{min-width:12em}
+.c3-carriles.libre .c3-carril .dg-node{width:15em;max-width:none}
+.c3-carriles.libre .c3-carril .dg-room{min-width:15em;padding:1.3em 1em .8em}
+/* 3.2 · tarjetas de la FAQ */
+.c3-fichas{display:flex;flex-direction:column;gap:.45em}
+.c3-ficha{display:flex;flex-direction:column;gap:.1em;padding:.45em .9em;max-width:24em;border-radius:var(--sin-radius-xl);
+  background:var(--sin-surface-container-low);border:1px solid var(--sin-outline-variant);border-left:4px solid var(--sin-primary)}
+.c3-ficha small{color:var(--sin-on-surface-variant);font-size:.72em}
+.c3-ficha b{font-size:.92em}
+.c3-ficha code{font-size:.66em;background:none;padding:0;color:var(--sin-primary)}
+.c3-ficha:nth-child(2){margin-left:1.2em}
+/* 3.2 · el mapa de significados */
+.c3-mapa{position:relative;width:24em;height:14em;border-radius:var(--sin-radius-4xl);border:1px solid var(--sin-outline-variant);overflow:hidden;
+  background:repeating-linear-gradient(0deg,transparent 0 1.95em,var(--sin-outline-variant) 1.95em 2em),
+             repeating-linear-gradient(90deg,transparent 0 1.95em,var(--sin-outline-variant) 1.95em 2em),var(--sin-surface-container-lowest)}
+.c3-capa{position:absolute;inset:0}
+.c3-dot{position:absolute;width:.8em;height:.8em;border-radius:50%;background:var(--sin-on-surface-variant);transform:translate(-50%,-50%)}
+.c3-dot.cerca{background:var(--sin-primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--sin-primary) 25%,transparent)}
+.c3-radio{position:absolute;width:7em;height:7em;border-radius:50%;transform:translate(-50%,-50%);border:2px dashed var(--sin-primary);
+  background:color-mix(in srgb,var(--sin-primary) 8%,transparent)}
+.c3-radio.vacio{width:5em;height:5em;border-color:var(--sin-warning);background:color-mix(in srgb,var(--sin-warning) 6%,transparent)}
+.c3-pin{position:absolute;display:grid;place-items:center;width:1.9em;height:1.9em;border-radius:50%;transform:translate(-50%,-50%);
+  background:var(--sin-primary);color:var(--sin-on-primary);box-shadow:var(--shadow-raised)}
+.c3-pin .dg-i{font-size:1.1em}
+.c3-pin.otro{background:var(--sin-warning);color:var(--sin-warning-container)}
+.c3-pin-lab{position:absolute;transform:translate(-50%,calc(-100% - 1.15em));white-space:nowrap;font-size:.72em;font-weight:700;
+  padding:.1em .55em;border-radius:var(--sin-radius-full);background:var(--sin-surface);border:1px solid var(--sin-outline-variant)}
+/* 3.2 · medir con 8 preguntas */
+.c3-medidas{gap:.8em;justify-items:stretch;width:100%;max-width:52em;margin-inline:auto}
+.c3-medidas .dg-chip{white-space:nowrap}
+.c3-medida,.c3-costo{display:grid;grid-template-columns:10em auto 1fr;align-items:center;justify-items:start;gap:1em}
+.c3-costo{grid-template-columns:11em auto 1fr}
+.c3-costo .c3-puntos{flex-wrap:nowrap}
+.c3-costo .c3-punto{width:2.2em;height:2.2em;font-size:1.1em}
+.c3-costo .c3-puntos{justify-content:flex-start}
+.c3-medida-lab{justify-self:end;text-align:right;font-weight:700;font-family:var(--sin-font-display)}
+.c3-qs{display:flex;gap:.35em;padding:.25em}
+.c3-q{display:inline-grid;place-items:center;width:1.9em;height:1.9em;border-radius:var(--sin-radius-sm);font-size:.95em}
+.c3-q .dg-i{font-size:1.15em}
+.c3-q.ok{background:var(--sin-primary);color:var(--sin-on-primary)}
+.c3-q.baja{background:var(--sin-warning-container);color:var(--sin-warning)}
+.c3-medida-ley{gap:.45em;color:var(--sin-on-surface-variant);font-size:.85em;margin-top:.4em}
+.c3-medida-ley .c3-q{width:1.5em;height:1.5em;margin-left:.8em}
+/* 3.2 · tres casos de RAG como herramienta */
+.c3-casos{gap:.7em;justify-items:center}
+.c3-caso{display:grid;grid-template-columns:12.5em auto auto 4.6em 17em;align-items:center;gap:.5em}
+.c3-caso>.c3-q-chip{justify-self:end}
+.c3-caso>.dg-arrow{justify-self:center}
+.c3-caso>.c3-resp{justify-self:start}
+
+/* 3.3 · un solo escritorio */
+.dg-card.c3-escritorio{padding:.8em 1em .5em;min-width:15em}
+.c3-pila{display:flex;flex-direction:column;align-items:stretch;gap:.22em;width:100%}
+.c3-papel{padding:.18em .7em;border-radius:var(--sin-radius-sm);background:var(--sin-surface-container-high);border:1px solid var(--sin-outline-variant);
+  font-size:.75em;font-weight:600;white-space:nowrap}
+.c3-papel.tenue{opacity:.35}
+.c3-papel.desborde{border:1px dashed var(--sin-error);color:var(--sin-error);background:var(--sin-error-container);transform:translateY(.9em);text-align:center}
+/* 3.3 · tres escritorios aislados */
+.c3-mesas{grid-template-columns:repeat(3,1fr);gap:.9em;align-items:stretch}
+.dg-card.c3-mesa{padding:.75em .8em;justify-content:flex-start}
+.dg-card.c3-mesa h3{margin-bottom:.15em;font-size:1em}
+.c3-mesa .dg-card-sub{margin:0 0 .2em;font-size:.85em;text-align:center}
+.c3-mesa .dg-chips{margin-top:0}
+.c3-mesa .c3-pill{margin-top:.65em}
+/* 3.3 · el reporte como documento */
+.c3-doc{max-width:34em;padding:1em 1.4em;border-radius:var(--sin-radius-xl);background:var(--sin-surface-container-lowest);
+  border:1px solid var(--sin-outline-variant);box-shadow:var(--shadow-raised);font-size:1em}
+.dg .c3-doc h3{margin:0 0 .3em;font-size:1.05em}
+.c3-doc h3 .dg-i{color:var(--sin-primary)}
+.c3-doc p{margin:.35em 0}
+.c3-doc-q{color:var(--sin-on-surface-variant);font-style:italic}
+.c3-doc-notas{border-top:1px solid var(--sin-outline-variant);padding-top:.35em;font-size:.78em;color:var(--sin-on-surface-variant)}
+/* 3.3 · topes */
+.c3-topes{grid-template-columns:repeat(5,1fr);gap:.6em;align-items:start}
+.c3-topes .dg-node.mini{width:100%;min-width:0}
+/* 3.3 · tu programa (no es un sandbox) */
+.c3-proceso{position:relative;display:flex;flex-direction:column;align-items:center;gap:.6em;padding:1.4em 1em .9em;margin-top:.4em;
+  border:2px dashed var(--sin-outline);border-radius:var(--sin-radius-4xl)}
+.c3-proceso-lab{position:absolute;top:-.85em;left:1em;display:flex;align-items:center;gap:.3em;padding:.1em .6em;border-radius:var(--sin-radius-full);
+  background:var(--sin-surface-container-lowest);border:1px solid var(--sin-outline-variant);font-size:.8em;font-weight:700;color:var(--sin-on-surface-variant)}
+.c3-two .dg-room{margin-top:.5em}
+
+/* 3.4 · print contra traza */
+.c3-revuelto{position:relative;width:17em;height:9.5em}
+.c3-suelto{position:absolute;padding:.2em .7em;border-radius:var(--sin-radius-sm);background:var(--sin-surface-dim);border:1px solid var(--sin-outline-variant);
+  font:500 .78em var(--sin-font-mono);color:var(--sin-on-surface-variant);white-space:nowrap}
+.c3-suelto.s0{left:2%;top:4%;transform:rotate(-4deg)}
+.c3-suelto.s1{left:62%;top:10%;transform:rotate(5deg)}
+.c3-suelto.s2{left:30%;top:32%;transform:rotate(-2deg)}
+.c3-suelto.s3{left:4%;top:58%;transform:rotate(3deg)}
+.c3-suelto.s4{left:40%;top:74%;transform:rotate(-5deg)}
+.c3-suelto.s5{left:70%;top:48%;transform:rotate(6deg);color:var(--sin-error)}
+.c3-rastreo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.3em;width:100%;max-width:22em}
+.c3-rastreo li{display:grid;grid-template-columns:1.5em 1fr auto;align-items:center;gap:.5em;margin:0;padding:.3em .8em .3em .5em;
+  border-radius:var(--sin-radius-full);background:var(--sin-surface-container-low);border:1px solid var(--sin-outline-variant);font-size:.88em}
+.c3-rastreo li .dg-i{font-size:1.3em;color:var(--sin-primary)}
+.c3-rastreo li.mal{border-color:color-mix(in srgb,var(--sin-error) 55%,transparent)}
+.c3-rastreo li.mal .dg-i{color:var(--sin-error)}
+.c3-rastreo small{font-family:var(--sin-font-mono);color:var(--sin-on-surface-variant);font-size:.85em}
+/* 3.4 · paquete y agente */
+.c3-paquete{grid-template-columns:1fr auto 1.15fr;gap:1em;align-items:center}
+.c3-paquete>.dg-card{align-self:stretch}
+.c3-paquete h3{flex-wrap:wrap}
+/* 3.4 · tipos de paso (colores por tipo) */
+.k-agente{--k:var(--sin-primary)}
+.k-modelo{--k:var(--sin-tertiary)}
+.k-herr{--k:var(--sin-warning)}
+.k-busq{--k:var(--sin-on-secondary-container)}
+.dg-node.c3-tipo{border-top:3px solid var(--k);max-width:14em}
+.dg-node.c3-tipo .dg-ico{color:var(--k)}
+/* 3.4 · tachar secretos */
+.c3-texto{display:inline-block;font:500 .78em var(--sin-font-mono);padding:.2em .55em;border-radius:var(--sin-radius-sm);background:var(--sin-surface-dim);white-space:nowrap}
+.c3-tachon{display:inline-block;color:transparent;background:var(--sin-scrim);border-radius:2px;box-shadow:0 0 0 1px var(--sin-outline);margin-left:.1em}
+.c3-tachar .dg-node{max-width:13em}
+/* 3.4 · árbol de la traza */
+.c3-arbol{display:flex;flex-direction:column;width:100%}
+.c3-span{display:grid;grid-template-columns:minmax(0,1fr) 3.4em 1.6em;align-items:center;column-gap:.7em;min-height:2.05em}
+.c3-arbol.con-barras .c3-span{grid-template-columns:26em minmax(0,1fr) 3.4em 1.6em}
+.c3-cab{min-height:1.6em;font-size:.72em;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--sin-on-surface-variant);
+  border-bottom:1px solid var(--sin-outline-variant);margin-bottom:.25em}
+.c3-nombre{position:relative;align-self:stretch;display:flex;flex-wrap:wrap;align-items:center;column-gap:.5em;row-gap:.1em;
+  padding:.2em 0 .2em calc(var(--n) * 1.5em)}
+.c3-guia,.c3-codo{position:absolute;left:calc(var(--g) * 1.5em - .9em);border-color:var(--sin-outline);border-style:solid;border-width:0}
+.c3-guia{top:0;bottom:0;border-left-width:2px}
+.c3-codo{top:0;height:1.05em;width:.7em;border-left-width:2px;border-bottom-width:2px;border-bottom-left-radius:6px}
+.c3-kind{display:inline-flex;align-items:center;gap:.25em;padding:.08em .55em .08em .35em;border-radius:var(--sin-radius-full);font-size:.78em;font-weight:700;
+  color:var(--k);background:color-mix(in srgb,var(--k) 14%,transparent);border:1px solid color-mix(in srgb,var(--k) 40%,transparent)}
+.c3-kind .dg-i{font-size:1.15em}
+.c3-nombre code{font-size:.8em;background:none;padding:0;color:var(--sin-on-surface)}
+.c3-det{flex-basis:100%;font:500 .72em var(--sin-font-mono);color:var(--sin-on-surface-variant)}
+.c3-span.mal .c3-det{color:var(--sin-error)}
+.c3-pista{position:relative;height:.8em;border-radius:var(--sin-radius-sm);background:var(--sin-surface-container-high)}
+.c3-barra{position:absolute;top:0;bottom:0;border-radius:var(--sin-radius-sm);background:var(--k)}
+.c3-ms{text-align:right;font:500 .8em var(--sin-font-mono);color:var(--sin-on-surface-variant)}
+.c3-ok,.c3-mal{font-size:1.25em}
+.c3-ok{color:var(--sin-primary)}
+.c3-mal{color:var(--sin-error)}
+.c3-arbol.compacto{font-size:.85em;min-width:23em}
+.c3-arbol.compacto .c3-span{min-height:1.9em}
+/* 3.4 · cuatro bugs */
+.c3-bugs{grid-template-columns:1fr 1fr;gap:.8em}
+.dg-card.c3-bug{padding:.7em 1em;gap:.45em}
+.dg-card.c3-bug h3{margin:0;font-size:1em}
+.c3-bug h3 .dg-i{color:var(--sin-error)}
+.c3-bug-v{display:flex;align-items:center;gap:.35em;color:var(--sin-on-surface-variant);font-size:.8em}
+.c3-bug-v .dg-i{color:var(--sin-primary);font-size:1.2em}
+.c3-mini-span{display:flex;align-items:center;gap:.4em;font-size:.85em}
+.c3-mini-span .dg-i{color:var(--sin-error);font-size:1.25em}
+.c3-err{background:var(--sin-error-container);color:var(--sin-on-error-container);font-size:.78em}
+.c3-repite{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.3em}
+.c3-repite code{font-size:.72em}
+.c3-bug .c3-barras.mini{width:85%}
+
+@media (prefers-reduced-motion:reduce){.c3-papel.desborde{transform:none}}
+@media (max-width:900px){.c3-two,.c3-split,.c3-paquete,.c3-bugs,.c3-mesas{grid-template-columns:1fr}.c3-cuatro,.c3-topes{grid-template-columns:repeat(2,1fr)}
+  .c3-arbol.con-barras .c3-span{grid-template-columns:minmax(0,1fr) 6em 3em 1.4em}}

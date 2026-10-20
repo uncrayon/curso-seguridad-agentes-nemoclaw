@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1.3 Configura rutas de modelo y diagnostica errores · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 1 · Prepara tu entorno de agentes</span><h1><span class="num">1.3</span>Configura rutas de modelo y diagnostica errores</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈7 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Configurar rutas de modelo; diagnosticar errores 401, 403, 404, 429 y 5xx</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/1.3-rutas-de-modelo-y-errores/1.3-rutas-de-modelo-y-errores.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Para hablar con un modelo hay que darle tres datos: a qué dirección escribir, qué modelo quieres y tu key. Cuando uno está mal, NVIDIA responde con un número de error. Cada número dice qué arreglar, y hoy los provocas a propósito para que no te asusten.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Los avisos de un cajero automático: "tarjeta inválida", "fondos insuficientes", "intente más tarde". Y la ruta de modelo es como la dirección postal de una oficina: si está mal escrita, la carta regresa.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#ruta-de-modelo" class="glos" data-def="La dirección de internet a la que se envían las preguntas para un modelo. · La dirección postal de una oficina: si está mal escrita, la carta regresa.">ruta de modelo</a>, <a href="../../GLOSARIO.html">errores 401, 403, 404, 429</a>, <a href="../../GLOSARIO.html">notebook y Colab</a>.</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Descarga el archivo del notebook de esta clase, entra a <a href="https://colab.research.google.com/">Colab</a> y súbelo desde el menú <strong>Archivo → Subir notebook</strong>. Presiona ▶ en cada celda, en orden, sin leer el código (o usa <strong>Entorno de ejecución → Ejecutar todo</strong>) (funciona aunque no tengas key: usa respuestas simuladas). Luego responde:</p>
+<ol>
+<li>¿La primera celda dice "EN VIVO" o "MOCK"? ¿Qué significa en tu caso?</li>
+<li>En la sección 7, ¿qué número de error sale con la key falsa y qué te recomienda el diagnóstico?</li>
+<li>¿Qué dice el veredicto de la última celda?</li>
+</ol></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Cuando veas un 401, un 404 o un 429, sabes si hay que corregir algo o solo esperar.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Objetivo: dejar tu entorno verificado (chat, tools y embeddings) y saber leer cualquier error de la API.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Duración del video</strong></td>
+<td>≈7 min</td>
+</tr>
+<tr>
+<td><strong>Práctica</strong></td>
+<td>Notebook <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/1.3-rutas-de-modelo-y-errores/1.3-rutas-de-modelo-y-errores.ipynb" target="_blank" rel="noopener"><code>1.3-rutas-de-modelo-y-errores.ipynb</code></a> (≈30 min)</td>
+</tr>
+<tr>
+<td><strong>Habilidad</strong></td>
+<td>Configurar rutas de modelo; diagnosticar errores 401, 403, 404, 429 y 5xx</td>
+</tr>
+<tr>
+<td><strong>Lección de NVIDIA</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/index.html">Inicio del curso · configuración</a></td>
+</tr>
+<tr>
+<td><strong>Material</strong></td>
+<td><a href="slides.html">Diapositivas</a> · <a href="../../FAQ.html">Preguntas frecuentes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Configurar las dos rutas que usa todo el curso: <strong>chat</strong> y <strong>embeddings</strong>, en el panel del curso de NVIDIA y en Python.</li>
+<li>Correr el <strong>doctor del curso</strong>: un notebook que comprueba key, modelos, chat, tools y embeddings, mide latencia y muestra <code>usage</code>.</li>
+<li>Provocar y resolver los errores 401, 404 y <code>finish_reason=length</code>, y reintentar un 429 con backoff.</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Tu API key <code>nvapi-</code> de la clase 1.2, guardada en <code>.env</code>, en una variable de entorno o en los Secrets de Colab.</li>
+<li>Una de estas dos opciones:</li>
+<li><strong>Google Colab</strong>: sube el notebook o ábrelo desde GitHub. La primera celda instala todo.</li>
+<li><strong>Tu máquina</strong>: Python 3.10 o superior y, desde la raíz del repo:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/1.3-rutas-de-modelo-y-errores/
+</code></pre></div>
+<p>¿Sin key todavía? El notebook corre igual en <strong>modo MOCK</strong> (respuestas y errores simulados) y al final te dice qué falta.</p>
+<h2 id="las-ideas-clave">Las ideas clave</h2>
+<h3 id="una-ruta-de-modelo--url-base--id-del-modelo--key">Una ruta de modelo = URL base + ID del modelo + key</h3>
+<table>
+<thead>
+<tr>
+<th>Ruta</th>
+<th>URL base</th>
+<th>Modelo</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Chat</strong></td>
+<td><code>https://integrate.api.nvidia.com/v1</code></td>
+<td><code>nvidia/nemotron-3.5-lightning-30b-a3b</code></td>
+<td>Conversación y tools (módulos 2 a 6)</td>
+</tr>
+<tr>
+<td><strong>Embeddings</strong></td>
+<td><code>https://integrate.api.nvidia.com/v1</code></td>
+<td><code>nvidia/nemotron-3-embed-1b</code></td>
+<td>Convertir texto en vectores para RAG (clase 3.2)</td>
+</tr>
+</tbody>
+</table>
+<p>En Python se configuran con <code>NVIDIA_BASE_URL</code>, <code>NVIDIA_MODEL</code>, <code>NVIDIA_EMBED_MODEL</code> y <code>NVIDIA_API_KEY</code> (ver <code>.env.example</code> en la raíz del repo).</p>
+<h3 id="el-panel-de-configuración-del-curso-de-nvidia">El panel de configuración del curso de NVIDIA</h3>
+<p>Está en la portada del curso (sección <strong>"Cómo introducir tu clave de API"</strong>) y también en la lección 1a. Sus campos:</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL base de la API de chat</strong></td>
+<td><code>https://integrate.api.nvidia.com/v1</code></td>
+<td>A dónde van las llamadas. HTTPS y terminada en <code>/v1</code></td>
+</tr>
+<tr>
+<td><strong>ID del modelo de chat</strong></td>
+<td><code>nvidia/nemotron-3.5-lightning-30b-a3b</code></td>
+<td>El modelo que responde</td>
+</tr>
+<tr>
+<td><strong>Clave bearer</strong></td>
+<td>—</td>
+<td>Tu key <code>nvapi-</code>. Vive en <code>sessionStorage</code>: se borra al cerrar la pestaña</td>
+</tr>
+<tr>
+<td><strong>Usar el relay de navegador de NVIDIA DLI</strong></td>
+<td>Activado en la página del curso</td>
+<td>Relay de CORS: reenvía tus llamadas a la API de NVIDIA para que una página estática pueda hacerlas. No te da key ni acceso a modelos</td>
+</tr>
+<tr>
+<td><strong>Ruta de embeddings</strong> (desplegable)</td>
+<td>Misma URL · <code>nvidia/nemotron-3-embed-1b</code></td>
+<td>Ruta independiente; si no le pones key, usa la del chat</td>
+</tr>
+<tr>
+<td><strong>Gestión de la solicitud</strong> (desplegable)</td>
+<td>Espera 60 s (5–300) · reintentos 0 (0–5)</td>
+<td>Los reintentos solo aplican a fallas de red, 429 y 5xx</td>
+</tr>
+<tr>
+<td>Botón <strong>Guardar y verificar</strong></td>
+<td>—</td>
+<td>Revisa el prefijo <code>nvapi-</code> y hace una llamada de prueba. Si sale bien, verás "✓ Conectado."</td>
+</tr>
+</tbody>
+</table>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<h3 id="1-configura-el-panel-del-curso-de-nvidia">1. Configura el panel del curso de NVIDIA</h3>
+<ol>
+<li>Abre <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/index.html">https://nvdli.github.io/NemoClawDLI/es/nemoclaw/index.html</a> y baja a <strong>"Cómo introducir tu clave de API"</strong>.</li>
+<li>Deja la URL base y el modelo como están. Pega tu key en el campo de la clave.</li>
+<li>Abre <strong>Ruta de embeddings</strong> y confirma que el modelo sea <code>nvidia/nemotron-3-embed-1b</code>.</li>
+<li>Abre <strong>Gestión de la solicitud</strong>: deja la espera en 60 s y sube los reintentos a 2.</li>
+<li>Haz clic en <strong>Guardar y verificar</strong>.</li>
+</ol>
+<p>Deberías ver: "✓ Conectado." con la respuesta del modelo, y en la barra superior la etiqueta de key con una palomita. Debajo, un resumen: "✓ Clave de API disponible en esta pestaña", la ruta de chat y la ruta de embeddings.</p>
+<h3 id="2-abre-el-notebook-y-ejecuta-la-configuración">2. Abre el notebook y ejecuta la configuración</h3>
+<ol>
+<li>Abre <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/1.3-rutas-de-modelo-y-errores/1.3-rutas-de-modelo-y-errores.ipynb" target="_blank" rel="noopener"><code>1.3-rutas-de-modelo-y-errores.ipynb</code></a>.</li>
+<li>Ejecuta las tres primeras celdas.</li>
+</ol>
+<p>Deberías ver: <code>Modo: EN VIVO · nvidia/nemotron-3.5-lightning-30b-a3b</code> (o <code>MOCK</code> si no hay key) y <code>Doctor listo</code>.</p>
+<h3 id="3-corre-las-cinco-pruebas-del-doctor">3. Corre las cinco pruebas del doctor</h3>
+<p>Ejecuta las secciones 1 a 6 en orden. Cada una imprime una línea:</p>
+<div class="highlight"><pre><span></span><code>✅ key: nvapi-…abcd (&lt;N&gt; caracteres)
+✅ modelos: /models responde y nvidia/nemotron-3.5-lightning-30b-a3b está en el catálogo
+✅ chat: respondió en &lt;X&gt; s
+✅ tools: el modelo pidió buscar_faq con argumentos JSON válidos
+✅ embeddings: vector de &lt;N&gt; dimensiones
+</code></pre></div>
+<p>(Los números de tu salida serán distintos: longitud de la key, latencia y dimensiones del vector.)</p>
+<p>En la sección 4 fíjate en el bloque <code>usage</code> (tokens de entrada y salida) y en la latencia.</p>
+<h3 id="4-rompe-tu-entorno-a-propósito">4. Rompe tu entorno a propósito</h3>
+<p>En la sección 7 vas a provocar tres fallos y a leerlos con <code>diagnostico()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># key falsa → 401</span>
+<span class="n">OpenAI</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">BASE_URL</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">"nvapi-ESTA-KEY-ES-FALSA-000000000000"</span><span class="p">)</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="c1"># modelo inexistente → 404</span>
+<span class="n">chat</span><span class="p">([{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"hola"</span><span class="p">}],</span> <span class="n">model</span><span class="o">=</span><span class="s2">"nvidia/modelo-que-no-existe"</span><span class="p">)</span>
+<span class="c1"># max_tokens diminuto → finish_reason="length"</span>
+<span class="n">chat</span><span class="p">([{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Explica qué es un agente de IA."</span><span class="p">}],</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</code></pre></div>
+<p>Deberías ver: para el 401, "Key rechazada: revisa que NVIDIA_API_KEY sea la key completa…"; para el 404, "Ese modelo o esa ruta no existen…"; y para el tercero, <code>finish_reason: length</code> con el contenido vacío o cortado.</p>
+<h3 id="5-reintenta-un-429-con-backoff">5. Reintenta un 429 con backoff</h3>
+<p>La sección 8 define <code>con_reintentos()</code>: espera 1 s, 2 s, 4 s… (y respeta <code>Retry-After</code> si llega), solo para 429, 5xx y fallas de red. Deberías ver:</p>
+<div class="highlight"><pre><span></span><code>   ⏳ intento 1 falló con 429; espero 0.21 s
+   ⏳ intento 2 falló con 429; espero 0.41 s
+Caso 429: respuesta al tercer intento
+Caso 401:
+   ✋ No reintento (intento 1): 401 · Key rechazada: …
+</code></pre></div>
+<h3 id="6-lee-el-veredicto">6. Lee el veredicto</h3>
+<p>La última celda imprime <strong>✅ entorno listo</strong> o la lista de pruebas que fallaron, cada una con su arreglo.</p>
+<h3 id="tabla-de-errores-de-la-api">Tabla de errores de la API</h3>
+<table>
+<thead>
+<tr>
+<th>Código</th>
+<th>Qué significa</th>
+<th>¿Reintentar?</th>
+<th>Qué hacer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>401</strong></td>
+<td>Key rechazada</td>
+<td>Nunca</td>
+<td>Key completa, con <code>nvapi-</code>, sin comillas ni espacios. Si la regeneraste, la vieja ya no sirve</td>
+</tr>
+<tr>
+<td><strong>403</strong></td>
+<td>Key válida sin acceso a ese modelo o ruta</td>
+<td>No</td>
+<td>Revisa tu cuenta en build.nvidia.com o usa otro modelo</td>
+</tr>
+<tr>
+<td><strong>404</strong></td>
+<td>Modelo o ruta inexistente</td>
+<td>No</td>
+<td>Copia el ID exacto de <code>/v1/models</code>; <code>BASE_URL</code> debe terminar en <code>/v1</code></td>
+</tr>
+<tr>
+<td><strong>410</strong></td>
+<td>Modelo retirado del endpoint gratuito</td>
+<td>No</td>
+<td>Cambia <code>NVIDIA_MODEL</code> por un modelo vigente</td>
+</tr>
+<tr>
+<td><strong>429</strong></td>
+<td>Límite de solicitudes</td>
+<td>Sí, con espera</td>
+<td>Backoff exponencial; no ejecutes celdas en ráfaga</td>
+</tr>
+<tr>
+<td><strong>5xx</strong></td>
+<td>Falla del servidor o modelo arrancando</td>
+<td>Sí, con espera</td>
+<td>Reintenta en 30–60 s; si sigue, otro modelo</td>
+</tr>
+<tr>
+<td><code>finish_reason="length"</code></td>
+<td>Se acabó <code>max_tokens</code></td>
+<td>—</td>
+<td>Sube <code>max_tokens</code></td>
+</tr>
+</tbody>
+</table>
+<p>Más tiempo de espera o más reintentos <strong>nunca</strong> arreglan un 401 o un 403.</p>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ "Guardar y verificar" en la página de NVIDIA mostró "✓ Conectado.".</li>
+<li>☐ El notebook terminó en <strong>✅ entorno listo</strong> (o sé exactamente qué me falta).</li>
+<li>☐ Vi la latencia y el bloque <code>usage</code> de una llamada.</li>
+<li>☐ Provoqué un 401, un 404 y un <code>finish_reason=length</code>, y entendí cada diagnóstico.</li>
+<li>☐ Sé qué errores se reintentan (429, 5xx) y cuáles no (401, 403, 404, 410).</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>El notebook dice <code>Modo: MOCK</code> aunque creaste el <code>.env</code></td>
+<td>El <code>.env</code> no está en la raíz del repo, o abriste Jupyter desde otra carpeta, o no reiniciaste el kernel</td>
+<td>Pon <code>.env</code> en la raíz del repo (junto a <code>.env.example</code>) y reinicia el kernel. En Colab usa Secrets</td>
+</tr>
+<tr>
+<td>En Colab: <code>Modo: MOCK</code> con el secreto creado</td>
+<td>El nombre no es exactamente <code>NVIDIA_API_KEY</code> o falta activar el acceso del notebook</td>
+<td>Revisa el nombre y el interruptor en el panel 🔑 y vuelve a ejecutar todo</td>
+</tr>
+<tr>
+<td><code>401 · Key rechazada</code></td>
+<td>Key incompleta, con comillas, con espacios o revocada</td>
+<td>La sección 1 del notebook te dice cuál de estos es. Copia la key de nuevo</td>
+</tr>
+<tr>
+<td><code>404 · Ese modelo o esa ruta no existen</code></td>
+<td>ID del modelo mal copiado o <code>BASE_URL</code> sin <code>/v1</code></td>
+<td>Copia el ID de la lista de la sección 3</td>
+</tr>
+<tr>
+<td><code>⚠ finish_reason=length sin contenido</code></td>
+<td><code>max_tokens</code> demasiado bajo para un modelo que razona</td>
+<td>Sube <code>max_tokens</code> (1024 o más)</td>
+</tr>
+<tr>
+<td>En la página de NVIDIA: "La clave debe comenzar por nvapi-"</td>
+<td>Pegaste otra cosa o con un espacio al inicio</td>
+<td>Copia la key completa desde build.nvidia.com</td>
+</tr>
+<tr>
+<td>En la página de NVIDIA: "Connection failed: …" al guardar</td>
+<td>La prueba de conexión falló; el panel deshace los cambios</td>
+<td>Lee el mensaje: 401/403 es la key; 429, espera; 5xx, el proveedor o el relay. Vuelve a intentar una vez</td>
+</tr>
+<tr>
+<td>"La URL base de la API de modelos debe usar HTTPS" o 404 en todo</td>
+<td>Cambiaste la URL base por error</td>
+<td>Restablece <code>https://integrate.api.nvidia.com/v1</code></td>
+</tr>
+<tr>
+<td>La celda de tools dice que el modelo respondió texto en vez de pedir la tool</td>
+<td>El modelo a veces no usa la tool, o elegiste un modelo sin soporte de tools</td>
+<td>Ejecuta la celda una vez más; si persiste, vuelve al modelo por defecto</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto">Reto</h2>
+<p>Convierte el notebook en una sola función <code>doctor()</code> que corra las cinco pruebas y devuelva el reporte de entorno.</p>
+<p><strong>Criterio de éxito:</strong> con tu configuración normal termina en "✅ entorno listo"; con <code>MODEL = "nvidia/nemotron-3.5-lightning"</code> (ID incompleto) el reporte marca <code>modelos</code> y <code>chat</code> como falla y el arreglo habla del ID exacto; y el reporte nunca contiene tu key.</p>
+<h2 id="avance-del-proyecto">Avance del proyecto</h2>
+<p>Soporte NemoClaw gana su primera pieza de código: <strong><code>reporte_entorno()</code></strong> (sección 10 del notebook). Devuelve un resumen sin secretos: versión de Python, modo, rutas, estado de cada prueba y latencia. Es lo que un estudiante pegará al pedir ayuda, y en la clase 3.3 los subagentes de Soporte NemoClaw lo van a leer para armar un diagnóstico. Guarda tu función.</p>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/index.html">Curso de NVIDIA DLI en español: inicio y panel de configuración</a> (NVIDIA, Apache-2.0)</li>
+<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01a-loop.html">Lección 1a de NVIDIA: un ejemplo real en el navegador</a></li>
+<li><a href="https://build.nvidia.com/?ncid=ref-dli-146986">NVIDIA Build: catálogo de modelos</a></li>
+<li><a href="https://github.com/NVDLI/NemoClawDLI/issues/106">Issue #106 de NemoClawDLI: el modelo retirado que devolvía 410</a></li>
+<li><a href="../../FAQ.html">Preguntas frecuentes del curso</a></li>
+</ul>
+<hr />
+<p><em>Basado en la página de inicio y el panel de configuración del curso de NVIDIA DLI "Securing Agents with OpenShell and NemoClaw" (Apache-2.0).</em></p></div></section>
+<nav class="prevnext"><a class="pn prev" href="../1.2-cuenta-y-api-key-nvidia-build/index.html"><small>Clase anterior</small>1.2 · Crea tu cuenta y tu API key en NVIDIA Build</a><a class="pn next" href="../2.1-loop-de-agente/index.html"><small>Clase siguiente</small>2.1 · De una sola llamada al loop de agente</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

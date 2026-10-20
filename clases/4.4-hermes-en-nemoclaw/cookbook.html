@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cookbook 4.4 · Hermes Agent en NemoClaw · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero doc"><h1>Cookbook 4.4 · Hermes Agent en NemoClaw</h1></section>
+<div class="md"><p>Recetas para crear, operar, observar y apagar un sandbox de Hermes con NemoClaw. Funcionan en el launchable del curso y en cualquier instalación de NemoClaw (Linux, macOS con Apple Silicon o WSL2).</p>
+<p>Convenciones:
+- <strong>En tu computadora</strong> = terminal local, desde la raíz del repo del curso. <strong>En la máquina</strong> = dentro de <code>brev shell &lt;instancia&gt;</code>.
+- <code>mi-hermes</code> es el sandbox de esta clase; <code>my-assistant</code>, el de OpenClaw del launchable. Confírmalos con <code>nemoclaw list</code>.
+- <code>nemohermes</code> es el CLI de NemoClaw con Hermes seleccionado. <code>nemohermes &lt;sandbox&gt; &lt;acción&gt;</code> y <code>nemoclaw &lt;sandbox&gt; &lt;acción&gt;</code> operan el mismo registro de sandboxes.
+- <code>nemohermes … exec</code> pasa los argumentos tal cual, <strong>sin shell</strong>. Para comodines (<code>*</code>) o <code>&amp;&amp;</code>, usa <code>bash -lc '…'</code>.</p>
+<p>Basado en la documentación de NemoClaw para Hermes y de Hermes Agent (Nous Research, MIT).</p>
+<hr />
+<h2 id="receta-1--antes-de-empezar-versiones-y-recursos">Receta 1 · Antes de empezar: versiones y recursos</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>--version
+nemohermes<span class="w"> </span>--version
+nemoclaw<span class="w"> </span>list
+free<span class="w"> </span>-h<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>/
+</code></pre></div>
+<ul>
+<li>Anota la versión: NemoClaw publica versiones cada pocos días. <code>[VERIFICAR EN LAB: versión del launchable y que incluya nemohermes]</code></li>
+<li>Un segundo sandbox necesita memoria y disco. Si <code>free -h</code> muestra menos de ≈4 GB libres, detén el de OpenClaw mientras trabajas:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>stop
+</code></pre></div>
+<p>Lo vuelves a encender con <code>nemoclaw my-assistant start</code> (receta 13).</p>
+<hr />
+<h2 id="receta-2--crea-el-sandbox-de-hermes-interactivo">Receta 2 · Crea el sandbox de Hermes (interactivo)</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">read</span><span class="w"> </span>-rsp<span class="w"> </span><span class="s2">"NVIDIA API key: "</span><span class="w"> </span>NVIDIA_INFERENCE_API_KEY<span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">export</span><span class="w"> </span>NVIDIA_INFERENCE_API_KEY
+<span class="nv">NEMOCLAW_SANDBOX_NAME</span><span class="o">=</span>mi-hermes<span class="w"> </span>nemohermes<span class="w"> </span>onboard
+</code></pre></div>
+<p><code>read -rsp</code> no muestra la key en pantalla ni la deja en el historial de la terminal.</p>
+<p>En el asistente:</p>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Respuesta para el curso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Run express install with these settings?</td>
+<td><code>n</code> (para elegir nombre, proveedor y modelo)</td>
+</tr>
+<tr>
+<td>Proveedor de inferencia</td>
+<td><strong>NVIDIA Endpoints</strong></td>
+</tr>
+<tr>
+<td>Modelo</td>
+<td>El que propone (por ejemplo, <code>nvidia/nemotron-3-super-120b-a12b</code>)</td>
+</tr>
+<tr>
+<td>Búsqueda web</td>
+<td><code>none</code> (Hermes solo soporta Tavily)</td>
+</tr>
+<tr>
+<td>Mensajería</td>
+<td>Omitir</td>
+</tr>
+<tr>
+<td>Nivel de política</td>
+<td>El sugerido</td>
+</tr>
+<tr>
+<td>Aviso de software de terceros</td>
+<td>Léelo y acéptalo solo si estás de acuerdo</td>
+</tr>
+</tbody>
+</table>
+<p>Salida esperada: un resumen final con el nombre <code>mi-hermes</code>, el puerto del dashboard y el de la API. La primera vez descarga la imagen: puede tardar varios minutos.</p>
+<p><strong>Si se interrumpe:</strong> <code>nemohermes onboard --resume</code> continúa; <code>nemohermes onboard --fresh</code> descarta el intento y empieza de nuevo.</p>
+<hr />
+<h2 id="receta-3--crea-el-sandbox-sin-preguntas-para-scripts">Receta 3 · Crea el sandbox sin preguntas (para scripts)</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">read</span><span class="w"> </span>-rsp<span class="w"> </span><span class="s2">"NVIDIA API key: "</span><span class="w"> </span>NVIDIA_INFERENCE_API_KEY<span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+<span class="nb">export</span><span class="w"> </span>NVIDIA_INFERENCE_API_KEY
+<span class="nb">export</span><span class="w"> </span><span class="nv">NEMOCLAW_AGENT</span><span class="o">=</span>hermes
+<span class="nb">export</span><span class="w"> </span><span class="nv">NEMOCLAW_SANDBOX_NAME</span><span class="o">=</span>mi-hermes
+<span class="nb">export</span><span class="w"> </span><span class="nv">NEMOCLAW_PROVIDER</span><span class="o">=</span>build
+<span class="nb">export</span><span class="w"> </span><span class="nv">NEMOCLAW_WEB_SEARCH_PROVIDER</span><span class="o">=</span>none
+<span class="nb">export</span><span class="w"> </span><span class="nv">NEMOCLAW_NON_INTERACTIVE</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NEMOCLAW_ACCEPT_THIRD_PARTY_SOFTWARE</span><span class="o">=</span><span class="m">1</span><span class="w">   </span><span class="c1"># solo si ya leíste y aceptas el aviso</span>
+nemohermes<span class="w"> </span>onboard
+</code></pre></div>
+<p>Al terminar, borra la key de la sesión: <code>unset NVIDIA_INFERENCE_API_KEY</code>. NemoClaw ya la guardó en el host; el sandbox solo recibe un marcador.</p>
+<hr />
+<h2 id="receta-4--comprueba-que-está-sano">Receta 4 · Comprueba que está sano</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>status
+openshell<span class="w"> </span>forward<span class="w"> </span>list
+curl<span class="w"> </span>-sf<span class="w"> </span>http://127.0.0.1:8642/health<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">" API ok"</span>
+</code></pre></div>
+<p>Salida esperada:
+- <code>status</code>: la línea principal <strong>Inference</strong> en <code>healthy</code>; el proceso del agente corriendo.
+- <code>forward list</code>: dos entradas de <code>mi-hermes</code>, el dashboard (<code>18789</code> o el siguiente libre) y la API (<code>8642</code> o el siguiente libre).
+- <code>API ok</code>.</p>
+<p><strong>Si falla:</strong>
+- <code>Inference: unauthorized</code> → la key es incorrecta: <code>nemohermes inference set --provider build --model &lt;modelo&gt;</code> y vuelve a escribirla <code>[VERIFICAR EN LAB]</code>.
+- No hay forwards o <code>curl</code> no conecta → <code>nemohermes mi-hermes recover</code>.
+- <code>status</code> dice que el sandbox no está listo → espera; la primera vez puede tardar. Revisa <code>nemohermes mi-hermes logs --tail 50</code>.</p>
+<hr />
+<h2 id="receta-5--conversa-con-hermes">Receta 5 · Conversa con Hermes</h2>
+<p><strong>Terminal (en la máquina):</strong></p>
+<div class="highlight"><pre><span></span><code>nemohermes<span class="w"> </span>launch<span class="w"> </span>mi-hermes<span class="w">          </span><span class="c1"># abre Hermes directamente</span>
+<span class="c1"># o, si quieres una terminal dentro del sandbox:</span>
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>connect
+hermes
+</code></pre></div>
+<p>Comandos útiles dentro de Hermes:</p>
+<table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/new</code></td>
+<td>Sesión nueva (carga memoria y skills actualizadas)</td>
+</tr>
+<tr>
+<td><code>/skills</code> o <code>/&lt;nombre-de-skill&gt;</code></td>
+<td>Ver o usar una skill</td>
+</tr>
+<tr>
+<td><code>/memory pending</code> · <code>/memory approve &lt;id&gt;</code> · <code>/memory reject &lt;id&gt;</code></td>
+<td>Revisar escrituras de memoria en espera</td>
+</tr>
+<tr>
+<td><code>/memory approval on</code> · <code>/skills approval on</code></td>
+<td>Exigir aprobación antes de escribir memoria o skills</td>
+</tr>
+<tr>
+<td><code>/reset</code></td>
+<td>Limpiar la conversación si hay un error de contexto</td>
+</tr>
+<tr>
+<td><code>/exit</code></td>
+<td>Salir y volver al host</td>
+</tr>
+</tbody>
+</table>
+<p><code>[VERIFICAR EN LAB: lista de comandos en la versión fijada de Hermes]</code></p>
+<p><strong>Dashboard (en tu computadora):</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>port-forward<span class="w"> </span>&lt;instancia&gt;<span class="w"> </span>-p<span class="w"> </span><span class="m">18789</span>:18789<span class="w">     </span><span class="c1"># usa el puerto del dashboard que mostró forward list</span>
+</code></pre></div>
+<p>Luego, en la máquina, <code>nemohermes mi-hermes dashboard-url --quiet</code> te da la URL; ábrela en tu navegador cambiando el host por <code>127.0.0.1</code>. Hermes <strong>no</strong> usa <code>#token=</code> en la URL: maneja su propia sesión.</p>
+<hr />
+<h2 id="receta-6--lleva-la-skill-la-faq-y-el-script-a-la-máquina">Receta 6 · Lleva la skill, la FAQ y el script a la máquina</h2>
+<p><strong>En tu computadora</strong> (raíz del repo):</p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>copy<span class="w"> </span>./clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw<span class="w"> </span>&lt;instancia&gt;:/home/ubuntu/soporte-nemoclaw-hermes
+brev<span class="w"> </span>copy<span class="w"> </span>./clases/4.4-hermes-en-nemoclaw/hermes_trazado.py<span class="w"> </span>&lt;instancia&gt;:/home/ubuntu/hermes_trazado.py
+brev<span class="w"> </span>copy<span class="w"> </span>./datos/faq<span class="w"> </span>&lt;instancia&gt;:/home/ubuntu/faq<span class="w">        </span><span class="c1"># si no la copiaste en la 4.3</span>
+</code></pre></div>
+<p><code>[VERIFICAR EN LAB: que brev copy acepte carpetas y que el inicio sea /home/ubuntu]</code>. Si <code>brev copy</code> falla, la receta 1 del cookbook 4.3 trae el método con heredoc: usa el <code>SKILL.md</code> de esta clase.</p>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>~/soporte-nemoclaw-hermes<span class="w"> </span>~/faq<span class="w"> </span>~/hermes_trazado.py
+</code></pre></div>
+<hr />
+<h2 id="receta-7--soulmd-la-personalidad-de-hermes">Receta 7 · SOUL.md: la personalidad de Hermes</h2>
+<p>Hermes lee su personalidad de <code>/sandbox/SOUL.md</code> (en OpenClaw era <code>/sandbox/.openclaw/workspace/SOUL.md</code>).</p>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>~/hermes<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/hermes
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>download<span class="w"> </span>/sandbox/SOUL.md<span class="w"> </span>./
+cp<span class="w"> </span>SOUL.md<span class="w"> </span>SOUL.md.original
+cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>SOUL.md<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+
+<span class="s">## Proyecto: Soporte NemoClaw</span>
+<span class="s">- Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".</span>
+<span class="s">- Respondes en español neutro, con frases cortas y pasos numerados.</span>
+<span class="s">- Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.</span>
+<span class="s">- Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.</span>
+<span class="s">- Nunca pides, repites ni guardas API keys, tokens o cookies. Si alguien pega una, le pides que la revoque.</span>
+<span class="s">- Si no sabes algo, lo dices y sugieres abrir un issue o preguntar en el foro del curso.</span>
+<span class="s">EOF</span>
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>upload<span class="w"> </span>./SOUL.md<span class="w"> </span>/sandbox/SOUL.md
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span><span class="w"> </span>/sandbox/SOUL.md
+</code></pre></div>
+<p>Pruébalo en una sesión nueva: <em>"¿Quién eres, a quién ayudas y qué nunca haces?"</em>.</p>
+<p>Volver al original: <code>nemohermes mi-hermes upload ./SOUL.md.original /sandbox/SOUL.md</code>.</p>
+<p><code>SOUL.md</code> sobrevive a <code>rebuild</code> y a actualizaciones (es parte del <em>home</em> persistente del sandbox). <code>destroy</code> lo borra.</p>
+<hr />
+<h2 id="receta-8--instala-la-skill-y-sube-la-faq">Receta 8 · Instala la skill y sube la FAQ</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/soporte-nemoclaw-hermes/
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>skill<span class="w"> </span>list
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>upload<span class="w"> </span>~/faq/<span class="w"> </span>/sandbox/faq/
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-lc<span class="w"> </span><span class="s1">'ls /sandbox/faq; head -n 6 /sandbox/.hermes/skills/soporte-nemoclaw/SKILL.md'</span>
+</code></pre></div>
+<p>Salida esperada: <code>soporte-nemoclaw</code> en <code>skill list</code>, los <code>.md</code> de la FAQ en <code>/sandbox/faq</code> y el frontmatter de la skill.</p>
+<ul>
+<li>Hermes no tiene un comando nativo para instalar una carpeta local. NemoClaw valida el <code>SKILL.md</code> (frontmatter con <code>name</code>) y copia la carpeta a <code>/sandbox/.hermes/skills/&lt;name&gt;/</code>. Hermes la descubre al iniciar una sesión.</li>
+<li>Para reemplazarla: <code>nemohermes mi-hermes skill remove soporte-nemoclaw</code> y vuelve a instalar. <code>skill install</code> no sobrescribe una carpeta con el mismo nombre.</li>
+<li>Si la FAQ quedó en <code>/sandbox/faq/faq/</code>, bórrala con <code>nemohermes mi-hermes exec -- rm -rf /sandbox/faq</code> y sube los archivos: <code>nemohermes mi-hermes upload ~/faq/. /sandbox/faq/</code> <code>[VERIFICAR EN LAB: cómo anida upload una carpeta]</code>.</li>
+</ul>
+<p><strong>Prueba (sesión nueva):</strong></p>
+<blockquote>
+<p>Un estudiante dice: "Mi notebook responde HTTP 401 cuando llamo al modelo". ¿Qué le respondes?</p>
+</blockquote>
+<p>Debe responder con <strong>Categoría</strong>, <strong>Qué hacer</strong> y <strong>Fuente:</strong> <code>faq/errores-api.md</code>.</p>
+<hr />
+<h2 id="receta-9--memoria-y-skills-que-hermes-escribe-solo">Receta 9 · Memoria y skills que Hermes escribe solo</h2>
+<p>Hermes <strong>aprende</strong>: guarda notas en su memoria y puede crear o mejorar skills con su herramienta <code>skill_manage</code>. Es útil y es un riesgo: una instrucción maliciosa puede quedar guardada y afectar sesiones futuras (lo verás en el Módulo 5).</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Qué guarda</th>
+<th>Límite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/sandbox/.hermes/memories/MEMORY.md</code></td>
+<td>Notas del agente</td>
+<td>≈2,200 caracteres</td>
+</tr>
+<tr>
+<td><code>/sandbox/.hermes/memories/USER.md</code></td>
+<td>Perfil del usuario</td>
+<td>≈1,375 caracteres</td>
+</tr>
+<tr>
+<td><code>/sandbox/.hermes/skills/</code></td>
+<td>Skills instaladas y creadas por el agente</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>/sandbox/.hermes/state.db</code></td>
+<td>Sesiones (SQLite, con búsqueda de texto)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Exige aprobación (dentro de Hermes):</strong></p>
+<div class="highlight"><pre><span></span><code>/memory approval on
+/skills approval on
+</code></pre></div>
+<p><strong>Prueba:</strong> pídele <em>"Recuerda que mi instancia de Brev se llama lab-prueba"</em>. Luego:</p>
+<div class="highlight"><pre><span></span><code>/memory pending
+/memory approve &lt;id&gt;      # o /memory reject &lt;id&gt;
+</code></pre></div>
+<p>Los cambios de memoria entran al prompt en la <strong>siguiente</strong> sesión (<code>/new</code>).</p>
+<p><strong>Léela como operador (en la máquina):</strong></p>
+<div class="highlight"><pre><span></span><code>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-lc<span class="w"> </span><span class="s1">'cat /sandbox/.hermes/memories/MEMORY.md 2&gt;/dev/null || echo "(sin memoria todavía)"'</span>
+</code></pre></div>
+<p><code>[VERIFICAR EN LAB: que memories/ exista en la versión fijada y que la aprobación persista tras rebuild]</code></p>
+<hr />
+<h2 id="receta-10--sesiones-lista-exporta-y-borra">Receta 10 · Sesiones: lista, exporta y borra</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>sessions<span class="w"> </span>list<span class="w"> </span>--limit<span class="w"> </span><span class="m">5</span>
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>sessions<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--out<span class="w"> </span>./sesiones-mi-hermes.jsonl
+ls<span class="w"> </span>-l<span class="w"> </span>./sesiones-mi-hermes.jsonl
+head<span class="w"> </span>-c<span class="w"> </span><span class="m">600</span><span class="w"> </span>./sesiones-mi-hermes.jsonl<span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
+</code></pre></div>
+<ul>
+<li>El archivo queda con permisos <code>0600</code>. Contiene prompts, salidas de herramientas y lo que el estudiante haya pegado: no lo subas a tu repo.</li>
+<li>Borrar una sesión: <code>nemohermes mi-hermes sessions delete &lt;id&gt;</code> (el id sale de <code>sessions list</code>, por ejemplo <code>20260727_130357_cb2b61</code>).</li>
+<li>A diferencia de OpenClaw, no exporta por clave ni en <code>tar</code>: Hermes guarda todo en SQLite y lo saca como un solo JSONL.</li>
+</ul>
+<hr />
+<h2 id="receta-11--la-api-compatible-con-openai">Receta 11 · La API compatible con OpenAI</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>gateway-token<span class="w"> </span>--quiet<span class="k">)</span><span class="s2">"</span>
+curl<span class="w"> </span>-fsS<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span>http://127.0.0.1:8642/v1/models
+curl<span class="w"> </span>-fsS<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>http://127.0.0.1:8642/v1/chat/completions<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"model":"&lt;id de /v1/models&gt;","messages":[{"role":"user","content":"¿Qué haces si un estudiante te pega su API key?"}]}'</span>
+</code></pre></div>
+<ul>
+<li>El token es el <code>API_SERVER_KEY</code> del sandbox: trátalo como contraseña. Se mantiene entre reinicios y cambia si reconstruyes el sandbox.</li>
+<li>La API escucha solo en <code>127.0.0.1</code>. Para usarla desde tu computadora: <code>brev port-forward &lt;instancia&gt; -p 8642:8642</code>. No la abras a internet.</li>
+<li>Cualquier cliente de OpenAI sirve: <code>base_url="http://127.0.0.1:8642/v1"</code> y <code>api_key=&lt;token&gt;</code>.</li>
+</ul>
+<p><code>[VERIFICAR EN LAB: id del modelo que devuelve /v1/models]</code></p>
+<hr />
+<h2 id="receta-12--trazas-con-phoenix-clase-34">Receta 12 · Trazas con Phoenix (clase 3.4)</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>phoenix<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:6006:6006<span class="w"> </span>arizephoenix/phoenix:latest
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/venv-trazas<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/venv-trazas/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>openai<span class="w"> </span>opentelemetry-sdk<span class="w"> </span>opentelemetry-exporter-otlp-proto-http<span class="w"> </span>openinference-instrumentation-openai
+<span class="nb">export</span><span class="w"> </span><span class="nv">HERMES_TOKEN</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>gateway-token<span class="w"> </span>--quiet<span class="k">)</span><span class="s2">"</span>
+python3<span class="w"> </span>~/hermes_trazado.py<span class="w"> </span><span class="s2">"Mi notebook responde HTTP 401 cuando llamo al modelo"</span>
+</code></pre></div>
+<p>Salida esperada: la respuesta de Hermes y una línea <code>modelo: … · N s · traza: &lt;id&gt;</code>.</p>
+<p><strong>En tu computadora:</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>port-forward<span class="w"> </span>&lt;instancia&gt;<span class="w"> </span>-p<span class="w"> </span><span class="m">6006</span>:6006
+</code></pre></div>
+<p>Abre <code>http://127.0.0.1:6006</code> → <strong>Projects → soporte-nemoclaw-hermes</strong>. Verás un span <code>AGENT</code> (<code>hermes · pregunta</code>) con un span <code>LLM</code> automático dentro, con la pregunta, la respuesta, la latencia y los tokens que reporte Hermes.</p>
+<p>Lo que <strong>no</strong> verás: los <code>grep</code> y <code>cat</code> que Hermes ejecutó dentro del sandbox. Esos están en las sesiones (receta 10). Trazar el cliente y trazar el agente son capas distintas.</p>
+<p><strong>Si falla:</strong>
+- <code>401: el token no es válido</code> → vuelve a leer el token (cambia si reconstruiste).
+- <code>No pude hablar con Hermes</code> → el puerto no es <code>8642</code>: <code>export HERMES_BASE_URL=http://127.0.0.1:&lt;puerto&gt;/v1</code>.
+- Phoenix no muestra nada → <code>docker logs phoenix</code>; revisa que el puerto <code>6006</code> del contenedor esté en <code>127.0.0.1</code>.
+- <code>python3 -m venv</code> falla → <code>sudo apt-get install -y python3-venv</code> <code>[VERIFICAR EN LAB]</code>.</p>
+<p>Nunca publiques el puerto <code>6006</code> a internet: las trazas contienen las preguntas y respuestas completas.</p>
+<hr />
+<h2 id="receta-13--logs-política-y-bloqueos">Receta 13 · Logs, política y bloqueos</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">50</span><span class="w">          </span><span class="c1"># gateway + auditoría de OpenShell</span>
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>logs<span class="w"> </span>--follow<span class="w">           </span><span class="c1"># en vivo; Ctrl+C para salir</span>
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>policy<span class="w"> </span>list<span class="w">             </span><span class="c1"># presets activos (Hermes tiene su propia base)</span>
+openshell<span class="w"> </span>term<span class="w">                               </span><span class="c1"># conexiones, bloqueos y estado de la inferencia</span>
+</code></pre></div>
+<p>Una línea <code>DENIED</code> en los logs significa que OpenShell bloqueó una conexión de salida: es la política funcionando, igual que con OpenClaw.</p>
+<hr />
+<h2 id="receta-14--apaga-enciende-y-limpia">Receta 14 · Apaga, enciende y limpia</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>stop<span class="w"> </span>phoenix<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>rm<span class="w"> </span>phoenix<span class="w">     </span><span class="c1"># cuando ya no lo uses</span>
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>stop<span class="w">                    </span><span class="c1"># detiene el sandbox y su dashboard</span>
+nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>start<span class="w">                   </span><span class="c1"># lo vuelve a encender</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>start<span class="w">                  </span><span class="c1"># si detuviste el de OpenClaw</span>
+</code></pre></div>
+<p>Para borrar el sandbox de Hermes <strong>y todo su estado</strong> (SOUL.md, memoria, skills, sesiones):</p>
+<div class="highlight"><pre><span></span><code>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>destroy
+</code></pre></div>
+<p><code>destroy</code> no se puede deshacer. Exporta antes las sesiones que quieras conservar (receta 10). Y recuerda detener la instancia de Brev al terminar (cookbook 4.1).</p></div>
+
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

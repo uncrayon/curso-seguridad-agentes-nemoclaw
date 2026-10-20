@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Preguntas frecuentes y solución de problemas · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero doc"><h1>Preguntas frecuentes y solución de problemas</h1></section>
+<div class="md"><p>Curso <strong>Seguridad de agentes con OpenShell y NemoClaw</strong> (Platzi × NVIDIA DLI).</p>
+<p>Esta página reúne los problemas reales que vas a encontrar en el curso: la API key, los errores del modelo, los notebooks, Brev, la conexión con el laboratorio, OpenClaw, OpenShell y la instalación local de NemoClaw. Cada entrada tiene la <strong>causa</strong>, la <strong>solución</strong> con comandos exactos y, cuando existe, la <strong>fuente</strong> oficial.</p>
+<blockquote>
+<p><strong>Antes de seguir:</strong> NemoClaw está en <em>alpha</em> y publica versiones cada 1 a 3 días. Si un comando no coincide con lo que ves, revisa tu versión con <code>nemoclaw --version</code> y la documentación oficial. Las entradas marcadas con <code>[VERIFICAR EN LAB]</code> todavía no se confirmaron en el laboratorio del curso.</p>
+</blockquote>
+<p>En los comandos, <code>&lt;sandbox&gt;</code> es el nombre de tu sandbox (en el laboratorio suele ser <code>my-assistant</code>; confírmalo con <code>nemoclaw list</code>) e <code>&lt;instancia&gt;</code> es el nombre de tu instancia en Brev (confírmalo con <code>brev ls</code>).</p>
+<h2 id="índice">Índice</h2>
+<ol>
+<li><a href="#api-key">Cuenta y API key de NVIDIA Build</a></li>
+<li><a href="#errores-api">Errores de la API (401, 403, 404, 410, 422, 429, 5xx, timeouts, <code>finish_reason</code>)</a></li>
+<li><a href="#notebooks">Notebooks, Colab y Python</a></li>
+<li><a href="#brev">Brev y el launchable</a></li>
+<li><a href="#conexion-laboratorio">Conexión del curso de NVIDIA con el laboratorio</a></li>
+<li><a href="#openclaw">OpenClaw: gateway, dashboard, pairing, workspace y sesiones</a></li>
+<li><a href="#openshell">OpenShell y políticas</a></li>
+<li><a href="#instalacion-local">NemoClaw instalado en tu máquina</a></li>
+<li><a href="#seguridad">Seguridad</a></li>
+<li><a href="#trazas">Observabilidad y trazas</a></li>
+<li><a href="#hermes">Hermes en NemoClaw</a></li>
+<li><a href="#pedir-ayuda">Cómo pedir ayuda bien</a></li>
+</ol>
+<h3 id="los-10-problemas-que-más-vas-a-ver">Los 10 problemas que más vas a ver</h3>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Ir a</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>401 Unauthorized</code> al llamar al modelo</td>
+<td><a href="#e401">401</a></td>
+</tr>
+<tr>
+<td>Respuesta vacía con <code>finish_reason: "length"</code></td>
+<td><a href="#elength">finish_reason</a></td>
+</tr>
+<tr>
+<td><code>429 Too Many Requests</code></td>
+<td><a href="#e429">429</a></td>
+</tr>
+<tr>
+<td>El notebook dice <code>Modo: MOCK</code> aunque pusiste tu key</td>
+<td><a href="#emock">MOCK</a></td>
+</tr>
+<tr>
+<td>No sabes si tu instancia de Brev te sigue cobrando</td>
+<td><a href="#ecostos">Costos</a></td>
+</tr>
+<tr>
+<td>El curso de NVIDIA no conecta con tu launchable</td>
+<td><a href="#ecookie">Access session</a></td>
+</tr>
+<tr>
+<td><code>OpenClaw is starting. Retrying in N seconds</code></td>
+<td><a href="#estarting">503 starting</a></td>
+</tr>
+<tr>
+<td>El dashboard pide <em>Pairing required</em></td>
+<td><a href="#epairing">Pairing</a></td>
+</tr>
+<tr>
+<td><code>CONNECT tunnel failed, response 403</code></td>
+<td><a href="#e403tunnel">Red bloqueada</a></td>
+</tr>
+<tr>
+<td>Filtraste tu API key</td>
+<td><a href="#efiltrada">Key filtrada</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="api-key"></a></p>
+<h2 id="1-cuenta-y-api-key-de-nvidia-build">1. Cuenta y API key de NVIDIA Build</h2>
+<h3 id="dónde-creo-mi-api-key-de-nvidia">¿Dónde creo mi API key de NVIDIA?</h3>
+<p><strong>Causa:</strong> el curso usa los modelos alojados en NVIDIA Build (<code>https://integrate.api.nvidia.com/v1</code>) y todos piden una key personal.</p>
+<p><strong>Solución:</strong>
+1. Entra a <code>https://build.nvidia.com/?ncid=ref-dli-146986</code> e inicia sesión (o crea tu cuenta).
+2. Abre tu perfil → <strong>API Keys</strong> → <strong>Generate API Key</strong>.
+3. Copia la key completa. Empieza con <code>nvapi-</code>.
+4. Guárdala en un gestor de contraseñas. No la pegues en el código.</p>
+<p>La interfaz de build.nvidia.com cambia seguido; si no ves el menú <strong>API Keys</strong>, busca el botón <strong>Get API Key</strong> en la página de cualquier modelo. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Fuente:</strong> clase 1.2; <a href="https://github.com/NVIDIA/NemoClaw/blob/b00e2f21fe/docs/deployment/brev-web-ui.mdx">guía anterior de NemoClaw en Brev</a>.</p>
+<h3 id="no-me-llega-el-sms-o-la-verificación-de-teléfono-falla-al-crear-la-key">No me llega el SMS o la verificación de teléfono falla al crear la key</h3>
+<p><strong>Causa:</strong> la verificación de teléfono de build.nvidia.com falla con algunos números fuera de EE. UU. o con mensajes como "number has requested too many". No es un problema de NemoClaw ni del curso.</p>
+<p><strong>Solución:</strong>
+1. Espera unos minutos antes de reintentar; no pidas el código muchas veces seguidas.
+2. Si sigue fallando, escribe a <code>help@build.nvidia.com</code> con tu correo registrado, los números que probaste y capturas de pantalla. También puedes usar <code>https://developer.nvidia.com/support</code>.
+3. Mientras tanto, avanza con los notebooks en modo MOCK (corren sin key).</p>
+<p><strong>Fuente:</strong> <a href="https://github.com/NVIDIA/NemoClaw/issues/201">NVIDIA/NemoClaw#201</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/214">#214</a>.</p>
+<h3 id="key-should-start-with-nvapi-"><code>Key should start with nvapi-</code></h3>
+<p><strong>Causa:</strong> pegaste otra cosa (un ID, una key de otro proveedor o la key cortada). La página del curso de NVIDIA valida el prefijo cuando usas el endpoint por defecto.</p>
+<p><strong>Solución:</strong> vuelve a copiar la key completa desde build.nvidia.com, sin espacios ni comillas. En los notebooks del curso verás el aviso <code>⚠  Tu key no empieza con 'nvapi-'</code>. Si la perdiste, genera una nueva: NVIDIA no te la vuelve a mostrar. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Fuente:</strong> <code>web/nemoclaw/scripts/_keypanel.js</code> de <a href="https://github.com/NVDLI/NemoClawDLI">NVDLI/NemoClawDLI</a>; <code>tools/notebooks/comun.py</code> de este repo.</p>
+<h3 id="dónde-guardo-mi-api-key-sirve-la-misma-en-todo-el-curso">¿Dónde guardo mi API key? ¿Sirve la misma en todo el curso?</h3>
+<p><strong>Causa:</strong> la key es un secreto y cada entorno la lee de un lugar distinto. Es la <strong>misma</strong> key <code>nvapi-</code> en todos lados; cambia solo el nombre de la variable.</p>
+<p><strong>Solución:</strong>
+- <strong>Google Colab:</strong> icono de llave 🔑 (<em>Secrets</em>) → nuevo secreto <code>NVIDIA_API_KEY</code> → activa el acceso del notebook.
+- <strong>Tu máquina:</strong> copia <code>.env.example</code> como <code>.env</code> en la raíz del repo y pon tu key en <code>NVIDIA_API_KEY</code>. <code>.env</code> ya está en <code>.gitignore</code>.
+- <strong>Terminal:</strong> <code>export NVIDIA_API_KEY=nvapi-xxxxxxxx</code> (solo dura esa sesión).
+- <strong>Curso web de NVIDIA:</strong> la página guarda la key solo en la pestaña (<code>sessionStorage</code>) y la descarta al cerrarla.
+- <strong>Launchable de Brev:</strong> la pegas en el asistente de configuración, con <strong>NVIDIA Cloud</strong> seleccionado.
+- <strong>NemoClaw en tu máquina:</strong> el instalador y <code>nemoclaw onboard</code> leen <strong><code>NVIDIA_INFERENCE_API_KEY</code></strong> y la registran en el gateway de OpenShell. (<code>NVIDIA_API_KEY</code> solo aparece documentada para el onboarding diferido; no cuentes con ella.)</p>
+<p>Si rotas la key, actualízala en todos estos lugares.</p>
+<p><strong>Fuente:</strong> <code>.env.example</code> de este repo; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/security/credential-storage">credential storage de NemoClaw</a>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands">commands</a> ("Onboarding Configuration").</p>
+<h3 id="cómo-pruebo-rápido-si-mi-key-funciona">¿Cómo pruebo rápido si mi key funciona?</h3>
+<p><strong>Solución:</strong> una sola llamada con <code>curl</code> desde tu terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NVIDIA_API_KEY</span><span class="o">=</span>nvapi-xxxxxxxx
+curl<span class="w"> </span>https://integrate.api.nvidia.com/v1/chat/completions<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$NVIDIA_API_KEY</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"model":"nvidia/nemotron-3.5-lightning-30b-a3b","messages":[{"role":"user","content":"Di hola"}],"max_tokens":1024}'</span>
+</code></pre></div>
+<p>Deberías ver un JSON con <code>choices[0].message.content</code>. Si ves <code>401</code> o <code>403</code>, revisa la sección de <a href="#errores-api">errores de la API</a>.</p>
+<p><strong>Fuente:</strong> clase 1.2; ruta y modelo por defecto en <code>web/nemoclaw/scripts/_shared.js</code> de NVDLI/NemoClawDLI.</p>
+<h3 id="cuántos-créditos-o-solicitudes-por-minuto-me-da-la-cuenta-gratuita">¿Cuántos créditos o solicitudes por minuto me da la cuenta gratuita?</h3>
+<p><strong>Causa:</strong> NVIDIA Build limita el uso por cuenta (créditos y solicitudes por minuto). Los números cambian y no están en la documentación que revisamos.</p>
+<p><strong>Solución:</strong> revisa el uso y el límite en tu cuenta de build.nvidia.com. Para no gastarlos: pon siempre un límite de pasos a tus loops de agente (clase 2.1) y no ejecutes celdas en ráfaga. Si recibes <code>429</code>, espera antes de reintentar. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Fuente:</strong> sección "If a model request fails" de <code>web/nemoclaw/index.html</code> en NVDLI/NemoClawDLI.</p>
+<hr />
+<p><a id="errores-api"></a></p>
+<h2 id="2-errores-de-la-api">2. Errores de la API</h2>
+<p>En los notebooks del curso, la función <code>diagnostico()</code> traduce cada error a "qué pasó + qué hacer". En el curso web de NVIDIA, el mensaje se ve así: <code>Model request failed: HTTP &lt;status&gt;. &lt;motivo&gt;</code>.</p>
+<p><a id="e401"></a></p>
+<h3 id="401-unauthorized-o-key-rejected--en-el-curso-de-nvidia"><code>401 Unauthorized</code> (o <code>Key rejected ✗</code> en el curso de NVIDIA)</h3>
+<p><strong>Causa:</strong> la key no es válida: está incompleta, tiene espacios o comillas, la revocaste o la regeneraste (la vieja deja de servir). En el curso web, el mensaje es "The model credential was rejected or lacks access."</p>
+<p><strong>Solución:</strong>
+1. Copia otra vez la key completa (<code>nvapi-…</code>) sin espacios.
+2. Revisa qué variable lee tu código: <code>echo ${NVIDIA_API_KEY:0:6}</code> debe imprimir <code>nvapi-</code>.
+3. En Colab, confirma que el secreto <code>NVIDIA_API_KEY</code> tiene activado el acceso del notebook.
+4. Más esperas o más reintentos <strong>no</strong> arreglan una key inválida.</p>
+<p><strong>Fuente:</strong> <code>modelHttpFailure</code> en <code>web/nemoclaw/scripts/_shared.js</code> (NVDLI/NemoClawDLI).</p>
+<h3 id="403-forbidden-al-llamar-a-un-modelo"><code>403 Forbidden</code> al llamar a un modelo</h3>
+<p><strong>Causa:</strong> la key es válida, pero no tiene acceso a ese modelo o la cuenta no tiene cuota.</p>
+<p><strong>Solución:</strong> prueba con el modelo del curso (<code>nvidia/nemotron-3.5-lightning-30b-a3b</code>). Revisa tu cuenta y tus créditos en build.nvidia.com. Si el error aparece <strong>dentro del sandbox</strong> como <code>CONNECT tunnel failed, response 403</code>, no es la API: es la política de red (ver <a href="#e403tunnel">OpenShell</a>).</p>
+<p><strong>Fuente:</strong> <code>_shared.js</code> de NVDLI/NemoClawDLI; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/troubleshooting">troubleshooting de NemoClaw</a>.</p>
+<h3 id="404-not-found"><code>404 Not Found</code></h3>
+<p><strong>Causa:</strong> el ID del modelo está mal escrito, el modelo no está disponible para tu cuenta o la ruta está mal (por ejemplo, <code>BASE_URL</code> sin <code>/v1</code> o con <code>/v1</code> duplicado).</p>
+<p><strong>Solución:</strong>
+- <code>BASE_URL</code> debe ser exactamente <code>https://integrate.api.nvidia.com/v1</code>.
+- Copia el ID exacto del catálogo de build.nvidia.com (por ejemplo <code>nvidia/nemotron-3-embed-1b</code> para embeddings).
+- Si el modelo aparece en el catálogo pero da 404, elige otro: no todos los modelos están desplegados para todas las cuentas.</p>
+<p><strong>Fuente:</strong> <code>docs/inference/verify-inference-route.mdx</code> en <a href="https://github.com/NVIDIA/NemoClaw/blob/main/docs/inference/verify-inference-route.mdx">NVIDIA/NemoClaw</a>.</p>
+<h3 id="410-gone"><code>410 Gone</code></h3>
+<p><strong>Causa:</strong> NVIDIA retiró ese modelo del endpoint gratuito. Le pasó al curso de NVIDIA con <code>nvidia/nemotron-3-nano-30b-a3b</code>. Los modelos por defecto cambian con el tiempo.</p>
+<p><strong>Solución:</strong> cambia <code>NVIDIA_MODEL</code> (o la variable <code>MODEL</code> del notebook) por un modelo vigente del catálogo. El de este curso es <code>nvidia/nemotron-3.5-lightning-30b-a3b</code>. Para embeddings, usa <code>nvidia/nemotron-3-embed-1b</code>.</p>
+<p><strong>Fuente:</strong> issue #106 de <a href="https://github.com/NVDLI/NemoClawDLI/issues/106">NVDLI/NemoClawDLI</a>.</p>
+<h3 id="422-unprocessable-entity"><code>422 Unprocessable Entity</code></h3>
+<p><strong>Causa:</strong> el servidor entendió la solicitud, pero algún argumento tiene un formato inválido: un esquema de tool mal formado o, en embeddings, falta <code>input_type</code>.</p>
+<p><strong>Solución:</strong> en embeddings, envía <code>input_type="query"</code> para preguntas y <code>"passage"</code> para documentos (la función <code>embed()</code> del curso ya lo hace). En tools, revisa que <code>parameters</code> sea un JSON Schema válido. Lee el cuerpo del error: casi siempre nombra el campo. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Fuente:</strong> <code>tools/notebooks/comun.py</code> de este repo; formato de embeddings en <code>web/nemoclaw/scripts/_rag.js</code> (NVDLI/NemoClawDLI).</p>
+<p><a id="e429"></a></p>
+<h3 id="429-too-many-requests"><code>429 Too Many Requests</code></h3>
+<p><strong>Causa:</strong> mandaste demasiadas solicitudes por minuto. Pasa con loops sin límite, celdas que se ejecutan en ráfaga o varios notebooks a la vez.</p>
+<p><strong>Solución:</strong>
+1. Espera unos segundos y reintenta una sola vez.
+2. Respeta el encabezado <code>Retry-After</code> si viene.
+3. Pon un límite de pasos al loop del agente y un <code>time.sleep()</code> entre llamadas en pruebas masivas.
+4. En el curso de NVIDIA, <strong>Request handling</strong> permite hasta 5 reintentos automáticos (solo para errores de red, 429 y 5xx).</p>
+<p><strong>Fuente:</strong> <code>_shared.js</code> y sección "If a model request fails" de <code>web/nemoclaw/index.html</code> (NVDLI/NemoClawDLI).</p>
+<h3 id="500-502-503-o-504-del-modelo"><code>500</code>, <code>502</code>, <code>503</code> o <code>504</code> del modelo</h3>
+<p><strong>Causa:</strong> falla del lado del proveedor o del relay, o el modelo está arrancando. En el curso de NVIDIA, algunos 503/504 venían del relay del DLI, que corta si el modelo no empieza a responder en unos 10 segundos.</p>
+<p><strong>Solución:</strong> espera 30 a 60 segundos y reintenta una vez. Si persiste, prueba otro modelo o vuelve más tarde. Si el 502 sale al probar el laboratorio, ve a <a href="#conexion-laboratorio">Conexión del curso con el laboratorio</a>.</p>
+<p><strong>Fuente:</strong> <code>_shared.js</code> e issue #151 de <a href="https://github.com/NVDLI/NemoClawDLI/issues/151">NVDLI/NemoClawDLI</a>.</p>
+<h3 id="timeout-model-stream-stopped-producing-data-for-ns-o-network-or-endpoint-failure-after-n-attempts">Timeout: <code>Model stream stopped producing data for Ns</code> o <code>Network or endpoint failure after N attempt(s)</code></h3>
+<p><strong>Causa:</strong> no llegó respuesta (o el stream se detuvo) dentro del tiempo de espera configurado. Puede ser tu red, una VPN o proxy corporativo, o un modelo lento.</p>
+<p><strong>Solución:</strong>
+- Revisa tu conexión y desactiva la VPN para probar.
+- En el curso de NVIDIA, sube la espera en <strong>Request handling</strong> (de 5 a 300 s; por defecto 60 s).
+- En los notebooks, el cliente usa <code>timeout=60</code>; baja <code>max_tokens</code> o reintenta.</p>
+<p><strong>Fuente:</strong> <code>_shared.js</code> de NVDLI/NemoClawDLI.</p>
+<p><a id="elength"></a></p>
+<h3 id="la-respuesta-llega-vacía-y-finish_reason-es-length">La respuesta llega vacía y <code>finish_reason</code> es <code>"length"</code></h3>
+<p><strong>Causa:</strong> el modelo del curso <strong>razona antes de responder</strong> y gasta tokens en ese razonamiento. Con un <code>max_tokens</code> pequeño se le acaban antes de escribir la respuesta: <code>content</code> queda vacío.</p>
+<p><strong>Solución:</strong> sube <code>max_tokens</code> (el curso de NVIDIA usa 8196 en las celdas y 1024 en la prueba de conexión; los notebooks usan 4096). El helper <code>chat()</code> del curso te avisa con <code>⚠  finish_reason=length sin contenido</code>.</p>
+<p><strong>Fuente:</strong> comentario sobre <code>chat()</code> en <code>web/nemoclaw/scripts/_shared.js</code> (NVDLI/NemoClawDLI).</p>
+<h3 id="failed-to-fetch-o-error-de-cors-en-el-curso-web-de-nvidia"><code>Failed to fetch</code> o error de CORS en el curso web de NVIDIA</h3>
+<p><strong>Causa:</strong> el navegador bloqueó la llamada directa al modelo porque el endpoint no permite el origen de la página. Para eso existe el relay del DLI.</p>
+<p><strong>Solución:</strong> en el panel de la API key, activa <strong>Use the NVIDIA DLI browser relay</strong>. El relay reenvía tu solicitud a NVIDIA; no te da una key ni acceso extra. Si abriste el curso como archivo local (<code>file:</code>), sírvelo con <code>python3 -m http.server -d web 8000</code> y abre <code>http://localhost:8000/nemoclaw/</code>.</p>
+<p><strong>Fuente:</strong> secciones 1.4 y 3.2 del análisis del curso; <code>_shared.js</code> de NVDLI/NemoClawDLI.</p>
+<hr />
+<p><a id="notebooks"></a></p>
+<h2 id="3-notebooks-colab-y-python">3. Notebooks, Colab y Python</h2>
+<p><a id="emock"></a></p>
+<h3 id="el-notebook-dice-modo-mock-aunque-configuré-mi-key">El notebook dice <code>Modo: MOCK</code> aunque configuré mi key</h3>
+<p><strong>Causa:</strong> la celda de configuración no encontró <code>NVIDIA_API_KEY</code>. En Colab suele ser porque el secreto no tiene acceso al notebook o tiene otro nombre. En local, porque <code>.env</code> no está en la raíz del repo.</p>
+<p><strong>Solución:</strong>
+- <strong>Colab:</strong> 🔑 <em>Secrets</em> → el nombre debe ser exactamente <code>NVIDIA_API_KEY</code> → activa el acceso del notebook → vuelve a ejecutar la primera celda.
+- <strong>Local:</strong> el notebook busca <code>.env</code> en la carpeta actual y en <code>../../.env</code>. Ejecuta Jupyter desde la carpeta de la clase o pon <code>.env</code> en la raíz del repo.
+- Después de cambiar la key, ejecuta otra vez <strong>las dos primeras celdas</strong> (configuración y cliente).</p>
+<p><strong>Fuente:</strong> celdas <code>SETUP</code> y <code>MOCK</code> en <code>tools/notebooks/comun.py</code> de este repo.</p>
+<h3 id="nameerror-name-chat-is-not-defined-o-client-model"><code>NameError: name 'chat' is not defined</code> (o <code>client</code>, <code>MODEL</code>)</h3>
+<p><strong>Causa:</strong> ejecutaste una celda de la mitad sin correr antes las celdas de configuración. También pasa después de reiniciar el kernel.</p>
+<p><strong>Solución:</strong> ejecuta en orden la celda <strong>Configuración</strong> y la celda <strong>Cliente</strong> (o <em>Entorno de ejecución → Ejecutar todas las celdas anteriores</em>). Cada notebook está pensado para correr de arriba abajo.</p>
+<p><strong>Fuente:</strong> diseño de los notebooks en <code>tools/notebooks/comun.py</code>.</p>
+<h3 id="modulenotfounderror-no-module-named-openai-o-dotenv"><code>ModuleNotFoundError: No module named 'openai'</code> (o <code>dotenv</code>)</h3>
+<p><strong>Causa:</strong> falta instalar dependencias en tu entorno local. En Colab, la primera celda las instala sola.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</code></pre></div>
+<p>Luego reinicia el kernel y elige el intérprete de <code>.venv</code>.</p>
+<p><strong>Fuente:</strong> <code>requirements.txt</code> de este repo.</p>
+<h3 id="el-notebook-no-encuentra-datosfaq-en-colab">El notebook no encuentra <code>datos/faq/</code> en Colab</h3>
+<p><strong>Causa:</strong> Colab abre solo el notebook, no el repo completo.</p>
+<p><strong>Solución:</strong> no tienes que hacer nada: cada notebook trae una muestra de la FAQ incrustada y, si existe <code>../../datos/faq/</code>, carga el corpus completo. Si quieres el corpus completo en Colab, clona el repo en la primera celda con <code>!git clone &lt;url-del-repo&gt;</code>.</p>
+<p><strong>Fuente:</strong> brief del curso (sección notebooks).</p>
+<h3 id="mi-agente-se-quedó-en-un-loop-y-gastó-muchas-llamadas">Mi agente se quedó en un loop y gastó muchas llamadas</h3>
+<p><strong>Causa:</strong> un loop de agente sin condición de salida sigue llamando al modelo mientras el modelo pida tools.</p>
+<p><strong>Solución:</strong> detén la celda (botón ■ o <em>Interrumpir</em>). Agrega siempre un máximo de pasos (<code>for paso in range(MAX_PASOS):</code>) y sal cuando <code>finish_reason</code> sea <code>"stop"</code>. Lo construyes en la clase 2.1.</p>
+<p><strong>Fuente:</strong> clases 2.1 y 2.2 de este curso; lección 01b del curso de NVIDIA.</p>
+<hr />
+<p><a id="brev"></a></p>
+<h2 id="4-brev-y-el-launchable">4. Brev y el launchable</h2>
+<p><a id="ecostos"></a></p>
+<h3 id="cuánto-me-cuesta-el-laboratorio-en-brev">¿Cuánto me cuesta el laboratorio en Brev?</h3>
+<p><strong>Causa:</strong> Brev cobra por hora mientras la instancia está encendida. El launchable de NemoClaw usa una instancia <strong>solo CPU</strong> (sin GPU), <code>n2d-standard-4</code> (4 vCPU, 16 GiB) en GCP, que en las pruebas de NVIDIA aparece como <strong>Free</strong>.</p>
+<p><strong>Solución:</strong>
+- Antes de desplegar, mira el costo por hora en la página de despliegue.
+- Referencia pública de precios de CPU: 4 vCPU / 16 GB ≈ <strong>USD 0.15/h</strong>; el disco cuesta <strong>USD 0.0001314 por GB-hora</strong> mientras exista la instancia.
+- El curso de NVIDIA anuncia un crédito de <strong>USD 1.00</strong> por usuario para los primeros 25 000 usuarios, suficiente para los 4 módulos (~4 h).</p>
+<p>Confirma en la pantalla de despliegue si tu instancia es gratuita. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Fuente:</strong> <a href="https://www.nvidia.com/en-us/launchables/pricing">precios de launchables</a>; <a href="https://github.com/NVIDIA/NemoClaw/issues/11536">NemoClaw#11536</a>; <code>web/nemoclaw/index.html</code> de NVDLI/NemoClawDLI.</p>
+<h3 id="qué-me-cobra-brev-si-la-detengo-y-qué-si-la-borro">¿Qué me cobra Brev si la detengo y qué si la borro?</h3>
+<p><strong>Causa:</strong> son tres estados distintos.</p>
+<p><strong>Solución:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Cómputo</th>
+<th>Disco</th>
+<th>Datos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Running</strong> (encendida)</td>
+<td>Se cobra</td>
+<td>Se cobra</td>
+<td>Se conservan</td>
+</tr>
+<tr>
+<td><strong>Stopped</strong> (detenida)</td>
+<td>No se cobra</td>
+<td><strong>Se sigue cobrando</strong></td>
+<td>Se conservan (excepto <code>/tmp</code>)</td>
+</tr>
+<tr>
+<td><strong>Deleted</strong> (borrada)</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Se pierden para siempre</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Al terminar cada clase: detén la instancia. Si no vas a volver en días, bórrala (después de guardar tu trabajo en git).</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/brev/latest/concepts/gpu-instances">Brev: GPU Instances</a>; <a href="https://docs.nvidia.com/brev/latest/guides/console-reference">Console Reference › Billing</a>.</p>
+<h3 id="cómo-detengo-o-borro-mi-instancia">¿Cómo detengo o borro mi instancia?</h3>
+<p><strong>Solución:</strong>
+- <strong>Consola:</strong> brev.nvidia.com → <strong>GPUs</strong> → tu instancia → <strong>Stop</strong> (o <strong>Delete</strong>).
+- <strong>CLI:</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>ls<span class="w">                     </span><span class="c1"># nombre y estado</span>
+brev<span class="w"> </span>stop<span class="w"> </span>&lt;instancia&gt;<span class="w">       </span><span class="c1"># detener</span>
+brev<span class="w"> </span>delete<span class="w"> </span>&lt;instancia&gt;<span class="w">     </span><span class="c1"># borrar (irreversible)</span>
+brev<span class="w"> </span>ls<span class="w">                     </span><span class="c1"># confirma STOPPED o que ya no aparece</span>
+</code></pre></div>
+<p>Si <code>brev stop</code> responde <code>instance "&lt;instancia&gt;" does not support stop.</code>, ese tipo de instancia no se puede detener: la única forma de dejar de pagar es <code>brev delete</code>. No sabemos aún si la instancia gratuita del launchable se puede detener. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Fuente:</strong> <code>pkg/cmd/stop/stop.go</code> de <a href="https://github.com/brevdev/brev-cli">brevdev/brev-cli</a>; <a href="https://github.com/NVIDIA/NemoClaw/blob/b00e2f21fe/docs/deployment/brev-web-ui.mdx">guía anterior de NemoClaw en Brev</a>.</p>
+<h3 id="qué-pasa-si-se-me-acaban-los-créditos-cómo-cargo-un-código">¿Qué pasa si se me acaban los créditos? ¿Cómo cargo un código?</h3>
+<p><strong>Causa:</strong> los créditos de Brev son prepagados y se comparten en toda la organización. Cuando se agotan, Brev actúa sobre tus recursos.</p>
+<p><strong>Solución:</strong> Brev te avisa por correo, <strong>pausa</strong> las instancias que se pueden detener y <strong>borra</strong> las que no. Si a las 24 horas sigues sin saldo, borra todos los recursos y los datos no se recuperan.
+- Revisa tu saldo en <strong>Billing</strong> y deja la recarga automática apagada si usas créditos prepagados.
+- Para canjear un código: <strong>Billing → Credits → Redeem a credit code</strong>, o desde la CLI <code>brev redeem &lt;código&gt;</code>. Antes, confirma que estás en la organización correcta.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/brev/latest/guides/console-reference">Console Reference › Billing</a>; <code>pkg/cmd/redeem</code> de <a href="https://github.com/brevdev/brev-cli">brevdev/brev-cli</a>.</p>
+<h3 id="you-have-run-out-of-credits-pero-sí-tengo-créditos"><code>You have run out of credits</code> pero sí tengo créditos</h3>
+<p><strong>Causa:</strong> tienes activa otra organización de Brev. Los créditos son por organización.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>ls<span class="w"> </span>orgs<span class="w">           </span><span class="c1"># lista tus organizaciones</span>
+brev<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;org&gt;<span class="w">         </span><span class="c1"># activa la que tiene los créditos</span>
+</code></pre></div>
+<p>En la consola, cambia de organización en el selector superior.</p>
+<p><strong>Fuente:</strong> <a href="https://github.com/brevdev/brev-cli/issues/390">brevdev/brev-cli#390</a>; <code>pkg/cmd/set/set.go</code> de brev-cli.</p>
+<h3 id="mi-instancia-se-queda-en-deploying-o-waiting-no-hay-capacidad-o-no-vuelve-a-arrancar">Mi instancia se queda en <strong>Deploying</strong> o <strong>Waiting</strong>, no hay capacidad o no vuelve a arrancar</h3>
+<p><strong>Causa:</strong> el proveedor tarda en asignar la máquina, falló el despliegue (<code>context deadline exceeded</code>) o no hay capacidad. Al reiniciar una instancia detenida, Brev intenta el mismo tipo, proveedor y región; si no hay capacidad, el arranque falla y tus datos quedan inaccesibles hasta que vuelva.</p>
+<p><strong>Solución:</strong>
+1. Ten paciencia: el despliegue completo del launchable de NemoClaw tarda unos 5 a 15 minutos (la configuración del agente sola, unos 5).
+2. Revisa <code>brev ls</code> y la pestaña <strong>Activity Logs</strong> de la instancia.
+3. Si sigue atascada, bórrala, espera 30 segundos y créala de nuevo (con otro nombre, región o proveedor; <code>brev search cpu --sort price</code> lista opciones).
+4. Antes de reintentar, confirma con <code>brev ls</code> que no quedó una instancia duplicada cobrando.
+5. Si persiste, escribe a <code>brev-support@nvidia.com</code> con tu ID de organización, la instancia y la hora.</p>
+<p>El launchable de NemoClaw es solo CPU, así que los problemas de capacidad son menos frecuentes que con GPU.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/brev/latest/troubleshooting/instances-gpus/instance-stuck-in-waiting-state">Instance Stuck in Waiting</a>; <a href="https://docs.nvidia.com/brev/latest/concepts/gpu-instances">Brev: GPU Instances</a>; <a href="https://github.com/brevdev/brev-cli/issues/382">brev-cli#382</a>.</p>
+<h3 id="la-página-del-launchable-se-queda-en-0--muestra-un-retry-rojo-pierde-el-progreso-o-da-503--no_healthy_upstream">La página del launchable se queda en 0 %, muestra un <strong>RETRY</strong> rojo, pierde el progreso o da <code>503 ... no_healthy_upstream</code></h3>
+<p><strong>Causa:</strong> son errores conocidos del asistente de configuración del launchable. El <code>503 ... no_healthy_upstream</code> (aunque Brev diga HEALTHY) aparece cuando el proxy de la instancia todavía no ve el servicio; es intermitente.</p>
+<p><strong>Solución:</strong>
+- No refresques la pestaña durante la configuración.
+- <strong>No hagas clic en RETRY</strong> si el registro de actividad muestra que el paso terminó: RETRY reconstruye todo el sandbox.
+- Sigue el registro de actividad hasta ver "AGENT CREATED SUCCESSFULLY".
+- Con el 503, espera un minuto y recarga. Si sigue igual varios minutos, despliega una instancia nueva.</p>
+<p><strong>Fuente:</strong> <a href="https://github.com/NVIDIA/NemoClaw/issues/11536">NemoClaw#11536</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/8101">#8101</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/11167">#11167</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/11535">#11535</a>.</p>
+<h3 id="brev-shell----host-se-queda-esperando-timeout"><code>brev shell &lt;instancia&gt; --host</code> se queda esperando (timeout)</h3>
+<p><strong>Causa:</strong> desde la versión 0.6.331 de la CLI de Brev cambió la ruta <code>--host</code>, y en el launchable de NemoClaw (modo VM) no responde.</p>
+<p><strong>Solución:</strong> usa el comando sin <code>--host</code>:</p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>shell<span class="w"> </span>&lt;instancia&gt;
+</code></pre></div>
+<p><strong>Fuente:</strong> <a href="https://github.com/NVIDIA/NemoClaw/issues/11534">NemoClaw#11534</a>.</p>
+<h3 id="ssh-could-not-resolve-hostname--o-la-instancia-no-aparece-en-la-cli"><code>ssh: Could not resolve hostname &lt;instancia&gt;</code> o la instancia no aparece en la CLI</h3>
+<p><strong>Causa:</strong> la CLI no sincronizó la lista de instancias (por ejemplo, la creaste en la consola), la IP cambió al reiniciar o la línea <code>Include</code> que Brev agrega a <code>~/.ssh/config</code> quedó <strong>dentro</strong> de un bloque <code>Host</code> ajeno y SSH no la lee.</p>
+<p><strong>Solución:</strong>
+1. <code>brev ls</code> (¿está RUNNING?) y luego <code>brev refresh</code> (sincroniza y reescribe <code>~/.brev/ssh_config</code>).
+2. Si sigue fallando, haz una copia: <code>cp ~/.ssh/config ~/.ssh/config.bak</code>.
+3. Mueve la línea <code>Include</code> de Brev al <strong>inicio</strong> de <code>~/.ssh/config</code>, antes del primer <code>Host</code> o <code>Match</code>.
+4. Prueba <code>brev shell &lt;instancia&gt;</code>.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/brev/latest/troubleshooting/common-issues">Brev: Common Issues</a>; <a href="https://github.com/NVIDIA/NemoClaw/issues/13090">NemoClaw#13090</a>.</p>
+<h3 id="brev-login-no-termina-o-ssh-responde-permission-denied-publickey"><code>brev login</code> no termina o SSH responde <code>Permission denied (publickey)</code></h3>
+<p><strong>Causa:</strong> el navegador no abrió la URL de login, las cookies de brev.nvidia.com están viejas o la llave <code>~/.brev/brev.pem</code> está dañada.</p>
+<p><strong>Solución:</strong>
+- <code>brev login --skip-browser</code> imprime la URL para abrirla a mano.
+- Si el login falla o la sesión venció: <code>brev logout &amp;&amp; brev login</code>, o borra las cookies de brev.nvidia.com.
+- Con <code>Permission denied (publickey)</code>: respalda la llave, ejecuta <code>chmod 600 ~/.brev/brev.pem</code> y entra con el token de <strong>Settings → CLI</strong>: <code>brev login --token "&lt;TOKEN&gt;"</code>.
+- No instales la CLI con <code>sudo</code>.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/brev/latest/troubleshooting/common-issues">Brev: Common Issues</a>; <a href="https://docs.nvidia.com/brev/latest/troubleshooting/cli-installation/cli-ssh-authentication-macos">macOS SSH auth</a>; <code>pkg/cmd/login/login.go</code> de brev-cli.</p>
+<h3 id="después-de-detener-y-volver-a-encender-la-instancia-el-agente-no-responde">Después de detener y volver a encender la instancia, el agente no responde</h3>
+<p><strong>Causa:</strong> tras un reinicio de la VM, Docker, el gateway de OpenShell, el sandbox y los túneles pueden no arrancar solos.</p>
+<p><strong>Solución:</strong> entra con <code>brev shell &lt;instancia&gt;</code> y ejecuta:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>info
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>status<span class="w">          </span><span class="c1"># también arranca el gateway</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>start<span class="w">           </span><span class="c1"># si el sandbox quedó detenido</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>recover<span class="w">         </span><span class="c1"># si el gateway o el forward no responden</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>connect<span class="w"> </span>--probe-only
+</code></pre></div>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/deployment/deploy-to-headless-server">Deploy NemoClaw to a Headless Server</a>; troubleshooting "Reconnect after a host reboot".</p>
+<hr />
+<p><a id="conexion-laboratorio"></a></p>
+<h2 id="5-conexión-del-curso-de-nvidia-con-el-laboratorio">5. Conexión del curso de NVIDIA con el laboratorio</h2>
+<p>Esto aplica a la lección 3a del curso web de NVIDIA (<strong>Connect NemoClaw</strong>) y a las clases 4.x de este curso.</p>
+<h3 id="qué-pongo-en-base-url-o-a-nemoclaw-launchable-is-not-a-model-api">¿Qué pongo en <strong>Base URL</strong>? (o <code>A NemoClaw launchable is not a model API</code>)</h3>
+<p><strong>Causa:</strong> el curso solo acepta la URL de la app NemoClaw de tu launchable, y la reduce al origen (quita rutas como <code>/onboard</code>). Es distinta de la ruta del modelo: si pegas el launchable en <strong>Chat API base URL</strong>, verás <code>A NemoClaw launchable is not a model API</code>.</p>
+<p><strong>Solución:</strong> deja la ruta del modelo en <code>https://integrate.api.nvidia.com/v1</code> y copia la URL de la app desde Brev en el campo <strong>Base URL</strong> de "Connect NemoClaw" (lección 3a). Tiene una de estas formas:
+- <code>https://nemoclaw-&lt;id&gt;.brevlab.com</code> (Cloudflare Access)
+- <code>https://nemoclaw-&lt;id&gt;.apps.run.brev.nvidia.com</code> (Pomerium)
+- <code>https://nemoclaw-&lt;id&gt;.gobrev.dev</code> (Brev Skybridge, launchables nuevos)</p>
+<p>Sin <code>/v1</code> al final. Si ves <code>Use the NemoClaw App URL: https://nemoclaw-&lt;id&gt;.brevlab.com or https://nemoclaw-&lt;id&gt;.apps.run.brev.nvidia.com</code>, pegaste otra URL de Brev (la de Jupyter, la de la consola, etc.).</p>
+<p><strong>Fuente:</strong> <code>isOpenClawLaunchableHost</code> en <code>web/nemoclaw/scripts/_connection.js</code> y <code>normalizeModelApiBaseUrl</code> en <code>_shared.js</code> (NVDLI/NemoClawDLI).</p>
+<p><a id="ecookie"></a></p>
+<h3 id="qué-es-access-session-y-de-dónde-saco-la-cookie">¿Qué es <strong>Access session</strong> y de dónde saco la cookie?</h3>
+<p><strong>Causa:</strong> tu launchable está detrás de un login (Cloudflare Access o Pomerium). Cuando la página del curso está alojada en otro dominio, no puede ver tu sesión del navegador y necesita el valor de la cookie.</p>
+<p><strong>Solución:</strong>
+1. Abre tu launchable en el mismo navegador e inicia sesión.
+2. Abre DevTools:
+   - Chrome, Edge o Brave: <strong>Application → Storage → Cookies</strong> → el origen del launchable.
+   - Firefox: <strong>Storage → Cookies</strong>.
+   - Safari: activa las funciones de desarrollador (<strong>Settings → Advanced</strong>) → Web Inspector → <strong>Storage → Cookies</strong>.
+3. Busca la cookie según tu host:</p>
+<table>
+<thead>
+<tr>
+<th>Host</th>
+<th>Cookie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*.brevlab.com</code></td>
+<td><code>CF_Authorization</code></td>
+</tr>
+<tr>
+<td><code>*.apps.run.brev.nvidia.com</code></td>
+<td><code>_pomerium</code></td>
+</tr>
+<tr>
+<td><code>*.gobrev.dev</code></td>
+<td><code>__Host-skybridge-brev-prd</code></td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li>Copia <strong>solo el Value completo</strong>, no todo el encabezado <code>Cookie</code>.</li>
+<li>Pégalo en <strong>Access session</strong> y pulsa <strong>Test connection</strong>.</li>
+</ol>
+<p>El valor queda solo en esa pestaña. <strong>Es una credencial:</strong> no la compartas ni la pegues en capturas.</p>
+<p><strong>Fuente:</strong> lección 03a del curso de NVIDIA; <code>_connection.js</code> y <code>_openclaw.js</code> de NVDLI/NemoClawDLI.</p>
+<h3 id="qué-revisa-cada-una-de-las-4-rutas-del-test-connection">¿Qué revisa cada una de las 4 rutas del <strong>Test connection</strong>?</h3>
+<p><strong>Solución:</strong> las revisa en orden. Si una falla, abre su evidencia ("Redacted request and response"):</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Ruta</th>
+<th>Qué confirma</th>
+<th>Si falla</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>GET /api/agent</code></td>
+<td>Que tu sesión de acceso funciona, y obtiene el token del gateway</td>
+<td>Cookie vencida o equivocada, o el runtime está arrancando</td>
+</tr>
+<tr>
+<td>2</td>
+<td>WebSocket <code>/cli/gateway</code></td>
+<td>Que el gateway responde al desafío y acepta el token</td>
+<td>Sesión vencida o transporte bloqueado</td>
+</tr>
+<tr>
+<td>3</td>
+<td>WebSocket <code>/ws/terminal</code></td>
+<td>Que puedes abrir una terminal en la VM (imprime <code>__NEMOCLAW_CONNECTION_READY__</code>)</td>
+<td>Sesión de acceso inválida o la ruta de terminal no corre</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>GET /healthz</code></td>
+<td>La salud general del launchable</td>
+<td>El servicio no está sano</td>
+</tr>
+</tbody>
+</table>
+<p>Las cuatro en verde = "Connection ready. Metadata, gateway, terminal, and health checks passed."</p>
+<p><strong>Fuente:</strong> <code>runOpenClawConnectionAudit</code> en <code>web/nemoclaw/scripts/_openclaw.js</code> (NVDLI/NemoClawDLI).</p>
+<p><a id="estarting"></a></p>
+<h3 id="openclaw-is-starting-retrying-in-n-seconds-use-stop-to-cancel-503-statusstarting"><code>OpenClaw is starting. Retrying in N seconds. Use Stop to cancel.</code> (503 <code>{"status":"starting"}</code>)</h3>
+<p><strong>Causa:</strong> el launchable responde, pero OpenClaw todavía está arrancando.</p>
+<p><strong>Solución:</strong> no hagas nada: el curso reintenta solo (respeta <code>Retry-After</code> o cada 15 s) hasta 30 minutos. Si pasan más de 15 minutos, revisa en Brev que la instancia esté RUNNING y mira los registros de arranque.</p>
+<p><strong>Fuente:</strong> <code>openclawBootstrapRequest</code> en <code>_openclaw.js</code> (NVDLI/NemoClawDLI).</p>
+<h3 id="openclaw--session-expired-or-unreachable-no-challenge-arrived-within-30s-o-expected-json-but-received-an-html-page"><code>OpenClaw ⚠</code>: <code>session expired or unreachable</code>, <code>no challenge arrived within 30s</code> o <code>Expected JSON but received an HTML page</code></h3>
+<p><strong>Causa:</strong> tu sesión de acceso (la cookie) venció o el launchable se detuvo. Cuando la cookie ya no sirve, en vez de JSON llega la página de inicio de sesión de Cloudflare o Pomerium, y el curso dice <code>The launchable needs a fresh &lt;cookie&gt; browser session</code>. El curso revisa la sesión al cargar cada página y al volver a la pestaña.</p>
+<p><strong>Solución:</strong>
+1. Confirma en Brev que la instancia está RUNNING.
+2. Abre el launchable en una pestaña e inicia sesión otra vez.
+3. Copia un valor <strong>nuevo</strong> de la cookie y pégalo en <strong>Access session</strong> (lección 3a). Con Pomerium, si aparece <code>Pomerium did not accept the access session</code>, usa un <code>_pomerium</code> recién copiado.
+4. Pulsa <strong>Test connection</strong> de nuevo.</p>
+<p><strong>Fuente:</strong> <code>updateClawPill</code> y <code>GW_CONNECT</code> en <code>web/nemoclaw/scripts/_openclaw.js</code> (NVDLI/NemoClawDLI).</p>
+<h3 id="la-conexión-al-launchable-gobrevdev-no-funciona">La conexión al launchable <code>gobrev.dev</code> no funciona</h3>
+<p><strong>Causa:</strong> los launchables nuevos usan el host <code>nemoclaw-&lt;id&gt;.gobrev.dev</code> con la cookie <code>__Host-skybridge-brev-prd</code>. El curso de NVIDIA lo soporta desde octubre de 2026, pero los relays que opera NVIDIA también deben actualizarse.</p>
+<p><strong>Solución:</strong> recarga el curso para tener la última versión, usa la cookie <code>__Host-skybridge-brev-prd</code> y vuelve a probar. Si falla solo en este tipo de host, repórtalo en el issue #165 del curso de NVIDIA. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Fuente:</strong> <a href="https://github.com/NVDLI/NemoClawDLI/issues/165">NVDLI/NemoClawDLI#165</a>.</p>
+<h3 id="la-comprobación-agota-el-tiempo-o-devuelve-502">La comprobación agota el tiempo o devuelve <code>502</code></h3>
+<p><strong>Causa:</strong> un timeout o un 502 por sí solos no dicen la causa. Puede ser el gateway, el sandbox o el modelo.</p>
+<p><strong>Solución:</strong>
+1. Abre la ruta que falló y lee su evidencia.
+2. Ejecuta la celda 🩺 <strong>Health check</strong>.
+3. Si marca <code>✗ DEGRADED</code>, ejecuta 🛠 <strong>Recover</strong>. Si no basta, pon <code>DO_RESTART = true</code>, espera unos 40 s y vuelve a conectar.
+4. Si sigue fallando, el sandbox está trabado por debajo del gateway: relanza el launchable desde Brev.
+5. Un 502 en <code>/v1/chat/completions</code> indica que el backend del modelo no responde: revisa que la key de NVIDIA esté bien cargada en el launchable.</p>
+<p><strong>Fuente:</strong> <code>mountGwRecover</code> en <code>_openclaw.js</code>; lección 03a del curso de NVIDIA.</p>
+<h3 id="another-turn-is-active-on-this-gateway-connection"><code>Another turn is active on this gateway connection.</code></h3>
+<p><strong>Causa:</strong> mandaste un mensaje mientras el agente todavía procesa el anterior.</p>
+<p><strong>Solución:</strong> espera a que termine el turno o pulsa ■ <strong>Stop</strong> y vuelve a enviar. Si el turno se quedó colgado, revisa con 🩺 <strong>Health check</strong>: un comando esperando aprobación se ve igual que un cuelgue.</p>
+<p><strong>Fuente:</strong> <code>courseTurn</code> en <code>_openclaw.js</code> (NVDLI/NemoClawDLI).</p>
+<h3 id="veo-cannot-create-procselfoom_score_adj-permission-denied-en-la-salida-del-agente">Veo <code>cannot create /proc/self/oom_score_adj: Permission denied</code> en la salida del agente</h3>
+<p><strong>Causa:</strong> es ruido del sistema dentro del sandbox, no un error de tu ejercicio.</p>
+<p><strong>Solución:</strong> ignóralo. El curso de NVIDIA ya filtra la variante <code>/bin/sh</code>, y hay un issue abierto para la variante <code>/usr/bin/sh</code>.</p>
+<p><strong>Fuente:</strong> <a href="https://github.com/NVDLI/NemoClawDLI/issues/100">NVDLI/NemoClawDLI#100</a>.</p>
+<h3 id="cleanup-incomplete-run-remove-owned-job-en-el-ejercicio-de-cron"><code>Cleanup incomplete; run Remove owned job</code> en el ejercicio de cron</h3>
+<p><strong>Causa:</strong> el trabajo programado se creó, pero no se pudo borrar al final (por ejemplo, cerraste la página o se cortó la conexión).</p>
+<p><strong>Solución:</strong> vuelve a conectar al <strong>mismo</strong> launchable y ejecuta la celda <strong>Retry removal of the owned job</strong>. Guarda el ID que imprime el mensaje. Un cron que se queda vivo sigue ejecutándose sin supervisión.</p>
+<p><strong>Fuente:</strong> lección 03c del curso de NVIDIA (<code>03c-always-on.html</code>).</p>
+<hr />
+<p><a id="openclaw"></a></p>
+<h2 id="6-openclaw-gateway-dashboard-pairing-workspace-y-sesiones">6. OpenClaw: gateway, dashboard, pairing, workspace y sesiones</h2>
+<h3 id="cómo-abro-el-dashboard-de-openclaw-también-desde-brev">¿Cómo abro el dashboard de OpenClaw (también desde Brev)?</h3>
+<p><strong>Solución:</strong> el dashboard escucha en <code>http://127.0.0.1:18789/</code> (si el puerto está ocupado, NemoClaw usa el siguiente libre hasta 18799). Necesita un token:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>dashboard-url<span class="w"> </span>--quiet
+</code></pre></div>
+<p>La URL incluye el token en el fragmento <code>#token=</code>: trátala como una contraseña. Si el sandbox está en un servidor remoto o en Brev, abre antes un túnel desde tu computadora:</p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>port-forward<span class="w"> </span>&lt;instancia&gt;<span class="w"> </span>-p<span class="w"> </span><span class="m">18789</span>:18789
+<span class="c1"># o con SSH:  ssh -N -L 18789:127.0.0.1:18789 &lt;instancia&gt;</span>
+</code></pre></div>
+<p>Nunca abras el puerto 8080 (gateway) a internet ni uses <code>brev ports open ... --public</code> para el dashboard.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/quickstart">quickstart de NemoClaw</a>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/deployment/deploy-to-headless-server">headless guide</a>; <code>pkg/cmd/portforward/portforward.go</code> de brev-cli.</p>
+<h3 id="err_connection_refused-en-localhost18789"><code>ERR_CONNECTION_REFUSED</code> en <code>localhost:18789</code></h3>
+<p><strong>Causa:</strong> el <em>port forward</em> del dashboard se cayó (o no abriste el túnel desde tu máquina).</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>forward<span class="w"> </span>list<span class="w">            </span><span class="c1"># ¿existe el forward del 18789?</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>recover<span class="w">        </span><span class="c1"># restaura el gateway y los forwards administrados</span>
+</code></pre></div>
+<p>Si estás en Brev, revisa también que siga activo tu <code>brev port-forward</code> o <code>ssh -L</code>.</p>
+<p><strong>Fuente:</strong> <a href="https://github.com/NVIDIA/NemoClaw/issues/1088">NemoClaw#1088</a>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/cli-selection-guide">CLI selection guide</a>.</p>
+<p><a id="epairing"></a></p>
+<h3 id="pairing-required-device-pairing-required-o-scope-upgrade-pending-approval"><em>Pairing required</em>, <em>Device pairing required</em> o <code>scope upgrade pending approval</code></h3>
+<p><strong>Causa:</strong> OpenClaw exige que cada navegador o CLI se empareje con el gateway. Desde OpenClaw 2026.9.1 el emparejamiento es obligatorio: <code>NEMOCLAW_DISABLE_DEVICE_AUTH=1</code> ya <strong>no</strong> lo desactiva. NemoClaw aprueba solo clientes conocidos (<code>cli</code>, <code>openclaw-cli</code>, <code>openclaw-control-ui</code>) con permisos de lectura, escritura y emparejamiento. Si un comando pide más (por ejemplo <code>operator.admin</code>), verás <code>gateway connect failed: GatewayClientRequestError: scope upgrade pending approval (requestId: ...)</code>.</p>
+<p><strong>Solución:</strong>
+1. Espera unos minutos y recarga: el aprobador automático suele resolverlo. Si fue un comando, vuelve a ejecutarlo sin cambios.
+2. En el dashboard: <strong>Overview → Gateway Access → Connect</strong>.
+3. Desde la terminal:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>connect
+openclaw<span class="w"> </span>devices<span class="w"> </span>list<span class="w"> </span>--json<span class="w">          </span><span class="c1"># busca el requestId pendiente</span>
+openclaw<span class="w"> </span>devices<span class="w"> </span>approve<span class="w"> </span>&lt;requestId&gt;<span class="w">  </span><span class="c1"># aprueba SOLO ese requestId</span>
+</code></pre></div>
+<p>Revisa el cliente y los permisos antes de aprobar. Para acceso remoto, usa un túnel a <code>127.0.0.1:18789</code> en vez de exponer el dashboard.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/security/gateway-authentication-controls">gateway authentication controls</a>; troubleshooting "<code>scope upgrade pending approval</code>" y "<code>NEMOCLAW_DISABLE_DEVICE_AUTH=1</code> does not disable pairing"; <a href="https://github.com/NVIDIA/NemoClaw/issues/13092">NemoClaw#13092</a>.</p>
+<h3 id="dónde-está-el-workspace-del-agente-y-qué-archivos-tiene">¿Dónde está el workspace del agente y qué archivos tiene?</h3>
+<p><strong>Solución:</strong> dentro del sandbox, en <code>/sandbox/.openclaw/workspace/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SOUL.md</code></td>
+<td>Personalidad y reglas del agente</td>
+</tr>
+<tr>
+<td><code>AGENTS.md</code></td>
+<td>Instrucciones de operación</td>
+</tr>
+<tr>
+<td><code>TOOLS.md</code></td>
+<td>Notas de uso de cada tool</td>
+</tr>
+<tr>
+<td><code>USER.md</code></td>
+<td>Datos sobre ti (empieza vacío)</td>
+</tr>
+<tr>
+<td><code>HEARTBEAT.md</code></td>
+<td>Instrucciones del heartbeat (~cada 30 min)</td>
+</tr>
+<tr>
+<td><code>memory/AAAA-MM-DD.md</code></td>
+<td>Notas diarias que el agente va agregando</td>
+</tr>
+<tr>
+<td><code>MEMORY.md</code></td>
+<td>Memoria de largo plazo, curada</td>
+</tr>
+<tr>
+<td><code>skills/&lt;nombre&gt;/SKILL.md</code></td>
+<td>Skills instaladas</td>
+</tr>
+</tbody>
+</table>
+<p>Para verlo: <code>nemoclaw &lt;sandbox&gt; connect</code> y luego <code>ls -la /sandbox/.openclaw/workspace</code>.</p>
+<p><strong>Fuente:</strong> lección 03b del curso de NVIDIA.</p>
+<h3 id="el-agente-olvidó-lo-que-le-dije">El agente "olvidó" lo que le dije</h3>
+<p><strong>Causa:</strong> OpenClaw tiene dos memorias. El historial de la conversación vive en la <strong>sesión</strong> (identificada por su <code>sessionKey</code>). Lo que sobrevive entre sesiones es lo que el agente escribe en archivos (<code>MEMORY.md</code>, <code>memory/</code>). Si abres una sesión nueva o la reinicias, el historial anterior no está.</p>
+<p><strong>Solución:</strong>
+- Usa la misma clave de sesión para continuar una conversación.
+- Pídele que guarde lo importante en <code>MEMORY.md</code>.
+- Para ver o reiniciar sesiones:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>sessions<span class="w"> </span>list
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>sessions<span class="w"> </span>reset<span class="w"> </span>main<span class="w">     </span><span class="c1"># archiva y empieza de cero</span>
+</code></pre></div>
+<p><strong>Fuente:</strong> lecciones 03a y 03b del curso de NVIDIA; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands">commands</a> (<code>sessions</code>).</p>
+<h3 id="eacces-permission-denied-al-cambiar-sandboxopenclawopenclawjson"><code>EACCES: permission denied</code> al cambiar <code>/sandbox/.openclaw/openclaw.json</code></h3>
+<p><strong>Causa:</strong> en versiones viejas el archivo era de solo lectura. Desde la v0.0.130, OpenClaw es dueño de <code>openclaw.json</code> después del primer arranque, pero hay que cambiarlo con sus propios comandos.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>connect
+openclaw<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;ruta.de.la.clave&gt;<span class="w"> </span>&lt;valor&gt;
+openclaw<span class="w"> </span>config<span class="w"> </span><span class="nb">unset</span><span class="w"> </span>&lt;ruta.de.la.clave&gt;
+</code></pre></div>
+<p>No guardes keys de proveedores en <code>openclaw.json</code>: dentro del sandbox se pueden leer. Si tu versión es anterior a la v0.0.130, actualiza (ver <a href="#instalacion-local">Actualizar NemoClaw</a>).</p>
+<p><strong>Fuente:</strong> <a href="https://github.com/NVIDIA/NemoClaw/issues/719">NemoClaw#719</a>; troubleshooting "Change OpenClaw Configuration Inside the Sandbox".</p>
+<h3 id="cómo-hablo-con-el-agente-desde-la-terminal">¿Cómo hablo con el agente desde la terminal?</h3>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>launch<span class="w"> </span>&lt;sandbox&gt;<span class="w">                      </span><span class="c1"># verifica y abre la TUI</span>
+<span class="c1"># o bien</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>connect<span class="w">                     </span><span class="c1"># shell dentro del sandbox</span>
+openclaw<span class="w"> </span>tui
+<span class="c1"># un solo turno, sin interfaz:</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>agent<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Hola, ¿qué skills tienes?"</span>
+</code></pre></div>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/quickstart">quickstart de NemoClaw</a>.</p>
+<h3 id="cómo-instalo-una-skill-y-por-qué-el-agente-no-la-usa">¿Cómo instalo una skill y por qué el agente no la usa?</h3>
+<p><strong>Causa:</strong> una skill es una carpeta con un <code>SKILL.md</code> (con <em>frontmatter</em> YAML y un campo <code>name</code>). Que esté instalada no garantiza que el agente la elija solo.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>./mi-skill/
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>skill<span class="w"> </span>list
+</code></pre></div>
+<p>Para probarla, abre una sesión nueva y menciónala o da la ruta de su <code>SKILL.md</code>. La selección automática es otra prueba aparte. El nombre solo admite letras, números, puntos, guiones y guiones bajos.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands">commands</a> (<code>skill install</code>); lección 03c del curso de NVIDIA.</p>
+<hr />
+<p><a id="openshell"></a></p>
+<h2 id="7-openshell-y-políticas">7. OpenShell y políticas</h2>
+<p><a id="e403tunnel"></a></p>
+<h3 id="curl-56-connect-tunnel-failed-response-403"><code>curl: (56) CONNECT tunnel failed, response 403</code></h3>
+<p><strong>Causa:</strong> <strong>no</strong> es un problema de certificados ni de la herramienta. La red de salida del sandbox está bloqueada por defecto y el proxy de OpenShell rechazó la conexión. Para que pase, deben coincidir <strong>el host y el binario</strong> que hace la llamada.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">50</span><span class="w">     </span><span class="c1"># muestra la línea DENIED (host y binario)</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>policy<span class="w"> </span>list<span class="w">        </span><span class="c1"># presets aplicados</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>policy<span class="w"> </span>add<span class="w"> </span>&lt;preset&gt;
+</code></pre></div>
+<p>Para una prueba puntual, apruébalo en vivo con <code>openshell term</code>. Si usas <code>nemoclaw &lt;sandbox&gt; exec -- &lt;comando&gt;</code>, NemoClaw te imprime una pista con el host bloqueado; para silenciarla: <code>export NEMOCLAW_NO_POLICY_HINT=1</code>. Un error HTTP puede venir del proxy o de la aplicación destino: identifica la fuente antes de culpar a la política.</p>
+<p><strong>Fuente:</strong> troubleshooting "A request inside the sandbox fails with <code>CONNECT tunnel failed, response 403</code>"; lección 04a del curso de NVIDIA.</p>
+<h3 id="cómo-apruebo-en-vivo-un-acceso-de-red-bloqueado-con-openshell-term">¿Cómo apruebo en vivo un acceso de red bloqueado con <code>openshell term</code>?</h3>
+<p><strong>Solución:</strong> usa la TUI de OpenShell en el host (en Brev, dentro de <code>brev shell &lt;instancia&gt;</code>):</p>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>term
+</code></pre></div>
+<ol>
+<li>Elige el sandbox con <code>j</code>/<code>k</code> y <code>Enter</code>.</li>
+<li>Pulsa <code>r</code> para ir a <strong>Network Rules</strong>.</li>
+<li>Elige la solicitud pendiente (<code>Enter</code> muestra detalles, incluida la ruta del binario).</li>
+<li><code>a</code> aprueba, <code>x</code> rechaza, <code>A</code> aprueba todas (confirma con <code>y</code>).</li>
+</ol>
+<p>Ojo: estas aprobaciones duran solo mientras exista esa instancia del sandbox. Al recrearlo se pierden y no se escriben en la política base; si lo necesitas siempre, usa un preset (<code>nemoclaw &lt;sandbox&gt; policy add</code>).</p>
+<p>En la TUI, <code>policy_denied</code> significa que ninguna regla coincidió, y <code>upstream_unreachable</code> que la política lo permitió pero el host no respondió (DNS, red o servicio caído). Las teclas vienen de la documentación de NemoClaw; confírmalas con OpenShell 0.0.116. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/network-policy/approve-network-requests">Approve network requests</a>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/network-policies">network policies</a>.</p>
+<h3 id="cómo-veo-la-política-activa-y-cómo-agrego-o-quito-un-preset-pypi-github">¿Cómo veo la política activa y cómo agrego o quito un preset (<code>pypi</code>, <code>github</code>…)?</h3>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>policy<span class="w"> </span>list<span class="w">               </span><span class="c1"># presets aplicados y de dónde vienen</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>policy<span class="w"> </span>get<span class="w">                </span><span class="c1"># política base</span>
+openshell<span class="w"> </span>policy<span class="w"> </span>get<span class="w"> </span>--full<span class="w"> </span>&lt;sandbox&gt;<span class="w">        </span><span class="c1"># política efectiva completa</span>
+
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>policy<span class="w"> </span>add<span class="w"> </span>pypi<span class="w"> </span>--dry-run<span class="w"> </span><span class="c1"># prueba sin aplicar</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>policy<span class="w"> </span>add<span class="w"> </span>pypi<span class="w"> </span>--yes
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>policy<span class="w"> </span>remove<span class="w"> </span>pypi<span class="w"> </span>--yes
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>policy<span class="w"> </span>add<span class="w">                </span><span class="c1"># selector interactivo</span>
+</code></pre></div>
+<p>La política activa vive en OpenShell; NemoClaw no guarda otra copia aparte. GitHub y las plataformas de mensajería <strong>no</strong> están en la política base: hay que agregarlas a propósito. Los cambios de red se aplican en caliente, sin reiniciar.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/network-policies">network policies</a>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/cli-selection-guide">CLI selection guide</a>.</p>
+<h3 id="permití-el-host-y-sigue-saliendo-403-binary--not-allowed-in-policy">Permití el host y sigue saliendo 403 (<code>binary '...' not allowed in policy</code>)</h3>
+<p><strong>Causa:</strong> OpenShell exige <strong>dos</strong> coincidencias: el host y el programa que hace la llamada. Por ejemplo, <code>npm</code> corre como <code>/usr/local/bin/node</code>; si el preset no lista ese binario, la llamada se rechaza. El log lo muestra así: <code>DENIED /usr/local/bin/node -&gt; registry.npmjs.org:443 reason: binary '/usr/local/bin/node' not allowed in policy 'npm_registry'</code>.</p>
+<p><strong>Solución:</strong> lee la línea <code>DENIED</code> en <code>nemoclaw &lt;sandbox&gt; logs --tail 50</code> (o el detalle en <code>openshell term</code>), copia la ruta exacta del binario y agrégala a la sección <code>binaries:</code> de tu preset propio.</p>
+<p><strong>Fuente:</strong> <a href="https://github.com/NVIDIA/NemoClaw/issues/481">NemoClaw#481</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/993">#993</a>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/network-policy/create-custom-policy-presets">create custom policy presets</a>.</p>
+<h3 id="pip-install-sigue-fallando-aunque-permití-pypi"><code>pip install</code> sigue fallando aunque permití PyPI</h3>
+<p><strong>Causa:</strong> algunas instalaciones necesitan llegar a IPs privadas o a varios hosts, y el sandbox lo impide (protección SSRF).</p>
+<p><strong>Solución:</strong> instala las dependencias al <strong>construir</strong> la imagen, no en tiempo de ejecución: <code>nemoclaw onboard --from &lt;Dockerfile&gt;</code>. El Dockerfile debe partir de la imagen administrada completa, no de <code>sandbox-base</code>.</p>
+<p><strong>Fuente:</strong> <code>docs/network-policy/customize-network-policy.mdx</code>; <a href="https://github.com/NVIDIA/NemoClaw/discussions/6108">Discussion #6108</a>.</p>
+<h3 id="cambié-la-política-de-archivos-y-no-tuvo-efecto">Cambié la política de archivos y no tuvo efecto</h3>
+<p><strong>Causa:</strong> solo la política de <strong>red</strong> y de <strong>inferencia</strong> se recargan en caliente. La política de sistema de archivos (Landlock) y la de procesos quedan fijas al crear el sandbox.</p>
+<p><strong>Solución:</strong> edita la política base y vuelve a crear el sandbox con <code>nemoclaw onboard</code> (o <code>nemoclaw &lt;sandbox&gt; rebuild</code>).</p>
+<p><strong>Fuente:</strong> <code>docs/about/how-it-works.mdx</code> en NVIDIA/NemoClaw; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/network-policies">network policies</a> ("Static Changes").</p>
+<h3 id="-landlock-docker-vm-kernel--does-not-support-landlock-requires-513"><code>⚠ Landlock: Docker VM kernel &lt;v&gt; does not support Landlock (requires ≥5.13).</code></h3>
+<p><strong>Causa:</strong> el kernel (o la VM de Docker en macOS) no soporta Landlock, la capa del kernel que limita qué archivos puede tocar el sandbox.</p>
+<p><strong>Solución:</strong> es un aviso, no bloquea. El sandbox funciona en modo <code>best_effort</code>, sin restricciones de archivos a nivel kernel. Para la protección completa, usa Linux con kernel 5.13 o mayor (Ubuntu 22.04 en adelante).</p>
+<p><strong>Fuente:</strong> troubleshooting "Landlock filesystem restrictions silently degraded".</p>
+<h3 id="qué-nivel-de-política-elijo-restricted-balanced-open-o-personal">¿Qué nivel de política elijo: Restricted, Balanced, Open o Personal?</h3>
+<p><strong>Solución:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Qué permite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Restricted</td>
+<td>Solo la política base</td>
+</tr>
+<tr>
+<td><strong>Balanced</strong> (por defecto)</td>
+<td>Base + <code>npm</code>, <code>pypi</code>, <code>huggingface</code>, <code>brew-balanced</code>, <code>brave</code></td>
+</tr>
+<tr>
+<td>Open</td>
+<td>Agrega mensajería, <code>jira</code>, <code>outlook</code>, <code>weather</code> y más</td>
+</tr>
+<tr>
+<td>Personal</td>
+<td>Cualquier host en 80/443, <strong>sin pedir aprobación</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Para el curso usa <strong>Balanced</strong>. Usa Personal solo con cargas de trabajo en las que confías por completo.</p>
+<p><strong>Fuente:</strong> <code>nemoclaw-blueprint/policies/tiers.yaml</code>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/network-policies">network policies</a> ("Policy Tiers").</p>
+<hr />
+<p><a id="instalacion-local"></a></p>
+<h2 id="8-nemoclaw-instalado-en-tu-máquina">8. NemoClaw instalado en tu máquina</h2>
+<p>Esto aplica a la clase 6.3 o si quieres seguir después del curso fuera de Brev.</p>
+<h3 id="qué-necesito-para-instalar-nemoclaw">¿Qué necesito para instalar NemoClaw?</h3>
+<p><strong>Solución:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th>Mínimo</th>
+<th>Recomendado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>4 vCPU</td>
+<td>4+ vCPU</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>8 GB</td>
+<td>16 GB</td>
+</tr>
+<tr>
+<td>Disco libre</td>
+<td>20 GB</td>
+<td>40 GB</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Node.js <strong>22.19 o mayor</strong> y npm 10 o mayor.</li>
+<li>Docker (Docker Engine, Docker Desktop o Colima) funcionando <strong>antes</strong> de instalar.</li>
+<li>Plataformas: Ubuntu 24.04 (la principal), macOS con Apple Silicon y Windows con WSL2. <strong>Mac con Intel no está soportado.</strong> Distribuciones sin <code>apt-get</code> tampoco.</li>
+<li>Revisa tu máquina antes de instalar: <code>nemoclaw host probe</code>.</li>
+</ul>
+<p>Instalación: <code>curl -fsSL https://www.nvidia.com/nemoclaw.sh | bash</code>.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/prerequisites">prerequisites</a>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/platform-support">platform support</a>.</p>
+<h3 id="nemoclaw-command-not-found-o-nodejs-muy-viejo-después-de-instalar"><code>nemoclaw: command not found</code> o Node.js "muy viejo" después de instalar</h3>
+<p><strong>Causa:</strong> la terminal actual no tiene el <code>PATH</code> actualizado, o sigue usando el Node anterior. NemoClaw pide Node <strong>22.19 o mayor</strong>; el instalador puede instalarlo con nvm, pero tu shell abierta no se entera.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~/.bashrc<span class="w">                   </span><span class="c1"># o ~/.zshrc, o abre una terminal nueva</span>
+nvm<span class="w"> </span>install<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>nvm<span class="w"> </span>use<span class="w"> </span><span class="m">22</span><span class="w">       </span><span class="c1"># si node --version sigue en v20</span>
+node<span class="w"> </span>--version
+nemoclaw<span class="w"> </span>--version
+</code></pre></div>
+<p>Si instalaste desde el código fuente, agrega <code>~/.local/bin</code> a tu <code>PATH</code>. Luego vuelve a ejecutar el instalador si se quedó a medias.</p>
+<p><strong>Fuente:</strong> troubleshooting "<code>nemoclaw</code> not found after install" y "Node.js version is too old"; <a href="https://github.com/NVIDIA/NemoClaw/issues/2178">NemoClaw#2178</a>.</p>
+<h3 id="docker-is-not-running-aunque-docker-sí-está-corriendo-o-permission-denied-en-el-socket"><code>Docker is not running</code> (aunque Docker sí está corriendo) o <code>permission denied</code> en el socket</h3>
+<p><strong>Causa:</strong> tu usuario no está en el grupo <code>docker</code>, así que no puede hablar con el daemon.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker<span class="w">                       </span><span class="c1"># si de verdad está apagado</span>
+sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span><span class="nv">$USER</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>newgrp<span class="w"> </span>docker
+docker<span class="w"> </span>ps<span class="w">                                         </span><span class="c1"># debe funcionar sin sudo</span>
+</code></pre></div>
+<p>Si el gateway corre como servicio de usuario, cierra sesión por completo (o reinicia) para que tome el grupo nuevo. Ojo: estar en el grupo <code>docker</code> equivale casi a ser root; hazlo solo en tu máquina.</p>
+<p><strong>Fuente:</strong> troubleshooting "Docker permission denied on Linux"; <a href="https://github.com/NVIDIA/NemoClaw/issues/50">NemoClaw#50</a>; <a href="https://github.com/NVIDIA/OpenShell/issues/1377">OpenShell#1377</a>.</p>
+<h3 id="macos-falla-la-primera-instalación-o-no-encuentra-docker-con-colima">macOS: falla la primera instalación o no encuentra Docker con Colima</h3>
+<p><strong>Causa:</strong> faltan las Command Line Tools de Xcode, el runtime de contenedores no arrancó o Colima tiene muy pocos recursos.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>xcode-select<span class="w"> </span>--install
+brew<span class="w"> </span>install<span class="w"> </span>colima<span class="w"> </span>docker
+colima<span class="w"> </span>start<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">8</span>
+docker<span class="w"> </span>info
+</code></pre></div>
+<p>Si la construcción se queda lenta: <code>colima stop; colima start --cpu 6 --memory 12 --disk 100</code>. Si aparece <code>Socket not found: /var/run/docker.sock</code> con Colima (problema abierto), exporta <code>export DOCKER_HOST=unix://$HOME/.colima/default/docker.sock</code> y reintenta.</p>
+<p><strong>Fuente:</strong> troubleshooting "macOS first-run failures" y "Colima socket not detected"; <a href="https://github.com/NVIDIA/NemoClaw/issues/12367">NemoClaw#12367</a>.</p>
+<h3 id="wsl2-docker-info-falla-dentro-de-wsl-cannot-connect-to-the-docker-daemon">WSL2: <code>docker info</code> falla dentro de WSL (<code>Cannot connect to the Docker daemon</code>)</h3>
+<p><strong>Causa:</strong> Docker Desktop no está abierto o no tiene activada la integración con tu distribución de WSL.</p>
+<p><strong>Solución:</strong> abre Docker Desktop → <strong>Settings → Resources → WSL integration</strong> → activa Ubuntu. Luego, en PowerShell, <code>wsl --shutdown</code>, abre Ubuntu de nuevo y prueba <code>docker info</code>. Ejecuta NemoClaw <strong>dentro</strong> de Ubuntu, no en PowerShell.</p>
+<p><strong>Fuente:</strong> troubleshooting "<code>docker info</code> fails inside WSL"; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/windows-preparation">windows preparation</a>.</p>
+<h3 id="la-creación-del-sandbox-muere-por-memoria-exit-137-oom">La creación del sandbox muere por memoria (exit 137, OOM)</h3>
+<p><strong>Causa:</strong> la imagen del sandbox pesa unos 2.4 GB comprimida. Con 8 GB de RAM o menos, el <em>OOM killer</em> puede matar la subida.</p>
+<p><strong>Solución:</strong> agrega swap (o usa una máquina de 16 GB):</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/zero<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/swapfile<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1M<span class="w"> </span><span class="nv">count</span><span class="o">=</span><span class="m">4096</span>
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/swapfile<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>mkswap<span class="w"> </span>/swapfile<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>swapon<span class="w"> </span>/swapfile
+</code></pre></div>
+<p>El onboarding también ofrece crear 4 GB de swap automáticamente.</p>
+<p><strong>Fuente:</strong> troubleshooting "Sandbox creation killed by OOM (exit 137)"; <a href="https://github.com/NVIDIA/NemoClaw/issues/444">NemoClaw#444</a>.</p>
+<h3 id="el-puerto-18789-o-el-8080-ya-está-en-uso-o-port-18789-is-not-available-blocked-by-ssh">El puerto 18789 o el 8080 ya está en uso (o <code>Port 18789 is not available. Blocked by: ssh</code>)</h3>
+<p><strong>Causa:</strong> otro programa, un onboarding anterior o un túnel SSH viejo ocupa el puerto del dashboard (18789) o del gateway (8080).</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>lsof<span class="w"> </span>-i<span class="w"> </span>:18789<span class="w"> </span>-sTCP:LISTEN<span class="w"> </span>-P<span class="w"> </span>-n<span class="w">            </span><span class="c1"># ¿quién lo ocupa?</span>
+nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--control-ui-port<span class="w"> </span><span class="m">19000</span><span class="w">          </span><span class="c1"># dashboard en otro puerto</span>
+<span class="nv">NEMOCLAW_GATEWAY_PORT</span><span class="o">=</span><span class="m">8990</span><span class="w"> </span>nemoclaw<span class="w"> </span>onboard<span class="w">       </span><span class="c1"># gateway en otro puerto</span>
+</code></pre></div>
+<p>Si es tu propio <code>ssh</code> viejo, termina ese PID (las versiones recientes lo cierran solas). Si usas un puerto de gateway distinto, mantén la misma variable en los comandos siguientes. Solo detén un proceso si sabes que es tuyo.</p>
+<p><strong>Fuente:</strong> troubleshooting "Port already in use" y "Re-onboard fails because port 18789 is held by SSH"; <a href="https://github.com/NVIDIA/NemoClaw/issues/684">NemoClaw#684</a>.</p>
+<h3 id="cannot-allocate-dashboard-port-the-openshell-forward-operation-timed-out"><code>Cannot allocate dashboard port: The OpenShell forward operation timed out.</code></h3>
+<p><strong>Causa:</strong> una regresión de las versiones v0.0.126 a v0.0.129 (macOS, WSL2 y Brev x86). Hay una variante con <code>could not prove OpenShell forward ownership</code> todavía abierta en algunos equipos.</p>
+<p><strong>Solución:</strong> actualiza con <code>nemoclaw update</code>. Mientras tanto, el arreglo temporal de la comunidad es usar otro puerto de gateway: <code>NEMOCLAW_GATEWAY_PORT=8990 nemoclaw onboard --fresh</code> (y deja esa variable puesta para los demás comandos).</p>
+<p><strong>Fuente:</strong> <a href="https://github.com/NVIDIA/NemoClaw/issues/11963">NemoClaw#11963</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/11979">#11979</a>.</p>
+<h3 id="sandbox--was-created-but-did-not-become-ready-within-180s"><code>Sandbox '&lt;sandbox&gt;' was created but did not become ready within 180s.</code></h3>
+<p><strong>Causa:</strong> la máquina tardó más de lo esperado (por ejemplo, una VM en la nube recién encendida).</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>destroy<span class="w">            </span><span class="c1"># limpia el sandbox que quedó a medias</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NEMOCLAW_SANDBOX_READY_TIMEOUT</span><span class="o">=</span><span class="m">600</span>
+nemoclaw<span class="w"> </span>onboard
+</code></pre></div>
+<p>No reintentes con el mismo nombre sin destruir antes.</p>
+<p><strong>Fuente:</strong> troubleshooting "Sandbox onboard times out with 'did not become ready within Ns'".</p>
+<h3 id="el-onboarding-se-interrumpió-a-la-mitad">El onboarding se interrumpió a la mitad</h3>
+<p><strong>Causa:</strong> cerraste la terminal, se cortó SSH o algún paso falló. NemoClaw guarda el avance en <code>~/.nemoclaw/onboard-session.json</code>.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--resume<span class="w">      </span><span class="c1"># continúa donde se quedó</span>
+nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--fresh<span class="w">       </span><span class="c1"># descarta la sesión y empieza de cero</span>
+</code></pre></div>
+<p>En servidores remotos, corre el onboarding dentro de <code>tmux new-session -s nemoclaw-onboard</code> para que sobreviva a una desconexión.</p>
+<p><strong>Fuente:</strong> troubleshooting "Previous onboarding session failed"; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/deployment/deploy-to-headless-server">headless guide</a>.</p>
+<h3 id="puse-las-variables-antes-de-curl-y-el-instalador-las-ignoró">Puse las variables antes de <code>curl</code> y el instalador las ignoró</h3>
+<p><strong>Causa:</strong> en <code>curl ... | bash</code>, las variables deben ir del lado de <code>bash</code>, no del lado de <code>curl</code>.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Mal:  NEMOCLAW_ACCEPT_THIRD_PARTY_SOFTWARE=1 curl -fsSL https://www.nvidia.com/nemoclaw.sh | bash</span>
+<span class="c1"># Bien:</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">NEMOCLAW_ACCEPT_THIRD_PARTY_SOFTWARE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>bash
+</code></pre></div>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/quickstart">quickstart</a> ("Automate an installation").</p>
+<h3 id="cómo-actualizo-nemoclaw-y-openclaw-sin-romper-mis-sandboxes">¿Cómo actualizo NemoClaw (y OpenClaw) sin romper mis sandboxes?</h3>
+<p><strong>Causa:</strong> NemoClaw fija una versión exacta de OpenShell y empaqueta su propia versión de OpenClaw. Actualizar piezas por separado deja los sandboxes en un estado inconsistente: por ejemplo, <code>openclaw update</code> dentro del sandbox se cuelga.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>backup-all<span class="w">                        </span><span class="c1"># respaldo de todos los sandboxes</span>
+nemoclaw<span class="w"> </span>update<span class="w"> </span>--check
+nemoclaw<span class="w"> </span>update
+nemoclaw<span class="w"> </span>upgrade-sandboxes<span class="w"> </span>--check
+nemoclaw<span class="w"> </span>upgrade-sandboxes<span class="w"> </span>--auto<span class="w">          </span><span class="c1"># o: nemoclaw &lt;sandbox&gt; rebuild</span>
+</code></pre></div>
+<p>Si <code>nemoclaw &lt;sandbox&gt; status</code> dice que el agente está desactualizado, ejecuta <code>nemoclaw &lt;sandbox&gt; rebuild</code>. Hay reportes abiertos de políticas personalizadas perdidas tras actualizar: anota tus presets (<code>policy list</code>) antes.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands">commands</a> (<code>update</code>, <code>upgrade-sandboxes</code>, <code>backup-all</code>); troubleshooting "<code>openclaw update</code> hangs or times out inside the sandbox"; <a href="https://github.com/NVIDIA/NemoClaw/issues/7420">NemoClaw#7420</a>.</p>
+<h3 id="cómo-cambio-el-modelo-o-roto-mi-api-key-en-nemoclaw">¿Cómo cambio el modelo o roto mi API key en NemoClaw?</h3>
+<p><strong>Solución:</strong>
+- <strong>Ver el modelo actual:</strong> <code>nemoclaw inference get</code>.
+- <strong>Cambiar de modelo:</strong> <code>nemoclaw inference set --provider nvidia-prod --model &lt;modelo&gt; --sandbox &lt;sandbox&gt;</code>.
+- <strong>Rotar la key</strong> (lee la key sin que quede en el historial):</p>
+<div class="highlight"><pre><span></span><code><span class="nb">printf</span><span class="w"> </span><span class="s1">'Nueva NVIDIA API key: '</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="nv">IFS</span><span class="o">=</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>-s<span class="w"> </span>NVIDIA_INFERENCE_API_KEY<span class="p">;</span><span class="w"> </span><span class="nb">printf</span><span class="w"> </span><span class="s1">'\n'</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="nb">export</span><span class="w"> </span>NVIDIA_INFERENCE_API_KEY
+nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--name<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>--non-interactive<span class="w"> </span>--yes<span class="w"> </span>--yes-i-accept-third-party-software
+<span class="nb">unset</span><span class="w"> </span>NVIDIA_INFERENCE_API_KEY
+</code></pre></div>
+<p>Si <code>nemoclaw &lt;sandbox&gt; status</code> muestra <code>unauthorized</code> en la fila de inferencia, el problema es la key, no la ruta. El nombre del proveedor puede variar: confírmalo con <code>nemoclaw credentials list</code>.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/security/credential-rotation">credential rotation</a>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/cli-selection-guide">CLI selection guide</a>.</p>
+<h3 id="puedo-actualizar-openshell-por-mi-cuenta-con-openshell-self-update">¿Puedo actualizar OpenShell por mi cuenta con <code>openshell self-update</code>?</h3>
+<p><strong>Causa:</strong> cada versión de NemoClaw fija una versión exacta de OpenShell (la v0.0.134 fija la <strong>0.0.116</strong>, mínima y máxima). OpenShell ya va en la 0.1.x, que cambió el formato de configuración del gateway y es incompatible.</p>
+<p><strong>Solución:</strong> <strong>no.</strong> Nunca ejecutes <code>openshell self-update</code>, <code>npm update -g openshell</code> ni el <code>install.sh</code> de OpenShell por separado. Deja que el instalador de NemoClaw lo maneje: <code>nemoclaw update</code>. Si ya lo hiciste y ves <code>✗ openshell &lt;version&gt; is above the maximum supported by this NemoClaw release.</code>, vuelve a ejecutar el instalador oficial de NemoClaw.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/prerequisites">prerequisites</a>; troubleshooting "OpenShell version above maximum"; <a href="https://github.com/NVIDIA/NemoClaw/issues/1261">NemoClaw#1261</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/12456">#12456</a>.</p>
+<h3 id="después-de-reiniciar-la-máquina-handshake-verification-failed-sandbox-not-found-o-el-dashboard-no-abre">Después de reiniciar la máquina: <code>handshake verification failed</code>, <code>sandbox not found</code> o el dashboard no abre</h3>
+<p><strong>Causa:</strong> tras reiniciar el host, Docker, el gateway de OpenShell y el sandbox pueden no arrancar solos. En versiones viejas (OpenShell anterior a 0.0.24) el sandbox además se perdía porque el gateway regeneraba sus secretos.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker<span class="w">                  </span><span class="c1"># macOS: abre Docker Desktop o `colima start`</span>
+systemctl<span class="w"> </span>--user<span class="w"> </span>status<span class="w"> </span>openshell-gateway<span class="w">    </span><span class="c1"># Linux (paquete); si está caído:</span>
+systemctl<span class="w"> </span>--user<span class="w"> </span>restart<span class="w"> </span>openshell-gateway
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>status
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>start<span class="w">                     </span><span class="c1"># si quedó detenido</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>recover<span class="w">                   </span><span class="c1"># si el gateway o los forwards no responden</span>
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>connect
+</code></pre></div>
+<p>Logs del gateway en Linux: <code>journalctl --user --unit openshell-gateway --no-pager --lines=200</code>. Si el sandbox se creó con OpenShell anterior a 0.0.24, recréalo con <code>nemoclaw onboard</code>. Antes de reiniciar algo importante, respalda con <code>nemoclaw backup-all</code>.</p>
+<p>Si encuentras guías que usan <code>docker exec openshell-cluster-nemoclaw kubectl ...</code>, ignóralas: son de la arquitectura vieja con k3s, que ya no existe.</p>
+<p><strong>Fuente:</strong> troubleshooting "Reconnect after a host reboot" y "Sandbox lost after gateway restart"; <a href="https://github.com/NVIDIA/NemoClaw/issues/768">NemoClaw#768</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/7404">#7404</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/2481">#2481</a>.</p>
+<h3 id="ollama-local-sandbox-containers-cannot-reach-the-ollama-auth-proxy-at-hostopenshellinternal11435">Ollama local: <code>Sandbox containers cannot reach the Ollama auth proxy at host.openshell.internal:11435</code></h3>
+<p><strong>Causa:</strong> NemoClaw deja Ollama en <code>127.0.0.1:11434</code> y abre un <strong>proxy con token en el puerto 11435</strong> para que el sandbox llegue a él sin exponer Ollama a tu red. Un firewall del host (por ejemplo <code>ufw</code>) puede bloquear ese tráfico.</p>
+<p><strong>Solución:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">SUBNET</span><span class="o">=</span><span class="k">$(</span>docker<span class="w"> </span>network<span class="w"> </span>inspect<span class="w"> </span>openshell-docker<span class="w"> </span>--format<span class="w"> </span><span class="s1">'{{(index .IPAM.Config 0).Subnet}}'</span><span class="k">)</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span>from<span class="w"> </span><span class="s2">"</span><span class="nv">$SUBNET</span><span class="s2">"</span><span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span><span class="m">11435</span><span class="w"> </span>proto<span class="w"> </span>tcp
+nemoclaw<span class="w"> </span>onboard
+</code></pre></div>
+<p>No pongas <code>OLLAMA_HOST=0.0.0.0</code> (era el arreglo viejo y en WSL2 causa timeouts): deja Ollama en <code>127.0.0.1:11434</code>. Si el proxy no arranca, revisa quién ocupa el puerto con <code>sudo lsof -i :11435</code>.</p>
+<p><strong>Fuente:</strong> troubleshooting "Ollama auth proxy is unreachable from the sandbox" y "Ollama auth proxy did not start"; <a href="https://github.com/NVIDIA/NemoClaw/issues/709">NemoClaw#709</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/1472">#1472</a>.</p>
+<h3 id="openshell-command-not-found-exit-127"><code>openshell: command not found</code> (exit 127)</h3>
+<p><strong>Causa:</strong> instalaste NemoClaw por npm o desde el código sin la CLI de OpenShell. NemoClaw <strong>no</strong> se publica en npm.</p>
+<p><strong>Solución:</strong> usa el instalador oficial, que instala OpenShell si falta: <code>curl -fsSL https://www.nvidia.com/nemoclaw.sh | bash</code>.</p>
+<p><strong>Fuente:</strong> <a href="https://github.com/NVIDIA/NemoClaw/issues/410">NemoClaw#410</a>, <a href="https://github.com/NVIDIA/NemoClaw/issues/2481">#2481</a>.</p>
+<hr />
+<p><a id="seguridad"></a></p>
+<h2 id="9-seguridad">9. Seguridad</h2>
+<h3 id="qué-datos-nunca-debo-compartir">¿Qué datos nunca debo compartir?</h3>
+<p><strong>Solución:</strong> trata todo esto como una contraseña. No lo pegues en foros, issues, capturas de pantalla, notebooks compartidos ni commits:
+- Tu API key <code>nvapi-…</code> (y cualquier key de otro proveedor).
+- Las cookies del laboratorio: <code>CF_Authorization</code>, <code>_pomerium</code>, <code>__Host-skybridge-brev-prd</code>.
+- La URL del dashboard con <code>#token=</code> y la salida de <code>nemoclaw &lt;sandbox&gt; gateway-token</code>.
+- Tus archivos <code>.env</code>, <code>~/.brev/credentials.json</code>, <code>~/.brev/brev.pem</code> y <code>~/.nemoclaw/credentials.json</code>.
+- Exportaciones de sesiones (<code>sessions export</code>): pueden contener secretos que pegaste en el chat.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/deployment/deploy-to-headless-server">headless guide</a>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands">commands</a> (<code>sessions export</code>); lección 03a del curso de NVIDIA.</p>
+<p><a id="efiltrada"></a></p>
+<h3 id="filtré-mi-api-key-la-subí-a-github-salió-en-un-video-o-en-una-captura">Filtré mi API key (la subí a GitHub, salió en un video o en una captura)</h3>
+<p><strong>Causa:</strong> cualquiera que la vea puede gastar tus créditos. Borrar el archivo o hacer otro commit <strong>no</strong> basta: la key sigue en el historial de git y en las copias que alguien haya hecho.</p>
+<p><strong>Solución:</strong>
+1. <strong>Revócala ya</strong> en build.nvidia.com → <strong>API Keys</strong> (bórrala o desactívala). <code>[VERIFICAR EN LAB]</code>
+2. Genera una key nueva.
+3. Actualízala donde la uses: secreto de Colab, <code>.env</code>, y NemoClaw (ver <a href="#instalacion-local">rotar la key</a>).
+4. Revisa tu uso en build.nvidia.com por si hubo consumo extraño.
+5. Quita la key del repo y agrega <code>.env</code> a <code>.gitignore</code>. Asume que la key vieja ya es pública aunque limpies el historial.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/security/credential-rotation">credential rotation</a>; notas de producción de la clase 1.2.</p>
+<h3 id="compartí-sin-querer-una-cookie-del-laboratorio-o-la-url-del-dashboard">Compartí sin querer una cookie del laboratorio o la URL del dashboard</h3>
+<p><strong>Causa:</strong> con esa cookie o ese token, otra persona podría entrar a tu launchable o a tu gateway mientras la sesión siga activa.</p>
+<p><strong>Solución:</strong>
+1. Detén la instancia en Brev (consola → <strong>GPUs</strong> → <strong>Stop</strong>) o bórrala si no tiene nada que conservar.
+2. Cierra sesión en el launchable y vuelve a entrar para obtener una cookie nueva.
+3. No sabemos si cerrar sesión invalida la cookie anterior al instante; por eso detener la instancia es lo más seguro. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Fuente:</strong> lección 03a del curso de NVIDIA (las credenciales de acceso viven solo en la pestaña); <a href="https://docs.nvidia.com/brev/latest/guides/console-reference">Brev: Console Reference</a>.</p>
+<h3 id="es-seguro-abrir-el-dashboard-o-el-gateway-a-internet">¿Es seguro abrir el dashboard o el gateway a internet?</h3>
+<p><strong>Causa:</strong> el gateway (8080) controla el agente y el dashboard (18789) da acceso a él.</p>
+<p><strong>Solución:</strong> no. Usa un túnel (<code>brev port-forward &lt;instancia&gt; -p 18789:18789</code> o <code>ssh -L</code>), que mantiene el origen en <code>127.0.0.1</code>. Nunca abras el 8080 y no uses <code>--public</code> en <code>brev ports open</code> para el dashboard. Si necesitas exponerlo, hazlo detrás de HTTPS y con el pairing activo.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/security/gateway-authentication-controls">gateway authentication controls</a>; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/deployment/deploy-to-headless-server">headless guide</a>.</p>
+<h3 id="dónde-guarda-nemoclaw-mis-keys-las-ve-el-agente">¿Dónde guarda NemoClaw mis keys? ¿Las ve el agente?</h3>
+<p><strong>Solución:</strong> NemoClaw registra las keys de proveedores en el gateway de OpenShell, del lado del host. Desde la v0.0.132–0.0.133, los sandboxes nuevos usan proveedores adjuntos al sandbox y las credenciales se quedan en el host. Por eso <strong>no</strong> debes poner keys dentro de <code>openclaw.json</code> ni en archivos del workspace: lo que está dentro del sandbox, el agente lo puede leer.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/security/credential-storage">credential storage</a>; troubleshooting "Change OpenClaw Configuration Inside the Sandbox"; changelog v0.0.132 y v0.0.133.</p>
+<hr />
+<p><a id="trazas"></a></p>
+<h2 id="10-observabilidad-y-trazas">10. Observabilidad y trazas</h2>
+<h3 id="qué-herramienta-de-observabilidad-uso-nvidia-tiene-una-propia">¿Qué herramienta de observabilidad uso? ¿NVIDIA tiene una propia?</h3>
+<p><strong>Respuesta:</strong> en el curso usamos <strong>OpenTelemetry</strong> (el estándar abierto) con convenciones <strong>OpenInference</strong> y <strong>Arize Phoenix</strong> (código abierto) como interfaz. NVIDIA tiene dos piezas: el <strong>NeMo Agent Toolkit</strong> (<code>nvidia-nat</code>), que instrumenta flujos de agentes y exporta a Phoenix, Langfuse, LangSmith, Weave u OTel con YAML; y en <strong>NemoClaw</strong>, <code>logs</code>, <code>sessions export</code> y <code>openshell term</code> para el sandbox, más exportación OTLP para Deep Agents (<code>--observability</code>). Todo habla OTel, así que puedes mezclarlas.</p>
+<p><strong>Fuente:</strong> clase 3.4; <a href="https://docs.nvidia.com/nemo/agent-toolkit/latest/run-workflows/observe/observe.html">NeMo Agent Toolkit · Observar flujos</a>.</p>
+<h3 id="el-notebook-dice-phoenix-no-detectado-aunque-lo-tengo-corriendo">El notebook dice <code>Phoenix: no detectado</code> aunque lo tengo corriendo</h3>
+<p><strong>Causa:</strong> ejecutaste la celda del tracer antes de levantar Phoenix, o Phoenix escucha en otro host o puerto.</p>
+<p><strong>Solución:</strong> con <code>phoenix serve</code> corriendo (o <code>docker run -p 6006:6006 arizephoenix/phoenix:latest</code>), vuelve a ejecutar la celda del tracer. Si usas otro puerto o un Phoenix remoto: <code>export PHOENIX_COLLECTOR_ENDPOINT=http://&lt;host&gt;:&lt;puerto&gt;</code> antes de abrir el notebook. En Colab no hace falta Phoenix: <code>ver_traza</code> dibuja la traza en texto.</p>
+<p><strong>Fuente:</strong> clase 3.4.</p>
+<h3 id="pip-install-arize-phoenix-falla-con-un-error-de-versión-de-python"><code>pip install arize-phoenix</code> falla con un error de versión de Python</h3>
+<p><strong>Causa:</strong> Phoenix requiere Python 3.11 o mayor.</p>
+<p><strong>Solución:</strong> usa Docker (<code>arizephoenix/phoenix</code>) o un entorno con Python 3.11+. El notebook de la 3.4 funciona igual sin Phoenix: solo usa OpenTelemetry, que corre en 3.10.</p>
+<p><strong>Fuente:</strong> <a href="https://pypi.org/project/arize-phoenix/">arize-phoenix en PyPI</a>.</p>
+<h3 id="mi-key-o-mi-cookie-apareció-en-una-traza">Mi key (o mi cookie) apareció en una traza</h3>
+<p><strong>Causa:</strong> las trazas guardan prompts completos y salidas de herramientas. Si alguien pegó una key en el chat, la traza la guardó.</p>
+<p><strong>Solución:</strong> revoca la key en build.nvidia.com y genera otra. Borra la traza (en Phoenix, el proyecto o las trazas afectadas). En tu código, pasa <strong>todo</strong> atributo por una función de redacción, como <code>poner()</code>/<code>redactar()</code> de la clase 3.4, y no publiques un Phoenix sin autenticación.</p>
+<p><strong>Fuente:</strong> clases 1.2 y 3.4.</p>
+<h3 id="puedo-ver-en-phoenix-lo-que-hace-el-agente-dentro-del-sandbox">¿Puedo ver en Phoenix lo que hace el agente dentro del sandbox?</h3>
+<p><strong>Respuesta:</strong> no directamente. Desde el host trazas las <strong>llamadas</strong> al agente (por ejemplo, la API de Hermes con <code>hermes_trazado.py</code>), pero no las herramientas que el agente ejecuta dentro del sandbox. Esas están en el historial de sesiones: <code>nemoclaw &lt;sandbox&gt; sessions export</code> (OpenClaw) o <code>nemohermes &lt;sandbox&gt; sessions export</code> (Hermes). NemoClaw solo exporta trazas OTLP desde dentro del sandbox para Deep Agents, con el preset de red <code>observability-otlp-local</code>.</p>
+<p><strong>Fuente:</strong> clase 4.4; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/deepagents/monitoring/set-up-deepagents-trace-export">NemoClaw · Exportar trazas de Deep Agents</a>.</p>
+<hr />
+<p><a id="hermes"></a></p>
+<h2 id="11-hermes-en-nemoclaw">11. Hermes en NemoClaw</h2>
+<h3 id="hermes-reemplaza-a-nemoclaw">¿Hermes reemplaza a NemoClaw?</h3>
+<p><strong>Respuesta:</strong> no. NemoClaw es el sandbox de OpenShell, las políticas, la inferencia administrada y el ciclo de vida. Hermes (de Nous Research) es <strong>un agente</strong> que vive dentro, como OpenClaw o LangChain Deep Agents. Cambias el agente con <code>nemohermes onboard</code> (o <code>NEMOCLAW_AGENT=hermes</code>) y la seguridad se queda igual.</p>
+<p><strong>Fuente:</strong> clase 4.4; <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/about/ecosystem">NemoClaw · Ecosistema</a>.</p>
+<h3 id="nemohermes-command-not-found"><code>nemohermes: command not found</code></h3>
+<p><strong>Causa:</strong> tu versión del CLI de NemoClaw es anterior a los alias por agente, o el <code>PATH</code> no incluye el CLI.</p>
+<p><strong>Solución:</strong> <code>NEMOCLAW_AGENT=hermes nemoclaw onboard</code> hace lo mismo. Para actualizar: <code>nemoclaw update</code>. Revisa tu versión con <code>nemoclaw --version</code>. <code>[VERIFICAR EN LAB]</code></p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/reference/commands">NemoClaw · Comandos de nemohermes</a>.</p>
+<h3 id="dónde-están-soulmd-la-memoria-y-las-skills-de-hermes">¿Dónde están SOUL.md, la memoria y las skills de Hermes?</h3>
+<p><strong>Respuesta:</strong> la personalidad en <code>/sandbox/SOUL.md</code>. Todo lo demás en <code>/sandbox/.hermes/</code>: <code>config.yaml</code> (lo genera NemoClaw; no lo edites a mano porque <code>rebuild</code> lo regenera), <code>memories/MEMORY.md</code> y <code>USER.md</code>, <code>skills/</code>, <code>state.db</code> (sesiones en SQLite) y <code>logs/</code>. <code>destroy</code> borra todo; <code>rebuild</code> y las actualizaciones lo conservan.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/manage-sandboxes/state-and-backups/understand-sandbox-state">NemoClaw · Estado del sandbox de Hermes</a>.</p>
+<h3 id="curl-7-failed-to-connect-to-127001-port-8642-o-401-en-la-api-de-hermes"><code>curl: (7) Failed to connect to 127.0.0.1 port 8642</code> o <code>401</code> en la API de Hermes</h3>
+<p><strong>Causa:</strong> la API tomó otro puerto (8642 a 8652 si hay otro sandbox), el forward se cayó tras un reinicio, o el token es incorrecto.</p>
+<p><strong>Solución:</strong> <code>openshell forward list</code> para ver el puerto real; si no aparece, <code>nemohermes &lt;sandbox&gt; recover</code>. Para el token: <code>TOKEN="$(nemohermes &lt;sandbox&gt; gateway-token --quiet)"</code> y envíalo como <code>Authorization: Bearer $TOKEN</code>. El token cambia si reconstruyes el sandbox.</p>
+<p><strong>Fuente:</strong> <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/get-started/quickstart">NemoClaw · Quickstart con Hermes</a>.</p>
+<h3 id="instalé-una-skill-en-hermes-y-no-la-usa">Instalé una skill en Hermes y no la usa</h3>
+<p><strong>Causa:</strong> Hermes carga las skills al iniciar la sesión, o la <code>description</code> del <code>SKILL.md</code> no coincide con cómo pregunta el estudiante.</p>
+<p><strong>Solución:</strong> confirma con <code>nemohermes &lt;sandbox&gt; skill list</code>, sal con <code>/exit</code> y abre una sesión nueva. Prueba la skill como comando (<code>/soporte-nemoclaw ...</code>). Si quieres reemplazarla, primero <code>skill remove</code>: sin comando nativo de Hermes, <code>skill install</code> no sobrescribe una carpeta con el mismo nombre.</p>
+<p><strong>Fuente:</strong> clase 4.4.</p>
+<h3 id="hermes-guardó-algo-en-su-memoria-que-yo-no-quería">Hermes guardó algo en su memoria que yo no quería</h3>
+<p><strong>Causa:</strong> Hermes escribe en su memoria y crea skills por su cuenta. Sin aprobación, una instrucción (tuya o de un texto malicioso) queda guardada para sesiones futuras.</p>
+<p><strong>Solución:</strong> dentro de Hermes, <code>/memory approval on</code> y <code>/skills approval on</code>; revisa con <code>/memory pending</code> y rechaza con <code>/memory reject &lt;id&gt;</code>. Lee <code>/sandbox/.hermes/memories/MEMORY.md</code> como operador y limpia lo que no reconozcas. <code>[VERIFICAR EN LAB]</code> los comandos en la versión fijada.</p>
+<p><strong>Fuente:</strong> <a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/memory">Hermes Agent · Memoria</a>; clase 4.4 y Módulo 5.</p>
+<hr />
+<p><a id="pedir-ayuda"></a></p>
+<h2 id="12-cómo-pedir-ayuda-bien">12. Cómo pedir ayuda bien</h2>
+<p>Una buena pregunta se responde en minutos; una vaga, en días. Antes de preguntar, busca tu mensaje de error exacto en esta página (Ctrl+F / Cmd+F).</p>
+<h3 id="qué-incluir">Qué incluir</h3>
+<ol>
+<li><strong>Qué intentabas hacer:</strong> clase (por ejemplo, 4.2), paso y comando exacto que ejecutaste.</li>
+<li><strong>Qué esperabas y qué pasó:</strong> el mensaje de error <strong>completo y literal</strong> (copiado como texto, no como foto).</li>
+<li><strong>Dónde:</strong> notebook en Colab, notebook local, curso web de NVIDIA, launchable de Brev o NemoClaw en tu máquina. Sistema operativo.</li>
+<li><strong>Versiones y estado</strong> (si usas NemoClaw):</li>
+</ol>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>--version
+openshell<span class="w"> </span>--version
+nemoclaw<span class="w"> </span>status
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>status
+nemoclaw<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">50</span>
+</code></pre></div>
+<ol start="5">
+<li><strong>Diagnóstico para un bug</strong> (solo si te lo piden o vas a abrir un issue):</li>
+</ol>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>debug<span class="w"> </span>--quick
+nemoclaw<span class="w"> </span>debug<span class="w"> </span>--sandbox<span class="w"> </span>&lt;sandbox&gt;<span class="w"> </span>--output<span class="w"> </span>/tmp/nemoclaw-debug.tar.gz
+</code></pre></div>
+<p>Revisa el contenido antes de compartirlo.</p>
+<ol start="6">
+<li><strong>Qué ya probaste</strong> de esta FAQ.</li>
+</ol>
+<h3 id="qué-no-pegar-nunca">Qué NO pegar nunca</h3>
+<ul>
+<li>Tu API key (<code>nvapi-…</code>) ni ninguna otra key o token.</li>
+<li>Cookies del laboratorio (<code>CF_Authorization</code>, <code>_pomerium</code>, <code>__Host-skybridge-brev-prd</code>).</li>
+<li>La URL del dashboard con <code>#token=</code> ni la salida de <code>gateway-token</code>.</li>
+<li>Tu <code>.env</code>, <code>credentials.json</code> o archivos <code>.pem</code>.</li>
+</ul>
+<p>Si un log o una captura incluye alguno de estos valores, reemplázalo por <code>nvapi-xxxxxxxx</code> o <code>&lt;REDACTADO&gt;</code>. Si ya lo pegaste, sigue los pasos de <a href="#efiltrada">key filtrada</a>.</p>
+<h3 id="dónde-preguntar">Dónde preguntar</h3>
+<table>
+<thead>
+<tr>
+<th>Tipo de problema</th>
+<th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dudas del curso, notebooks, ejercicios</td>
+<td>Comunidad de Platzi, en la sección de comentarios de la clase</td>
+</tr>
+<tr>
+<td>Cuenta de NVIDIA Build, verificación de teléfono</td>
+<td><code>help@build.nvidia.com</code> o <code>https://developer.nvidia.com/support</code></td>
+</tr>
+<tr>
+<td>Brev: facturación, instancias trabadas, límites de la organización</td>
+<td><code>brev-support@nvidia.com</code></td>
+</tr>
+<tr>
+<td>Curso web de NVIDIA (páginas, conexión con el launchable)</td>
+<td>Issues de <a href="https://github.com/NVDLI/NemoClawDLI/issues">NVDLI/NemoClawDLI</a></td>
+</tr>
+<tr>
+<td>Bugs de NemoClaw</td>
+<td>Issues de <a href="https://github.com/NVIDIA/NemoClaw/issues">NVIDIA/NemoClaw</a> (busca primero si ya existe)</td>
+</tr>
+<tr>
+<td>Preguntas generales sobre NemoClaw</td>
+<td><a href="https://github.com/NVIDIA/NemoClaw/discussions">Discussions de NVIDIA/NemoClaw</a></td>
+</tr>
+<tr>
+<td>Bugs de OpenShell</td>
+<td>Issues de <a href="https://github.com/NVIDIA/OpenShell/issues">NVIDIA/OpenShell</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Basada en la documentación pública de NVIDIA NemoClaw (Apache-2.0), en el curso de NVIDIA DLI "Securing Agents with OpenShell and NemoClaw" (<a href="https://github.com/NVDLI/NemoClawDLI">NVDLI/NemoClawDLI</a>, Apache-2.0), en la documentación de NVIDIA Brev y en issues públicos de GitHub revisados el 14 de octubre de 2026. Versión de referencia: NemoClaw v0.0.134, OpenShell 0.0.116.</em></p></div>
+
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

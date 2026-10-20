@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>6.3 Próximos pasos y despliegue local · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 6 · Amplía tu práctica con agentes</span><h1><span class="num">6.3</span>Próximos pasos y despliegue local</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈8 min</span><span class="chip"><span class="icon">play_arrow</span>Diapositivas</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="cookbook.html"><span class="icon">terminal</span>Recetario de terminal</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Puedes seguir en Brev, llevar tu agente a tu propia computadora (con 16 GB de memoria y Docker) o a un servidor. Para producción, NVIDIA tiene piezas que mejoran el modelo, la búsqueda y los filtros de lo que entra y sale, pero ninguna reemplaza al sandbox. Y al terminar el curso, guarda tu trabajo y borra tu instancia: detenida sigue cobrando el disco.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Pasar de una <a href="../../GLOSARIO.html">oficina rentada por horas</a> a montar la oficina en tu casa, y entregar la llave de la rentada al irte.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p>Despliegue local (tener el agente en tu propia máquina), Docker (un programa que empaqueta otros programas en cajas estándar, como contenedores de barco), proveedor de inferencia (quien te presta el modelo: la oficina a la que tu agente le manda las preguntas).</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Responde sí o no a este checklist: <em>¿mi organización está lista para tener un agente?</em> 1) Sabemos qué tarea concreta hará y quién lo va a operar. 2) Hicimos su hoja de trifecta (clase 5.1): qué datos privados lee, qué contenido de desconocidos recibe y por dónde puede sacar información. 3) Va a correr dentro de un sandbox con reglas escritas, y alguien sabe leerlas. 4) Las claves de acceso quedan fuera del agente y sabemos cómo cambiarlas si se filtran. 5) Una persona aprueba las acciones riesgosas: enviar, pagar, borrar, instalar. 6) Revisamos sus skills y tareas programadas como revisamos un contrato. 7) Queda un registro de lo que hace y alguien lo mira. 8) Sabemos cuánto cuesta al mes y quién lo apaga. 9) Sabemos dónde viven los datos y si pueden salir de la empresa. 10) Tenemos un plan para cuando se equivoque. Si marcaste "no" en tres o más, empieza con una prueba pequeña, sin datos reales.</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Sabes qué necesitas para tener tu propio agente y puedes decir, con una lista concreta, si tu organización está lista para usar uno.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Cierra tu proyecto, aprende qué necesitas para correr NemoClaw en tu máquina y elige por dónde seguir.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Duración del video</strong></td>
+<td>≈8 min</td>
+</tr>
+<tr>
+<td><strong>Práctica</strong></td>
+<td>Guiada en esta página + <a href="cookbook.html">cookbook opcional de instalación local</a></td>
+</tr>
+<tr>
+<td><strong>Habilidad</strong></td>
+<td>Planear un despliegue local y cerrar un proyecto de agente con criterios de calidad</td>
+</tr>
+<tr>
+<td><strong>Lección de NVIDIA</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04c-going-further.html">Cómo profundizar en el tema (04c)</a></td>
+</tr>
+<tr>
+<td><strong>Material</strong></td>
+<td><a href="slides.html">Diapositivas</a> · <a href="../../FAQ.html">FAQ del curso</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Saber si tu máquina puede correr NemoClaw, qué instalar y qué proveedor de inferencia usar.</li>
+<li>Ubicar las piezas de producción de NVIDIA (NIM, NeMo Guardrails, NeMo Retriever, DGX Spark) en tu propio proyecto.</li>
+<li>Entregar <strong>Soporte NemoClaw</strong> con un checklist y una rúbrica, y elegir tu siguiente paso.</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Tu proyecto <strong>Soporte NemoClaw</strong> con lo hecho en las clases 2.1 a 6.2 (notebooks, skills en <a href="../../skill-library/index.html"><code>skill-library/</code></a>, análisis de seguridad de la 5.x).</li>
+<li>Tu laboratorio de Brev: hoy lo vas a dejar <strong>detenido o borrado</strong>.</li>
+<li>Opcional, para instalar en local: una máquina con Linux, macOS Apple Silicon o Windows con WSL2 (ver tabla del paso 2).</li>
+</ul>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<h3 id="1-decide-dónde-vive-tu-agente">1. Decide dónde vive tu agente</h3>
+<table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Cuándo conviene</th>
+<th>Costo</th>
+<th>Qué cuidas tú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Seguir en Brev</strong> (launchable de NemoClaw)</td>
+<td>Quieres el mismo entorno del curso, sin instalar nada</td>
+<td>Créditos por hora encendida; disco mientras exista</td>
+<td>Detenerla al terminar</td>
+</tr>
+<tr>
+<td><strong>Tu máquina</strong></td>
+<td>Tienes 16 GB de RAM y quieres el agente cerca de tus archivos</td>
+<td>Luz y disco</td>
+<td>Docker, actualizaciones, reinicios</td>
+</tr>
+<tr>
+<td><strong>Un servidor propio o DGX Spark</strong></td>
+<td>Agente 24/7, inferencia local, datos que no salen</td>
+<td>Hardware</td>
+<td>Acceso remoto seguro (<code>ssh -L</code>), respaldos</td>
+</tr>
+</tbody>
+</table>
+<p>Para un despliegue separado con modelos alojados: endpoint <code>https://integrate.api.nvidia.com/v1</code> y tu key de NVIDIA. Verifica el acceso y la cuota vigentes de tu cuenta.</p>
+<h3 id="2-revisa-tu-máquina-en-2-minutos">2. Revisa tu máquina en 2 minutos</h3>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th>Mínimo</th>
+<th>Recomendado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>4 vCPU</td>
+<td>4+ vCPU</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>8 GB</td>
+<td><strong>16 GB</strong> (con 8 GB, la imagen del sandbox puede quedarse sin memoria)</td>
+</tr>
+<tr>
+<td>Disco libre</td>
+<td>20 GB</td>
+<td>40 GB</td>
+</tr>
+<tr>
+<td>Software</td>
+<td>Docker, Node.js 22.19+, npm 10+</td>
+<td></td>
+</tr>
+<tr>
+<td>Plataformas</td>
+<td>Linux (Ubuntu 24.04 validado), macOS Apple Silicon, Windows WSL2, DGX Spark</td>
+<td>Mac Intel <strong>no</strong> está soportado</td>
+</tr>
+</tbody>
+</table>
+<p><div class="highlight"><pre><span></span><code>nproc<span class="p">;</span><span class="w"> </span>free<span class="w"> </span>-h<span class="p">;</span><span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>~<span class="w">        </span><span class="c1"># en macOS: sysctl -n hw.ncpu; sysctl -n hw.memsize; df -h ~</span>
+docker<span class="w"> </span>info<span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Docker OK"</span>
+node<span class="w"> </span>--version<span class="w">                 </span><span class="c1"># v22.19.0 o mayor</span>
+</code></pre></div>
+Deberías ver: 4 o más CPUs, 8 GB o más de RAM, 20 GB o más libres, <code>Docker OK</code> y Node 22.19+. Si algo falta, el <a href="cookbook.html">cookbook</a> (Recetas 0 y 1) dice cómo arreglarlo.</p>
+<h3 id="3-opcional-instala-nemoclaw-en-local">3. (Opcional) Instala NemoClaw en local</h3>
+<p>Sigue el <a href="cookbook.html">cookbook</a>. El camino corto:
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">NEMOCLAW_INSTALL_REF</span><span class="o">=</span><span class="w"> </span><span class="nv">NEMOCLAW_INSTALL_TAG</span><span class="o">=</span>vX.Y.Z<span class="w"> </span>bash
+</code></pre></div>
+- Las variables van <strong>del lado de <code>bash</code></strong> del pipe.
+- En el onboarding, la key se lee de <code>NVIDIA_INFERENCE_API_KEY</code> (no de <code>NVIDIA_API_KEY</code>).
+- Proveedores: <strong>NVIDIA Endpoints</strong> (sin GPU), <strong>Ollama</strong> local, <strong>vLLM</strong> local, <strong>NIM</strong> local (experimental, requiere GPU NVIDIA).</p>
+<p>Día 1 y día 2 en una tabla:</p>
+<table>
+<thead>
+<tr>
+<th>Momento</th>
+<th>Comandos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Día 1 · usar</td>
+<td><code>nemoclaw my-assistant status</code> · <code>dashboard-url --quiet</code> · <code>nemoclaw launch my-assistant</code> · <code>logs --follow</code></td>
+</tr>
+<tr>
+<td>Día 1 · tu proyecto</td>
+<td><code>nemoclaw my-assistant skill install ./skill-library/&lt;skill&gt;/</code> · <code>skill list</code></td>
+</tr>
+<tr>
+<td>Día 2 · reinicio</td>
+<td><code>nemoclaw my-assistant status</code> → <code>start</code> → <code>recover</code></td>
+</tr>
+<tr>
+<td>Día 2 · actualizar</td>
+<td><code>nemoclaw backup-all</code> → <code>nemoclaw update</code> → <code>nemoclaw upgrade-sandboxes --auto</code></td>
+</tr>
+<tr>
+<td>Nunca</td>
+<td><code>openshell self-update</code> · <code>openclaw update</code> dentro del sandbox · <code>nemoclaw start/stop</code> globales (obsoletos)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-ubica-las-piezas-de-producción-en-tu-proyecto">4. Ubica las piezas de producción en tu proyecto</h3>
+<table>
+<thead>
+<tr>
+<th>Pieza</th>
+<th>Qué es</th>
+<th>Qué mejora en Soporte NemoClaw</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NIM</strong></td>
+<td>Modelo + tokenizer + servidor compatible con OpenAI en un contenedor, en tu infraestructura</td>
+<td>Cambias <code>BASE_URL</code> y el modelo corre en tu red. Antes, prueba que soporte tool calls y salida estructurada</td>
+</tr>
+<tr>
+<td><strong>NeMo Retriever</strong></td>
+<td>Búsqueda híbrida (dispersa + densa), reranker y chunking, con embeddings NIM</td>
+<td>Reemplaza el RAG en memoria de la 3.2 cuando la FAQ crezca</td>
+</tr>
+<tr>
+<td><strong>NeMo Guardrails</strong></td>
+<td>Filtros programables de entrada y salida en la capa de aplicación</td>
+<td>Bloquea que el agente pida o muestre keys, o que hable de temas fuera del curso. <strong>Complementa</strong> al sandbox; no lo reemplaza</td>
+</tr>
+<tr>
+<td><strong>DGX Spark</strong></td>
+<td>Equipo de escritorio con GPU NVIDIA; plataforma probada de NemoClaw con inferencia local</td>
+<td>Agente 24/7 con datos que no salen de tu oficina. Revisa la galería de <a href="https://build.nvidia.com/spark/nemoclaw-applications">playbooks de NemoClaw para Spark</a></td>
+</tr>
+</tbody>
+</table>
+<p>Para cada una, escribe una línea en tu proyecto: "la usaría para ___ cuando ___".</p>
+<h3 id="5-cierra-tu-proyecto-checklist-de-entrega">5. Cierra tu proyecto: checklist de entrega</h3>
+<ul>
+<li>☐ <strong>Loop y herramientas</strong> (2.x): el agente responde con <code>buscar_faq</code> y <code>estimar_costo_brev</code>, y valida argumentos.</li>
+<li>☐ <strong>Triage</strong> (3.1): clasifica en <code>instalacion | api_key | brev | seguridad | otro</code>.</li>
+<li>☐ <strong>RAG con citas</strong> (3.2): cada respuesta trae <code>Fuente:</code> de <code>datos/faq/</code>.</li>
+<li>☐ <strong>Reporte de diagnóstico</strong> (3.3): los subagentes dejan su trabajo en archivos.</li>
+<li>☐ <strong>Despliegue</strong> (4.x): la skill <code>soporte-nemoclaw</code> corre en OpenClaw y la tarea cron deja el resumen.</li>
+<li>☐ <strong>Seguridad</strong> (5.x): análisis de trifecta y política del sandbox documentados; ningún secreto en el repo (<code>git grep nvapi-</code> no devuelve keys reales).</li>
+<li>☐ <strong>Skills</strong> (6.2): 4 skills en <code>skill-library/</code>, validadas, con tasa de acierto ≥ 90 % y la tabla en <code>docs/evaluacion-skills.md</code>.</li>
+<li>☐ <strong>Elección de agente</strong> (6.1): <code>docs/eleccion-de-agente.md</code>.</li>
+<li>☐ <strong>README del proyecto</strong>: qué hace, cómo correrlo, límites conocidos y una captura (con el token difuminado).</li>
+<li>☐ <strong>Brev</strong>: instancia detenida o borrada (<code>brev ls</code>).</li>
+</ul>
+<h3 id="6-autoevalúate-con-la-rúbrica">6. Autoevalúate con la rúbrica</h3>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Inicial (1)</th>
+<th>Competente (2)</th>
+<th>Destacado (3)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Funciona</strong></td>
+<td>Responde algunas preguntas</td>
+<td>Responde la FAQ con citas correctas</td>
+<td>Además dice "no lo sé" cuando no hay fuente y escala</td>
+</tr>
+<tr>
+<td><strong>Herramientas y skills</strong></td>
+<td>Herramientas sin validar</td>
+<td>Herramientas validadas, 4 skills válidas</td>
+<td>Tasa de acierto ≥ 90 % medida y documentada; una quinta skill</td>
+</tr>
+<tr>
+<td><strong>Seguridad</strong></td>
+<td>Sin análisis</td>
+<td>Trifecta identificada y política del sandbox leída</td>
+<td>Mitigación probada (bloqueo comprobado en logs) y sin secretos en el historial de git</td>
+</tr>
+<tr>
+<td><strong>Operación</strong></td>
+<td>Corre solo a mano</td>
+<td>Cron que deja el resumen diario</td>
+<td>Sabe recuperarlo tras un reinicio y lo documenta (status → start → recover)</td>
+</tr>
+<tr>
+<td><strong>Documentación</strong></td>
+<td>Sin README</td>
+<td>README con pasos para correrlo</td>
+<td>README + decisiones (agente, proveedor, piezas de producción) y límites conocidos</td>
+</tr>
+</tbody>
+</table>
+<p>Suma tus puntos: <strong>5–8</strong> sigue iterando · <strong>9–12</strong> listo para mostrar · <strong>13–15</strong> publícalo y compártelo.</p>
+<h3 id="7-apaga-el-laboratorio">7. Apaga el laboratorio</h3>
+<p><div class="highlight"><pre><span></span><code>brev<span class="w"> </span>ls
+brev<span class="w"> </span>stop<span class="w"> </span>&lt;instancia&gt;<span class="w">      </span><span class="c1"># o, si ya no lo vas a usar: brev delete &lt;instancia&gt;</span>
+brev<span class="w"> </span>ls<span class="w">                    </span><span class="c1"># confirma STOPPED o que ya no aparece</span>
+</code></pre></div>
+Encendida = se cobra cómputo · detenida = solo disco · borrada = nada, pero pierdes los datos. Copia antes lo que quieras conservar: <code>brev copy &lt;instancia&gt;:/ruta ./local</code>.</p>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ Sabes si tu máquina cumple los requisitos (o qué le falta).</li>
+<li>☐ Escribiste una línea por pieza de producción para tu proyecto.</li>
+<li>☐ Marcaste el checklist de entrega y tienes tu puntaje de la rúbrica.</li>
+<li>☐ Tu instancia de Brev está detenida o borrada.</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>El instalador rechaza tu Mac</td>
+<td>Mac Intel (x86_64) no está soportado</td>
+<td>Usa Brev, un Linux o un Mac con Apple Silicon</td>
+</tr>
+<tr>
+<td>Exit 137 / OOM al crear el sandbox</td>
+<td>8 GB de RAM o menos</td>
+<td>16 GB, o agrega 4–8 GB de swap (cookbook, Receta 0)</td>
+</tr>
+<tr>
+<td><code>NEMOCLAW_INSTALL_TAG</code> "no hace nada"</td>
+<td>La variable quedó del lado de <code>curl</code></td>
+<td><code>curl ... \| NEMOCLAW_INSTALL_REF= NEMOCLAW_INSTALL_TAG=vX.Y.Z bash</code></td>
+</tr>
+<tr>
+<td><code>nemoclaw: command not found</code> al terminar</td>
+<td>El <code>PATH</code> de tu shell no se actualizó</td>
+<td>Terminal nueva o <code>source ~/.bashrc</code></td>
+</tr>
+<tr>
+<td><code>Docker is not running</code> aunque Docker corre</td>
+<td>Tu usuario no está en el grupo <code>docker</code></td>
+<td><code>sudo usermod -aG docker $USER &amp;&amp; newgrp docker</code></td>
+</tr>
+<tr>
+<td><code>✗ openshell &lt;versión&gt; is above the maximum supported by this NemoClaw release.</code></td>
+<td>Actualizaste OpenShell por fuera</td>
+<td>No uses <code>openshell self-update</code>; reinstala la versión soportada</td>
+</tr>
+<tr>
+<td><code>brev stop</code> responde <code>does not support stop</code></td>
+<td>El tipo de instancia no se puede detener</td>
+<td>Guarda tu trabajo y usa <code>brev delete &lt;instancia&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto">Reto</h2>
+<p>Elige <strong>una</strong> pieza de producción y haz un plan de una página para agregarla a Soporte NemoClaw: qué cambia en el código, qué riesgo reduce, cómo medirías la mejora y qué <strong>no</strong> resuelve.
+<strong>Criterio de éxito:</strong> el plan nombra una métrica (p. ej. tasa de respuestas con cita correcta, o intentos de pedir una key bloqueados) y una prueba que la mida.</p>
+<h2 id="avance-del-proyecto--cierre">Avance del proyecto · Cierre</h2>
+<p>Tu proyecto termina aquí. Publícalo en tu GitHub con:
+1. El checklist del paso 5 completo en el README.
+2. Tu puntaje de la rúbrica y qué mejorarías primero.
+3. Tu decisión de despliegue: Brev, local o servidor, y con qué proveedor de inferencia.</p>
+<h2 id="siguientes-pasos">Siguientes pasos</h2>
+<ul>
+<li><strong>Ruta de aprendizaje de IA agéntica de NVIDIA</strong>: este curso corresponde a la lección 6, <em>agentes autónomos más seguros con OpenClaw</em>. Las lecciones previas cubren construir agentes, RAG agéntico, evaluación, personalización y agentes profundos.</li>
+<li><strong>Elige un eje para profundizar</strong> (lección 04c):</li>
+<li><strong>La capa de conocimiento</strong>: chunking, recuperación, fidelidad de las respuestas.</li>
+<li><strong>El sustrato</strong>: MCP, Responses API, convenciones OTel GenAI, A2A.</li>
+<li><strong>Flotas y contención</strong>: qué cambia con N agentes y cómo Landlock, seccomp y los namespaces de red acotan a cada uno.</li>
+<li><strong>Antes de llevarlo a producción</strong>: prueba los controles de la aplicación <strong>y</strong> los permisos del runtime por separado; y verifica la autoridad administrativa aparte: poder leer no prueba que controlas al agente.</li>
+</ul>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li>NVIDIA DLI · <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04c-going-further.html">Cómo profundizar en el tema (04c)</a>. Esta clase está basada en la lección 04c del curso de NVIDIA DLI (Apache-2.0).</li>
+<li>NemoClaw · <a href="https://docs.nvidia.com/nemoclaw/latest/">Documentación</a> · <a href="https://docs.nvidia.com/nemoclaw/latest/get-started/prerequisites">Requisitos</a> · <a href="https://github.com/NVIDIA/NemoClaw">Repo e issues</a></li>
+<li>NVIDIA · <a href="https://docs.nvidia.com/nim/">NIM</a> · <a href="https://github.com/NVIDIA/NeMo-Guardrails">NeMo Guardrails</a> · <a href="https://github.com/NVIDIA/NeMo-Curator">NeMo Curator</a> · <a href="https://build.nvidia.com/nvidia/aiq">AI-Q Blueprint</a></li>
+<li>NVIDIA · <a href="https://build.nvidia.com/spark/nemoclaw-applications">Playbooks de NemoClaw para DGX Spark</a> · <a href="https://build.nvidia.com/spark/nemoclaw/instructions">NemoClaw en DGX Spark</a></li>
+<li>NVIDIA · <a href="https://developer.nvidia.com/topics/ai/agentic-ai-learning-path">Agentic AI Learning Path</a> · <a href="https://developer.nvidia.com/blog/category/generative-ai/">Blog de IA generativa</a></li>
+<li>NVIDIA Blog · <a href="https://developer.nvidia.com/blog/build-a-secure-always-on-local-ai-agent-with-nvidia-nemoclaw-and-openclaw/">Un agente local siempre activo y seguro con NemoClaw y OpenClaw</a></li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../6.2-biblioteca-de-skills/index.html"><small>Clase anterior</small>6.2 · Construye tu biblioteca de skills</a><span></span></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

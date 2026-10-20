@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3.2 RAG para fundamentar en tus fuentes · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 3 · Coordina, fundamenta y planea</span><h1><span class="num">3.2</span>RAG para fundamentar en tus fuentes</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Implementar RAG con tus propias fuentes</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.2-rag/3.2-rag.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Un modelo no conoce los documentos de tu organización, pero responde con mucha seguridad igual. Aquí tu agente primero busca en tus documentos los párrafos que se parecen a la pregunta, responde solo con ellos, dice de dónde salió cada dato y, si no encuentra nada, dice "no sé".</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Un examen a libro abierto: responde mejor si le dejas consultar sus apuntes.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#rag" class="glos" data-def="Buscar primero en tus documentos y darle al modelo esos fragmentos para que responda con fuentes. · Un examen a libro abierto: responde mejor si le dejas consultar sus apuntes.">RAG</a>, <a href="../../GLOSARIO.html#embedding" class="glos" data-def="Una lista de números que representa el significado de un texto, para encontrar textos parecidos. · Las coordenadas de un lugar en un mapa: textos parecidos quedan cerca.">embedding</a>, <a href="../../GLOSARIO.html#cita" class="glos" data-def="La referencia al documento de donde salió una respuesta. · La nota al pie de un libro.">cita</a>.</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Abre el notebook en Google Colab (en Colab: menú <strong>Archivo → Subir notebook</strong>). Sin API key funciona con respuestas simuladas y una muestra de la FAQ. Presiona ▶ en cada celda, en orden, de arriba hacia abajo, y mira solo lo que aparece debajo; no hace falta leer el código. Después responde: (1) en la sección 4, para "la cookie del laboratorio venció: session expired", ¿de qué documento salió el resultado de arriba? ¿Y qué pasó con "¿cuál es la capital de Perú?"?; (2) en la sección 5, ¿qué contestó el agente a la pregunta de Perú y por qué no inventó nada?; (3) en la sección 6, ¿cuántas de las ocho preguntas tienen marca verde ✅ (la respuesta correcta quedó primera)?</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Sabes pedirle a un agente que responda con tus propios documentos, que muestre de dónde salió cada dato y que diga "no sé" cuando no tiene evidencia.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Objetivo: que Soporte NemoClaw responda con la FAQ del curso, cite cada afirmación como <code>[archivo#pregunta]</code> y diga "no sé" cuando no hay evidencia.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Duración del video</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Práctica</strong></td>
+<td>Notebook (≈50 min), funciona sin key en modo MOCK</td>
+</tr>
+<tr>
+<td><strong>Habilidad</strong></td>
+<td>Implementar RAG con tus propias fuentes</td>
+</tr>
+<tr>
+<td><strong>Lección de NVIDIA</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02b-rag.html">02b · El agente de indexación</a></td>
+</tr>
+<tr>
+<td><strong>Material</strong></td>
+<td><a href="slides.html">Diapositivas</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.2-rag/3.2-rag.ipynb" target="_blank" rel="noopener">Notebook</a> · <a href="../../FAQ.html">Preguntas frecuentes</a> · <a href="../../datos/faq/">Corpus <code>datos/faq/</code></a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Trocear la FAQ por entrada (<code>## P:</code>), pedir embeddings con <code>input_type="passage"</code> y <code>"query"</code> y buscar top-K por similitud coseno, en unas 25 líneas.</li>
+<li>Escribir un prompt que obliga a citar <code>[archivo#pregunta]</code>, a decir "no sé" sin evidencia, y verificar las citas con código.</li>
+<li>Medir la recuperación con <strong>Hit@k</strong> y exponerla como una <strong>herramienta</strong> que el agente decide llamar.</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Terminaste la clase 3.1: tienes el router y los especialistas de Soporte NemoClaw.</li>
+<li>Python 3.10+ o Colab. Tu key <code>nvapi-</code> es opcional: sin key corre en MOCK con un embedding simulado.</li>
+<li>Con key, la ruta de embeddings usa <code>nvidia/nemotron-3-embed-1b</code> en <code>https://integrate.api.nvidia.com/v1</code> (la configuraste en la clase 1.3).</li>
+</ul>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<h3 id="1-abre-el-notebook-y-ejecuta-la-configuración">1. Abre el notebook y ejecuta la configuración</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/3.2-rag/3.2-rag.ipynb
+</code></pre></div>
+<p>Ejecuta las cuatro primeras celdas. Deberías ver <code>Modo: EN VIVO · ...</code> (o <code>Modo: MOCK ...</code>) y <code>Reglas mock de la clase 3.2 listas</code>.</p>
+<h3 id="2-carga-y-trocea-la-faq-secciones-1-y-2">2. Carga y trocea la FAQ (secciones 1 y 2)</h3>
+<p>Ejecuta la celda de la FAQ. Dentro del repo deberías ver <code>FAQ: datos/faq completa (9 archivos) · 61 entradas</code>; en Colab, <code>FAQ: muestra incrustada (7 archivos) · 14 entradas</code>. Los números exactos cambian si alguien edita la FAQ.</p>
+<p>Ejecuta la celda de los fragmentos. Cada uno tiene un <code>id</code> citable:</p>
+<div class="highlight"><pre><span></span><code>id      : api-key.md#dónde-consigo-mi-api-key-de
+tema    : API key de NVIDIA Build
+pregunta: ¿Dónde consigo mi API key de NVIDIA para el curso?
+</code></pre></div>
+<h3 id="3-pide-un-embedding-sección-3">3. Pide un embedding (sección 3)</h3>
+<p>Ejecuta la celda de <code>embed(..., input_type="passage")</code>. Deberías ver el modelo, las dimensiones, los primeros valores y la norma. En vivo las dimensiones las fija <code>nemotron-3-embed-1b</code> (la lección de NVIDIA reporta 2048); sin key, el vector simulado tiene 4096 posiciones.</p>
+<h3 id="4-construye-el-índice-y-busca-sección-4">4. Construye el índice y busca (sección 4)</h3>
+<p>Ejecuta la clase <code>Indice</code>. Deberías ver los tres mejores fragmentos por pregunta:</p>
+<div class="highlight"><pre><span></span><code>🔎 la cookie del laboratorio venció: session expired
+   0.345  conexion-laboratorio.md#me-sale-session-expired-or-unreachable
+   ...
+🔎 ¿cuál es la capital de Perú?
+   0.000  ...
+</code></pre></div>
+<p>Top-K <strong>siempre</strong> devuelve K resultados, aunque sean basura. Por eso existe <code>MIN_SCORE</code>.</p>
+<h3 id="5-genera-con-citas-y-no-sé-sección-5">5. Genera con citas y "no sé" (sección 5)</h3>
+<p>Ejecuta <code>responder</code>. Deberías ver una respuesta que termina en <code>[conexion-laboratorio.md#me-sale-session-expired-or-unreachable]</code> y, para la capital de Perú, <code>No sé con base en la FAQ del curso. (ningún fragmento superó el umbral)</code>: ni siquiera se llamó al modelo.</p>
+<p>Haz el <strong>✏️ Tu turno</strong> con "Reanudé Brev y el laboratorio me da 401": la respuesta está repartida en varias entradas. Eso lo resuelve la clase 3.3.</p>
+<h3 id="6-mide-con-hitk-sección-6">6. Mide con Hit@k (sección 6)</h3>
+<p>Ejecuta <code>evaluar</code>. Deberías ver una línea por pregunta (✅ rank 1, 🟡 rank 2-3, ❌ fuera) y algo como <code>Hit@1 = 0.88 · Hit@3 = 1.00</code> sin key. En vivo, anota tus números: son tu línea base.</p>
+<h3 id="7-rag-como-herramienta-sección-7">7. RAG como herramienta (sección 7)</h3>
+<p>Ejecuta el <code>agente</code>. Deberías ver que con "¡Hola!" <strong>no</strong> busca (<code>búsquedas: ninguna</code>), con la duda del laboratorio busca y cita, y con la capital de Perú recibe <code>SIN_EVIDENCIA</code> y dice que no sabe.</p>
+<h3 id="8-cuando-algo-falla-">8. Cuando algo falla (🧯)</h3>
+<ul>
+<li><strong>a)</strong> Ejecuta la celda sin <code>input_type</code>. Deberías ver <code>422 · Argumentos con formato incorrecto (p. ej. falta input_type en embeddings ...)</code>.</li>
+<li><strong>b)</strong> Ejecuta <code>EVAL_EN</code>. Deberías ver que Hit@k baja con preguntas en inglés sobre una FAQ en español (sin key, mucho).</li>
+<li><strong>c)</strong> Ejecuta <code>GRANDES</code>. Deberías ver que, indexando archivos completos, el contexto crece más del doble y la cita ya no dice qué entrada.</li>
+</ul>
+<h3 id="9-avance-del-proyecto">9. Avance del proyecto</h3>
+<p>Ejecuta <code>soporte_nemoclaw</code>. Deberías ver una respuesta citada y la línea <code>[búsquedas: [...] · citas: 1]</code>.</p>
+<h3 id="10-opcional-practica-en-el-navegador-con-la-lección-de-nvidia">10. (Opcional) Practica en el navegador con la lección de NVIDIA</h3>
+<p>En la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02b-rag.html">lección 02b</a>, con tus rutas de chat y embeddings configuradas:</p>
+<ol>
+<li>En <strong>Inspeccionar un embedding</strong>, cambia <code>const EXAMPLE = 0;</code> por <code>1</code> y compara los valores: la misma idea en forma de pregunta.</li>
+<li>En <strong>Crear un índice vectorial en memoria</strong>, nodo <strong>Consulta del usuario</strong>, escribe una pregunta tuya y mira los puntajes del top-3.</li>
+<li>En <strong>Exponer la recuperación como herramienta del agente</strong>, prueba <code>"What is 12 times 8?"</code>: el agente no debería buscar.</li>
+<li>En <strong>Prueba · recuperación en vivo</strong>, pregunta "What does the OpenShell sandbox do?".</li>
+</ol>
+<p><code>[VERIFICAR EN LAB]</code> los nombres en español de las celdas.</p>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ Cada fragmento tiene un id <code>archivo.md#pregunta</code> y ninguno se repite.</li>
+<li>☐ La pregunta fuera de tema responde "no sé" <strong>sin</strong> llamar al modelo.</li>
+<li>☐ <code>verificar_citas</code> muestra <code>inventadas: []</code> en tus respuestas.</li>
+<li>☐ Tienes tu Hit@1 y Hit@3 anotados (sin key y, si puedes, en vivo).</li>
+<li>☐ El agente no busca para un saludo y sí busca para una duda técnica.</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RuntimeError: 422 · Argumentos con formato incorrecto (p. ej. falta input_type en embeddings ...)</code></td>
+<td>Llamaste a la API de embeddings sin <code>input_type</code></td>
+<td>Usa <code>embed(textos, input_type="passage")</code> para indexar y <code>"query"</code> para buscar. Ver <a href="../../FAQ.html#errores-api">FAQ: 422</a></td>
+</tr>
+<tr>
+<td>Hit@k bajo sin ningún error</td>
+<td>Invertiste <code>query</code> y <code>passage</code>, o las preguntas están en otro idioma que la FAQ</td>
+<td>Revisa el <code>input_type</code> en las dos llamadas; escribe la FAQ en el idioma de tus usuarios o traduce la pregunta antes de buscar</td>
+</tr>
+<tr>
+<td>Todo responde "No sé con base en la FAQ del curso."</td>
+<td><code>MIN_SCORE</code> muy alto para tu modelo de embeddings</td>
+<td>Imprime los puntajes de preguntas buenas y malas y pon el umbral entre ambos</td>
+</tr>
+<tr>
+<td>El agente responde con datos que no están en la FAQ</td>
+<td>Umbral muy bajo o prompt sin la regla "solo el contexto"</td>
+<td>Sube <code>MIN_SCORE</code>, conserva las 4 reglas de <code>SISTEMA_RAG</code> y revisa <code>verificar_citas</code></td>
+</tr>
+<tr>
+<td><code>inventadas: ['brev.md#...']</code></td>
+<td>El modelo escribió un id que no le diste</td>
+<td>Pide copiar el id "tal cual" y trata esa respuesta como no confiable</td>
+</tr>
+<tr>
+<td>La respuesta ignora el final de una entrada larga</td>
+<td><code>truncate="END"</code> cortó el fragmento en silencio</td>
+<td>Trocea por entrada; ninguna entrada de la FAQ debería pasar de unos cientos de palabras</td>
+</tr>
+<tr>
+<td><code>RuntimeError: 404 · Ese modelo o esa ruta no existen</code> al indexar</td>
+<td><code>EMBED_MODEL</code> mal escrito o ruta de chat en lugar de embeddings</td>
+<td>Usa <code>nvidia/nemotron-3-embed-1b</code> y <code>BASE_URL</code> terminada en <code>/v1</code>. Ver <a href="../../FAQ.html#errores-api">FAQ</a></td>
+</tr>
+<tr>
+<td><code>FAQ: muestra incrustada</code> aunque estás en el repo</td>
+<td>El notebook no corre desde <code>clases/3.2-rag/</code></td>
+<td>Ábrelo desde su carpeta; la ruta es <code>../../datos/faq</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto">Reto</h2>
+<p>Agrega <strong>3 entradas propias</strong> a la FAQ (en <code>FAQ_MUESTRA</code> o en <code>datos/faq/</code>), con el formato <code>## P:</code>, y escribe <strong>4 preguntas</strong> de prueba para ellas en <code>EVAL</code>.</p>
+<p><strong>Criterio de éxito:</strong> Hit@1 ≥ 0.75 en tus 4 preguntas, cada respuesta del agente cita al menos un id que existe (<code>inventadas</code> vacío) y el agente dice "no sé" ante una pregunta fuera de la FAQ.</p>
+<h2 id="avance-del-proyecto">Avance del proyecto</h2>
+<p><strong>Soporte NemoClaw v3.2: RAG con citas.</strong> Tu agente ya responde con la FAQ del curso, cita cada afirmación con <code>[archivo#pregunta]</code>, verifica sus citas y dice "no sé" cuando no hay evidencia. La búsqueda es una herramienta: el agente decide cuándo usarla.</p>
+<p>Agrega <code>Indice</code>, <code>responder</code>, <code>buscar_faq</code> (la versión con embeddings), <code>verificar_citas</code> y <code>agente</code> a tu <code>soporte_nemoclaw.py</code>. En la clase 3.3, un planificador le da esta herramienta a varios subagentes para armar un reporte de diagnóstico.</p>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02b-rag.html">Lección 02b · El agente de indexación</a>, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
+<li>Lewis et al. (2020), <a href="https://arxiv.org/abs/2005.11401">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a>.</li>
+<li>Catálogo de modelos de NVIDIA Build: <a href="https://build.nvidia.com">build.nvidia.com</a> (busca <code>nemotron-3-embed-1b</code>).</li>
+<li>Edge et al. (2024), <a href="https://arxiv.org/abs/2404.16130">From Local to Global: A Graph RAG Approach</a>, para cuando top-K no alcanza.</li>
+<li><a href="../../FAQ.html">Preguntas frecuentes del curso</a> y el corpus <a href="../../datos/faq/"><code>datos/faq/</code></a>.</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../3.1-enrutamiento-y-workflows/index.html"><small>Clase anterior</small>3.1 · Enruta trabajo entre varias llamadas</a><a class="pn next" href="../3.3-agentes-profundos/index.html"><small>Clase siguiente</small>3.3 · Agentes profundos que crean subagentes</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

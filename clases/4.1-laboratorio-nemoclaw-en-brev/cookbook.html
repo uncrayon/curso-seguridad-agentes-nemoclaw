@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cookbook 4.1 · Brev y NemoClaw desde la terminal · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero doc"><h1>Cookbook 4.1 · Brev y NemoClaw desde la terminal</h1></section>
+<div class="md"><p>Recetas para desplegar, conectarte, revisar y pausar tu laboratorio NemoClaw en Brev. Sirven igual fuera del curso: cualquier launchable de NemoClaw o máquina de Brev funciona así.</p>
+<p>Convenciones:
+- <code>&lt;instancia&gt;</code> es el nombre de tu instancia en Brev (lo ves con <code>brev ls</code>).
+- <code>my-assistant</code> es el nombre habitual del sandbox del launchable. Si <code>nemoclaw list</code> muestra otro, úsalo en su lugar. <code>[VERIFICAR EN LAB]</code>
+- <strong>En tu computadora</strong> = terminal local. <strong>En la máquina</strong> = dentro de <code>brev shell &lt;instancia&gt;</code>.</p>
+<p>Basado en la lección 03a-kickstart del curso de NVIDIA DLI (Apache-2.0), la documentación de Brev y la de NemoClaw.</p>
+<hr />
+<h2 id="receta-1--instala-la-cli-de-brev">Receta 1 · Instala la CLI de Brev</h2>
+<p><strong>En tu computadora:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># macOS (Homebrew)</span>
+brew<span class="w"> </span>install<span class="w"> </span>brevdev/homebrew-brev/brev
+
+<span class="c1"># Linux o WSL: instala en ~/.local/bin. NO uses sudo.</span>
+bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/brevdev/brev-cli/main/bin/install-latest.sh<span class="k">)</span><span class="s2">"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.local/bin:</span><span class="nv">$PATH</span><span class="s2">"</span><span class="w">     </span><span class="c1"># si brev no aparece</span>
+
+brev<span class="w"> </span>--version
+</code></pre></div>
+<p>Salida esperada: un número de versión, por ejemplo <code>v0.6.335</code>.</p>
+<p>Windows: la CLI solo corre dentro de WSL. En PowerShell como administrador:</p>
+<div class="highlight"><pre><span></span><code><span class="n">wsl</span> <span class="p">-</span><span class="n">-install</span> <span class="n">-d</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">22</span><span class="p">.</span><span class="n">04</span>
+</code></pre></div>
+<p>Reinicia, abre Ubuntu y corre el instalador de Linux. WSL necesita la virtualización (VT-x/AMD-V) activada en el BIOS.</p>
+<p><strong>Si falla:</strong>
+- <code>Error: Failed to fetch release info from GitHub API.</code> → límite de la API de GitHub (60 llamadas por hora por IP; pasa mucho con VPN). Apaga o cambia la VPN, o exporta un token: <code>export GITHUB_TOKEN=&lt;tu-token&gt;</code> y repite.
+- <code>brev: command not found</code> → falta <code>~/.local/bin</code> en tu <code>PATH</code>. Agrega el <code>export</code> de arriba a tu <code>~/.bashrc</code> o <code>~/.zshrc</code>.</p>
+<hr />
+<h2 id="receta-2--inicia-sesión-y-elige-la-organización-correcta">Receta 2 · Inicia sesión y elige la organización correcta</h2>
+<p><strong>En tu computadora:</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>login<span class="w">                 </span><span class="c1"># abre el navegador con tu cuenta de NVIDIA</span>
+brev<span class="w"> </span>ls<span class="w"> </span>orgs<span class="w">               </span><span class="c1"># lista tus organizaciones</span>
+brev<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;org&gt;<span class="w">             </span><span class="c1"># activa la organización que tiene los créditos</span>
+</code></pre></div>
+<p>Salida esperada: <code>brev login</code> termina sin errores y crea la carpeta <code>~/.brev/</code> (llave SSH <code>brev.pem</code>, <code>ssh_config</code> y <code>credentials.json</code>).</p>
+<p><strong>Si falla:</strong>
+- El navegador no termina el login → <code>brev login --skip-browser</code> imprime la URL para abrirla a mano. Si sigue, borra las cookies de <code>brev.nvidia.com</code> y repite.
+- <code>You have run out of credits ...</code> aunque tienes saldo → estás en otra organización. Corre <code>brev ls orgs</code> y <code>brev set &lt;org&gt;</code>.
+- Errores feos o un stack trace más adelante → <code>brev logout &amp;&amp; brev login</code>.</p>
+<hr />
+<h2 id="receta-3--encuentra-tu-instancia">Receta 3 · Encuentra tu instancia</h2>
+<p><strong>En tu computadora:</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>ls
+brev<span class="w"> </span>ls<span class="w"> </span>--json<span class="w">             </span><span class="c1"># misma información, para scripts</span>
+</code></pre></div>
+<p>Salida esperada: una fila con tu instancia. Los estados posibles son <code>RUNNING</code>, <code>STARTING</code>, <code>STOPPING</code>, <code>DEPLOYING</code>, <code>STOPPED</code>, <code>DELETING</code> y <code>FAILURE</code>.</p>
+<p><strong>Si falla:</strong>
+- No aparece la instancia que creaste desde la consola → <code>brev refresh</code> sincroniza la lista y reescribe <code>~/.brev/ssh_config</code>.
+- Se queda en <code>DEPLOYING</code> mucho tiempo, o ves <code>rpc error: ... context deadline exceeded</code> → revisa la pestaña <strong>Activity Logs</strong> en la consola. Si no avanza, elimínala, espera 30 segundos y despliega otra (con otro nombre). Antes de reintentar, confirma con <code>brev ls</code> que no quedaron dos instancias: pagarías doble.</p>
+<hr />
+<h2 id="receta-4--opcional-despliega-el-launchable-desde-la-cli">Receta 4 · (Opcional) Despliega el launchable desde la CLI</h2>
+<p>Es lo mismo que el botón de la consola. <strong>Crea una instancia que se cobra</strong>: no lo corras si ya tienes una.</p>
+<p><strong>En tu computadora:</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>create<span class="w"> </span>&lt;instancia&gt;<span class="w"> </span>--launchable<span class="w"> </span>env-3Azt0aYgVNFEuz7opyx3gscmowS<span class="w"> </span>--detached<span class="w"> </span>--timeout<span class="w"> </span><span class="m">900</span>
+brev<span class="w"> </span>ls
+</code></pre></div>
+<p>Salida esperada: la instancia aparece en <code>DEPLOYING</code> y pasa a <code>RUNNING</code>. El CI de NemoClaw espera hasta 900 segundos.</p>
+<p><strong>Si falla:</strong>
+- <code>unexpected EOF</code> o <em>deadline exceeded</em> → puede que sí se haya creado. Corre <code>brev ls</code> antes de repetir.
+- <code>build_status=CREATE_FAILED</code> pero la máquina responde → bug conocido de Brev: el estado se queda pegado. Prueba la receta 5.</p>
+<hr />
+<h2 id="receta-5--entra-a-la-máquina-y-revisa-el-stack">Receta 5 · Entra a la máquina y revisa el stack</h2>
+<p><strong>En tu computadora:</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>shell<span class="w"> </span>&lt;instancia&gt;<span class="w">          </span><span class="c1"># alias: brev ssh &lt;instancia&gt;. SIN --host</span>
+</code></pre></div>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>list<span class="w">                   </span><span class="c1"># sandboxes registrados, con modelo y proveedor</span>
+nemoclaw<span class="w"> </span>status<span class="w">                 </span><span class="c1"># inventario del gateway de OpenShell y servicios auxiliares</span>
+openshell<span class="w"> </span>sandbox<span class="w"> </span>list<span class="w">          </span><span class="c1"># estado crudo de los sandboxes</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status<span class="w">    </span><span class="c1"># salud del sandbox, prueba de inferencia y política</span>
+</code></pre></div>
+<p>Salida esperada:
+- <code>nemoclaw list</code> muestra <code>my-assistant</code> con su modelo (en el launchable, Nemotron 3 Super 120B) y proveedor.
+- <code>openshell sandbox list</code> muestra la fila en <code>Ready</code> (o <code>Running</code>). <code>NotReady</code> no cuenta.
+- <code>nemoclaw my-assistant status</code> reporta la inferencia como <code>healthy</code>.</p>
+<p><code>[VERIFICAR EN LAB: salida exacta de los cuatro comandos]</code></p>
+<p><strong>Si falla:</strong>
+- <code>brev shell &lt;instancia&gt; --host</code> se queda esperando → quita <code>--host</code>.
+- <code>brev shell</code> se queda en "waiting for instance to be ready" aunque la consola dice listo → <code>brev refresh</code> y luego <code>ssh &lt;instancia&gt;</code>.
+- <code>ssh: connect ... port 22: Connection refused</code> → ¿está en <code>RUNNING</code>? (<code>brev ls</code>). Si acabas de reanudar, la IP cambió: <code>brev refresh</code>.
+- <code>ssh: Could not resolve hostname &lt;instancia&gt;</code> → receta 12.
+- <code>Permission denied (publickey)</code> en macOS → la llave <code>~/.brev/brev.pem</code> está dañada. <code>brev login --token</code> con el token de https://brev.nvidia.com/settings/cli, o respalda la llave, regenérala, <code>chmod 600 ~/.brev/brev.pem</code> y <code>brev login</code>.
+- La inferencia sale <code>unauthorized</code> → la key del proveedor fue rechazada (401/403). Es un problema de credencial, no de red: genera otra key en build.nvidia.com.
+- <code>nemoclaw: command not found</code> → abre una terminal nueva o corre <code>source ~/.bashrc</code>.</p>
+<hr />
+<h2 id="receta-6--un-turno-de-agente-desde-la-terminal">Receta 6 · Un turno de agente desde la terminal</h2>
+<p>Equivale al paso 14 de la página del curso, pero sin navegador.</p>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Comandos crudos dentro del sandbox, como el usuario sandbox</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>whoami
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span><span class="nb">pwd</span>
+
+<span class="c1"># Un turno completo del agente (OpenClaw), sin interfaz</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--agent<span class="w"> </span>main<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Usa tu herramienta exec para ejecutar whoami y pwd y dime en una frase qué usuario eres y dónde estás."</span>
+</code></pre></div>
+<p>Salida esperada: <code>exec</code> imprime <code>sandbox</code> y <code>/sandbox</code>. El turno del agente responde algo como "Soy el usuario sandbox y estoy en /sandbox". <code>[VERIFICAR EN LAB]</code></p>
+<p>Observa la diferencia: <code>exec</code> lo corres tú, como operador. En <code>agent</code>, el modelo <strong>decide</strong> usar su herramienta <code>exec</code>.</p>
+<p><strong>Si falla:</strong>
+- <code>agent</code> exige un selector: <code>--agent</code>, <code>--session-id</code>, <code>--session-key</code> o <code>--to</code>. Sin uno de ellos, el wrapper se niega.
+- El turno se cuelga y nunca usa <code>exec</code> → <code>toolSearch</code> activado. Corre la <strong>Comprobación de estado</strong> de la página del curso, o revisa los logs (receta 10).</p>
+<hr />
+<h2 id="receta-7--prueba-que-la-memoria-vive-en-la-clave-de-sesión">Receta 7 · Prueba que la memoria vive en la clave de sesión</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Planta un dato en la sesión "prueba-41"</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--session-key<span class="w"> </span>prueba-41<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Recuerda este código solo en nuestra conversación: CODE-7319. No lo escribas en un archivo."</span>
+
+<span class="c1"># 2. Pregunta en la MISMA sesión</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--session-key<span class="w"> </span>prueba-41<span class="w"> </span>-m<span class="w"> </span><span class="s2">"¿Qué código te di antes? Si no lo sabes, di 'unknown'. No leas archivos."</span>
+
+<span class="c1"># 3. Pregunta en OTRA sesión</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--session-key<span class="w"> </span>prueba-41-b<span class="w"> </span>-m<span class="w"> </span><span class="s2">"¿Qué código te di antes? Si no lo sabes, di 'unknown'. No leas archivos."</span>
+
+<span class="c1"># 4. Restablece la primera sesión y pregunta otra vez</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>sessions<span class="w"> </span>reset<span class="w"> </span>prueba-41<span class="w"> </span>--agent<span class="w"> </span>main
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--session-key<span class="w"> </span>prueba-41<span class="w"> </span>-m<span class="w"> </span><span class="s2">"¿Qué código te di antes? Si no lo sabes, di 'unknown'. No leas archivos."</span>
+</code></pre></div>
+<p>Salida esperada: el paso 2 recuerda <code>CODE-7319</code>; el 3 y el 4 responden <code>unknown</code>. <code>[VERIFICAR EN LAB: que el alias prueba-41 resuelva a la misma sesión en agent y en sessions reset]</code></p>
+<p><strong>Si falla:</strong>
+- <code>sessions reset</code> rechaza la clave → usa la forma canónica: <code>nemoclaw my-assistant sessions reset agent:main:prueba-41</code>.
+- Para ver qué sesiones existen: <code>nemoclaw my-assistant sessions list</code>.</p>
+<hr />
+<h2 id="receta-8--abre-el-dashboard-de-openclaw-en-tu-navegador-local">Receta 8 · Abre el dashboard de OpenClaw en tu navegador local</h2>
+<p><strong>En tu computadora (terminal 1, déjala abierta):</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>port-forward<span class="w"> </span>&lt;instancia&gt;<span class="w"> </span>-p<span class="w"> </span><span class="m">18789</span>:18789
+</code></pre></div>
+<p><strong>En la máquina (terminal 2):</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>dashboard-url<span class="w"> </span>--quiet
+</code></pre></div>
+<p>Abre en tu navegador la URL que imprime (empieza con <code>http://127.0.0.1:18789/</code>). <code>[VERIFICAR EN LAB: formato exacto de la URL]</code></p>
+<p><strong>Atención:</strong> la URL lleva el token del gateway después de <code>#token=</code>. Quien la tenga es operador de tu agente. No la pegues en ningún lado ni la muestres en video.</p>
+<p>Alternativa con ssh puro (después de <code>brev refresh</code>):</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>-N<span class="w"> </span>-L<span class="w"> </span><span class="m">18789</span>:127.0.0.1:18789<span class="w"> </span>&lt;instancia&gt;
+</code></pre></div>
+<p><strong>Si falla:</strong>
+- <code>localhost:18789</code> rechaza la conexión → revisa el orden <code>local:remoto</code>, o que el puerto local no esté ocupado. Usa otro local: <code>brev port-forward &lt;instancia&gt; -p 19000:18789</code> y abre <code>http://127.0.0.1:19000</code>.
+- Aparece <code>Pairing required</code> → ve a <strong>Overview → Gateway Access → Connect</strong> en el dashboard, o espera un par de minutos y recarga. Si sigue, receta 9 de la clase 4.2.
+- <code>brev port-forward</code> acepta un solo <code>-p</code> por comando; si repites <code>-p</code>, solo vale el último.
+- Nunca abras el puerto 8080 (el gateway de OpenShell) a internet ni uses <code>brev ports open ... --public</code> para el dashboard.</p>
+<hr />
+<h2 id="receta-9--pausa-y-reanuda-sin-perder-tu-laboratorio">Receta 9 · Pausa y reanuda sin perder tu laboratorio</h2>
+<p><strong>En tu computadora:</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>stop<span class="w"> </span>&lt;instancia&gt;
+brev<span class="w"> </span>ls<span class="w">                         </span><span class="c1"># espera a ver STOPPED</span>
+</code></pre></div>
+<p>Para volver:</p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>start<span class="w"> </span>&lt;instancia&gt;
+brev<span class="w"> </span>ls<span class="w">                         </span><span class="c1"># espera a ver RUNNING</span>
+brev<span class="w"> </span>refresh<span class="w">                    </span><span class="c1"># la IP puede cambiar al reanudar</span>
+brev<span class="w"> </span>shell<span class="w"> </span>&lt;instancia&gt;
+</code></pre></div>
+<p><strong>En la máquina, después de reanudar:</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>info<span class="w">    </span><span class="c1"># por si Docker no arrancó solo</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>start<span class="w">                   </span><span class="c1"># solo si el sandbox quedó detenido</span>
+openshell<span class="w"> </span>sandbox<span class="w"> </span>list
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>connect<span class="w"> </span>--probe-only<span class="w">    </span><span class="c1"># prueba de salud; exit 0 = bien</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>recover<span class="w">                 </span><span class="c1"># si el gateway o el reenvío de puertos no están sanos</span>
+</code></pre></div>
+<p>Luego, en la página del curso, copia una cookie nueva y repite <strong>Probar conexión</strong>.</p>
+<p>Costos (lista pública de NVIDIA): una instancia de 4 vCPU / 16 GB cuesta unos 0.15 USD por hora corriendo. Detenida, solo pagas el disco: 0.0001314 USD por GB-hora. <code>[VERIFICAR EN LAB: precio real y tamaño de disco del launchable; puede aparecer como Free]</code></p>
+<p><strong>Si falla:</strong>
+- <code>instance "&lt;instancia&gt;" does not support stop.</code> → el tipo de instancia no se puede pausar. Respalda (receta 11) y elimina.
+- <code>brev start</code> falla → no hay capacidad en ese proveedor y región. Reintenta más tarde. Tus datos quedan inaccesibles, no borrados, hasta que vuelva la capacidad.
+- Recuerda: <code>/tmp</code> se borra al detener. Todo lo demás del disco se conserva.</p>
+<hr />
+<h2 id="receta-10--diagnóstico-rápido">Receta 10 · Diagnóstico rápido</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># chequeos de Docker, OpenShell, gateway, puertos y sandbox</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">100</span><span class="w">     </span><span class="c1"># logs del gateway + auditoría de OpenShell (denegaciones)</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--follow<span class="w">       </span><span class="c1"># en vivo; Ctrl+C para salir</span>
+nemoclaw<span class="w"> </span>doctor<span class="w">                           </span><span class="c1"># chequeos del host, sin sandbox</span>
+sudo<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>/tmp/launch-plugin.log<span class="w">    </span><span class="c1"># log del arranque del launchable</span>
+</code></pre></div>
+<p><code>[VERIFICAR EN LAB: que /tmp/launch-plugin.log exista en la imagen actual]</code></p>
+<p>Cuidado con <code>openshell logs</code>: ahí <code>--tail</code> <strong>sigue</strong> el log en vivo, mientras que en <code>nemoclaw … logs</code> <code>--tail N</code> es un número de líneas.</p>
+<hr />
+<h2 id="receta-11--respalda-tu-workspace-antes-de-eliminar">Receta 11 · Respalda tu workspace antes de eliminar</h2>
+<p><strong>En la máquina:</strong></p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>download<span class="w"> </span>/sandbox/.openclaw/workspace/<span class="w"> </span>./respaldo-workspace/
+ls<span class="w"> </span>-la<span class="w"> </span>./respaldo-workspace/
+</code></pre></div>
+<p><strong>En tu computadora:</strong></p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>copy<span class="w"> </span>&lt;instancia&gt;:/home/ubuntu/respaldo-workspace<span class="w"> </span>./respaldo-workspace
+brev<span class="w"> </span>delete<span class="w"> </span>&lt;instancia&gt;<span class="w">          </span><span class="c1"># irreversible: borra la máquina y sus volúmenes</span>
+brev<span class="w"> </span>ls
+</code></pre></div>
+<p><code>[VERIFICAR EN LAB: que la carpeta de inicio en la máquina sea /home/ubuntu y que brev copy acepte directorios]</code></p>
+<p><strong>Si falla:</strong>
+- <code>download</code> termina con estado <code>2</code> → la ruta no existe dentro del sandbox. Revisa con <code>nemoclaw my-assistant exec -- ls /sandbox/.openclaw/</code>.
+- No puedes detener ni eliminar, o la instancia se reinicia sola → escribe a brev-support@nvidia.com con el ID de organización, el nombre de la instancia y la hora.</p>
+<hr />
+<h2 id="receta-12--arregla-ssh-could-not-resolve-hostname">Receta 12 · Arregla <code>ssh: Could not resolve hostname &lt;instancia&gt;</code></h2>
+<p>Problema abierto en NemoClaw (octubre de 2026): Brev agrega una línea <code>Include</code> a tu <code>~/.ssh/config</code>, pero si quedó <strong>dentro</strong> de un bloque <code>Host</code> que ya tenías, ssh la ignora. La CLI solo revisa que la línea exista.</p>
+<p><strong>En tu computadora:</strong></p>
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>~/.ssh/config<span class="w"> </span>~/.ssh/config.bak<span class="w">       </span><span class="c1"># respaldo</span>
+grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"Include\|^Host\|^Match"</span><span class="w"> </span>~/.ssh/config
+</code></pre></div>
+<p>Abre <code>~/.ssh/config</code> con tu editor y mueve la línea <code>Include</code> que apunta a <code>.brev/ssh_config</code> hasta <strong>arriba del archivo</strong>, antes del primer <code>Host</code> o <code>Match</code>. Guarda y prueba:</p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>refresh
+ssh<span class="w"> </span>&lt;instancia&gt;
+</code></pre></div>
+<p>Salida esperada: entras a la máquina.</p>
+<p><strong>Si falla:</strong> restaura tu archivo con <code>cp ~/.ssh/config.bak ~/.ssh/config</code>, revisa que exista <code>~/.brev/ssh_config</code> (si no, <code>brev refresh</code> lo regenera) y mientras tanto usa la ruta del navegador (página del curso). Referencia: <a href="https://github.com/NVIDIA/NemoClaw/issues/13090">NemoClaw #13090</a>.</p></div>
+
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

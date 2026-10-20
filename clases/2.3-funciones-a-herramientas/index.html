@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2.3 Convierte funciones en herramientas · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 2 · Construye el loop básico del agente</span><h1><span class="num">2.3</span>Convierte funciones en herramientas</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Convertir funciones en herramientas de agente</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.3-funciones-a-herramientas/2.3-funciones-a-herramientas.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>El modelo elige qué herramienta usar leyendo solo su ficha: nombre, descripción y datos que pide. Si la descripción es mala, elige mal. Y como el modelo a veces pide cosas incorrectas o peligrosas, tu programa revisa cada pedido y solo ejecuta las herramientas que tú permitiste.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>La ventanilla de un trámite, con un letrero que dice cómo se llama, para qué sirve, qué papeles pide y qué te entregan. Un subagente es como un jefe de proyecto que reparte encargos a su equipo, y MCP es una tienda de apps de otra empresa: tú decides cuáles instalas.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p>Contrato de una herramienta (su ficha: nombre, descripción, datos que pide y resultado en texto), <a href="../../GLOSARIO.html#subagente" class="glos" data-def="Un agente que otro agente crea para una parte de la tarea, con su propia conversación. · Un jefe de proyecto que reparte encargos a su equipo.">subagente</a>, MCP (un estándar para descubrir herramientas que viven en otro servidor).</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Descarga el notebook de esta clase, súbelo a <a href="https://colab.research.google.com/">Colab</a> con <strong>Archivo → Subir notebook</strong> y presiona ▶ en cada celda, en orden, sin leer el código (o usa <strong>Entorno de ejecución → Ejecutar todo</strong>) (sin key funciona con respuestas simuladas). Luego responde:</p>
+<ol>
+<li>En la sección 4, ¿qué herramienta eligió el modelo para cada una de las tres preguntas?</li>
+<li>En la sección 5, ¿qué pasó cuando el modelo pidió <code>borrar_instancia</code>, una herramienta que no está en la lista?</li>
+<li>En la sección 9, ¿qué herramienta rechazó la lista de permitidas y qué frase sospechosa tenía su descripción?</li>
+</ol>
+<p>Extra: escribe en español normal la descripción de una herramienta que te gustaría darle a un asistente, diciendo cuándo usarla y cuándo no.</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Sabes que una buena descripción guía al agente y que la lista de herramientas permitidas la decides tú, no el modelo ni un servidor ajeno.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Objetivo: convertir funciones de Python en herramientas que el modelo usa bien, con argumentos validados y errores que el agente puede corregir.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Duración del video</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Práctica</strong></td>
+<td>Notebook (≈50 min), funciona sin key en modo MOCK</td>
+</tr>
+<tr>
+<td><strong>Habilidad</strong></td>
+<td>Convertir funciones en herramientas de agente</td>
+</tr>
+<tr>
+<td><strong>Lección de NVIDIA</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01c-tools.html">01c · Herramientas a escala</a></td>
+</tr>
+<tr>
+<td><strong>Material</strong></td>
+<td><a href="slides.html">Diapositivas</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.3-funciones-a-herramientas/2.3-funciones-a-herramientas.ipynb" target="_blank" rel="noopener">Notebook</a> · <a href="../../FAQ.html">Preguntas frecuentes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Generar el contrato de una herramienta (nombre, descripción, esquema) desde la firma y el docstring de una función.</li>
+<li>Validar argumentos con JSON Schema escrito a mano y devolver cada error como una observación que el modelo puede corregir.</li>
+<li>Darle a Soporte NemoClaw sus primeras herramientas reales, <code>buscar_faq</code> y <code>estimar_costo_brev</code>, y saber cuándo usar un subagente o un servidor MCP (y qué riesgo trae).</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Haber terminado la clase 2.2: tienes un loop ReAct con validación y tope de pasos.</li>
+<li>Python 3.10+ o Colab, y tu key <code>nvapi-</code> (opcional: sin key corre en MOCK).</li>
+<li>Si corres el notebook desde el repo, carga la FAQ completa de <code>datos/faq/</code>. En Colab usa una muestra incrustada de 9 preguntas; las dos opciones sirven.</li>
+</ul>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<h3 id="1-abre-el-notebook-y-ejecuta-la-configuración">1. Abre el notebook y ejecuta la configuración</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/2.3-funciones-a-herramientas/2.3-funciones-a-herramientas.ipynb
+</code></pre></div>
+<p>Ejecuta las dos primeras celdas y la del simulador.</p>
+<h3 id="2-carga-la-faq-sección-2">2. Carga la FAQ (sección 2)</h3>
+<p>Ejecuta la celda de <code>cargar_faq</code>. Deberías ver una de estas dos líneas:</p>
+<div class="highlight"><pre><span></span><code>FAQ completa: 61 entradas de 9 archivos en datos/faq/
+FAQ de muestra incrustada: 9 entradas (no encontré datos/faq/)
+</code></pre></div>
+<p>(El número exacto de entradas depende de la versión del repo). El formato de cada archivo es <code># Tema</code>, luego <code>## P: pregunta</code> y la respuesta debajo.</p>
+<h3 id="3-convierte-funciones-en-herramientas-sección-3">3. Convierte funciones en herramientas (sección 3)</h3>
+<p>Lee el decorador <code>@herramienta</code> y las dos funciones del proyecto. Ejecuta la celda.</p>
+<p>Deberías ver la entrada de la FAQ sobre el error 401, el cálculo <code>72 h × $0.15/h ≈ $10.80 USD de cómputo...</code> y el JSON del esquema de <code>estimar_costo_brev</code>, con <code>"type": "number"</code>, <code>"minimum": 0.1</code> y <code>"additionalProperties": false</code>. Ese JSON es lo único que ve el modelo.</p>
+<h3 id="4-mira-cómo-elige-el-modelo-sección-4">4. Mira cómo elige el modelo (sección 4)</h3>
+<p>Ejecuta la celda de <code>PREGUNTAS</code>. Deberías ver:</p>
+<div class="highlight"><pre><span></span><code>👤 ¿Qué hago si me sale error 401?
+   → [('buscar_faq', '{"consulta": "..."}')]
+👤 ¿Cuánto me cuesta dejar Brev prendido 10 horas a 0.15 la hora?
+   → [('estimar_costo_brev', '{"horas": 10.0, "tarifa_hora": 0.15}')]
+👤 Hola, ¿cómo estás?
+   → (responde sin herramienta)
+</code></pre></div>
+<p>Con tu key, haz el <strong>✏️ Tu turno</strong>: cambia la descripción de <code>buscar_faq</code> por <code>"Herramienta 1."</code>, vuelve a ejecutar <code>PREGUNTAS</code> y compara. Luego restaura la descripción ejecutando otra vez la celda de la sección 3.</p>
+<h3 id="5-valida-argumentos-y-rompe-cosas-a-propósito-sección-5">5. Valida argumentos y rompe cosas a propósito (sección 5)</h3>
+<p>Ejecuta <code>validar_args</code> y <code>ejecutar</code>, y después la celda de <code>casos</code>. Deberías ver seis errores en texto, por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>estimar_costo_brev({"horas": "tres días", "tarifa_hora": 0.15})
+   → ERROR de validación: 'horas' debe ser number, llegó str ('tres días'). Corrige los argumentos y vuelve a llamar.
+borrar_instancia({"nombre": "mi-lab"})
+   → ERROR: la herramienta 'borrar_instancia' no existe o no está permitida. Usa una de: [...]
+</code></pre></div>
+<p>Ninguno lanza una excepción. Y fíjate en <code>borrar_instancia</code>: el modelo puede pedir cualquier nombre, pero solo se ejecuta lo que está en tu registro.</p>
+<h3 id="6-corre-soporte-nemoclaw-con-herramientas-reales-sección-6">6. Corre Soporte NemoClaw con herramientas reales (sección 6)</h3>
+<p>Ejecuta la celda de <code>agente</code> con las tres preguntas. En la de "tres días" deberías ver la recuperación:</p>
+<div class="highlight"><pre><span></span><code>🔧 estimar_costo_brev({"horas": "tres días", ...}) → ERROR de validación: 'horas' debe ser number...
+🔧 estimar_costo_brev({"horas": 72, "tarifa_hora": 0.15}) → 72 h × $0.15/h ≈ $10.80 USD...
+</code></pre></div>
+<p>El modelo leyó el error y corrigió. En vivo, muchos modelos mandan <code>72</code> a la primera; el harness te protege para cuando no.</p>
+<h3 id="7-cambia-el-backend-sin-tocar-el-loop-sección-7">7. Cambia el backend sin tocar el loop (sección 7)</h3>
+<p>Ejecuta la celda de <code>buscar_faq_semantica</code>. Cambia el registro a la versión con embeddings (<code>nvidia/nemotron-3-embed-1b</code>), corre el agente y regresa al backend original. El esquema no cambió y el modelo no se entera.</p>
+<p>Con tu key, prueba preguntas con sinónimos ("mi llave", "no la acepta") y compara los dos backends.</p>
+<h3 id="8-esconde-un-subagente-detrás-de-una-herramienta-sección-8">8. Esconde un subagente detrás de una herramienta (sección 8)</h3>
+<p>Ejecuta la celda de <code>consultar_experto_brev</code>. Deberías ver <code>↳ principal → subagente: ...</code> y <code>↳ subagente → principal: ...</code>: el agente principal solo ve una herramienta; el subagente tiene su propio prompt y solo <code>estimar_costo_brev</code>.</p>
+<h3 id="9-descubre-herramientas-con-mcp-y-fíltralas-sección-9">9. Descubre herramientas con MCP y fíltralas (sección 9)</h3>
+<p>Ejecuta las dos celdas del <code>ServidorMCPSimulado</code>. Deberías ver:</p>
+<div class="highlight"><pre><span></span><code>✅ faq_curso: aceptada
+🚫 sincronizar_notas: rechazada · fuera de la lista blanca=True · alertas=['api key', 'antes de responder', 'historial completo']
+</code></pre></div>
+<p><code>tools/list</code> devolvió una herramienta con una instrucción escondida en la descripción. Tu lista blanca la rechazó antes de que el modelo la leyera.</p>
+<h3 id="10-opcional-practica-en-el-navegador-con-la-lección-de-nvidia">10. (Opcional) Practica en el navegador con la lección de NVIDIA</h3>
+<p>En la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01c-tools.html">lección 01c de NVIDIA</a>, con tu key guardada en la lección 01a:</p>
+<ol>
+<li>En <strong>dos herramientas, el modelo enruta</strong>, edita las descripciones de <code>calculate</code> y <code>explain_concept</code> (nodos <strong>Herramienta A</strong> y <strong>Herramienta B</strong>) y vuelve a ejecutar el nodo <strong>Llamada LLM · el modelo enruta</strong> con cada pregunta de <code>EXAMPLES</code>.</li>
+<li>En <strong>agentes como herramientas · consultar datos de clientes a un subagente</strong>, pregunta "Who opened the most tickets in the last 30 days?" y lee qué devuelve el subagente al agente principal.</li>
+<li>En <strong>Servidor de herramientas compatible con MCP</strong>, ejecuta el nodo de <code>tools/list</code> y compara los esquemas descubiertos con los de este notebook.</li>
+<li>En el panel de chat del final, prueba "¿Cuánto es el 17,5 % de 2480?" y "¿Qué es una base de datos vectorial?".</li>
+</ol>
+<p>El glosario de NVIDIA está en inglés: si buscas con palabras en español, puede no encontrar resultados. Escribe los términos en inglés ("vector database", "AI agent").</p>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ <code>json.dumps(TOOLS[1])</code> muestra el esquema de <code>estimar_costo_brev</code> con tipos, límites y descripciones.</li>
+<li>☐ Los seis <code>casos</code> devuelven un <code>ERROR ...</code> en texto, sin excepción.</li>
+<li>☐ Soporte NemoClaw cita la FAQ (tema y pregunta) y se recupera del error de "tres días".</li>
+<li>☐ Cambiaste el backend de <code>buscar_faq</code> sin tocar <code>agente</code> ni el esquema.</li>
+<li>☐ Puedes explicar por qué <code>tools/list</code> es una entrada no confiable.</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FAQ de muestra incrustada: 9 entradas (no encontré datos/faq/)</code> y esperabas la FAQ completa</td>
+<td>Abriste el notebook en Colab o desde otra carpeta</td>
+<td>Es normal en Colab. En tu máquina, abre el notebook desde <code>clases/2.3-funciones-a-herramientas/</code>. Ver <a href="../../FAQ.html#notebooks">FAQ: notebooks</a></td>
+</tr>
+<tr>
+<td>El modelo responde de memoria y nunca llama a <code>buscar_faq</code></td>
+<td>La descripción no dice cuándo usarla o el system prompt no prohíbe adivinar</td>
+<td>Escribe en la descripción <strong>cuándo</strong> usarla ("para cualquier duda sobre…") y en el system prompt "nunca inventes datos"</td>
+</tr>
+<tr>
+<td><code>ERROR de validación: 'horas' debe ser number, llegó str ('tres días')</code> una y otra vez</td>
+<td>El modelo no entiende el formato</td>
+<td>Pon un ejemplo en la descripción del parámetro ("72 para 3 días"); el tope de pasos evita el loop infinito</td>
+</tr>
+<tr>
+<td><code>Sin resultados en la FAQ para '...'</code></td>
+<td>La búsqueda por palabras no encontró coincidencias (sinónimos, errores de dedo)</td>
+<td>Prueba otras palabras o el backend semántico de la sección 7. El agente debe decir que no lo encontró, no adivinar</td>
+</tr>
+<tr>
+<td><code>KeyError: 'buscar_faq'</code> o <code>StopIteration</code> en <code>ejecutar</code></td>
+<td>Ejecutaste las celdas fuera de orden y <code>TOOLS</code> o <code>REGISTRO</code> quedaron vacíos</td>
+<td>Vuelve a ejecutar la celda de la sección 3 (el decorador reinicia <code>TOOLS</code> y <code>REGISTRO</code>)</td>
+</tr>
+<tr>
+<td><code>RuntimeError: 422 · Argumentos con formato incorrecto ...</code> en embeddings</td>
+<td>Llamaste a <code>client.embeddings.create</code> sin <code>input_type</code></td>
+<td>Usa el helper <code>embed(textos, input_type="query" o "passage")</code>, que ya lo agrega</td>
+</tr>
+<tr>
+<td><code>RuntimeError: 400 · Solicitud inválida: ...</code> al enviar las tools</td>
+<td>Un esquema mal formado (por ejemplo, un tipo que no existe)</td>
+<td>Imprime <code>json.dumps(TOOLS, indent=2)</code> y revisa tipos (<code>string</code>, <code>number</code>, <code>integer</code>, <code>boolean</code>) y <code>required</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto-una-herramienta-con-enum">Reto: una herramienta con <code>enum</code></h2>
+<p>Agrega <code>tarifa_instancia(tipo: str)</code> con un <code>enum</code> de tres tipos (<code>"2 vCPU / 4 GB"</code>, <code>"4 vCPU / 16 GB"</code>, <code>"8 vCPU / 32 GB"</code>) que devuelva una tarifa de referencia por hora. Toma los valores de la <a href="https://www.nvidia.com/en-us/launchables/pricing">página de precios de launchables de NVIDIA</a> y anota la fecha en que los consultaste.</p>
+<p><strong>Criterio de éxito</strong> (en vivo): con <code>tools_de("buscar_faq", "estimar_costo_brev", "tarifa_instancia")</code>, la pregunta "¿Cuánto me cuesta usar 8 horas una instancia de 4 vCPU / 16 GB?" produce <strong>dos</strong> llamadas en orden (<code>tarifa_instancia</code> y luego <code>estimar_costo_brev</code>) y un número final correcto. Además, <code>tarifa_instancia</code> con un tipo fuera del <code>enum</code> devuelve un <code>ERROR de validación</code>, no una excepción.</p>
+<h2 id="avance-del-proyecto">Avance del proyecto</h2>
+<p><strong>Soporte NemoClaw v3: herramientas reales.</strong> Ahora responde con la FAQ del curso (<code>buscar_faq</code>, con cita de tema y pregunta) y calcula costos de Brev (<code>estimar_costo_brev</code>), con argumentos validados y errores que se corrigen solos. También sabes delegar en un subagente (<code>consultar_experto_brev</code>) y filtrar herramientas descubiertas por MCP.</p>
+<p>Agrega a tu <code>soporte_nemoclaw.py</code> el decorador <code>herramienta</code>, <code>validar_args</code>, <code>ejecutar</code>, <code>agente</code> y las dos herramientas. En la clase 3.1 le pones un router de triage con las categorías <code>instalacion | api_key | brev | seguridad | otro</code>.</p>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/01c-tools.html">Lección 01c · Herramientas a escala</a>, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
+<li><a href="https://modelcontextprotocol.io/specification">Especificación de MCP (Model Context Protocol)</a> y su guía de <a href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">buenas prácticas de seguridad</a>.</li>
+<li><a href="https://json-schema.org/specification">Especificación de JSON Schema</a>.</li>
+<li>Schick et al. (2023), <a href="https://arxiv.org/abs/2302.04761">Toolformer: Language Models Can Teach Themselves to Use Tools</a>.</li>
+<li><a href="https://www.nvidia.com/en-us/launchables/pricing">Precios de los launchables de NVIDIA</a> (para <code>estimar_costo_brev</code>) y la <a href="../../FAQ.html#brev">FAQ de Brev del curso</a>.</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../2.2-patron-react/index.html"><small>Clase anterior</small>2.2 · Razonamiento con el patrón ReAct</a><a class="pn next" href="../3.1-enrutamiento-y-workflows/index.html"><small>Clase siguiente</small>3.1 · Enruta trabajo entre varias llamadas</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

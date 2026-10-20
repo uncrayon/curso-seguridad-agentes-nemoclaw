@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>5.2 Identidades y límites con OpenShell · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 5 · Asegura el agente con OpenShell</span><h1><span class="num">5.2</span>Identidades y límites con OpenShell</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">computer</span>Laboratorio en Brev</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Configurar identidades de agente en OpenShell</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="cookbook.html"><span class="icon">terminal</span>Recetario de terminal</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Dentro del sandbox, el agente trabaja como un usuario sin poderes de administrador, y cada programa tiene sus propios permisos para salir a internet: no basta con decir "soy el agente". Tu API key nunca entra al sandbox; adentro solo hay un vale sin valor. Así, aunque alguien engañe al agente, lo que puede lograr es poco.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Darle al asistente la llave de su oficina, no la llave maestra del edificio.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#mínimo-privilegio" class="glos" data-def="Dar al agente solo los permisos que necesita y nada más. · Darle al asistente la llave de su oficina, no la llave maestra del edificio.">mínimo privilegio</a>, <a href="../../GLOSARIO.html">Landlock, seccomp y aislamiento de red</a> (los candados del cuarto).</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Con tu instancia encendida, abre la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html">lección 04a de NVIDIA</a> y presiona ▶ en <strong>🩺 Health check</strong>, en <strong>Pregunta cualquier cosa al entorno, en código</strong> y en <strong>Lee la política activa del launchable</strong>. En el mapa, cambia el programa que llama de <code>curl</code> a <code>openclaw</code>. Anota tres cosas: qué usuario es el agente, qué mensajes salen cuando intenta pedir más poder y qué destinos cambian según el programa.</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Puedes comprobar por ti mismo, sin creerle al agente, qué tan poco poder tiene y que tu key no está a su alcance.</p></article><article class="es-card credit"><header><span class="icon">paid</span>Tu crédito</header><p>Esta práctica usa ≈20 min de instancia encendida <code>[VERIFICAR EN LAB]</code>. Al terminar, detén la instancia (ver <a href="../../LABORATORIO.html">LABORATORIO.md</a>).</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Comprueba con evidencia quién es tu agente dentro del sandbox, qué binarios pueden salir a la red y dónde está (y dónde no) tu API key.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Duración del video</td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td>Práctica</td>
+<td>Laboratorio en Brev (<a href="cookbook.html"><code>cookbook.md</code></a>)</td>
+</tr>
+<tr>
+<td>Habilidad</td>
+<td>Configurar identidades de agente en OpenShell</td>
+</tr>
+<tr>
+<td>Lección de NVIDIA</td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html">04a · El sandbox de OpenShell</a> (mecanismos 3 y 4, celda "Pregunta cualquier cosa al entorno")</td>
+</tr>
+</tbody>
+</table>
+<p>Material: <a href="slides.html">diapositivas</a> · <a href="cookbook.html">cookbook del lab</a> · <a href="../../FAQ.html">FAQ del curso</a></p>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Demostrar que el agente corre como el usuario <code>sandbox</code>, sin root, con seccomp activo y sin poder escalar.</li>
+<li>Explicar por qué OpenShell da permisos de red <strong>por binario</strong> (ruta real + hash) y por qué falsificar <code>argv[0]</code> no sirve.</li>
+<li>Mostrar que la API key real nunca entra al sandbox: adentro solo hay un placeholder.</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Tu laboratorio NemoClaw en Brev está encendido y la verificación de la clase 4.1 está en verde.</li>
+<li>Sabes entrar al host con <code>brev shell &lt;tu-instancia&gt;</code> (clase 4.1).</li>
+<li>Tu sandbox se llama <code>my-assistant</code> (o anotaste el nombre que muestra <code>openshell sandbox list</code>).</li>
+<li>Hiciste tu hoja <code>trifecta.md</code> en la clase 5.1.</li>
+</ul>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<h3 id="1-tres-identidades-distintas">1. Tres identidades distintas</h3>
+<p>Antes de teclear, ten claro de quién hablamos:</p>
+<table>
+<thead>
+<tr>
+<th>Identidad</th>
+<th>Quién es</th>
+<th>Qué poder tiene</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>El proceso del agente</strong></td>
+<td>El usuario <code>sandbox</code> dentro del contenedor</td>
+<td>Lo que permitan Landlock, seccomp y la política de red</td>
+</tr>
+<tr>
+<td><strong>El binario</strong></td>
+<td>La ruta real del ejecutable que abre la conexión (<code>/usr/local/bin/openclaw</code>, <code>/usr/bin/curl</code>)</td>
+<td>Los destinos que su grupo de la política le permita</td>
+</tr>
+<tr>
+<td><strong>El operador</strong></td>
+<td>Tú, en la terminal del host, con <code>nemoclaw</code> y <code>openshell</code></td>
+<td>Cambiar políticas, aprobar egress, leer el token del gateway</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-quién-es-el-agente">2. ¿Quién es el agente?</h3>
+<p>En el host del lab:</p>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>whoami
+openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>id
+openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span><span class="nb">pwd</span>
+</code></pre></div>
+<p>Deberías ver <code>sandbox</code>, un <code>uid</code> distinto de 0 y <code>/sandbox</code>. Después pregúntale al agente lo mismo:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Usa tu herramienta exec para ejecutar whoami y pwd, y dime en una frase qué usuario eres y dónde estás."</span>
+</code></pre></div>
+<p>Compara su respuesta con lo que viste tú. Como operador, <strong>verificas</strong> lo que el agente dice.</p>
+<h3 id="3-lee-su-autoridad-en-procselfstatus">3. Lee su autoridad en <code>/proc/self/status</code></h3>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'^(Uid|Gid|NoNewPrivs|Seccomp|Seccomp_filters|CapEff|CapBnd)'</span><span class="w"> </span>/proc/self/status
+</code></pre></div>
+<p>Deberías ver <code>NoNewPrivs: 1</code>, <code>Seccomp: 2</code> y <code>CapEff: 0000000000000000</code>: sin privilegios nuevos, con filtro seccomp y sin capacidades de root. Es una prueba segura: solo lee un archivo.</p>
+<h3 id="4-intenta-escalar-y-lee-bien-el-error">4. Intenta escalar (y lee bien el error)</h3>
+<p>Corre las pruebas de NVIDIA de la <a href="cookbook.html#3--pedir-más-autoridad-catálogo-de-nvidia-04a">receta 3</a> y las de seccomp de la <a href="cookbook.html#4--seccomp-ptrace-mount-y-setuid-sin-romper-nada">receta 4</a>:</p>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>sudo<span class="w"> </span>id
+openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">'import os; os.setuid(0)'</span>
+</code></pre></div>
+<p>Deberías ver fallas. Distingue el mensaje:
+- <code>command not found</code>: la herramienta no existe en la imagen. No prueba ningún límite.
+- <code>Permission denied</code> (<code>EACCES</code>): permisos de archivo o Landlock.
+- <code>Operation not permitted</code> (<code>EPERM</code>): el kernel negó la operación (falta de capacidades o seccomp).</p>
+<p>Un fallo por sí solo no identifica el mecanismo. Por eso el paso 3 lee el estado del proceso.</p>
+<h3 id="5-el-permiso-de-red-va-atado-al-binario">5. El permiso de red va atado al binario</h3>
+<p>En la política base, <code>docs.openclaw.ai</code> solo se permite para <code>/usr/local/bin/openclaw</code>. Pruébalo con <code>curl</code> y luego intenta engañar a OpenShell:</p>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>curl<span class="w"> </span>-sS<span class="w"> </span>-m<span class="w"> </span><span class="m">8</span><span class="w"> </span>-o<span class="w"> </span>/dev/null<span class="w"> </span>-w<span class="w"> </span><span class="s1">'code=%{http_code}\n'</span><span class="w"> </span>https://docs.openclaw.ai
+openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">'exec -a /usr/local/bin/openclaw curl -sS -m 8 -o /dev/null -w "code=%{http_code}\n" https://docs.openclaw.ai'</span>
+</code></pre></div>
+<p>Deberías ver dos veces <code>curl: (56) CONNECT tunnel failed, response 403</code>. OpenShell identifica al binario por <code>/proc/&lt;pid&gt;/exe</code> (la ruta que el kernel garantiza), recorre los procesos padre y guarda un hash SHA256 de cada binario la primera vez que lo ve (<em>trust-on-first-use</em>). <code>argv[0]</code> se puede falsificar; por eso no cuenta. Las variantes "copiar curl como openclaw" y "reemplazar el binario" están en la <a href="cookbook.html#5--permisos-por-binario-el-host-está-permitido-el-binario-no">receta 5</a>.</p>
+<p>Luego pídeselo al agente, que sí usa el binario permitido:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Abre https://docs.openclaw.ai y dime en una línea de qué trata la página."</span>
+</code></pre></div>
+<h3 id="6-busca-tu-api-key-dentro-del-sandbox">6. Busca tu API key dentro del sandbox</h3>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'env | grep -iE "key|token" | sed -E "s/=(openshell:resolve:env:).*/=\1…/; t; s/=.*/=&lt;oculto&gt;/"'</span>
+openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'grep -rIl "nvapi-" /sandbox 2&gt;/dev/null | wc -l'</span>
+</code></pre></div>
+<p>Deberías ver algo como <code>NVIDIA_INFERENCE_API_KEY=openshell:resolve:env:…</code> y un <code>0</code>. La key real vive en el gateway de OpenShell, en el host. El proxy L7 cambia el placeholder por la key <strong>solo</strong> cuando la petición sale por la ruta permitida. Si el agente imprime esa variable o la manda a otro lado, lo que filtra es un texto sin valor.</p>
+<p>En el host, mira dónde está la key de verdad (los valores nunca se muestran):</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>credentials<span class="w"> </span>list
+</code></pre></div>
+<h3 id="7-lo-mismo-desde-la-página-04a-de-nvidia">7. Lo mismo, desde la página 04a de NVIDIA</h3>
+<p>Si prefieres el navegador, abre la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html">lección 04a</a> con tu launchable conectado y sigue la <a href="cookbook.html#7--en-la-página-04a-de-nvidia">receta 7</a>: agrega <code>["¿Quién soy?", ["whoami", "id", "pwd"]]</code> a la celda "Pregunta cualquier cosa al entorno, en código" y cambia el binario en el mapa de la política.</p>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ <code>whoami</code> dice <code>sandbox</code> y <code>id</code> muestra un <code>uid</code> distinto de 0.</li>
+<li>☐ <code>/proc/self/status</code> muestra <code>NoNewPrivs: 1</code> y <code>Seccomp: 2</code>.</li>
+<li>☐ <code>sudo id</code> y <code>os.setuid(0)</code> fallan, y sabes qué significa cada mensaje.</li>
+<li>☐ <code>curl</code> a <code>docs.openclaw.ai</code> da 403 aunque falsifiques <code>argv[0]</code>.</li>
+<li>☐ Dentro del sandbox no hay ninguna <code>nvapi-</code>: solo un placeholder <code>openshell:resolve:env:…</code>.</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>curl: (56) CONNECT tunnel failed, response 403</code></td>
+<td>La política negó la conexión (host o binario no permitidos). Es lo esperado en el paso 5</td>
+<td>No es un problema de TLS. Revisa <code>nemoclaw my-assistant logs --tail 30</code> para ver binario y motivo</td>
+</tr>
+<tr>
+<td><code>nemoclaw: recent network policy denial detected for docs.openclaw.ai:443 …</code></td>
+<td>Pista informativa de <code>nemoclaw … exec</code> tras una denegación</td>
+<td>Léela y sigue. Se silencia con <code>NEMOCLAW_NO_POLICY_HINT=1</code></td>
+</tr>
+<tr>
+<td><code>whoami</code> dice <code>root</code></td>
+<td>Usaste <code>docker exec</code> sobre el contenedor (corre como root, <code>HOME=/root</code>)</td>
+<td>Usa <code>openshell sandbox exec -n …</code> o <code>nemoclaw my-assistant exec -- …</code></td>
+</tr>
+<tr>
+<td>Un comando con tubería (<code>grep … \| wc</code>) se ejecuta en el host</td>
+<td><code>openshell sandbox exec</code> recibe argumentos, no una línea de shell</td>
+<td>Envuelve el comando completo en <code>-- sh -c '…'</code></td>
+</tr>
+<tr>
+<td>No aparece ninguna variable <code>…KEY</code> en el paso 6</td>
+<td>Sandbox creado antes de NemoClaw v0.0.132: usa la ruta <code>inference.local</code> y no recibe ni el placeholder</td>
+<td>Es normal. La key tampoco está adentro</td>
+</tr>
+<tr>
+<td>La página 04a dice "Mantén el launchable abierto en otra pestaña, vuelve a ejecutar y comprueba el nombre con: openshell sandbox list"</td>
+<td>La página perdió la sesión con tu launchable</td>
+<td>Reabre el launchable, reconéctate en 03a y ejecuta 🩺 Health check</td>
+</tr>
+<tr>
+<td><code>python3: command not found</code></td>
+<td>La imagen cambió</td>
+<td>Usa la celda de la página 04a o salta la receta 4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto">Reto</h2>
+<p>Encuentra <strong>un host que tu política permita para <code>curl</code></strong> y otro que solo permita para <code>openclaw</code>, usando solo comandos de lectura (<code>openshell policy get my-assistant --full</code> te ayuda; lo verás a fondo en la 5.3). Criterio de éxito: dos comandos <code>curl</code> desde el sandbox, uno con <code>code=200</code> (o el código del servidor) y otro con <code>CONNECT tunnel failed, response 403</code>, y una frase que explique la diferencia.</p>
+<h2 id="avance-del-proyecto">Avance del proyecto</h2>
+<p>Agrega a tu <code>trifecta.md</code> de <em>Soporte NemoClaw</em> una sección <strong>"Identidad"</strong> con lo que comprobaste:</p>
+<div class="highlight"><pre><span></span><code><span class="gu">## Identidad (clase 5.2)</span>
+<span class="k">-</span><span class="w"> </span>Corre como: sandbox (uid …), NoNewPrivs 1, Seccomp 2
+<span class="k">-</span><span class="w"> </span>Binarios que salen a la red: /usr/local/bin/openclaw, /usr/local/bin/node
+<span class="k">-</span><span class="w"> </span>Dónde vive la API key: gateway de OpenShell (host). En el sandbox: openshell:resolve:env:…
+<span class="k">-</span><span class="w"> </span>Riesgo que queda: el token del gateway de OpenClaw sí es legible dentro del sandbox
+</code></pre></div>
+<p>En la clase 5.3 vas a leer la política completa y a escribir el preset del proyecto.</p>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li>NVIDIA DLI · <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html">04a · El sandbox de OpenShell</a> (Apache-2.0).</li>
+<li>NemoClaw · <a href="https://docs.nvidia.com/nemoclaw/latest/">Security Best Practices</a> → "Binary-Scoped Endpoint Rules" (identificación por <code>/proc/&lt;pid&gt;/exe</code> y hash SHA256).</li>
+<li>NemoClaw · Credential Storage (<code>docs/security/credential-storage.mdx</code>): placeholders <code>openshell:resolve:env:&lt;KEY&gt;</code>.</li>
+<li>NemoClaw · Process Controls (<code>docs/security/process-controls.mdx</code>): <code>no-new-privileges</code>, capacidades, <code>ulimit -u 512</code>.</li>
+<li>Kernel de Linux · <a href="https://docs.kernel.org/userspace-api/seccomp_filter.html">seccomp filter</a> · man7 · <a href="https://man7.org/linux/man-pages/man7/capabilities.7.html">capabilities(7)</a>.</li>
+<li><a href="../../FAQ.html">FAQ del curso</a>.</li>
+</ul>
+<hr />
+<p>Basado en la lección 04a-safety del curso de NVIDIA DLI (Apache-2.0).</p></div></section>
+<nav class="prevnext"><a class="pn prev" href="../5.1-trifecta-letal/index.html"><small>Clase anterior</small>5.1 · La trifecta letal y la superficie de riesgo</a><a class="pn next" href="../5.3-sandbox-y-politicas/index.html"><small>Clase siguiente</small>5.3 · Restringe herramientas, archivos y red</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

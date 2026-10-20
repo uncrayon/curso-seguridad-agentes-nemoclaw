@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1.1 What NemoClaw, OpenClaw and OpenShell are · Securing Agents with OpenShell and NemoClaw</title>
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Module 1 · Set up your agent environment</span><h1><span class="num">1.1</span>What NemoClaw, OpenClaw and OpenShell are</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈6 min</span><span class="chip"><span class="icon">play_arrow</span>Browser</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a></p></section>
+<section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
+<p>🇪🇸 Original Spanish guide: <a href="../../../clases/1.1-que-son-nemoclaw-openclaw-openshell/index.html"><code>clases/1.1-que-son-nemoclaw-openclaw-openshell/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
+</blockquote>
+<p>Goal: understand what an agent is and what each piece of the stack does before you touch any code.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Video length</strong></td>
+<td>≈6 min</td>
+</tr>
+<tr>
+<td><strong>Practice</strong></td>
+<td>Guided, in the browser (no code, ≈20 min)</td>
+</tr>
+<tr>
+<td><strong>Skill</strong></td>
+<td>Place each piece of the stack: OpenClaw, OpenShell and NemoClaw</td>
+</tr>
+<tr>
+<td><strong>NVIDIA lesson</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html">Course home</a></td>
+</tr>
+<tr>
+<td><strong>Materials</strong></td>
+<td><a href="slides.html">Slides</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-youll-achieve">What you'll achieve</h2>
+<ul>
+<li>Explain in your own words what an AI agent is: a model inside a loop, with tools and memory.</li>
+<li>Tell apart OpenClaw (the agent), OpenShell (the sandbox and the gateway) and NemoClaw (the blueprint and the CLI that ties them together).</li>
+<li>Know what you'll build across the 20 classes and what you need for each module.</li>
+</ul>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>A desktop browser (Chrome, Edge or Firefox). From Module 4 on you'll need its developer tools, so don't take this course on your phone.</li>
+<li>Nothing else. This class needs no account, no GPU and no installs.</li>
+</ul>
+<h2 id="the-key-ideas">The key ideas</h2>
+<h3 id="what-an-agent-is">What an agent is</h3>
+<p>A <strong>language model</strong> (LLM) on its own takes text in and returns text. An <strong>agent</strong> is that model placed inside a <strong>loop</strong> (a cycle that repeats):</p>
+<ol>
+<li><strong>Observe</strong>: it reads the request and what has happened so far (its memory).</li>
+<li><strong>Decide</strong>: the model picks the next step: answer, or use a tool (a function your code runs on its behalf).</li>
+<li><strong>Act</strong>: your code runs the tool and hands the result back.</li>
+<li><strong>Stop?</strong>: if it's done, it answers; if not, it goes back to step 1.</li>
+</ol>
+<p>The problem: an agent with tools can read files, run commands and connect to the internet. If someone tricks it with an instruction hidden in a document, it can do real damage. That's why this course is about <strong>agent security</strong>.</p>
+<h3 id="the-three-pieces">The three pieces</h3>
+<p>The definitions come from the <a href="https://docs.nvidia.com/nemoclaw/latest/">NemoClaw documentation</a> (the <em>Ecosystem</em> page):</p>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>What it is</th>
+<th>Analogy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OpenClaw</strong></td>
+<td>The agent: the assistant with its runtime, tools, memory and behavior, inside the container. It's a third-party project (<a href="https://openclaw.ai">openclaw.ai</a>). It doesn't define the sandbox.</td>
+<td>The employee</td>
+</tr>
+<tr>
+<td><strong>OpenShell</strong></td>
+<td>NVIDIA's runtime environment: it creates and watches the <strong>sandbox</strong> (an isolated container), enforces network, file and process policies, and routes inference (the calls to the model). It has a <strong>gateway</strong> on the host and the <code>openshell</code> CLI.</td>
+<td>The office with locks and a guard at the door</td>
+</tr>
+<tr>
+<td><strong>NemoClaw</strong></td>
+<td>NVIDIA's reference stack: the <code>nemoclaw</code> CLI, a <strong>versioned blueprint</strong> (a YAML package with the exact versions, the image and the policies) and a plugin for OpenClaw. It sets up and runs everything above.</td>
+<td>The contractor who builds the office and hires the employee</td>
+</tr>
+</tbody>
+</table>
+<p>Three things people often mix up:</p>
+<ul>
+<li><strong>NemoClaw is not a model.</strong> Models (Nemotron, for example) live on build.nvidia.com and you call them through an API.</li>
+<li><strong>OpenShell works without NemoClaw.</strong> NemoClaw adds a stricter policy, a hardened image and blueprint verification on top.</li>
+<li><strong>Your API key never enters the sandbox.</strong> OpenShell keeps it outside and injects it into the outbound request to the model.</li>
+</ul>
+<h3 id="the-flow-as-text">The flow, as text</h3>
+<div class="highlight"><pre><span></span><code>You (operator)
+  │  nemoclaw onboard · nemoclaw &lt;name&gt; connect · nemoclaw &lt;name&gt; status
+  ▼
+nemoclaw (CLI on the host) ──── reads the versioned blueprint (YAML with pinned versions)
+  │  calls the openshell CLI
+  ▼
+OpenShell gateway (host) ── policies · inference routes · credentials
+  │  creates and watches
+  ▼
+Sandbox (container, user "sandbox"; only /sandbox and /tmp are writable)
+  └── OpenClaw (the agent) + NemoClaw plugin
+        │ wants to talk to the model         │ wants to reach the internet
+        ▼                                     ▼
+  inference route → build.nvidia.com     network policy: everything blocked
+  (the key is added outside the sandbox)  except what's on the list
+</code></pre></div>
+<h3 id="what-youll-build-the-soporte-nemoclaw-project">What you'll build: the "Soporte NemoClaw" project</h3>
+<p>Throughout the course you build <strong>Soporte NemoClaw</strong> (NemoClaw Support), an agent that answers students' questions about NemoClaw, Brev and the course itself, using the course FAQ as its knowledge base. It grows class by class:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>What you add</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>A chat loop with memory, the ReAct pattern and real tools (<code>buscar_faq</code> (FAQ search), <code>estimar_costo_brev</code> (Brev cost estimate))</td>
+</tr>
+<tr>
+<td>3</td>
+<td>A triage router, RAG over the FAQ with citations, and subagents that put together a diagnostic report</td>
+</tr>
+<tr>
+<td>4</td>
+<td>You deploy it in OpenClaw as a skill inside the Brev lab, with a scheduled task</td>
+</tr>
+<tr>
+<td>5</td>
+<td>You analyze its risks and write its sandbox policy</td>
+</tr>
+<tr>
+<td>6</td>
+<td>You build your skill library and see how to run it on your own machine</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-map-of-the-20-classes">The map of the 20 classes</h3>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Class</th>
+<th>Practice</th>
+<th>NVIDIA lesson</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1 · Set up your environment</strong></td>
+<td>1.1 What NemoClaw, OpenClaw and OpenShell are</td>
+<td>Browser</td>
+<td>Course home</td>
+</tr>
+<tr>
+<td></td>
+<td>1.2 Create your NVIDIA Build account and API key</td>
+<td>Browser</td>
+<td>Course home</td>
+</tr>
+<tr>
+<td></td>
+<td>1.3 Configure model routes and diagnose errors</td>
+<td>Notebook</td>
+<td>Course home</td>
+</tr>
+<tr>
+<td><strong>2 · The basic loop</strong></td>
+<td>2.1 From a single call to the agent loop</td>
+<td>Notebook</td>
+<td>1a Loop</td>
+</tr>
+<tr>
+<td></td>
+<td>2.2 Reasoning with the ReAct pattern</td>
+<td>Notebook</td>
+<td>1b ReAct</td>
+</tr>
+<tr>
+<td></td>
+<td>2.3 Turn functions into tools</td>
+<td>Notebook</td>
+<td>1c Tools</td>
+</tr>
+<tr>
+<td><strong>3 · Coordinate, ground and plan</strong></td>
+<td>3.1 Route work across several calls</td>
+<td>Notebook</td>
+<td>2a Workflows</td>
+</tr>
+<tr>
+<td></td>
+<td>3.2 RAG to ground answers in your sources</td>
+<td>Notebook</td>
+<td>2b RAG</td>
+</tr>
+<tr>
+<td></td>
+<td>3.3 Deep agents that spawn subagents</td>
+<td>Notebook</td>
+<td>2c Deep Agents</td>
+</tr>
+<tr>
+<td></td>
+<td>3.4 Observe and debug your agent with traces</td>
+<td>Notebook</td>
+<td>(new)</td>
+</tr>
+<tr>
+<td><strong>4 · Take your agent to NemoClaw</strong></td>
+<td>4.1 Launch the NemoClaw lab on Brev</td>
+<td>Lab</td>
+<td>3a Kickstart</td>
+</tr>
+<tr>
+<td></td>
+<td>4.2 Explore the OpenClaw gateway and workspace</td>
+<td>Lab</td>
+<td>3b OpenClaw</td>
+</tr>
+<tr>
+<td></td>
+<td>4.3 Agents in continuous and scheduled operation</td>
+<td>Lab</td>
+<td>3c Always-On</td>
+</tr>
+<tr>
+<td></td>
+<td>4.4 Swap OpenClaw for Hermes in NemoClaw</td>
+<td>Lab</td>
+<td>(new)</td>
+</tr>
+<tr>
+<td><strong>5 · Secure the agent with OpenShell</strong></td>
+<td>5.1 The lethal trifecta and the risk surface</td>
+<td>Slides</td>
+<td>4a OpenShell</td>
+</tr>
+<tr>
+<td></td>
+<td>5.2 Identities and limits with OpenShell</td>
+<td>Lab</td>
+<td>4a OpenShell</td>
+</tr>
+<tr>
+<td></td>
+<td>5.3 Restrict tools, files and network</td>
+<td>Lab</td>
+<td>4a OpenShell</td>
+</tr>
+<tr>
+<td><strong>6 · Extend your practice</strong></td>
+<td>6.1 Compare modern agent CLIs</td>
+<td>Lab</td>
+<td>4b Modern CLIs</td>
+</tr>
+<tr>
+<td></td>
+<td>6.2 Build your skill library</td>
+<td>Notebook</td>
+<td>3c Always-On</td>
+</tr>
+<tr>
+<td></td>
+<td>6.3 Next steps and local deployment</td>
+<td>Slides</td>
+<td>4c Going Further</td>
+</tr>
+</tbody>
+</table>
+<p>What you need at each stage:</p>
+<ul>
+<li><strong>Modules 1 to 3</strong>: a free NVIDIA Build API key and Python (Colab or your own machine). You don't need a GPU.</li>
+<li><strong>Modules 4 to 6</strong>: a <a href="https://brev.nvidia.com/">Brev</a> account to launch the lab (a cloud machine with NemoClaw already installed) and a desktop browser.</li>
+</ul>
+<h2 id="step-by-step-guided-practice-in-the-browser">Step by step (guided practice in the browser)</h2>
+<h3 id="1-tour-nvidias-course-home-page">1. Tour NVIDIA's course home page</h3>
+<ol>
+<li>Open <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html">https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html</a>.</li>
+<li>If it shows up in another language, use the page's language menu and pick English.</li>
+<li>Find the <strong>"What this course runs on"</strong> section. You should see three cards:
+   - <strong>Models · build.nvidia.com</strong>: the Nemotron models you call with your <code>nvapi-</code> key.
+   - <strong>Agent stack · NemoClaw launchable on Brev</strong>: the lab for Modules 4 to 6 of our course.
+   - <strong>Search · Materials catalog</strong>: the course glossary and articles.</li>
+<li>Scroll down to the module cards. NVIDIA's course has <strong>4 modules of 3 pages each</strong> (about 4 hours). Our course reorganizes them into <strong>6 modules and 20 classes</strong>: compare with the table above.</li>
+<li>Open the <strong>"Entering Your API Key"</strong> section. Don't paste anything yet: just find the fields. You'll set them up in class 1.3.</li>
+<li>Open the <strong>"If a model request fails"</strong> section and read it. It holds the golden rule: on a 401 or 403, check your credentials; on a 429, wait; on a 5xx, the provider may be the problem.</li>
+</ol>
+<p>You should see: a page with the NemoClaw mascot holding the OpenShell shield, the course abstract and the learning objectives.</p>
+<h3 id="2-tour-the-nemoclaw-repository">2. Tour the NemoClaw repository</h3>
+<ol>
+<li>Open <a href="https://github.com/NVIDIA/NemoClaw">https://github.com/NVIDIA/NemoClaw</a> and read the top of the README.</li>
+<li>Find the sentence that defines the project. You should see something like: an open source reference stack for running agents more safely inside OpenShell sandboxes.</li>
+<li>Notice the <strong>alpha / early preview</strong> label. NemoClaw ships new versions every 1 to 3 days. That's why the lab always uses a pinned version.</li>
+<li>Find the <code>nemoclaw-blueprint/</code> folder and open <code>blueprint.yaml</code>. You don't need to understand all of it. Find:
+   - the minimum and maximum OpenShell versions,
+   - the minimum OpenClaw version,
+   - the inference profiles (<code>components.inference.profiles</code>), which point to <code>https://integrate.api.nvidia.com/v1</code>.</li>
+</ol>
+<h3 id="3-tour-the-documentation">3. Tour the documentation</h3>
+<ol>
+<li>Open <a href="https://docs.nvidia.com/nemoclaw/latest/">https://docs.nvidia.com/nemoclaw/latest/</a>.</li>
+<li>Find the <strong>Ecosystem</strong> page (in the <em>About</em> section). It has the table with the scope of OpenClaw, OpenShell and NemoClaw that we summarized above.</li>
+<li>Find <strong>How it works</strong>. Locate the table of <strong>protection layers</strong>: network, filesystem, process and inference. Write down which ones you can change on the fly (network and inference) and which ones are locked when the sandbox is created (filesystem and process). You'll use this in Module 5.</li>
+</ol>
+<h3 id="4-fill-in-your-map">4. Fill in your map</h3>
+<p>Copy this table into your notes and fill it in with your own words:</p>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>What it does</th>
+<th>Where you'll see it in the course</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model (Nemotron)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>OpenClaw</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>OpenShell</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NemoClaw</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Brev</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="check-that-it-worked">Check that it worked</h2>
+<ul>
+<li>☐ I can explain in one sentence what separates a model call from an agent.</li>
+<li>☐ I know which piece is the agent, which is the sandbox and which is the blueprint.</li>
+<li>☐ I found the "Entering Your API Key" section on NVIDIA's course home page.</li>
+<li>☐ I found <code>blueprint.yaml</code> in the NemoClaw repo.</li>
+<li>☐ I know which modules need Brev and which only need an API key.</li>
+</ul>
+<h2 id="common-errors">Common errors</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I search for "NemoClaw" as a model on build.nvidia.com and can't call it through the API</td>
+<td>NemoClaw isn't a model: it's a blueprint and a CLI. build.nvidia.com has a <strong>blueprint card</strong>, not a chat endpoint</td>
+<td>To call a model, use a Nemotron model (class 1.2). You use NemoClaw in the lab</td>
+</tr>
+<tr>
+<td>NVIDIA's course home page shows up in Spanish or another language</td>
+<td>You opened a localized URL (for example, one with <code>/es/</code>) or the browser remembered another language</td>
+<td>Use <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html">https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html</a> or the language menu</td>
+</tr>
+<tr>
+<td>"NVIDIA's Modules 3 and 4 ask me for a launchable" and the numbering confuses me</td>
+<td>NVIDIA has 4 modules; we have 6. Their Module 3 is our Module 4</td>
+<td>Use the "NVIDIA lesson" column in the 20-class table</td>
+</tr>
+<tr>
+<td>I think I need a GPU to get started</td>
+<td>Modules 1 to 3 call NVIDIA-hosted models through an API</td>
+<td>You only need the free key. The GPU arrives with Brev in Module 4, and it isn't yours: it's in the cloud</td>
+</tr>
+<tr>
+<td>Instructions from a blog post don't match the NemoClaw repo</td>
+<td>NemoClaw is in alpha and changes every few days</td>
+<td>Trust the official README and documentation, and the lab's pinned version</td>
+</tr>
+</tbody>
+</table>
+<h2 id="challenge">Challenge</h2>
+<p>Write a paragraph of at most 5 lines that explains to a classmate what happens when OpenClaw tries to reach a website that isn't in the policy.</p>
+<p><strong>Success criteria:</strong> your paragraph names the three pieces with their correct roles, says the connection is blocked by default, and says where the API key lives (outside the sandbox).</p>
+<h2 id="project-milestone">Project milestone</h2>
+<p>There's no code yet. Your milestone is the <strong>Soporte NemoClaw map</strong>: in your notes, draw the flow diagram above and mark where each part of the project will live:</p>
+<ul>
+<li>The Python loop (Modules 2 and 3): outside any sandbox, in your notebook.</li>
+<li>The <code>soporte-nemoclaw</code> skill (NemoClaw support skill) and the FAQ (Module 4): inside the OpenClaw workspace, in the sandbox.</li>
+<li>The policy that contains it (Module 5): in OpenShell.</li>
+</ul>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html">NVIDIA DLI course: home</a> (NVIDIA, Apache-2.0)</li>
+<li><a href="https://github.com/NVDLI/NemoClawDLI">NVIDIA's course repository: NVDLI/NemoClawDLI</a></li>
+<li><a href="https://github.com/NVIDIA/NemoClaw">NemoClaw repository</a> and its <a href="https://docs.nvidia.com/nemoclaw/latest/">documentation</a></li>
+<li><a href="https://github.com/NVIDIA/OpenShell">OpenShell repository</a></li>
+<li><a href="https://openclaw.ai">OpenClaw</a></li>
+<li><a href="../../../FAQ.html">Course FAQ (Spanish)</a></li>
+</ul>
+<hr />
+<p><em>Based on the home page of the NVIDIA DLI course "Securing Agents with OpenShell and NemoClaw" (Apache-2.0) and on the NemoClaw documentation.</em></p></div></section>
+<nav class="prevnext"><span></span><a class="pn next" href="../1.2-cuenta-y-api-key-nvidia-build/index.html"><small>Next class</small>1.2 · Create your NVIDIA Build account and API key</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copy$/, "").trim()).then(function () {
+      b.textContent = "Copied!"; setTimeout(function () { b.textContent = "Copy"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

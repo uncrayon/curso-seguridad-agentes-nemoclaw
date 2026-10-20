@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero doc"><h1>SKILL</h1></section>
+<div class="md"><hr />
+<p>name: diagnostico-api
+description: Diagnostica errores al llamar a la API de modelos de NVIDIA (build.nvidia.com o integrate.api.nvidia.com) a partir del código HTTP o del mensaje de error, como 401, 403, 404, 410, 429 o 5xx, y propone la corrección. Úsala cuando el usuario pegue un error de la API o diga que el modelo no responde.</p>
+<hr />
+<h1 id="diagnostico-api">diagnostico-api</h1>
+<h2 id="propósito">Propósito</h2>
+<p>Convertir un error de la API en tres cosas: qué pasó, por qué y qué hacer ahora.
+Es el "FAQ en código" de la clase 1.3, empaquetado como skill.</p>
+<h2 id="pasos">Pasos</h2>
+<ol>
+<li>Extrae el código HTTP del mensaje (por ejemplo, <code>401</code>). Si no hay código, busca pistas: <code>timeout</code>, <code>Connection</code>, <code>Could not resolve host</code>.</li>
+<li>Herramienta: <code>diagnosticar_http</code> con <code>{"codigo": "&lt;codigo&gt;"}</code>.</li>
+<li>Responde con este formato:
+   - <strong>Qué pasó:</strong> una línea.
+   - <strong>Causa probable:</strong> una línea.
+   - <strong>Qué hacer:</strong> de 1 a 3 pasos con comandos exactos.</li>
+<li>Si el error viene del laboratorio (sale en <code>nemoclaw &lt;sandbox&gt; status</code> como <code>unauthorized</code> o <code>unreachable</code>), di que es la credencial o la ruta del sandbox y sugiere <code>nemoclaw &lt;sandbox&gt; status</code> antes de cambiar nada.</li>
+<li>Si el código no está en la tabla de la herramienta, dilo y pide el cuerpo completo del error.</li>
+</ol>
+<h2 id="errores-que-ya-conoces">Errores que ya conoces</h2>
+<table>
+<thead>
+<tr>
+<th>Código</th>
+<th>Significa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>401</td>
+<td>La key no es válida o está mal copiada</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Key válida sin acceso a ese modelo o sin créditos</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Modelo o ruta que no existe (revisa el ID y que la URL termine en <code>/v1</code>)</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Modelo retirado del endpoint gratuito</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Demasiadas solicitudes por minuto</td>
+</tr>
+<tr>
+<td>5xx</td>
+<td>Falla del servidor o modelo arrancando</td>
+</tr>
+</tbody>
+</table>
+<h2 id="límites">Límites</h2>
+<ul>
+<li>Nunca muestres la key completa. Si necesitas verificarla, revisa solo que empiece con <code>nvapi-</code>.</li>
+<li>No recomiendes desactivar TLS ni usar <code>--insecure</code>.</li>
+<li>Un 403 dentro del sandbox con <code>CONNECT tunnel failed, response 403</code> no es un error de la API: es la política de red. En ese caso, usa <code>soporte-nemoclaw</code>.</li>
+</ul></div>
+
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

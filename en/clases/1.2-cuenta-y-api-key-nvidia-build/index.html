@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1.2 Create your NVIDIA Build account and API key · Securing Agents with OpenShell and NemoClaw</title>
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Module 1 · Set up your agent environment</span><h1><span class="num">1.2</span>Create your NVIDIA Build account and API key</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈6 min</span><span class="chip"><span class="icon">play_arrow</span>Browser</span><span class="chip primary"><span class="icon">bolt</span>Skill: Manage API usage in NVIDIA Build</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a></p></section>
+<section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
+<p>🇪🇸 Original Spanish guide: <a href="../../../clases/1.2-cuenta-y-api-key-nvidia-build/index.html"><code>clases/1.2-cuenta-y-api-key-nvidia-build/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
+</blockquote>
+<p>Goal: have an <code>nvapi-</code> API key stored safely and a first model call that answers.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Video length</strong></td>
+<td>≈6 min</td>
+</tr>
+<tr>
+<td><strong>Practice</strong></td>
+<td>Guided, in the browser and the terminal (≈20 min)</td>
+</tr>
+<tr>
+<td><strong>Skill</strong></td>
+<td>Manage API usage in NVIDIA Build</td>
+</tr>
+<tr>
+<td><strong>NVIDIA lesson</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html">Course home · "Entering Your API Key"</a></td>
+</tr>
+<tr>
+<td><strong>Materials</strong></td>
+<td><a href="slides.html">Slides</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-youll-achieve">What you'll achieve</h2>
+<ul>
+<li>Create your free account on build.nvidia.com and generate your <code>nvapi-</code> API key.</li>
+<li>Store the key in three correct places (<code>.env</code>, an environment variable and Colab Secrets) without it ending up on GitHub.</li>
+<li>Make your first <code>curl</code> calls to <code>/v1/models</code> and <code>/v1/chat/completions</code>, and know what to do if you leak the key.</li>
+</ul>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>An email address you can access and a phone for SMS verification (read the first common error if you're outside the US).</li>
+<li>A terminal: Terminal on macOS, a Linux terminal, or on Windows <strong>Git Bash</strong> or <strong>WSL</strong>. If you only have PowerShell, there's a variant below.</li>
+<li><code>curl</code> and <code>python3</code> installed (<code>curl --version</code> and <code>python3 --version</code>).</li>
+<li>To store the key in <code>.env</code>: a clone of the course repo.</li>
+</ul>
+<blockquote>
+<p><strong>Tip:</strong> create your account and your key <strong>before</strong> you start the course. If phone verification fails, the fix can take a few days.</p>
+</blockquote>
+<h2 id="step-by-step">Step by step</h2>
+<h3 id="1-create-your-nvidia-build-account">1. Create your NVIDIA Build account</h3>
+<ol>
+<li>Open <a href="https://build.nvidia.com/?ncid=ref-dli-146986">https://build.nvidia.com/?ncid=ref-dli-146986</a>.</li>
+<li>Click the sign-in button and create an NVIDIA account with your email (or sign in with one you already have).</li>
+<li>Confirm your email with the link you receive.</li>
+<li>If it asks you to verify your phone, enter your number with the country code, then the SMS code. <strong>[VERIFY IN LAB]</strong> exactly when the phone number is requested.</li>
+</ol>
+<p>You should see: the build.nvidia.com model catalog with you signed in (your avatar at the top right).</p>
+<h3 id="2-generate-your-api-key">2. Generate your API key</h3>
+<ol>
+<li>Open your account's <strong>API Keys</strong> page. You can also open a model's page, for example Nemotron, and use the button to get a key. <strong>[VERIFY IN LAB]</strong> the exact name of the menu and the button.</li>
+<li>Generate a new key. If it lets you name it, use something like <code>curso-platzi-nemoclaw</code>. If it lets you choose an expiration, pick a short one: you'll regenerate it when you finish the course. <strong>[VERIFY IN LAB]</strong> whether the expiration option exists.</li>
+<li>Copy the key <strong>right then</strong>. It starts with <code>nvapi-</code> and it's long.</li>
+</ol>
+<p>You should see: text like <code>nvapi-xxxxxxxx…</code>. Treat it like a password.</p>
+<blockquote>
+<p>⚠️ Never paste your key into a notebook you'll share, a chat message, a screenshot or a commit.</p>
+</blockquote>
+<h3 id="3-store-it-properly-pick-based-on-where-you-work">3. Store it properly (pick based on where you work)</h3>
+<h4 id="option-a--env-file-for-your-machine">Option A · <code>.env</code> file (for your machine)</h4>
+<p>The repo ships an <code>.env.example</code> file at the root with the course's four variables:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>What it's for</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NVIDIA_API_KEY</code></td>
+<td>Your key</td>
+<td>(yours)</td>
+</tr>
+<tr>
+<td><code>NVIDIA_BASE_URL</code></td>
+<td>The endpoint</td>
+<td><code>https://integrate.api.nvidia.com/v1</code></td>
+</tr>
+<tr>
+<td><code>NVIDIA_MODEL</code></td>
+<td>The chat model</td>
+<td><code>nvidia/nemotron-3.5-lightning-30b-a3b</code></td>
+</tr>
+<tr>
+<td><code>NVIDIA_EMBED_MODEL</code></td>
+<td>The embedding model</td>
+<td><code>nvidia/nemotron-3-embed-1b</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># from the root of the course repo</span>
+cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+<span class="c1"># open .env in your editor and replace nvapi-xxxxxxxx… with your real key</span>
+git<span class="w"> </span>check-ignore<span class="w"> </span>.env<span class="w">      </span><span class="c1"># must print ".env": it means git ignores it</span>
+</code></pre></div>
+<p>You should see: <code>.env</code> printed by <code>git check-ignore</code>. If it prints nothing, <strong>don't commit</strong>, and check that <code>.gitignore</code> has the line <code>.env</code>.</p>
+<h4 id="option-b--environment-variable-for-the-terminal">Option B · Environment variable (for the terminal)</h4>
+<p>To keep the key out of your terminal history, read it without displaying it:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">read</span><span class="w"> </span>-rs<span class="w"> </span>NVIDIA_API_KEY<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">export</span><span class="w"> </span>NVIDIA_API_KEY<span class="w">   </span><span class="c1"># paste the key and press Enter (it won't show)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NVIDIA_API_KEY</span><span class="p">:</span><span class="nv">0</span><span class="p">:</span><span class="nv">6</span><span class="si">}</span><span class="s2">…"</span><span class="w">                      </span><span class="c1"># must print nvapi-…</span>
+</code></pre></div>
+<p>The variable only exists in <strong>that</strong> terminal. If you open another tab, you have to do it again.</p>
+<h4 id="option-c--google-colab-secrets">Option C · Google Colab Secrets</h4>
+<ol>
+<li>In Colab, open the left panel and click the key icon 🔑 (<strong>Secrets</strong>).</li>
+<li>Add a secret with the exact name <code>NVIDIA_API_KEY</code> and paste your key as the value.</li>
+<li>Turn on the <strong>notebook access</strong> toggle.</li>
+</ol>
+<p>The course notebooks read it on their own with <code>userdata.get("NVIDIA_API_KEY")</code>.</p>
+<h4 id="what-about-nvidias-course-page">What about NVIDIA's course page?</h4>
+<p>There, you paste the key into the setup panel on the course home page. The page stores it in <code>sessionStorage</code>: <strong>it's cleared when you close the tab</strong>. That's why it asks for it again each time you open the course in a new tab. The URL and the model are remembered.</p>
+<h4 id="a-different-name-for-nemoclaw">A different name for NemoClaw</h4>
+<p>In the course notebooks the variable is called <code>NVIDIA_API_KEY</code>. The NemoClaw installer, which you'll use if you run it on your own machine (class 6.3), uses another name: <code>NVIDIA_INFERENCE_API_KEY</code>. It's the same key in a different variable.</p>
+<h3 id="4-first-call-list-the-models">4. First call: list the models</h3>
+<p><code>/v1/models</code> doesn't spend tokens. It's the cheapest way to check that you can reach the endpoint.</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>https://integrate.api.nvidia.com/v1/models<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$NVIDIA_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import sys, json; ids = [m['id'] for m in json.load(sys.stdin)['data']]; print(len(ids), 'modelos'); print('nvidia/nemotron-3.5-lightning-30b-a3b' in ids)"</span>
+</code></pre></div>
+<p>You should see: a model count (printed as <code>&lt;N&gt; modelos</code>) and <code>True</code> (the course model is in the catalog).</p>
+<h3 id="5-first-call-to-the-chat-model">5. First call to the chat model</h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>https://integrate.api.nvidia.com/v1/chat/completions<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$NVIDIA_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",</span>
+<span class="s1">    "messages": [{"role": "user", "content": "Greet a Platzi student in one sentence."}],</span>
+<span class="s1">    "max_tokens": 1024</span>
+<span class="s1">  }'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool
+</code></pre></div>
+<p>You should see a JSON response with, among other things:</p>
+<ul>
+<li><code>choices[0].message.content</code>: the greeting.</li>
+<li><code>choices[0].finish_reason</code>: <code>"stop"</code> (it finished cleanly).</li>
+<li><code>usage</code>: <code>prompt_tokens</code>, <code>completion_tokens</code> and <code>total_tokens</code>. That's what you spent.</li>
+</ul>
+<p>Why <code>max_tokens: 1024</code> for a single sentence? The course model <strong>reasons before it answers</strong>, and that reasoning also spends tokens. With a very low limit, the answer can come back empty with <code>finish_reason: "length"</code>. You'll trigger this on purpose in class 1.3.</p>
+<p><strong>PowerShell variant (Windows):</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">$env:NVIDIA_API_KEY</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">"Paste your key"</span>
+<span class="nv">$body</span> <span class="p">=</span> <span class="p">@{</span> <span class="n">model</span> <span class="p">=</span> <span class="s2">"nvidia/nemotron-3.5-lightning-30b-a3b"</span><span class="p">;</span> <span class="n">max_tokens</span> <span class="p">=</span> <span class="n">1024</span><span class="p">;</span>
+           <span class="n">messages</span> <span class="p">=</span> <span class="p">@(@{</span> <span class="n">role</span> <span class="p">=</span> <span class="s2">"user"</span><span class="p">;</span> <span class="n">content</span> <span class="p">=</span> <span class="s2">"Say hello in one sentence."</span> <span class="p">})</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">ConvertTo-Json</span> <span class="n">-Depth</span> <span class="n">5</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Uri</span> <span class="s2">"https://integrate.api.nvidia.com/v1/chat/completions"</span> <span class="n">-Method</span> <span class="n">Post</span> <span class="p">`</span>
+  <span class="n">-Headers</span> <span class="p">@{</span> <span class="n">Authorization</span> <span class="p">=</span> <span class="s2">"Bearer $env:NVIDIA_API_KEY"</span> <span class="p">}</span> <span class="n">-ContentType</span> <span class="s2">"application/json"</span> <span class="n">-Body</span> <span class="nv">$body</span>
+</code></pre></div>
+<h3 id="6-watch-your-credits-and-your-limits">6. Watch your credits and your limits</h3>
+<ul>
+<li>The free NVIDIA Build account gives you access to hosted models with <strong>usage limits</strong>: credits or requests per minute. <strong>[VERIFY IN LAB]</strong> the current numbers and which page of your account shows usage and credits.</li>
+<li>When you go over the per-minute limit, the API returns <strong>429</strong>. Wait and retry (in 1.3 you write a retry with backoff).</li>
+<li>What burns the most: loops with no step limit, running cells in rapid bursts, and huge <code>max_tokens</code>. In Module 2 your loop will always have a maximum number of steps.</li>
+<li>Free models <strong>change</strong>. A retired model returns <strong>410</strong>. It happened to NVIDIA's course with <code>nvidia/nemotron-3-nano-30b-a3b</code>. That's why the model lives in a variable (<code>NVIDIA_MODEL</code>) and isn't hard-coded.</li>
+</ul>
+<h3 id="7-if-you-leak-your-key">7. If you leak your key</h3>
+<p>If your key showed up in a commit, a screenshot, a shared notebook or a chat:</p>
+<ol>
+<li>Go to <strong>API Keys</strong> on build.nvidia.com and <strong>revoke</strong> (delete) that key. <strong>[VERIFY IN LAB]</strong> the exact name of the button.</li>
+<li>Generate a new one.</li>
+<li>Update it everywhere: <code>.env</code>, your environment variables, Colab Secrets and, if you already used it there, NemoClaw (class 6.3).</li>
+<li>If you pushed it to GitHub, deleting the file <strong>isn't enough</strong>: the key stays in the history. Revoking it is what protects you.</li>
+</ol>
+<h2 id="check-that-it-worked">Check that it worked</h2>
+<ul>
+<li>☐ I have a key that starts with <code>nvapi-</code>.</li>
+<li>☐ <code>git check-ignore .env</code> prints <code>.env</code> (or I use Colab Secrets).</li>
+<li>☐ <code>/v1/models</code> returned a list and <code>True</code>.</li>
+<li>☐ The chat call answered with <code>finish_reason: "stop"</code> and I saw the <code>usage</code> block.</li>
+<li>☐ I know where to revoke my key if I leak it.</li>
+</ul>
+<h2 id="common-errors">Common errors</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phone verification fails with your Latin American number, or you see "number has requested too many"</td>
+<td>Known SMS verification issue with numbers outside the US (NemoClaw issues <a href="https://github.com/NVIDIA/NemoClaw/issues/201">#201</a> and #214). It's not a NemoClaw bug and it's not your fault</td>
+<td>Email help@build.nvidia.com with your registered email, the numbers you tried and screenshots, or use developer.nvidia.com/support. Do it days ahead of time</td>
+</tr>
+<tr>
+<td><code>curl</code> returns <strong>401</strong></td>
+<td>The variable is empty in this terminal (you opened another tab), or the key has quotes or spaces</td>
+<td><code>echo "${NVIDIA_API_KEY:0:6}"</code> must print <code>nvapi-</code>. If it's empty, redo step 3B</td>
+</tr>
+<tr>
+<td><code>curl</code> returns <strong>404</strong></td>
+<td>The model ID has a typo, or the URL doesn't end in <code>/v1/...</code></td>
+<td>Copy the ID from the <code>/v1/models</code> list. Check the full URL</td>
+</tr>
+<tr>
+<td><code>"content": null</code> or empty, and <code>"finish_reason": "length"</code></td>
+<td><code>max_tokens</code> too low: the model spent it all reasoning</td>
+<td>Raise <code>max_tokens</code> to 1024 or more</td>
+</tr>
+<tr>
+<td>The API returns <strong>429</strong></td>
+<td>You went over the requests-per-minute limit</td>
+<td>Wait a few seconds and try again. Don't fire requests in bursts</td>
+</tr>
+<tr>
+<td>NVIDIA's course page asks for the key again</td>
+<td>The key is stored in <code>sessionStorage</code> and is cleared when you close the tab</td>
+<td>That's for security. Paste it again in the panel on the course home page</td>
+</tr>
+<tr>
+<td>In PowerShell, <code>curl -H ...</code> fails with a parameter error</td>
+<td>In Windows PowerShell, <code>curl</code> is an alias for <code>Invoke-WebRequest</code></td>
+<td>Use the <code>Invoke-RestMethod</code> variant, or <code>curl.exe</code>, or Git Bash</td>
+</tr>
+<tr>
+<td><code>KeyError: 'data'</code> when listing models</td>
+<td>The response was an error (for example, a 401), not a list</td>
+<td>Remove the <code>python3 -c</code> part and look at the error JSON</td>
+</tr>
+</tbody>
+</table>
+<h2 id="challenge">Challenge</h2>
+<p>Make the chat call answer in <strong>fewer than 15 words</strong> and spend <strong>fewer output tokens</strong> than your first call, without coming back empty.</p>
+<p><strong>Success criteria:</strong> <code>finish_reason</code> is <code>"stop"</code>, the content isn't empty, and <code>usage.completion_tokens</code> is lower than in your first call. Hint: change the prompt, not just <code>max_tokens</code>.</p>
+<h2 id="project-milestone">Project milestone</h2>
+<p>Soporte NemoClaw (NemoClaw Support) now has <strong>credentials</strong>. Your <code>.env</code> (or your Colab Secrets) with the four variables is what every notebook in the project will read, from class 1.3 to 6.2. And you already have the first answer the agent will know how to give: "What do I do if my key leaked?". You'll find it in the course FAQ.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://build.nvidia.com/?ncid=ref-dli-146986">NVIDIA Build</a>: model catalog and your API keys</li>
+<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html">NVIDIA DLI course: home</a> ("Entering Your API Key" section)</li>
+<li><a href="https://github.com/NVIDIA/NemoClaw/issues/201">NemoClaw issue #201: phone verification</a></li>
+<li><a href="https://docs.nvidia.com/nemoclaw/latest/">Credential rotation in NemoClaw</a> (the <em>Credential Rotation</em> page, for when you use NemoClaw locally)</li>
+<li><a href="../../../FAQ.html">Course FAQ (Spanish)</a></li>
+</ul>
+<hr />
+<p><em>Based on the home page of the NVIDIA DLI course "Securing Agents with OpenShell and NemoClaw" (Apache-2.0).</em></p></div></section>
+<nav class="prevnext"><a class="pn prev" href="../1.1-que-son-nemoclaw-openclaw-openshell/index.html"><small>Previous class</small>1.1 · What NemoClaw, OpenClaw and OpenShell are</a><a class="pn next" href="../1.3-rutas-de-modelo-y-errores/index.html"><small>Next class</small>1.3 · Configure model routes and diagnose errors</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copy$/, "").trim()).then(function () {
+      b.textContent = "Copied!"; setTimeout(function () { b.textContent = "Copy"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

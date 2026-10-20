@@ -1,0 +1,102 @@
+/* Estilos propios de los diagramas del Módulo 1 (tools/diagramas_m1.py). */
+
+/* ---------- 1.2 · la API key como tarjeta de acceso */
+.dg-node.c12-acceso{border-radius:var(--sin-radius-xl);border-width:2px;border-color:var(--sin-primary);overflow:hidden;padding-top:1.1em}
+.dg-node.c12-acceso::before{content:"";position:absolute;left:0;right:0;top:0;height:.45em;background:var(--sin-primary)}
+.c12-nvapi{font-family:var(--sin-font-mono);font-size:.78em;letter-spacing:.5px;padding:.15em .55em;border-radius:var(--sin-radius-full);
+  background:var(--sin-surface-container-lowest);color:var(--sin-on-surface-variant);border:1px solid var(--sin-outline-variant)}
+
+/* ---------- 1.2 · dónde guardarla */
+.dg-two.c12-two{grid-template-columns:1fr 1fr}
+.c12-grid2{display:grid;grid-template-columns:1fr 1fr;gap:.5em;width:100%}
+.c12-grid2 .dg-node{max-width:none}
+.c12-two .dg-card h3 .dg-i,.c13-two .dg-card h3 .dg-i{color:var(--sin-primary)}
+.dg-card.c12-nunca{border-color:color-mix(in srgb,var(--sin-error) 40%,transparent);background:color-mix(in srgb,var(--sin-error) 4%,var(--sin-surface-container-lowest))}
+.dg-card.c12-nunca h3 .dg-i{color:var(--sin-error)}
+
+/* ---------- 1.2 · primera llamada: los tres campos de la respuesta */
+.dg-card.c12-respuesta{padding:.8em .9em}
+.c12-respuesta .dg-legend{gap:.45em}
+.c12-respuesta .dg-legend-row{padding:.45em .8em;gap:.6em}
+.c12-respuesta .dg-legend-row .dg-ico{width:1.8em;height:1.8em;font-size:1.1em}
+.c12-campo{font-family:var(--sin-font-mono)!important;font-size:.95em!important;color:var(--sin-primary)}
+
+/* ---------- 1.2 · el saldo de prepago que se gasta */
+.c12-meter{display:block;width:8em;height:.55em;border-radius:var(--sin-radius-full);background:var(--sin-surface-container-highest);overflow:hidden;margin-top:.15em}
+.c12-meter>span{display:block;height:100%;width:100%;border-radius:inherit;background:var(--sin-primary);animation:c12-gasta 7s ease-in-out infinite}
+@keyframes c12-gasta{0%,10%{width:100%;background:var(--sin-primary)}75%,90%{width:22%;background:var(--sin-warning)}100%{width:100%;background:var(--sin-primary)}}
+.dg-row.c12-gasta{margin-top:.2em;gap:.6em}
+.c12-tit{font-family:var(--sin-font-display);font-weight:700;color:var(--sin-on-surface-variant);font-size:.95em;margin-right:.3em}
+
+/* ---------- 1.3 · las causas de casi todos los problemas */
+.c13-causas{display:flex;flex-direction:column;gap:.5em}
+.c13-causa,.c13-linea,.c13-aviso{display:flex;align-items:center;gap:.7em;background:var(--sin-surface-container-low);border:1px solid var(--sin-outline-variant);
+  border-radius:var(--sin-radius-3xl);padding:.5em .9em}
+.c13-causa .dg-ico{width:1.8em;height:1.8em;font-size:1.1em;background:var(--sin-warning-container);color:var(--sin-on-warning-container)}
+.c13-causa b,.c13-aviso b{display:block;font-family:var(--sin-font-display)}
+.c13-causa small,.c13-aviso small{color:var(--sin-on-surface-variant);font-size:.82em}
+.c13-codigos .dg-chip{font-family:var(--sin-font-mono);background:var(--sin-surface-container-lowest)}
+
+/* ---------- 1.3 · la ruta como sobre con dirección postal */
+.c13-sobre{position:relative;background:var(--sin-surface-container-lowest);border:2px solid color-mix(in srgb,var(--sin-primary) 45%,transparent);
+  border-radius:var(--sin-radius-xl);padding:1em 1.2em;display:flex;flex-direction:column;gap:.45em;min-width:24em;
+  background-image:repeating-linear-gradient(135deg,var(--sin-primary) 0 10px,transparent 10px 20px,var(--sin-error) 20px 30px,transparent 30px 40px);
+  background-size:100% .35em;background-repeat:no-repeat;background-position:top left}
+.c13-sobre h3{margin:.2em 0 .1em}
+.c13-sello{position:absolute;top:.6em;right:.7em;width:1.9em;height:1.9em;border-radius:var(--sin-radius-sm);display:grid;place-items:center;
+  border:2px dashed var(--sin-primary);color:var(--sin-primary);font-size:1.2em}
+.c13-linea{background:transparent;border:0;border-bottom:1px dashed var(--sin-outline-variant);border-radius:0;padding:.3em .1em}
+.c13-linea>.dg-i{color:var(--sin-primary);font-size:1.3em}
+.c13-linea small{color:var(--sin-on-surface-variant)}
+.c13-linea code{display:block;font-family:var(--sin-font-mono);font-size:.82em;margin-top:.15em;color:var(--sin-on-surface)}
+.dg-col.c13-rutas{gap:.6em}
+
+/* ---------- 1.3 · el panel del curso de NVIDIA (maqueta) */
+.c13-form{display:flex;flex-direction:column;gap:.35em;min-width:22em;background:var(--sin-surface-container-lowest);border:1px solid var(--sin-outline-variant);
+  border-radius:var(--sin-radius-3xl);padding:.8em 1em;font-size:.88em}
+.c13-campo{display:flex;flex-direction:column;gap:.15em}
+.c13-etq{font-size:.8em;font-weight:600;color:var(--sin-on-surface-variant)}
+.c13-valor{border:1px solid var(--sin-outline-variant);border-radius:var(--sin-radius-sm);padding:.25em .6em;background:var(--sin-surface-container-low);
+  color:var(--sin-on-surface-variant);font-family:var(--sin-font-mono);font-size:.85em}
+.c13-campo.c13-clave .c13-valor{border-color:var(--sin-primary);color:var(--sin-primary);background:var(--sin-primary-container)}
+.c13-despl{display:flex;align-items:center;gap:.45em;padding:.3em .1em;border-top:1px solid var(--sin-outline-variant)}
+.c13-despl .dg-i{color:var(--sin-primary);font-size:1.2em}
+.c13-despl b{font-size:.92em}
+.c13-despl small{margin-left:auto;color:var(--sin-on-surface-variant);font-size:.8em;white-space:nowrap}
+
+/* ---------- 1.3 · el doctor del curso */
+.dg.c13-doctor{gap:1.1em}
+.dg-col.c13-modos{flex-direction:row;gap:.5em}
+.c13-doctor .dg-timeline .dg-stage .dg-ico{width:2em;height:2em}
+
+/* ---------- 1.3 · rompe tu entorno: tres filas causa → aviso → arreglo */
+.dg.c13-tabla{display:flex;flex-direction:column;align-items:stretch;gap:.5em}
+.c13-cab,.c13-fila{display:grid;grid-template-columns:1.2fr 3.2em 1.1fr 3.2em 1.2fr;align-items:center;gap:.4em}
+.c13-cab span{font-size:.78em;font-weight:600;letter-spacing:.3px;color:var(--sin-on-surface-variant);text-align:center}
+.c13-fila .dg-arrow{justify-self:center}
+.c13-celda{display:flex;align-items:center;gap:.55em;background:var(--sin-surface-container-low);border:1px solid var(--sin-outline-variant);
+  border-radius:var(--sin-radius-3xl);padding:.45em .8em;min-height:2.6em}
+.c13-celda .dg-ico{width:1.7em;height:1.7em;font-size:1.05em;flex:0 0 auto}
+.c13-celda>.dg-i{color:var(--sin-primary);font-size:1.3em}
+.c13-celda b{font-family:var(--sin-font-display);font-weight:600;font-size:.95em}
+.c13-celda.bad{border-color:color-mix(in srgb,var(--sin-error) 50%,transparent)}
+.c13-celda.warn{border-color:color-mix(in srgb,var(--sin-warning) 55%,transparent)}
+.c13-celda.ok{border-color:color-mix(in srgb,var(--sin-primary) 45%,transparent)}
+
+/* Código de error como pantalla de cajero */
+.c13-cod{flex:0 0 auto;font-family:var(--sin-font-mono);font-weight:700;font-size:.9em;padding:.2em .55em;border-radius:var(--sin-radius-sm);
+  background:var(--sin-on-surface);color:var(--sin-surface);min-width:3.2em;text-align:center}
+.c13-celda.bad .c13-cod,.c13-corrige .c13-cod{background:var(--sin-error-container);color:var(--sin-on-error-container)}
+.c13-celda.warn .c13-cod{background:var(--sin-warning-container);color:var(--sin-on-warning-container)}
+.is-primary .c13-cod{background:var(--sin-primary);color:var(--sin-on-primary)}
+
+/* ---------- 1.3 · los avisos del cajero */
+.dg-two.c13-two{grid-template-columns:1.25fr 1fr}
+.c13-avisos{display:flex;flex-direction:column;gap:.45em;width:100%}
+.c13-aviso{padding:.4em .8em}
+.c13-aviso small{font-style:italic}
+.dg-card.c13-corrige{border-color:color-mix(in srgb,var(--sin-error) 40%,transparent);background:color-mix(in srgb,var(--sin-error) 4%,var(--sin-surface-container-lowest))}
+.dg-card.c13-corrige h3 .dg-i{color:var(--sin-error)}
+
+@media (prefers-reduced-motion:reduce){.c12-meter>span{animation:none;width:60%}}
+@media (max-width:900px){.c13-cab,.c13-fila{grid-template-columns:1fr;}.c13-fila .dg-arrow,.c13-cab span:empty{display:none}.c13-sobre,.c13-form{min-width:0}}

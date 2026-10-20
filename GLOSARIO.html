@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glosario en palabras simples · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero doc"><h1>Glosario en palabras simples</h1></section>
+<div class="md"><p>Cada término tiene una frase que lo explica, una comparación con algo cotidiano y la clase donde aparece por primera vez. Si en una clase escuchas una palabra que no entiendes, búscala aquí (Ctrl+F o Cmd+F).</p>
+<p>No necesitas memorizar nada: vuelve a esta página cuando la necesites.</p>
+<h2 id="lo-básico-modelos-y-agentes">Lo básico: modelos y agentes</h2>
+<table>
+<thead>
+<tr>
+<th>Término</th>
+<th>Qué es, en una frase</th>
+<th>Piénsalo como…</th>
+<th>Clase</th>
+</tr>
+</thead>
+<tbody>
+<tr id="modelo"><td><strong>Modelo</strong> (o <strong>LLM</strong>)</td>
+<td>Un programa que lee texto y escribe una respuesta.</td>
+<td>Alguien muy leído que contesta por escrito, pero no recuerda conversaciones anteriores.</td>
+<td>1.1</td>
+</tr>
+<tr id="agente"><td><strong>Agente</strong></td>
+<td>Un modelo que, además de contestar, puede usar herramientas y repetir pasos hasta terminar una tarea.</td>
+<td>La diferencia entre preguntarle algo a un experto y contratar a un asistente que hace el trámite por ti.</td>
+<td>1.1</td>
+</tr>
+<tr id="prompt"><td><strong>Prompt</strong></td>
+<td>El texto que le mandas al modelo: tu pregunta y sus instrucciones.</td>
+<td>El mensaje que le dejas a tu asistente antes de que empiece.</td>
+<td>2.1</td>
+</tr>
+<tr id="api-key"><td><strong>API key</strong> (<code>nvapi-…</code>)</td>
+<td>Una contraseña que identifica tu cuenta cuando un programa usa los modelos de NVIDIA.</td>
+<td>La tarjeta de acceso de un edificio: quien la tenga entra a tu nombre.</td>
+<td>1.2</td>
+</tr>
+<tr id="crédito"><td><strong>Crédito</strong></td>
+<td>El saldo gratuito que gastas al usar modelos o máquinas en la nube.</td>
+<td>Saldo de prepago en el celular.</td>
+<td>1.2</td>
+</tr>
+<tr id="ruta-de-modelo"><td><strong>Ruta de modelo</strong> (endpoint)</td>
+<td>La dirección de internet a la que se envían las preguntas para un modelo.</td>
+<td>La dirección postal de una oficina: si está mal escrita, la carta regresa.</td>
+<td>1.3</td>
+</tr>
+<tr id="error-401-403-404-429"><td><strong>Error 401, 403, 404, 429</strong></td>
+<td>Números que te dice el servidor cuando algo sale mal: credencial inválida, sin permiso, no existe, demasiadas solicitudes.</td>
+<td>Los avisos de un cajero automático: "tarjeta inválida", "fondos insuficientes", "intente más tarde".</td>
+<td>1.3</td>
+</tr>
+<tr id="token"><td><strong>Token</strong> (de un modelo)</td>
+<td>Un pedacito de texto (más o menos ¾ de palabra). Los modelos cobran y se limitan por tokens.</td>
+<td>Las sílabas de un telegrama, que se cobraba por palabra.</td>
+<td>1.2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cómo-piensa-un-agente">Cómo piensa un agente</h2>
+<table>
+<thead>
+<tr>
+<th>Término</th>
+<th>Qué es, en una frase</th>
+<th>Piénsalo como…</th>
+<th>Clase</th>
+</tr>
+</thead>
+<tbody>
+<tr id="loop-de-agente"><td><strong>Loop de agente</strong></td>
+<td>El ciclo que repite el agente: mirar, decidir, actuar y revisar si ya terminó.</td>
+<td>Seguir una receta: lees el paso, lo haces, pruebas, y sigues hasta que el platillo está listo.</td>
+<td>2.1</td>
+</tr>
+<tr id="memoria"><td><strong>Memoria</strong> (de la conversación)</td>
+<td>La lista de mensajes que se le reenvía al modelo en cada turno, porque él no recuerda solo.</td>
+<td>Tomar notas en una libreta y releerlas antes de cada llamada.</td>
+<td>2.1</td>
+</tr>
+<tr id="react"><td><strong>ReAct</strong></td>
+<td>Un patrón donde el agente alterna pensar y actuar, y usa lo que observa para decidir el siguiente paso.</td>
+<td>Un detective: piensa una hipótesis, busca una pista, piensa de nuevo.</td>
+<td>2.2</td>
+</tr>
+<tr id="herramienta"><td><strong>Herramienta</strong> (tool)</td>
+<td>Una función que el agente puede pedir que se ejecute: buscar, calcular, leer un archivo.</td>
+<td>Las apps del celular de tu asistente.</td>
+<td>2.2</td>
+</tr>
+<tr id="finish_reason"><td><strong><code>finish_reason</code></strong></td>
+<td>La señal con la que el modelo avisa por qué dejó de escribir: terminó (<code>stop</code>), quiere usar una herramienta (<code>tool_calls</code>) o se quedó sin espacio (<code>length</code>).</td>
+<td>La nota que deja tu asistente al colgar: «listo», «necesito revisar algo» o «se cortó la llamada».</td>
+<td>2.2</td>
+</tr>
+<tr id="contrato-de-una-herramienta"><td><strong>Contrato de una herramienta</strong></td>
+<td>Lo que el modelo necesita saber de una herramienta: su nombre, para qué sirve, qué datos pide y qué devuelve.</td>
+<td>La ventanilla de un trámite: el letrero dice qué resuelve y qué papeles llevar.</td>
+<td>2.3</td>
+</tr>
+<tr id="mcp"><td><strong>MCP</strong></td>
+<td>Un estándar para conectar a un agente herramientas que ofrece otra empresa o programa.</td>
+<td>Una tienda de apps de otra empresa: útil, pero revisas qué permisos pide cada app.</td>
+<td>2.3</td>
+</tr>
+<tr id="router"><td><strong>Router</strong></td>
+<td>Un paso que clasifica una petición y la manda al especialista correcto.</td>
+<td>La recepcionista que te dice a qué ventanilla ir.</td>
+<td>3.1</td>
+</tr>
+<tr id="rewoo"><td><strong>ReWOO</strong></td>
+<td>Un patrón donde el agente primero escribe todo el plan y después lo ejecuta, en lugar de improvisar paso a paso.</td>
+<td>Hacer la lista del súper antes de salir, en vez de recorrer todos los pasillos.</td>
+<td>3.1</td>
+</tr>
+<tr id="fan-out"><td><strong>Fan-out</strong></td>
+<td>Lanzar varias tareas independientes al mismo tiempo y juntar sus resultados al final.</td>
+<td>Repartir la lista del súper entre tres personas y encontrarse en la caja.</td>
+<td>3.1</td>
+</tr>
+<tr id="rag"><td><strong>RAG</strong></td>
+<td>Buscar primero en tus documentos y darle al modelo esos fragmentos para que responda con fuentes.</td>
+<td>Un examen a libro abierto: responde mejor si le dejas consultar sus apuntes.</td>
+<td>3.2</td>
+</tr>
+<tr id="embedding"><td><strong>Embedding</strong></td>
+<td>Una lista de números que representa el significado de un texto, para encontrar textos parecidos.</td>
+<td>Las coordenadas de un lugar en un mapa: textos parecidos quedan cerca.</td>
+<td>3.2</td>
+</tr>
+<tr id="cita"><td><strong>Cita</strong></td>
+<td>La referencia al documento de donde salió una respuesta.</td>
+<td>La nota al pie de un libro.</td>
+<td>3.2</td>
+</tr>
+<tr id="subagente"><td><strong>Subagente</strong></td>
+<td>Un agente que otro agente crea para una parte de la tarea, con su propia conversación.</td>
+<td>Un jefe de proyecto que reparte encargos a su equipo.</td>
+<td>2.3</td>
+</tr>
+<tr id="contexto"><td><strong>Contexto</strong></td>
+<td>Todo lo que el modelo tiene a la vista en un turno: instrucciones, mensajes y resultados.</td>
+<td>El escritorio de trabajo: si está lleno de papeles, se pierden los importantes.</td>
+<td>3.3</td>
+</tr>
+<tr id="traza"><td><strong>Traza</strong></td>
+<td>El registro de todo lo que hizo el agente para responder una pregunta, paso por paso.</td>
+<td>El historial de rastreo de un paquete: dónde estuvo, cuándo y si hubo un problema.</td>
+<td>3.4</td>
+</tr>
+<tr id="span"><td><strong>Span</strong></td>
+<td>Cada paso dentro de una traza, con su inicio, su fin y si salió bien.</td>
+<td>Cada línea del rastreo: "salió del almacén", "llegó a la ciudad".</td>
+<td>3.4</td>
+</tr>
+<tr id="phoenix"><td><strong>Phoenix</strong></td>
+<td>Una página web gratuita y de código abierto para ver trazas de agentes.</td>
+<td>El mapa donde ves el recorrido del paquete.</td>
+<td>3.4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="el-laboratorio">El laboratorio</h2>
+<table>
+<thead>
+<tr>
+<th>Término</th>
+<th>Qué es, en una frase</th>
+<th>Piénsalo como…</th>
+<th>Clase</th>
+</tr>
+</thead>
+<tbody>
+<tr id="notebook"><td><strong>Notebook</strong> / <strong>Colab</strong></td>
+<td>Un documento con bloques de código que ejecutas con un botón ▶. Colab es la versión gratuita de Google que corre en el navegador.</td>
+<td>Un recetario interactivo: lees, presionas ▶ y ves el resultado.</td>
+<td>1.3</td>
+</tr>
+<tr id="modo-mock"><td><strong>Modo MOCK</strong></td>
+<td>Los notebooks funcionan sin API key con un modelo simulado que imita las respuestas.</td>
+<td>Un simulador de manejo antes del auto real.</td>
+<td>1.3</td>
+</tr>
+<tr id="brev"><td><strong>Brev</strong></td>
+<td>El servicio de NVIDIA que te presta una computadora en la nube por horas.</td>
+<td>Rentar una oficina por horas.</td>
+<td>4.1</td>
+</tr>
+<tr id="launchable"><td><strong>Launchable</strong></td>
+<td>Una computadora de Brev que ya viene con todo instalado para el curso.</td>
+<td>Una oficina rentada que ya trae muebles, internet y llaves.</td>
+<td>4.1</td>
+</tr>
+<tr id="instancia"><td><strong>Instancia</strong></td>
+<td>Tu computadora en la nube. Puede estar encendida (cobra), detenida (cobra solo el disco) o borrada.</td>
+<td>Tu oficina rentada: con luz encendida, con la luz apagada o entregada.</td>
+<td>4.1</td>
+</tr>
+<tr id="terminal"><td><strong>Terminal</strong></td>
+<td>Una ventana donde escribes instrucciones en texto en lugar de hacer clic.</td>
+<td>Hablarle a la computadora con frases cortas y exactas.</td>
+<td>4.1</td>
+</tr>
+<tr id="comando"><td><strong>Comando</strong></td>
+<td>Una instrucción que escribes en la terminal, como <code>nemoclaw list</code>.</td>
+<td>Una orden corta: "enciende", "muestra la lista".</td>
+<td>4.1</td>
+</tr>
+<tr id="cookie-de-sesión"><td><strong>Cookie de sesión</strong></td>
+<td>Un dato que tu navegador guarda para recordar que ya iniciaste sesión.</td>
+<td>La pulsera de un evento: mientras la traigas, entras sin mostrar el boleto. Si alguien te la quita, entra como tú.</td>
+<td>4.1</td>
+</tr>
+<tr id="dashboard"><td><strong>Dashboard</strong></td>
+<td>La página web para conversar con tu agente y ver su estado.</td>
+<td>El tablero de un auto.</td>
+<td>4.2</td>
+</tr>
+<tr id="puerto"><td><strong>Puerto</strong> / <strong>port-forward</strong></td>
+<td>Un puerto es una "puerta" numerada de un servidor; port-forward abre un pasillo seguro desde tu computadora hasta esa puerta.</td>
+<td>Un pasillo privado entre tu casa y la oficina rentada.</td>
+<td>4.1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="las-piezas-de-nvidia">Las piezas de NVIDIA</h2>
+<table>
+<thead>
+<tr>
+<th>Término</th>
+<th>Qué es, en una frase</th>
+<th>Piénsalo como…</th>
+<th>Clase</th>
+</tr>
+</thead>
+<tbody>
+<tr id="openclaw"><td><strong>OpenClaw</strong></td>
+<td>Un agente de código abierto que vive en una computadora y trabaja de forma continua.</td>
+<td>El asistente.</td>
+<td>1.1</td>
+</tr>
+<tr id="hermes"><td><strong>Hermes</strong></td>
+<td>Otro agente de código abierto (de Nous Research) que además aprende: guarda notas y crea sus propias recetas.</td>
+<td>Otro asistente, que además lleva un diario.</td>
+<td>4.4</td>
+</tr>
+<tr id="openshell"><td><strong>OpenShell</strong></td>
+<td>El sistema que encierra al agente: decide qué archivos, qué sitios de internet y qué programas puede usar.</td>
+<td>Un cuarto con cerradura, ventanas con rejas y un guardia que revisa lo que entra y sale.</td>
+<td>1.1</td>
+</tr>
+<tr id="nemoclaw"><td><strong>NemoClaw</strong></td>
+<td>El paquete de NVIDIA que instala un agente dentro de OpenShell, ya configurado de forma segura.</td>
+<td>El kit que arma el cuarto, pone las cerraduras y sienta al asistente adentro.</td>
+<td>1.1</td>
+</tr>
+<tr id="sandbox"><td><strong>Sandbox</strong></td>
+<td>El espacio aislado donde corre el agente.</td>
+<td>El cuarto con cerradura.</td>
+<td>1.1</td>
+</tr>
+<tr id="gateway"><td><strong>Gateway</strong></td>
+<td>La pieza que recibe los mensajes para el agente y guarda las conversaciones.</td>
+<td>La recepción del edificio.</td>
+<td>4.2</td>
+</tr>
+<tr id="workspace"><td><strong>Workspace</strong></td>
+<td>La carpeta de trabajo del agente, con sus instrucciones y archivos.</td>
+<td>El escritorio del asistente.</td>
+<td>4.2</td>
+</tr>
+<tr id="soulmd"><td><strong>SOUL.md</strong></td>
+<td>Un archivo de texto con la personalidad y las reglas del agente.</td>
+<td>El reglamento y la descripción del puesto.</td>
+<td>4.2</td>
+</tr>
+<tr id="skill"><td><strong>Skill</strong> (<code>SKILL.md</code>)</td>
+<td>Un archivo de texto con instrucciones paso a paso para una tarea. El agente lo lee cuando lo necesita.</td>
+<td>Una tarjeta de receta.</td>
+<td>4.3</td>
+</tr>
+<tr id="cron"><td><strong>Cron</strong> / tarea programada</td>
+<td>Una tarea que se ejecuta sola a una hora fija.</td>
+<td>La alarma del despertador.</td>
+<td>4.3</td>
+</tr>
+<tr id="nemo-agent-toolkit"><td><strong>NeMo Agent Toolkit</strong></td>
+<td>Herramientas de NVIDIA para construir agentes y enviar sus trazas a páginas como Phoenix.</td>
+<td>La caja de herramientas del taller.</td>
+<td>3.4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tu-práctica-con-agentes">Tu práctica con agentes</h2>
+<table>
+<thead>
+<tr>
+<th>Término</th>
+<th>Qué es, en una frase</th>
+<th>Piénsalo como…</th>
+<th>Clase</th>
+</tr>
+</thead>
+<tbody>
+<tr id="cli-de-agente"><td><strong>CLI de agente</strong></td>
+<td>Un agente que vive en la terminal y trabaja directo con tus archivos (Claude Code, Codex, Hermes…).</td>
+<td>Un asistente que trabaja sentado en tu escritorio, no en un cuarto aparte.</td>
+<td>6.1</td>
+</tr>
+<tr id="configuración-por-defecto"><td><strong>Configuración por defecto</strong> (<em>default</em>)</td>
+<td>Lo que una herramienta permite o hace si no cambias nada.</td>
+<td>Un celular nuevo, tal como sale de fábrica.</td>
+<td>6.1</td>
+</tr>
+<tr id="persistencia"><td><strong>Persistencia</strong></td>
+<td>Lo que el agente conserva cuando cierras la sesión: memoria, archivos, tareas.</td>
+<td>Lo que queda escrito en la libreta del asistente cuando te vas.</td>
+<td>6.1</td>
+</tr>
+<tr id="frontmatter"><td><strong>Frontmatter</strong></td>
+<td>Las primeras líneas de un <code>SKILL.md</code>, entre <code>---</code>, con el nombre y la descripción de la skill.</td>
+<td>La etiqueta de la tarjeta de receta.</td>
+<td>6.2</td>
+</tr>
+<tr id="divulgación-progresiva"><td><strong>Divulgación progresiva</strong> (<em>progressive disclosure</em>)</td>
+<td>El agente ve primero solo la lista de skills y abre una completa cuando la necesita.</td>
+<td>El menú de un restaurante: ves los platillos y la receta se abre solo cuando la pides.</td>
+<td>6.2</td>
+</tr>
+<tr id="selección-explícita-o-automática"><td><strong>Selección explícita o automática</strong></td>
+<td>Pedir una skill por su nombre, o describir lo que quieres y dejar que el agente elija.</td>
+<td>Pedir el platillo por su nombre, o decirle al mesero qué se te antoja.</td>
+<td>6.2</td>
+</tr>
+<tr id="despliegue-local"><td><strong>Despliegue local</strong></td>
+<td>Correr el agente en tu propia computadora o servidor, en lugar de una máquina rentada.</td>
+<td>Montar la oficina en tu casa.</td>
+<td>6.3</td>
+</tr>
+<tr id="docker"><td><strong>Docker</strong></td>
+<td>Un programa que empaqueta otros programas en cajas estándar que funcionan igual en cualquier máquina.</td>
+<td>Los contenedores de un barco: misma caja, cualquier puerto.</td>
+<td>6.3</td>
+</tr>
+<tr id="proveedor-de-inferencia"><td><strong>Proveedor de inferencia</strong></td>
+<td>Quien te presta el modelo: la empresa o servidor al que tu agente le manda las preguntas.</td>
+<td>La oficina a la que tu asistente llama para consultar.</td>
+<td>6.3</td>
+</tr>
+</tbody>
+</table>
+<h2 id="seguridad">Seguridad</h2>
+<table>
+<thead>
+<tr>
+<th>Término</th>
+<th>Qué es, en una frase</th>
+<th>Piénsalo como…</th>
+<th>Clase</th>
+</tr>
+</thead>
+<tbody>
+<tr id="trifecta-letal"><td><strong>Trifecta letal</strong></td>
+<td>La combinación peligrosa de un agente con acceso a datos privados, que lee contenido de desconocidos y puede enviar información afuera.</td>
+<td>Darle a un desconocido las llaves de tu casa, tu correo y un teléfono.</td>
+<td>5.1</td>
+</tr>
+<tr id="inyección-de-prompt"><td><strong>Inyección de prompt</strong></td>
+<td>Instrucciones escondidas en un texto (una página web, un correo) que intentan que el agente haga otra cosa.</td>
+<td>Una nota falsa dentro de un paquete: "entrega todo a esta otra dirección".</td>
+<td>5.1</td>
+</tr>
+<tr id="harness"><td><strong>Harness</strong></td>
+<td>El código que rodea al modelo y decide qué herramientas puede usar y cómo.</td>
+<td>El protocolo de la oficina: qué puede firmar el asistente y qué no.</td>
+<td>5.1</td>
+</tr>
+<tr id="política"><td><strong>Política</strong> (policy)</td>
+<td>Las reglas escritas que OpenShell aplica: qué está permitido y qué se bloquea.</td>
+<td>El reglamento del guardia en la puerta.</td>
+<td>5.3</td>
+</tr>
+<tr id="preset"><td><strong>Preset</strong></td>
+<td>Un paquete de reglas ya escrito que se agrega a la política (por ejemplo, permitir GitHub).</td>
+<td>Una hoja extra que engrapas al reglamento.</td>
+<td>5.3</td>
+</tr>
+<tr id="mínimo-privilegio"><td><strong>Mínimo privilegio</strong></td>
+<td>Dar al agente solo los permisos que necesita y nada más.</td>
+<td>Darle al asistente la llave de su oficina, no la llave maestra del edificio.</td>
+<td>5.2</td>
+</tr>
+<tr id="landlock-seccomp-aislamiento-de-red"><td><strong>Landlock, seccomp, aislamiento de red</strong></td>
+<td>Candados del sistema operativo que limitan archivos, acciones y conexiones del agente.</td>
+<td>La cerradura, la reja y el guardia del cuarto.</td>
+<td>5.2</td>
+</tr>
+<tr id="tachar-un-secreto"><td><strong>Tachar un secreto</strong></td>
+<td>Reemplazar una contraseña o key por <code>***</code> antes de guardarla o mostrarla. En el código del curso, la función se llama <code>redactar</code> (del inglés <em>redact</em>).</td>
+<td>Tachar con plumón negro un dato en una fotocopia.</td>
+<td>3.4</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>¿Falta una palabra? Pregúntala en el foro del curso o <a href="index.html">abre un issue</a> y la agregamos.</p></div>
+
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

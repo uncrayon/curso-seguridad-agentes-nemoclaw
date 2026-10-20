@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3.1 Route work across several calls · Securing Agents with OpenShell and NemoClaw</title>
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Module 3 · Coordinate, ground and plan</span><h1><span class="num">3.1</span>Route work across several calls</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Skill: Route subtasks across model calls</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.1-enrutamiento-y-workflows/3.1-enrutamiento-y-workflows.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Open in Colab</a></p></section>
+<section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
+<p>🇪🇸 Original Spanish guide: <a href="../../../clases/3.1-enrutamiento-y-workflows/index.html"><code>clases/3.1-enrutamiento-y-workflows/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
+</blockquote>
+<p>Goal: make your code, not the model, own the shape of the work: a triage router with a fixed enum, a parallel ReWOO pipeline, and a fan-out that survives a failed branch.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Video length</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Practice</strong></td>
+<td>Notebook (≈50 min), works without a key in MOCK mode</td>
+</tr>
+<tr>
+<td><strong>Skill</strong></td>
+<td>Route subtasks across model calls</td>
+</tr>
+<tr>
+<td><strong>NVIDIA lesson</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02a-routing.html">02a · The Workflow Agent</a></td>
+</tr>
+<tr>
+<td><strong>Materials</strong></td>
+<td><a href="slides.html">Slides</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.1-enrutamiento-y-workflows/3.1-enrutamiento-y-workflows.ipynb" target="_blank" rel="noopener">Notebook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-youll-achieve">What you'll achieve</h2>
+<ul>
+<li>Classify student tickets with a <strong>closed enum</strong> (<code>instalacion | api_key | brev | seguridad | otro</code>, that is, installation, API key, Brev, security, other), validate the JSON, and decide what to do when the model makes up a label.</li>
+<li>Build a <strong>ReWOO</strong> pipeline: plan once, run searches in parallel with <code>concurrent.futures</code>, and synthesize once, measuring the latency of each phase.</li>
+<li>Do <strong>fan-out / fan-in</strong> to several specialists, isolate the branch that fails, retry only what is retryable, and know when <strong>not</strong> to split.</li>
+</ul>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>You finished class 2.3: you know a tool is a contract and that errors go back to the model as text.</li>
+<li>Python 3.10+ or Colab. Your <code>nvapi-</code> key is optional: without a key, the notebook uses the simulated model (MOCK).</li>
+<li>If you work locally, the environment from <a href="../2.1-loop-de-agente/index.html">class 2.1</a> already has everything you need (<code>openai</code>, <code>python-dotenv</code>).</li>
+</ul>
+<h2 id="step-by-step">Step by step</h2>
+<h3 id="1-open-the-notebook-and-run-the-setup">1. Open the notebook and run the setup</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/3.1-enrutamiento-y-workflows/3.1-enrutamiento-y-workflows.ipynb
+</code></pre></div>
+<p>In Colab: <strong>File → Upload notebook</strong>, and save your key in Secrets as <code>NVIDIA_API_KEY</code>.</p>
+<p>Run the first four cells (setup, client, helpers, and mock rules). You should see:</p>
+<div class="highlight"><pre><span></span><code>Modo: EN VIVO · nvidia/nemotron-3.5-lightning-30b-a3b      (o "Modo: MOCK ...")
+Cliente listo: https://integrate.api.nvidia.com/v1
+Ayudas listas: llm(), llamar(), extraer_json(), ErrorSimulado
+Reglas mock de la clase 3.1 listas
+</code></pre></div>
+<h3 id="2-define-the-enum-and-the-validator-section-2">2. Define the enum and the validator (section 2)</h3>
+<p>Run the cell with <code>CATEGORIAS</code> (categories), <code>ESQUEMA_TRIAGE</code> (triage schema), and <code>validar_triage</code> (validate triage). You should see:</p>
+<div class="highlight"><pre><span></span><code>[]
+["categoria inválida: 'facturacion'"]
+</code></pre></div>
+<p>An empty list means "valid". The second line is what happens when the model invents a category (<code>facturacion</code> means billing).</p>
+<h3 id="3-classify-with-a-retry">3. Classify with a retry</h3>
+<p>Run the <code>clasificar</code> (classify) cell. Notice the order:</p>
+<ol>
+<li>Ask for JSON with <code>response_format</code> and the schema (if the route doesn't accept it and returns 400, continue with the prompt alone).</li>
+<li>Extract the JSON even if it comes wrapped in prose.</li>
+<li>Validate. If it fails, make <strong>one</strong> retry that shows the model its error. If it fails again, use <code>otro</code>.</li>
+</ol>
+<p>You should see <code>intento 1: ... -&gt; OK</code> and a dictionary with <code>'categoria': 'api_key'</code>.</p>
+<h3 id="4-router-and-specialists">4. Router and specialists</h3>
+<p>Run the cell with <code>crear_especialista</code> (create specialist) and <code>soporte</code> (support). It goes through six tickets. Look for these two cases in the output:</p>
+<div class="highlight"><pre><span></span><code>   intento 1: 'Claro, esta es la clasificación:\n{"categoria": "brev", ...' -&gt; OK
+   ...
+   intento 1: '{"categoria": "facturacion", ...' -&gt; ["categoria inválida: 'facturacion'"]
+   intento 2: '{"categoria": "otro", ...' -&gt; OK
+→ otro        baja  intentos=2 | Quiero un reembolso, me hicieron un cobro doble
+</code></pre></div>
+<p>The router is a dictionary: <code>ESPECIALISTAS[t["categoria"]]</code>. It never fails because you validated first. Do the <strong>✏️ Tu turno</strong> (Your turn) exercise with three tickets of your own, one of them ambiguous.</p>
+<h3 id="5-rewoo-plan--run-in-parallel--synthesize-section-3">5. ReWOO: plan → run in parallel → synthesize (section 3)</h3>
+<p>Run the FAQ cell (it loads the sample or, inside the repo, the full <code>datos/faq/</code>), and then the cell with <code>planear</code> (plan), <code>ejecutar</code> (execute), and <code>sintetizar</code> (synthesize). You should see something like this:</p>
+<div class="highlight"><pre><span></span><code>   (el plan traía 5 consultas; lo recorto a 4)
+PLAN (cada consulta → la entrada que encontró):
+   'cómo detener la instancia de brev'            → brev.md#cómo-detengo-o-borro-mi-instancia
+   'session expired en el laboratorio'            → conexion-laboratorio.md#me-sale-session-expired-or-unreachable
+   ...
+llamadas al modelo: 2 ['planificador', 'sintetizador']
+</code></pre></div>
+<p>Two model calls, no matter how many searches the plan has.</p>
+<h3 id="6-measure-the-latency">6. Measure the latency</h3>
+<p>Run the bar-chart cell. You should see the parallel searches (≈0.5 s) against the serial ones (≈2 s). In live mode, look at how much of the total the planner and the synthesizer take: if each one takes 5 s, saving 1.5 s on searches barely shows.</p>
+<h3 id="7-fan-out-with-a-failing-branch-section-4">7. Fan-out with a failing branch (section 4)</h3>
+<p>Run the <code>fan_out</code> cell. You should see:</p>
+<div class="highlight"><pre><span></span><code>  api_key    0.31s ███
+  brev       0.31s ███
+  seguridad  FALLÓ → TimeoutError: el especialista no respondió a tiempo (simulado)
+</code></pre></div>
+<p>And a joined answer that ends with "Ojo: falta la revisión de seguridad; esta respuesta puede estar incompleta." (a warning that the security review is missing and the answer may be incomplete).</p>
+<h3 id="8-compare-with-a-single-call-section-5">8. Compare with a single call (section 5)</h3>
+<p>Run the <code>generalista</code> (generalist) cell. Compare calls and seconds: 1 call against 4. Read the "Divide cuando… / NO dividas cuando…" (Split when… / DON'T split when…) table.</p>
+<h3 id="9-when-something-fails-">9. When something fails (🧯)</h3>
+<ul>
+<li><strong>a)</strong> Run <code>SALIDAS_MALAS</code> (bad outputs). You should see that <code>"Brev"</code> with a capital letter and the truncated JSON (<code>{"categoria": "brev", "prio</code>) are rejected.</li>
+<li><strong>b)</strong> Run <code>rama_con_429</code> (branch with 429): the <code>seguridad</code> branch gets a 429 and you'll see the diagnosis <code>429 · Demasiadas solicitudes por minuto...</code>. Then run <code>con_reintento</code> (with retry): <code>429 en seguridad (intento 1): espero 0.5s y reintento</code> and all three branches OK.</li>
+</ul>
+<h3 id="10-project-milestone">10. Project milestone</h3>
+<p>Run <code>soporte_nemoclaw</code>. A simple ticket goes to one specialist; the 401 report gets high priority and goes through the fan-out.</p>
+<h3 id="11-optional-practice-in-the-browser-with-the-nvidia-lesson">11. (Optional) Practice in the browser with the NVIDIA lesson</h3>
+<p>In <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02a-routing.html">lesson 02a</a>, with your key saved in the course panel:</p>
+<ol>
+<li>In <strong>Plan parallel glossary research</strong>, node <strong>Research goal</strong>, change <code>state.goal</code> to a question of your own and run the flow. Count the model calls: there are always 2.</li>
+<li>In <strong>Route a ticket to a specialist</strong>, node <strong>User ticket</strong>, change <code>state.ticket</code> to <code>"Mi pantalla parpadea y la VPN se cae"</code> ("My screen flickers and the VPN drops"; it touches two categories). Which one does it pick?</li>
+<li>In <strong>Fan out one input to specialists</strong>, compare the wall-clock time against the sum of the durations.</li>
+<li>In the <strong>Try it · the triage router, live</strong> panel, type "I want a refund for last month's subscription".</li>
+</ol>
+<p><code>[VERIFY IN LAB]</code> the cell names.</p>
+<h2 id="check-that-it-worked">Check that it worked</h2>
+<ul>
+<li>☐ <code>validar_triage</code> rejects <code>facturacion</code>, <code>Brev</code> with a capital letter, and the truncated JSON.</li>
+<li>☐ The refund ticket ends up in <code>otro</code> after 2 attempts and doesn't break the pipeline.</li>
+<li>☐ ReWOO makes exactly 2 model calls, and the parallel searches take less time than the serial ones.</li>
+<li>☐ The fan-out delivers an answer even when <code>seguridad</code> fails, and the answer says so.</li>
+<li>☐ With <code>con_reintento</code>, the 429 recovers, and a 401 would not be retried.</li>
+</ul>
+<h2 id="common-errors">Common errors</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>["categoria inválida: 'facturacion'"]</code> (or any label outside the list)</td>
+<td>The model invented a category, or the route didn't apply the schema</td>
+<td>This is expected: the retry shows the model its error and, if it insists, the ticket goes to <code>otro</code>. Never map synonyms by hand</td>
+</tr>
+<tr>
+<td><code>JSON ilegible (ValueError)</code> or <code>JSONDecodeError</code></td>
+<td>The model added prose with no JSON, or <code>finish_reason=length</code> cut the JSON off</td>
+<td><code>extraer_json</code> (extract JSON) rescues the prose; for the cutoff, raise <code>max_tokens</code>. See <a href="../../../FAQ.html#elength">FAQ (Spanish): length</a></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 400 · Solicitud inválida</code> when classifying</td>
+<td>The route or the model doesn't accept <code>response_format</code> with <code>json_schema</code></td>
+<td><code>_pedir_triage</code> retries without a schema; your validator still protects you</td>
+</tr>
+<tr>
+<td><code>RuntimeError: 429 · Demasiadas solicitudes por minuto</code> in one branch</td>
+<td>You launched too many calls in parallel</td>
+<td>Lower <code>max_workers</code> and wrap the branch with <code>con_reintento</code>. See <a href="../../../FAQ.html#e429">FAQ (Spanish): 429</a></td>
+</tr>
+<tr>
+<td><code>KeyError: 'facturacion'</code> when calling the specialist</td>
+<td>You used the model's label without validating it</td>
+<td>Call <code>clasificar</code> (which validates) before the router</td>
+</tr>
+<tr>
+<td><code>ValueError: max_workers must be greater than 0</code></td>
+<td>The plan came back empty and <code>ThreadPoolExecutor</code> got 0 threads</td>
+<td><code>planear</code> already raises a clear error if there are no queries; check what the planner returned</td>
+</tr>
+<tr>
+<td>ReWOO gives a nonsense answer at step 2</td>
+<td>Step 2 depended on the result of step 1</td>
+<td>ReWOO doesn't fit there: use ReAct or a loop inside that stage</td>
+</tr>
+</tbody>
+</table>
+<h2 id="challenge">Challenge</h2>
+<p>Add the <strong><code>costos</code></strong> (costs) category (Brev credits and pricing; in class 2.3 you built <code>estimar_costo_brev</code>, the Brev cost estimator): add it to <code>CATEGORIAS</code>, to the <code>SISTEMA_TRIAGE</code> prompt, and to <code>ESPECIALISTAS</code>, and write 3 cost tickets and 1 ambiguous one.</p>
+<p><strong>Success criteria:</strong> all 3 cost tickets reach <code>costos</code>, the refund ticket still falls into <code>otro</code> through validation, and no ticket breaks the pipeline. Without a key, add a rule to the mock; with a key, test it live.</p>
+<h2 id="project-milestone">Project milestone</h2>
+<p><strong>Soporte NemoClaw (NemoClaw Support) v3.1: triage + specialists.</strong> Your agent no longer answers everything with the same prompt: it classifies each ticket into <code>instalacion | api_key | brev | seguridad | otro</code>, validates the label, and sends it to the right specialist. If the ticket is urgent, it runs the fan-out and joins the reviews, saying what was missing.</p>
+<p>Add <code>clasificar</code>, <code>validar_triage</code>, <code>ESPECIALISTAS</code>, <code>fan_out</code>, <code>unir</code> (join), and <code>con_reintento</code> to your <code>soporte_nemoclaw.py</code>. In class 3.2, the specialists stop answering from memory: you give them RAG over the FAQ, with citations.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/02a-routing.html">Lesson 02a · The Workflow Agent</a>, from the NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
+<li>Xu et al. (2023), <a href="https://arxiv.org/abs/2305.18323">ReWOO: Decoupling Reasoning from Observations for Efficient Augmented Language Models</a>.</li>
+<li>Yao et al. (2022), <a href="https://arxiv.org/abs/2210.03629">ReAct</a>, for comparison.</li>
+<li>Python documentation: <a href="https://docs.python.org/3/library/concurrent.futures.html"><code>concurrent.futures</code></a>.</li>
+<li><a href="../../../FAQ.html#errores-api">Course FAQ (Spanish)</a> and the <a href="../../../datos/faq/"><code>datos/faq/</code></a> corpus.</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../2.3-funciones-a-herramientas/index.html"><small>Previous class</small>2.3 · Turn functions into tools</a><a class="pn next" href="../3.2-rag/index.html"><small>Next class</small>3.2 · RAG to ground answers in your sources</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copy$/, "").trim()).then(function () {
+      b.textContent = "Copied!"; setTimeout(function () { b.textContent = "Copy"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

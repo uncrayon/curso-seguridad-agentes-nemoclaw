@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>5.3 Restringe herramientas, archivos y red · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 5 · Asegura el agente con OpenShell</span><h1><span class="num">5.3</span>Restringe herramientas, archivos y red</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">computer</span>Laboratorio en Brev</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Definir y verificar un sandbox en OpenShell</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/5.3-sandbox-y-politicas/5.3-sandbox-y-politicas.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a><a class="btn" href="cookbook.html"><span class="icon">terminal</span>Recetario de terminal</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>El sandbox obedece una lista de reglas escritas: qué carpetas puede leer, dónde puede escribir y a qué sitios puede salir cada programa. Puedes leer esa lista, adivinar qué va a pasar y comprobarlo. Y aun con buenas reglas, un secreto que el agente lee con permiso puede escaparse: el sandbox es una capa, no la solución completa.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>El reglamento del guardia en la puerta.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#política" class="glos" data-def="Las reglas escritas que OpenShell aplica: qué está permitido y qué se bloquea. · El reglamento del guardia en la puerta.">política</a>, preset (un paquete de reglas ya escrito que se agrega a la política, como una hoja extra que engrapas al reglamento).</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Antes de ver resultados, escribe "permitido" o "bloqueado" junto a cada petición: 1) el agente (programa <code>openclaw</code>) abre <code>docs.openclaw.ai</code>; 2) el programa <code>curl</code> abre la misma página; 3) <code>curl</code> abre <code>example.com</code>; 4) el agente crea un archivo en la carpeta temporal <code>/tmp</code>; 5) el agente crea un archivo en la carpeta del sistema <code>/etc</code>; 6) el agente cambia su propia personalidad (<code>SOUL.md</code>); 7) el agente lee un archivo con un secreto y te dice qué contiene. Después compara con la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html">lección 04a</a> (elige un escenario y presiona <strong>Predecir</strong> y luego <strong>Confirmar</strong>) o con el <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/5.3-sandbox-y-politicas/5.3-sandbox-y-politicas.ipynb" target="_blank" rel="noopener">notebook</a> en Colab, presionando ▶. (Respuestas: permitidos 1, 4, 6 y 7; bloqueados 2, 3 y 5. El 6 y el 7 son la sorpresa: por eso el sandbox es solo una capa.)</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Puedes leer las reglas de un agente y decir, antes de probarlo, qué puede y qué no puede hacer, y qué riesgo queda aunque las reglas estén bien.</p></article><article class="es-card credit"><header><span class="icon">paid</span>Tu crédito</header><p>Esta práctica usa ≈25 min de instancia encendida <code>[VERIFICAR EN LAB]</code>. Al terminar, detén la instancia (ver <a href="../../LABORATORIO.html">LABORATORIO.md</a>).</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Lee la política real de tu sandbox, predice qué permite y qué bloquea, compruébalo en vivo y cámbiala con los comandos de NemoClaw.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Duración del video</td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td>Práctica</td>
+<td>Laboratorio en Brev (<a href="cookbook.html"><code>cookbook.md</code></a>) + <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/5.3-sandbox-y-politicas/5.3-sandbox-y-politicas.ipynb" target="_blank" rel="noopener">notebook</a></td>
+</tr>
+<tr>
+<td>Habilidad</td>
+<td>Definir y verificar un sandbox en OpenShell</td>
+</tr>
+<tr>
+<td>Lección de NVIDIA</td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html">04a · El sandbox de OpenShell</a> (política activa, mapa y "Veredicto estático frente al sandbox activo")</td>
+</tr>
+</tbody>
+</table>
+<p>Material: <a href="slides.html">diapositivas</a> · <a href="cookbook.html">cookbook del lab</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/5.3-sandbox-y-politicas/5.3-sandbox-y-politicas.ipynb" target="_blank" rel="noopener">notebook</a> · <a href="../../FAQ.html">FAQ del curso</a></p>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Leer el YAML real de OpenShell (<code>filesystem_policy</code>, <code>landlock</code>, <code>process</code>, <code>network_policies</code>) y explicar cada sección.</li>
+<li>Predecir y comprobar bloqueos de red y de archivos, y leer un bloqueo en el log o en <code>openshell term</code>.</li>
+<li>Agregar y quitar un preset en caliente, escribir el preset de <em>Soporte NemoClaw</em> y explicar por qué el sandbox es solo una capa.</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Laboratorio de Brev encendido y sano (<code>nemoclaw my-assistant status</code> en verde).</li>
+<li>Hiciste la clase 5.2: sabes usar <code>openshell sandbox exec -n my-assistant -- …</code>.</li>
+<li>Tienes tu hoja <code>trifecta.md</code> (5.1) con la sección "Identidad" (5.2).</li>
+<li>Para el notebook: Python 3.10+ o Colab. No necesita API key ni PyPI extra: si tienes PyYAML lo usa, si no, usa un dict equivalente.</li>
+</ul>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<h3 id="1-lee-la-política-real">1. Lee la política real</h3>
+<p>En el host del lab:</p>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>policy<span class="w"> </span>get<span class="w"> </span>my-assistant<span class="w"> </span>--full
+</code></pre></div>
+<p>Deberías ver un encabezado de estado, <code>---</code> y el YAML. Este es un extracto de la política base de OpenClaw en NemoClaw (<code>nemoclaw-blueprint/policies/openclaw-sandbox.yaml</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">filesystem_policy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">include_workdir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">read_only</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">/usr</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/lib</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/proc</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/dev/urandom</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/app</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/etc</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/var/log</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/var/lib/dpkg</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">read_write</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">/tmp</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/dev/null</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/dev/pts</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/sandbox/.openclaw</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/sandbox/.nemoclaw</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">/home/linuxbrew</span><span class="p p-Indicator">]</span>
+<span class="nt">landlock</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">compatibility</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">best_effort</span>
+<span class="nt">process</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">run_as_user</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sandbox</span>
+<span class="w">  </span><span class="nt">run_as_group</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sandbox</span>
+<span class="nt">network_policies</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">openclaw_docs</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openclaw_docs</span>
+<span class="w">    </span><span class="nt">endpoints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docs.openclaw.ai</span>
+<span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">443</span>
+<span class="w">        </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rest</span><span class="w">          </span><span class="c1"># el proxy inspecciona cada petición HTTP</span>
+<span class="w">        </span><span class="nt">enforcement</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enforce</span>
+<span class="w">        </span><span class="nt">rules</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">allow</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> method</span><span class="p">:</span><span class="w"> </span><span class="nv">GET</span><span class="p p-Indicator">,</span><span class="nt"> path</span><span class="p">:</span><span class="w"> </span><span class="s">"/**"</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">binaries</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> path</span><span class="p">:</span><span class="w"> </span><span class="nv">/usr/local/bin/openclaw</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</code></pre></div>
+<p>Léelo así:
+- <strong>Red</strong>: todo está cerrado salvo los grupos de <code>network_policies</code>. Cada grupo une <strong>destinos</strong> (host, puerto, método, ruta) con <strong>binarios</strong>.
+- <strong>Archivos</strong>: Landlock deja leer <code>read_only</code>, leer y escribir <code>read_write</code> y <code>/sandbox</code>. Todo lo demás se niega.
+- <strong>Proceso</strong>: corre como <code>sandbox</code>. seccomp no aparece en este YAML: lo aplica OpenShell siempre.</p>
+<p>En la página 04a, lo mismo es la celda <strong>"Lee la política activa del launchable"</strong> (<code>helpers.policyGet()</code>), que además dibuja el mapa.</p>
+<h3 id="2-practica-en-el-notebook-predecir--evaluar--puntuar">2. Practica en el notebook: predecir → evaluar → puntuar</h3>
+<p>Abre <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/5.3-sandbox-y-politicas/5.3-sandbox-y-politicas.ipynb" target="_blank" rel="noopener"><code>5.3-sandbox-y-politicas.ipynb</code></a>. Usa la política real en su formato de OpenShell y un evaluador en Python (versión simplificada del que usa la página de NVIDIA). Escribe tus predicciones para 12 acciones y ejecuta:</p>
+<div class="highlight"><pre><span></span><code>✗ d curl → API de NVIDIA (binario equivocado)  predijiste ALLOW → DENY  | el binario '/usr/bin/curl' no está permitido en 'nvidia'
+✗ i ESCRIBIR SOUL.md (la persona)              predijiste DENY  → ALLOW | … está bajo read_write /sandbox/.openclaw
+Puntaje: 7/12
+</code></pre></div>
+<p>Las filas ✗ son la lección: el permiso va <strong>atado al binario</strong>, las reglas L7 frenan métodos y la política <strong>no</strong> protege <code>SOUL.md</code>.</p>
+<h3 id="3-compruébalo-en-el-sandbox">3. Compruébalo en el sandbox</h3>
+<p>El simulador predice; el sandbox decide. Corre las recetas 3 y 4 del <a href="cookbook.html">cookbook</a>:</p>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>curl<span class="w"> </span>-sS<span class="w"> </span>-m<span class="w"> </span><span class="m">8</span><span class="w"> </span>-o<span class="w"> </span>/dev/null<span class="w"> </span>-w<span class="w"> </span><span class="s1">'code=%{http_code}\n'</span><span class="w"> </span>https://inference.local/v1/models
+openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>curl<span class="w"> </span>-sS<span class="w"> </span>-m<span class="w"> </span><span class="m">8</span><span class="w"> </span>-o<span class="w"> </span>/dev/null<span class="w"> </span>-w<span class="w"> </span><span class="s1">'code=%{http_code}\n'</span><span class="w"> </span>https://example.com
+openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>ls<span class="w"> </span>/var/lib/apt/lists
+</code></pre></div>
+<p>Deberías ver: la primera sin <code>CONNECT tunnel failed</code>; la segunda con <code>curl: (56) CONNECT tunnel failed, response 403</code>; la tercera con <code>Permission denied</code>.</p>
+<p>Si una predicción no coincide, revisa tres cosas antes de concluir: la política <strong>activa</strong> (no la del notebook), el <strong>binario</strong> real y <strong>quién</strong> respondió (¿el proxy o el servidor?).</p>
+<h3 id="4-lee-un-bloqueo">4. Lee un bloqueo</h3>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">50</span>
+</code></pre></div>
+<p>Busca la denegación: binario, host:puerto y motivo. Para verla en vivo y decidir, abre <code>openshell term</code> en otra terminal (receta 6): <code>Enter</code> en tu sandbox, <code>r</code> para <strong>Network Rules</strong>, <code>Enter</code> para ver el detalle, <code>x</code> para rechazar.</p>
+<h3 id="5-cambia-la-política-en-caliente">5. Cambia la política en caliente</h3>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>policy<span class="w"> </span>add<span class="w"> </span>github<span class="w"> </span>--dry-run
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>policy<span class="w"> </span>add<span class="w"> </span>github<span class="w"> </span>--yes
+openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'git ls-remote https://github.com/NVIDIA/NemoClaw | head -1'</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>policy<span class="w"> </span>remove<span class="w"> </span>github<span class="w"> </span>--yes
+</code></pre></div>
+<p>La red y la inferencia cambian <strong>en caliente</strong>. El filesystem y el proceso se fijan al crear el sandbox: para cambiarlos hay que editar la política base y recrearlo.</p>
+<h3 id="6-el-cierre-el-sandbox-es-una-capa">6. El cierre: el sandbox es una capa</h3>
+<p>En el notebook (sección 9) la FAQ envenenada de la 5.1 ataca a <em>Soporte NemoClaw</em> con la política real: el <code>curl</code> al host del atacante se bloquea, pero el envío desde el runtime del agente a <code>clawhub.ai</code> (un host permitido que acepta <code>POST</code>) <strong>pasa</strong>. Y la receta 8 del cookbook lo muestra en vivo con un secreto falso: un secreto impreso por un comando permitido ya se escapó.</p>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ Guardaste tu política con <code>openshell policy get my-assistant --full &gt; ~/politica-antes.txt</code>.</li>
+<li>☐ Puedes señalar en el YAML dónde está cada una de las cuatro preguntas (red, archivos, proceso; seccomp va aparte).</li>
+<li>☐ Tu puntaje en el notebook subió después de leer las filas ✗.</li>
+<li>☐ Viste en vivo un <code>CONNECT tunnel failed, response 403</code> y un <code>Permission denied</code>, y los encontraste en el log.</li>
+<li>☐ Agregaste y quitaste el preset <code>github</code> sin reiniciar nada.</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>curl: (56) CONNECT tunnel failed, response 403</code></td>
+<td>El proxy de OpenShell negó la conexión: host fuera de la política o binario no permitido</td>
+<td>No es TLS ni DNS. <code>nemoclaw my-assistant logs --tail 50</code> y revisa el grupo con <code>openshell policy get my-assistant --full</code></td>
+</tr>
+<tr>
+<td><code>code=403</code> <strong>sin</strong> "CONNECT tunnel failed"</td>
+<td>La conexión pasó y respondió el servidor (o una regla L7)</td>
+<td>Identifica la fuente antes de culpar al sandbox. Mira el log</td>
+</tr>
+<tr>
+<td>Agregaste el preset y el agente sigue bloqueado</td>
+<td>El preset no incluye el binario que realmente abre la conexión (p. ej. <code>node</code> y no <code>openclaw</code>)</td>
+<td>Copia la ruta exacta del binario desde <code>openshell term</code> o del log a tu preset</td>
+</tr>
+<tr>
+<td><code>DENIED /usr/local/bin/node -&gt; registry.npmjs.org:443 reason: binary '/usr/local/bin/node' not allowed in policy 'npm_registry'</code></td>
+<td>El grupo base <code>npm_registry</code> solo permite a <code>openclaw</code></td>
+<td>Si de verdad lo necesitas: <code>nemoclaw my-assistant policy add npm --dry-run</code>, revísalo y aplícalo</td>
+</tr>
+<tr>
+<td><code>ls /var/lib/apt/lists</code> sí funciona</td>
+<td>Landlock en <code>best_effort</code> sobre un kernel sin soporte (aviso <code>⚠ Landlock: … does not support Landlock (requires ≥5.13)</code>)</td>
+<td>Revisa <code>uname -r</code> dentro del sandbox. La red y seccomp siguen activos</td>
+</tr>
+<tr>
+<td>En <code>openshell term</code> ves <code>upstream_unreachable</code></td>
+<td>La política coincidió, pero el host no respondió</td>
+<td>No abras más la política: revisa el host, DNS o el proxy corporativo</td>
+</tr>
+<tr>
+<td>Agregaste un endpoint con <code>openshell term</code> y "desapareció"</td>
+<td>Las aprobaciones viven solo en esa instancia del sandbox; al recrearlo vuelve la política base</td>
+<td>Para que dure, usa un preset (<code>policy add</code>)</td>
+</tr>
+<tr>
+<td>El notebook dice "Sin PyYAML"</td>
+<td>No tienes PyYAML instalado</td>
+<td>No pasa nada: usa el dict equivalente. Es el mismo contenido</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto">Reto</h2>
+<p>En el notebook (sección 🏁), completa <code>PRESET_RETO</code> para que <em>Soporte NemoClaw</em> pueda leer <code>docs.nvidia.com/nemoclaw/**</code> y la portada de <code>build.nvidia.com</code> solo con <code>GET</code>, sin abrir nada a <code>curl</code>. <strong>Criterio de éxito:</strong> <code>probar_reto(PRESET_RETO)</code> da <strong>6/6</strong> y <code>nemoclaw my-assistant policy add --from-file … --dry-run</code> lo acepta en el lab.</p>
+<h2 id="avance-del-proyecto">Avance del proyecto</h2>
+<p>Cierra el módulo con la política de <em>Soporte NemoClaw</em>:</p>
+<ol>
+<li>Guarda <code>soporte-docs.yaml</code> (receta 7e) junto a la skill <code>soporte-nemoclaw</code> en tu repo.</li>
+<li>Agrega a tu <code>trifecta.md</code> una sección <strong>"Política (clase 5.3)"</strong>: qué grupos usa el proyecto, qué preset propio agregaste y qué canal de salida <strong>sigue abierto</strong> (el proveedor de inferencia y <code>clawhub.ai</code>).</li>
+<li>Corre <code>nemoclaw my-assistant policy explain --write</code> para que el agente conozca su política y pueda explicar a un estudiante por qué no puede abrir un sitio.</li>
+</ol>
+<p>En la clase 6.2 vas a empaquetar esto como parte de tu biblioteca de skills.</p>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li>NVIDIA DLI · <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html">04a · El sandbox de OpenShell</a> (Apache-2.0).</li>
+<li>NemoClaw · política base <a href="https://github.com/NVIDIA/NemoClaw/blob/main/nemoclaw-blueprint/policies/openclaw-sandbox.yaml"><code>openclaw-sandbox.yaml</code></a>, <a href="https://github.com/NVIDIA/NemoClaw/tree/main/nemoclaw-blueprint/policies/presets">presets</a> y <a href="https://github.com/NVIDIA/NemoClaw/blob/main/nemoclaw-blueprint/policies/tiers.yaml">tiers</a>.</li>
+<li>NemoClaw · <a href="https://docs.nvidia.com/nemoclaw/latest/">Referencia de comandos</a> → <code>policy add</code>, <code>policy list</code>, <code>policy remove</code>, <code>policy explain</code>, <code>logs</code>.</li>
+<li>NemoClaw · <em>Approve or Deny Network Requests</em> (<code>openshell term</code>) y <em>Create Custom Policy Presets</em>.</li>
+<li>OpenShell · <a href="https://docs.nvidia.com/openshell/latest/reference/policy-schema.html">Esquema de políticas</a>.</li>
+<li><a href="../../FAQ.html">FAQ del curso</a>.</li>
+</ul>
+<hr />
+<p>Basado en la lección 04a-safety del curso de NVIDIA DLI (Apache-2.0) y en <code>nemoclaw-blueprint/policies/</code> de NVIDIA/NemoClaw (Apache-2.0).</p></div></section>
+<nav class="prevnext"><a class="pn prev" href="../5.2-identidades-openshell/index.html"><small>Clase anterior</small>5.2 · Identidades y límites con OpenShell</a><a class="pn next" href="../6.1-clis-de-agentes/index.html"><small>Clase siguiente</small>6.1 · Compara CLIs de agentes modernos</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

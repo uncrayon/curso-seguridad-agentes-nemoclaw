@@ -1,0 +1,4 @@
+# Para correr los notebooks en tu máquina (en Colab no hace falta: la primera celda instala lo necesario)
+openai>=1.40
+python-dotenv>=1.0
+jupyterlab>=4

@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4.2 Explore the OpenClaw gateway and workspace · Securing Agents with OpenShell and NemoClaw</title>
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Module 4 · Take your agent to NemoClaw</span><h1><span class="num">4.2</span>Explore the OpenClaw gateway and workspace</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈8 min</span><span class="chip"><span class="icon">computer</span>Lab on Brev</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
+<section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
+<p>🇪🇸 Original Spanish guide: <a href="../../../clases/4.2-gateway-y-workspace-openclaw/index.html"><code>clases/4.2-gateway-y-workspace-openclaw/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
+</blockquote>
+<p>Open the folder that defines your agent, compare what the agent says about itself with what's on disk, and customize it for the Soporte NemoClaw (NemoClaw Support) project.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Video length</td>
+<td>≈8 min</td>
+</tr>
+<tr>
+<td>Practice</td>
+<td>Lab on Brev: NVIDIA course page + terminal (<a href="../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.html">cookbook.md (Spanish)</a>)</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td>Orientation (no assessed skill)</td>
+</tr>
+<tr>
+<td>NVIDIA lesson</td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/03b-openclaw.html">The OpenClaw Agent (03b-openclaw)</a></td>
+</tr>
+</tbody>
+</table>
+<p>Materials: <a href="slides.html">slides</a> · <a href="../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.html">terminal cookbook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></p>
+<blockquote>
+<p>Based on lesson 03b-openclaw from the NVIDIA DLI course (Apache-2.0).</p>
+</blockquote>
+<h2 id="what-youll-achieve">What you'll achieve</h2>
+<ul>
+<li>Name the pieces of OpenClaw (gateway, sessions, workspace) and which workspace file shapes each part of the behavior.</li>
+<li>Verify as the operator, with <code>cat</code>, what the agent claims about its files and its memory.</li>
+<li>Customize <code>SOUL.md</code> and <code>MEMORY.md</code> so your agent behaves like <strong>Soporte NemoClaw</strong>.</li>
+</ul>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>Class 4.1 finished: instance in <code>RUNNING</code> and <strong>Test connection</strong> green in <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/03a-kickstart.html">lesson 03a</a>. The 03b page reuses that connection.</li>
+<li>For the terminal route: <code>brev shell &lt;instancia&gt;</code> working (4.1 cookbook, recipe 5).</li>
+<li>Your sandbox name (usually <code>my-assistant</code>; confirm it with <code>nemoclaw list</code>).</li>
+</ul>
+<h2 id="the-pieces-in-one-table">The pieces, in one table</h2>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>Where it lives</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenClaw gateway</td>
+<td>Inside the sandbox; it reaches your machine on port 18789</td>
+<td>Receives every turn, runs the agent loop, serves the dashboard and the WebSocket.</td>
+</tr>
+<tr>
+<td>OpenShell gateway</td>
+<td>On the host, port 8080 (local only)</td>
+<td>Manages the sandbox lifecycle, the inference routes, and the ports.</td>
+</tr>
+<tr>
+<td>Sessions</td>
+<td>In the OpenClaw gateway</td>
+<td>The history of each conversation, identified by its key (<code>sessionKey</code>).</td>
+</tr>
+<tr>
+<td>Workspace</td>
+<td><code>/sandbox/.openclaw/workspace/</code></td>
+<td>Markdown files the agent reads <strong>at the start of every session</strong>. They are its configuration.</td>
+</tr>
+</tbody>
+</table>
+<p>The workspace, file by file:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it defines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SOUL.md</code></td>
+<td>Personality, boundaries, tone, and values.</td>
+</tr>
+<tr>
+<td><code>AGENTS.md</code></td>
+<td>Operating instructions and rules: memory, safety, the flow of each session.</td>
+</tr>
+<tr>
+<td><code>IDENTITY.md</code></td>
+<td>A short card: name, language, emoji.</td>
+</tr>
+<tr>
+<td><code>USER.md</code></td>
+<td>Who the person it helps is, and their preferences. Starts empty.</td>
+</tr>
+<tr>
+<td><code>TOOLS.md</code></td>
+<td>Usage notes for each tool.</td>
+</tr>
+<tr>
+<td><code>HEARTBEAT.md</code></td>
+<td>A list of periodic tasks (we cover it in 4.3).</td>
+</tr>
+<tr>
+<td><code>POLICY.md</code></td>
+<td>A summary of the network policy, written by NemoClaw.</td>
+</tr>
+<tr>
+<td><code>memory/</code></td>
+<td>Daily <code>AAAA-MM-DD.md</code> (YYYY-MM-DD) notes the agent appends as it works. Created the first time the agent saves a note.</td>
+</tr>
+<tr>
+<td><code>MEMORY.md</code></td>
+<td>Curated long-term memory. Loaded in the main session. Created the first time the agent uses it.</td>
+</tr>
+<tr>
+<td><code>skills/</code></td>
+<td>One folder per skill, with its <code>SKILL.md</code> (we cover it in 4.3).</td>
+</tr>
+</tbody>
+</table>
+<p>One detail causes a lot of errors: inside the sandbox, <code>~</code> is <code>/sandbox</code>, <strong>not</strong> the workspace. <code>~/SOUL.md</code> points to <code>/sandbox/SOUL.md</code>, which the agent doesn't read as its personality. Always use the full path <code>/sandbox/.openclaw/workspace/SOUL.md</code>.</p>
+<h2 id="step-by-step">Step by step</h2>
+<h3 id="part-a--ask-the-agent-to-describe-itself-course-page">Part A · Ask the agent to describe itself (course page)</h3>
+<ol>
+<li>
+<p><strong>Open the lesson</strong> <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/03b-openclaw.html">The OpenClaw Agent</a>. Check that the pill at the top says <strong>OpenClaw ✓</strong>. If it says <strong>OpenClaw ⚠</strong>, go back to 03a, copy a new cookie, and repeat <strong>Test connection</strong>.</p>
+</li>
+<li>
+<p><strong>Run Step 1 · Ask the agent to describe itself.</strong> In the <strong>Ask OpenClaw to describe its workspace</strong> cell, click <strong>▶ Run</strong>. The message it sends is:</p>
+<blockquote>
+<p>Briefly list the files in your workspace and explain each in one bullet without dumping file contents.</p>
+</blockquote>
+</li>
+</ol>
+<p>The message is already in English. If you want to try another language, open the code and change the <code>content:</code> text. For example, the Spanish version is:
+   <div class="highlight"><pre><span></span><code><span class="nx">content</span><span class="o">:</span><span class="w"> </span><span class="s2">"Enumera brevemente los archivos de tu workspace y explica cada uno en una viñeta, sin volcar su contenido."</span><span class="p">,</span>
+</code></pre></div>
+   You should see: a list of files with one explanation per bullet. <strong>Write it down</strong>: this is what the agent <em>says</em>.</p>
+<h3 id="part-b--verify-as-the-operator">Part B · Verify as the operator</h3>
+<ol start="3">
+<li><strong>Run Step 1b · Read the workspace yourself.</strong> The <strong>Read the live workspace over the operator terminal</strong> cell opens an operator terminal (over WebSocket) and enters the sandbox with <code>openshell sandbox connect &lt;nombre&gt;</code>. It gets the name from <code>GET /api/agent</code>. It runs these commands:
+   <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">commands</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="s2">"ls .openclaw/workspace"</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">"echo '=== SOUL.md ==='; cat .openclaw/workspace/SOUL.md"</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">"echo '=== daily memory ==='; ls -1 .openclaw/workspace/memory/ 2&gt;/dev/null"</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">"echo '=== MEMORY.md ==='; cat .openclaw/workspace/MEMORY.md 2&gt;/dev/null || echo '(no curated MEMORY.md yet; the agent writes it in a main session)'"</span><span class="p">,</span>
+<span class="p">];</span>
+</code></pre></div>
+   You can edit the list. For example, add <code>"cat .openclaw/workspace/AGENTS.md"</code> or <code>"ls -la .openclaw/workspace/skills"</code>.</li>
+</ol>
+<p>You should see: the real list of files and the contents of <code>SOUL.md</code>. It's normal for <code>MEMORY.md</code> and <code>memory/</code> not to exist yet.</p>
+<ol start="4">
+<li><strong>Compare.</strong> Did the agent mention a file that doesn't exist? Did it forget one? That gap is the point of this class: <strong>what the agent says is not evidence; the file is</strong>.</li>
+</ol>
+<p>Why it works this way: the launchable has two planes of authority. The operator terminal runs <strong>outside</strong> the sandbox. The agent runs <strong>inside</strong>, under a narrower policy.</p>
+<ol start="5">
+<li><strong>(Terminal route)</strong> The same thing from <code>brev shell &lt;instancia&gt;</code>:
+   <div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span>list
+openshell<span class="w"> </span>sandbox<span class="w"> </span>connect<span class="w"> </span>my-assistant<span class="w">       </span><span class="c1"># or: nemoclaw my-assistant connect</span>
+</code></pre></div>
+   Once inside the sandbox:
+   <div class="highlight"><pre><span></span><code>whoami<span class="p">;</span><span class="w"> </span><span class="nb">pwd</span>
+<span class="nb">cd</span><span class="w"> </span>/sandbox/.openclaw/workspace
+ls<span class="w"> </span>-la
+cat<span class="w"> </span>SOUL.md
+cat<span class="w"> </span>AGENTS.md
+<span class="nb">exit</span>
+</code></pre></div>
+   Details in the <a href="../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.html">cookbook (Spanish)</a>, recipes 1 to 4.</li>
+</ol>
+<h3 id="part-c--the-agent-edits-its-own-memory">Part C · The agent edits its own memory</h3>
+<ol start="6">
+<li><strong>Run Step 3 · The agent edits its own context.</strong> In the <strong>Verify file memory across separate sessions</strong> flow, click <strong>▶ Run all</strong>:
+   - <strong>Save and verify a preference:</strong> in a new session, it asks the agent "Append this preference to MEMORY.md without replacing existing content: …" with a <code>course-review-…</code> label and a <code>REF-…</code> reference. Then it <strong>reads the file</strong> and fails if the preference isn't there.
+   - <strong>Read from a fresh conversation:</strong> it opens another session and asks the agent to read <code>MEMORY.md</code> and report the reference.</li>
+</ol>
+<p>You should see: <code>Verified the appended note on disk. It remains in MEMORY.md for inspection.</code> and the reference recovered in the second session.</p>
+<p>The agent saying "saved" isn't enough. The cell checks by reading the file.</p>
+<ol start="7">
+<li><strong>Do it with your own preference.</strong> In the <strong>Try it · chat with your live agent</strong> part of the same page, type:<blockquote>
+<p>Append this line to the end of /sandbox/.openclaw/workspace/MEMORY.md without deleting anything: "soporte-pref-01: answer in plain English and cite the FAQ file you used. Reference REF-4821."</p>
+</blockquote>
+</li>
+</ol>
+<p>Verify with the operator cell (add <code>"tail -n 5 .openclaw/workspace/MEMORY.md"</code> to <code>commands</code>) and then, in a new conversation, ask:</p>
+<blockquote>
+<p>Read MEMORY.md and report the preference and the reference for soporte-pref-01.</p>
+</blockquote>
+<p>You should see: <code>REF-4821</code> in the file and in the answer from the new session.</p>
+<h3 id="part-d--customize-soulmd-for-soporte-nemoclaw">Part D · Customize SOUL.md for Soporte NemoClaw</h3>
+<ol start="8">
+<li>
+<p><strong>Back up and edit as the operator.</strong> From <code>brev shell &lt;instancia&gt;</code>:
+   <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>~/soporte<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/soporte
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>download<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md<span class="w"> </span>./
+cp<span class="w"> </span>SOUL.md<span class="w"> </span>SOUL.md.original
+cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>SOUL.md<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+
+<span class="s">## Project: Soporte NemoClaw</span>
+<span class="s">- You help students of the course "Securing Agents with OpenShell and NemoClaw".</span>
+<span class="s">- You answer in plain English, with short sentences and numbered steps.</span>
+<span class="s">- Before answering, you classify the question into one category: instalacion, api_key, brev, seguridad, or otro.</span>
+<span class="s">- If you use the course FAQ, you cite the file the answer comes from.</span>
+<span class="s">- You never ask for, repeat, or store API keys, tokens, or cookies. If someone pastes one, you ask them to revoke it.</span>
+<span class="s">- If you don't know something, you say so and suggest opening an issue or asking in the course forum.</span>
+<span class="s">EOF</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>upload<span class="w"> </span>./SOUL.md<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">9</span><span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md
+</code></pre></div>
+   You should see: the last lines with the "Project: Soporte NemoClaw" section.</p>
+</li>
+<li>
+<p><strong>Check the change in a new session.</strong> The agent reads the workspace at the start of every session, so ask it in a new conversation (in <strong>Try it · chat with your live agent</strong> or with cookbook recipe 7):</p>
+<blockquote>
+<p>Who are you, who do you help, and what do you never do?</p>
+</blockquote>
+</li>
+</ol>
+<p>You should see: it mentions the course, plain English, and that it never asks for API keys.</p>
+<p>If you want to go back to the original: <code>nemoclaw my-assistant upload ./SOUL.md.original /sandbox/.openclaw/workspace/SOUL.md</code>.</p>
+<h2 id="check-that-it-worked">Check that it worked</h2>
+<ul>
+<li>☐ You wrote down the list of files the agent gave you and the real <code>ls</code> list, and you know whether they match.</li>
+<li>☐ You read <code>SOUL.md</code> and <code>AGENTS.md</code> as the operator.</li>
+<li>☐ The <strong>Verify file memory across separate sessions</strong> flow finished green.</li>
+<li>☐ <code>REF-4821</code> is in <code>MEMORY.md</code>, and a new session recovers it.</li>
+<li>☐ <code>SOUL.md</code> has the "Project: Soporte NemoClaw" section, and a new session reflects it.</li>
+<li>☐ You have <code>SOUL.md.original</code> as a backup.</li>
+</ul>
+<h2 id="common-errors">Common errors</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The agent says "done, I saved it" but the file didn't change</td>
+<td>The model reports an action it didn't take, or it wrote to another path.</td>
+<td>Always verify with <code>cat</code> as the operator. Ask again with the full path and have it read the file back.</td>
+</tr>
+<tr>
+<td>You edited <code>~/SOUL.md</code> and the agent didn't change</td>
+<td><code>~</code> is <code>/sandbox</code>, not the workspace. You wrote <code>/sandbox/SOUL.md</code>.</td>
+<td>Use <code>/sandbox/.openclaw/workspace/SOUL.md</code> (or <code>$OPENCLAW_WORKSPACE_DIR/SOUL.md</code>). Delete the stray file.</td>
+</tr>
+<tr>
+<td>You changed <code>SOUL.md</code> and the open conversation stays the same</td>
+<td>The workspace is read at the start of each session.</td>
+<td>Open a new session to test.</td>
+</tr>
+<tr>
+<td><code>MEMORY.md</code> or <code>memory/</code> doesn't exist</td>
+<td>The agent hasn't saved any memory yet.</td>
+<td>That's normal. They're created the first time the agent saves something.</td>
+</tr>
+<tr>
+<td><code>Pairing required</code> / <code>Device pairing required</code> in the dashboard</td>
+<td>OpenClaw requires pairing the device (since OpenClaw 2026.9.1 it can't be skipped).</td>
+<td>Wait a few minutes and reload, or <strong>Overview → Gateway Access → Connect</strong>. If it persists: cookbook recipe 9 (<code>openclaw devices list --json</code> and <code>openclaw devices approve &lt;requestId&gt;</code>).</td>
+</tr>
+<tr>
+<td><code>gateway connect failed: GatewayClientRequestError: scope upgrade pending approval (requestId: ...)</code></td>
+<td>A connection is asking for more permissions and waiting for approval.</td>
+<td>Approve it the same way as pairing: cookbook recipe 9.</td>
+</tr>
+<tr>
+<td>You ran <code>openclaw update</code> inside the sandbox and it hung</td>
+<td>OpenClaw is pinned in the sandbox image. It isn't updated in place.</td>
+<td>Don't do it. Cancel with <code>Ctrl+C</code>. In your own install, you update with <code>nemoclaw update</code> and then <code>nemoclaw &lt;nombre&gt; rebuild</code>; in the course launchable, don't touch versions.</td>
+</tr>
+<tr>
+<td><code>No valid connected sandbox name.</code> in the operator cell</td>
+<td>The page didn't get the sandbox name from <code>/api/agent</code>.</td>
+<td>Go back to 03a and repeat <strong>Test connection</strong>.</td>
+</tr>
+<tr>
+<td><code>File readback did not contain the saved preference</code></td>
+<td>The agent didn't write the line, or it replaced it somewhere else.</td>
+<td>Check the turn's trace (<code>⚙️</code> rows). Run <strong>Health check</strong> and retry.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="challenge">Challenge</h2>
+<p><strong>Make the agent prove what it saves.</strong> Add this rule to the end of <code>AGENTS.md</code> (with the same download, edit, and upload method from step 8):</p>
+<div class="highlight"><pre><span></span><code>- Every time you say you saved something to a file, read it back and quote the exact line that was written.
+</code></pre></div>
+<p>Success criteria: in a new session, you ask it to save a preference to <code>MEMORY.md</code>, its answer includes the line it read back, and <code>cat</code> as the operator confirms that line exists.</p>
+<h2 id="project-milestone">Project milestone</h2>
+<p>Your agent now has the <strong>Soporte NemoClaw</strong> identity:</p>
+<ul>
+<li><code>SOUL.md</code> with the project section (language, triage categories, the no-keys rule).</li>
+<li><code>MEMORY.md</code> with the <code>soporte-pref-01</code> preference (cite the FAQ file).</li>
+</ul>
+<p>Save <code>proyecto/SOUL-soporte.md</code> in your repo with the section you added, and repeat the 4.1 baseline question ("My notebook returns HTTP 401"). Write down in <code>proyecto/linea-base-4.1.md</code> what changed. It doesn't know the FAQ yet: that comes in 4.3 with the <code>soporte-nemoclaw</code> skill.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/03b-openclaw.html">Lesson 03b · The OpenClaw Agent (NVIDIA DLI)</a></li>
+<li><a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/manage-sandboxes/workspace-files.md">NemoClaw · Sandbox state and workspace files</a></li>
+<li><a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands.md">NemoClaw · Command reference</a> (<code>connect</code>, <code>exec</code>, <code>agent</code>, <code>sessions</code>, <code>download</code>, <code>upload</code>)</li>
+<li><a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/troubleshooting.md">NemoClaw · Troubleshooting</a> (pairing, <code>openclaw update</code>)</li>
+<li><a href="https://arxiv.org/abs/2310.08560">MemGPT: tiered memory for LLMs (arXiv 2310.08560)</a></li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../4.1-laboratorio-nemoclaw-en-brev/index.html"><small>Previous class</small>4.1 · Launch the NemoClaw lab on Brev</a><a class="pn next" href="../4.3-agentes-siempre-activos/index.html"><small>Next class</small>4.3 · Agents in continuous and scheduled operation</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copy$/, "").trim()).then(function () {
+      b.textContent = "Copied!"; setTimeout(function () { b.textContent = "Copy"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

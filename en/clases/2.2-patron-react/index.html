@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2.2 Reasoning with the ReAct pattern · Securing Agents with OpenShell and NemoClaw</title>
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Module 2 · Build the basic agent loop</span><h1><span class="num">2.2</span>Reasoning with the ReAct pattern</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Skill: Implement the ReAct pattern</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.2-patron-react/2.2-patron-react.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Open in Colab</a></p></section>
+<section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
+<p>🇪🇸 Original Spanish guide: <a href="../../../clases/2.2-patron-react/index.html"><code>clases/2.2-patron-react/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
+</blockquote>
+<p>Goal: build a ReAct loop from scratch that requests tools, runs them safely and knows when to stop.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Video length</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Practice</strong></td>
+<td>Notebook (≈45 min), works without a key in MOCK mode</td>
+</tr>
+<tr>
+<td><strong>Skill</strong></td>
+<td>Implement the ReAct pattern</td>
+</tr>
+<tr>
+<td><strong>NVIDIA lesson</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01b-react.html">01b · The ReAct Loop</a></td>
+</tr>
+<tr>
+<td><strong>Materials</strong></td>
+<td><a href="slides.html">Slides</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.2-patron-react/2.2-patron-react.ipynb" target="_blank" rel="noopener">Notebook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-youll-achieve">What you'll achieve</h2>
+<ul>
+<li>Read <code>finish_reason</code> and use it as the loop's router: <code>stop</code>, <code>tool_calls</code> or <code>length</code>.</li>
+<li>Write a ReAct loop from scratch that validates each <code>tool_call</code>, runs the tool and returns the result as a <code>tool</code> message.</li>
+<li>Detect and contain the three typical failures: a malformed <code>tool_call</code>, an infinite loop, and an answer cut off by <code>length</code>.</li>
+</ul>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>You've finished class 2.1: you know what the loop is and that memory is <code>messages</code>.</li>
+<li>Python 3.10+ or Colab, and your <code>nvapi-</code> key (optional: without a key it runs in MOCK).</li>
+<li>Open the notebook the same way as in <a href="../2.1-loop-de-agente/index.html#1-open-the-notebook">class 2.1</a>.</li>
+</ul>
+<h2 id="step-by-step">Step by step</h2>
+<h3 id="1-open-the-notebook-and-run-the-setup">1. Open the notebook and run the setup</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/2.2-patron-react/2.2-patron-react.ipynb
+</code></pre></div>
+<p>Run the first two cells and the simulator cell. You should see <code>Modo: EN VIVO · ...</code> (live mode) or <code>Modo: MOCK ...</code>, and <code>Reglas del simulador listas: 1</code> (simulator rules ready: 1).</p>
+<h3 id="2-define-your-first-tool-section-1">2. Define your first tool (section 1)</h3>
+<p>Run the <code>get_current_time</code> cell. Notice its two parts: the <strong>function</strong> (<code>get_current_time</code>) and the <strong>schema</strong> (<code>TOOL_HORA</code>, the time tool), which is the only thing the model sees.</p>
+<p>You should see the current time, for example <code>2026-10-21 16:05:12 UTC</code>.</p>
+<h3 id="3-read-finish_reason-section-2">3. Read <code>finish_reason</code> (section 2)</h3>
+<p>Run the cell with the two questions.</p>
+<p>You should see:</p>
+<div class="highlight"><pre><span></span><code>[sin tools] finish_reason = 'stop'
+   tool_calls: []
+[con tools] finish_reason = 'tool_calls'
+   tool_calls: [('get_current_time', '{}')]
+</code></pre></div>
+<p>(<code>sin tools</code> means without tools; <code>con tools</code>, with tools.)</p>
+<p>The tool <strong>wasn't run</strong>: the model only requested it. Do the <strong>✏️ Tu turno</strong> (your turn): delete "Usa get_current_time para leer el reloj." (use get_current_time to read the clock) from question 2 and see whether the model still requests it based on the description alone.</p>
+<h3 id="4-build-the-react-loop-section-3">4. Build the ReAct loop (section 3)</h3>
+<p>Read the <code>react</code> function before you run it. It has three pieces:</p>
+<ol>
+<li>The <strong>router</strong>: <code>length</code> stops with an error, <code>tool_calls</code> runs tools and <code>stop</code> returns the answer.</li>
+<li>The <strong>validation</strong> of each <code>tool_call</code> (<code>validar_tool_call</code>, validate tool call): the tool must exist and the arguments must be a JSON object.</li>
+<li>The <code>max_pasos</code> (max steps) <strong>cap</strong>.</li>
+</ol>
+<p>Run it with "¿Qué hora es en UTC?" (what time is it in UTC?). You should see:</p>
+<div class="highlight"><pre><span></span><code>[paso 1] finish_reason='tool_calls' · se enviaron 2 mensajes
+   🔧 get_current_time({}) → 2026-10-21 16:05:12 UTC
+[paso 2] finish_reason='stop' · se enviaron 4 mensajes
+💬 Son las 16:05:12 UTC ...
+</code></pre></div>
+<p>Step 1 sends 2 messages and requests the tool; step 2 sends 4 messages and answers with the time.</p>
+<h3 id="5-watch-messages-grow-section-4">5. Watch <code>messages[]</code> grow (section 4)</h3>
+<p>Run <code>mostrar(traza)</code> (show trace). You should see the <code>system</code>, <code>user</code>, <code>assistant</code> (requests the tool), <code>tool</code> (the result) and <code>assistant</code> (the answer) turns, plus a token estimate.</p>
+<p>Do the two <strong>✏️ Tu turno</strong> experiments: ask for the capital of France (it ends at step 1 with <code>stop</code>) and ask "How many minutes until 17:00 UTC?" (count the tool calls).</p>
+<h3 id="6-trigger-the-three-failures-section-5">6. Trigger the three failures (section 5)</h3>
+<ul>
+<li><strong>a) Malformed <code>tool_call</code>.</strong> Run the <code>tc_falso</code> (fake tool call) cell. You should see four errors as text, for example <code>ERROR: los argumentos no son JSON válido (Expecting property name enclosed in double quotes)</code> (the arguments aren't valid JSON). None of them breaks the loop.</li>
+<li><strong>b) Infinite loop.</strong> Run <code>SISTEMA_TERCO</code> (stubborn system prompt). You should see 4 steps calling the clock and <code>⛔ Tope de 4 pasos sin respuesta final.</code> (4-step cap with no final answer).</li>
+<li><strong>c) <code>length</code>.</strong> Run the question with <code>max_tokens=20</code>. You should see <code>finish_reason='length'</code> and <code>⛔ El modelo llegó a su límite de tokens (length).</code> (the model hit its token limit).</li>
+</ul>
+<h3 id="7-measure-context-rot-section-6">7. Measure context rot (section 6)</h3>
+<p>Run the <code>tokens_aprox</code> (approximate tokens) cell. You should see how the tokens per call grow with each round of tools (from hundreds to thousands).</p>
+<h3 id="8-project-milestone-hora_local-section-7">8. Project milestone: <code>hora_local</code> (section 7)</h3>
+<p>Run the Soporte NemoClaw cell. You should see <code>🔧 hora_local({"ciudad": "Bogotá"})</code> (local time for a city) and an answer with the local time. Notice that <strong>you didn't touch <code>react</code></strong>: you only added the schema to <code>TOOLS_SOPORTE</code> and the function to <code>REGISTRO_SOPORTE</code> (support tool registry).</p>
+<h3 id="9-optional-practice-in-the-browser-with-the-nvidia-lesson">9. (Optional) Practice in the browser with the NVIDIA lesson</h3>
+<p>In <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01b-react.html">NVIDIA lesson 01b</a>, with your key saved in lesson 01a:</p>
+<ol>
+<li>In the <strong>finish_reason · the one field the loop reads to decide what to do next</strong> cell, remove the sentence that asks to use <code>get_current_time</code> from <code>QUESTION_2</code> and run it again.</li>
+<li>In <strong>The complete ReAct loop, built from scratch</strong>, <strong>User input</strong> node, change <code>state.userPrompt</code> to <code>"What is the capital of France?"</code> and look at the <code>finish_reason</code> of step 1.</li>
+<li>In the same node, change the system prompt to <code>"You must always call get_current_time once, then answer."</code> and check whether the model obeys.</li>
+<li>Ask <code>"How many minutes until 17:00 UTC?"</code> and count how many times it calls the clock.</li>
+<li>In the chat panel at the bottom, ask "How does the clock loop decide when to stop?".</li>
+</ol>
+<h2 id="check-that-it-worked">Check that it worked</h2>
+<ul>
+<li>☐ You can explain what the loop does with each <code>finish_reason</code>: <code>stop</code>, <code>tool_calls</code>, <code>length</code>.</li>
+<li>☐ <code>react("¿Qué hora es en UTC?")</code> finishes in 2 steps and the history has a <code>tool</code> message.</li>
+<li>☐ The four <code>tc_falso</code> return an <code>ERROR: ...</code> as text, with no exception.</li>
+<li>☐ <code>SISTEMA_TERCO</code> stops at the step cap.</li>
+<li>☐ Soporte NemoClaw (NemoClaw Support) answers your city's time using <code>hora_local</code>.</li>
+</ul>
+<h2 id="common-errors">Common errors</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The model answers with a made-up time without calling <code>get_current_time</code></td>
+<td>The description or the system prompt doesn't make it clear that the model has no clock</td>
+<td>Strengthen the description ("you don't have a clock") and check the history: if there's no <code>tool</code> message, the tool didn't run</td>
+</tr>
+<tr>
+<td><code>⛔ Tope de 6 pasos sin respuesta final.</code> (6-step cap with no final answer)</td>
+<td>The model requests tools over and over</td>
+<td>Check the history with <code>mostrar(t)</code>; fix the system prompt or the tool result. Don't remove the cap. See <a href="../../../FAQ.html#notebooks">FAQ (Spanish): loop</a></td>
+</tr>
+<tr>
+<td><code>⛔ El modelo llegó a su límite de tokens (length).</code> (the model hit its token limit)</td>
+<td><code>max_tokens</code> too low; Nemotron spends tokens reasoning before it answers</td>
+<td>Raise <code>max_tokens</code> (the helper uses 4096) or ask for shorter answers. See <a href="../../../FAQ.html#elength">FAQ (Spanish): length</a></td>
+</tr>
+<tr>
+<td><code>ERROR: los argumentos no son JSON válido (Expecting property name enclosed in double quotes)</code> (the arguments aren't valid JSON)</td>
+<td>The model sent broken JSON in <code>arguments</code></td>
+<td>The harness already returns it as an observation so the model can correct it. If it keeps happening, simplify the schema</td>
+</tr>
+<tr>
+<td><code>AttributeError: 'types.SimpleNamespace' object has no attribute 'get'</code></td>
+<td>You appended <code>c.message</code> as is to <code>messages</code> instead of a dict</td>
+<td>Use <code>messages.append(a_dict(c.message))</code></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 400 · Solicitud inválida: ...</code> (invalid request) after running a tool</td>
+<td>You appended the <code>tool</code> message without the <code>assistant</code> turn that requested it, or with a different <code>tool_call_id</code></td>
+<td>First append <code>a_dict(c.message)</code>, then one <code>tool</code> message per <code>tool_call</code>, with the same <code>tc.id</code></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 429 · Demasiadas solicitudes por minuto.</code> (too many requests per minute)</td>
+<td>Each step of the loop is a call and you ran many in a row</td>
+<td>Wait a few seconds; don't remove the step cap. See <a href="../../../FAQ.html#e429">FAQ (Spanish): 429</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="challenge-avoid-redundant-calls">Challenge: avoid redundant calls</h2>
+<p>Add <code>minutos_hasta(hora_utc)</code> (minutes until), which takes <code>"17:00"</code> and returns how many minutes are left from now, in UTC.</p>
+<p><strong>Success criteria</strong> (live): with the tool in <code>TOOLS_SOPORTE</code> and <code>REGISTRO_SOPORTE</code>, "How many minutes until 17:00 UTC?" is answered with <strong>a single</strong> tool call, and the number matches your own calculation.</p>
+<h2 id="project-milestone">Project milestone</h2>
+<p><strong>Soporte NemoClaw v2: ReAct with a new tool.</strong> It's no longer just a chat: it decides when to request a tool, runs it with validation and has a step cap. Its new tool is <code>hora_local(ciudad)</code> (local time for a city), for students all over Latin America.</p>
+<p>Add <code>react</code>, <code>validar_tool_call</code>, <code>a_dict</code>, <code>hora_local</code> and its schema to your <code>soporte_nemoclaw.py</code>. In class 2.3 you give it its real tools: <code>buscar_faq</code> (FAQ search) and <code>estimar_costo_brev</code> (Brev cost estimate).</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01b-react.html">Lesson 01b · The ReAct Loop</a>, NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
+<li>Yao et al. (2022), <a href="https://arxiv.org/abs/2210.03629">ReAct: Synergizing Reasoning and Acting in Language Models</a>.</li>
+<li>Liu et al. (2023), <a href="https://arxiv.org/abs/2307.03172">Lost in the Middle: How Language Models Use Long Contexts</a>: the evidence for context rot.</li>
+<li>Lilian Weng (2023), <a href="https://lilianweng.github.io/posts/2023-06-23-agent/">LLM Powered Autonomous Agents</a>: model, memory, planning and tools.</li>
+<li><a href="../../../FAQ.html#errores-api">Course FAQ (Spanish)</a>.</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../2.1-loop-de-agente/index.html"><small>Previous class</small>2.1 · From a single call to the agent loop</a><a class="pn next" href="../2.3-funciones-a-herramientas/index.html"><small>Next class</small>2.3 · Turn functions into tools</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copy$/, "").trim()).then(function () {
+      b.textContent = "Copied!"; setTimeout(function () { b.textContent = "Copy"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>skill-library · Biblioteca de skills del proyecto &quot;Soporte NemoClaw&quot; · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html"><img src="../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero doc"><h1>skill-library · Biblioteca de skills del proyecto &quot;Soporte NemoClaw&quot;</h1></section>
+<div class="md"><p>Cuatro skills en español para el agente del proyecto del curso. Las construimos y evaluamos en la clase <strong>6.2</strong> (<a href="../clases/6.2-biblioteca-de-skills/index.html">guía</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb" target="_blank" rel="noopener">notebook</a>).</p>
+<div class="highlight"><pre><span></span><code>skill-library/
+  README.md
+  soporte-nemoclaw/SKILL.md         # responde dudas con la FAQ del curso y cita la fuente
+  diagnostico-api/SKILL.md          # explica errores 401/403/404/410/429/5xx de la API
+  lector-seguro-archivos/SKILL.md   # lee solo dentro de datos/ y rechaza lo demás
+  resumen-diario/SKILL.md           # resumen del día para una tarea programada (cron)
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Cuándo se activa</th>
+<th>Herramienta que usa</th>
+<th>Clase de origen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>soporte-nemoclaw</code></td>
+<td>Dudas de instalación, Brev, conexión, curso</td>
+<td><code>buscar_faq</code> (en OpenClaw: <code>ls</code>/<code>grep</code> sobre <code>faq/</code>)</td>
+<td>4.3 (evoluciona en 6.2)</td>
+</tr>
+<tr>
+<td><code>diagnostico-api</code></td>
+<td>El usuario pega un error HTTP de la API</td>
+<td><code>diagnosticar_http</code></td>
+<td>1.3</td>
+</tr>
+<tr>
+<td><code>lector-seguro-archivos</code></td>
+<td>"Abre / lee / muestra el archivo…"</td>
+<td><code>leer_archivo</code> (limitada a <code>datos/</code>)</td>
+<td>5.3</td>
+</tr>
+<tr>
+<td><code>resumen-diario</code></td>
+<td>"Resumen del día" o una tarea cron</td>
+<td><code>leer_archivo</code></td>
+<td>4.3</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong><code>soporte-nemoclaw</code> viene de la clase 4.3</strong> (<a href="../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.html">versión original</a>). Esta versión mantiene la ruta de la FAQ, el formato de respuesta, las reglas y el "Modo reporte" que usa el cron de la 4.3. Solo cambia la description: ya no menciona errores HTTP, porque ahora los atiende <code>diagnostico-api</code>. Si instalas esta versión encima de la de la 4.3, OpenClaw la reemplaza (<code>skill install</code> usa <code>--force</code>) y tu cron sigue funcionando.</p>
+</blockquote>
+<h2 id="anatomía-de-una-skill">Anatomía de una skill</h2>
+<p>Una carpeta por skill y un <code>SKILL.md</code> adentro. El archivo empieza con un <strong>frontmatter</strong> YAML:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">diagnostico-api</span><span class="w">          </span><span class="c1"># único; igual al nombre de la carpeta</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Diagnostica ... Úsala cuando ...</span><span class="w">   </span><span class="c1"># QUÉ hace y CUÁNDO usarla</span>
+<span class="nn">---</span>
+</code></pre></div>
+<p>Después viene el cuerpo: <strong>propósito</strong>, <strong>cuándo NO usarla</strong>, <strong>pasos</strong> numerados (el runbook) y <strong>límites</strong>. Una skill puede traer archivos extra junto a <code>SKILL.md</code> (plantillas, scripts, referencias).</p>
+<p>Reglas que conviene cumplir siempre:
+- <code>name</code> solo con letras, números, puntos, guiones y guiones bajos. Es la regla que valida <code>nemoclaw &lt;sandbox&gt; skill install</code>.
+- <code>description</code> en una sola línea y sin <code>:</code> (dos puntos seguidos de espacio). Si necesitas dos puntos, pon la descripción entre comillas. Si no, el YAML se rompe.
+- La descripción dice <strong>cuándo</strong> usar la skill con las palabras que usaría un estudiante. No es un título.</p>
+<h2 id="cómo-la-descubre-un-agente-progressive-disclosure">Cómo la descubre un agente (progressive disclosure)</h2>
+<ol>
+<li>Al arrancar, el harness lee <strong>solo el frontmatter</strong> de cada <code>SKILL.md</code>.</li>
+<li>Pone <code>nombre: descripción</code> de cada skill en el prompt de sistema. Ese es el "menú".</li>
+<li>Si el pedido coincide, el modelo pide cargar esa skill y el harness le entrega el <code>SKILL.md</code> completo:
+   - <strong>Selección explícita:</strong> el usuario nombra la skill (<code>/diagnostico-api ...</code> o "usa la skill diagnostico-api").
+   - <strong>Selección automática:</strong> el modelo la elige solo, comparando el pedido con las descripciones.</li>
+<li>El modelo sigue el runbook con sus herramientas normales.</li>
+</ol>
+<p>Por eso la descripción es la línea más importante: si no dice cuándo usar la skill, la selección automática falla. En el notebook de la 6.2 la medimos con un set de pedidos (tasa de acierto).</p>
+<h2 id="llevarla-al-laboratorio-brev--nemoclaw">Llevarla al laboratorio (Brev + NemoClaw)</h2>
+<p>Desde tu computadora, en la raíz del repo:</p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>ls<span class="w">                                                  </span><span class="c1"># nombre de tu instancia</span>
+brev<span class="w"> </span>copy<span class="w"> </span>./skill-library<span class="w"> </span>&lt;instancia&gt;:/home/ubuntu/skill-library<span class="w">   </span><span class="c1"># [VERIFICAR EN LAB] ruta del home</span>
+brev<span class="w"> </span>shell<span class="w"> </span>&lt;instancia&gt;
+</code></pre></div>
+<p>Ya en la VM:</p>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span>list<span class="w">                                   </span><span class="c1"># nombre del sandbox (p. ej. my-assistant)</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/skill-library/soporte-nemoclaw/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/skill-library/diagnostico-api/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/skill-library/lector-seguro-archivos/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/skill-library/resumen-diario/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>list
+</code></pre></div>
+<ul>
+<li>Con OpenClaw, <code>skill install</code> llama a <code>openclaw skills install</code> y la skill queda en <code>/sandbox/.openclaw/workspace/skills/&lt;nombre&gt;</code>.</li>
+<li>Con Hermes queda en <code>/sandbox/.hermes/skills/&lt;nombre&gt;</code>; con Deep Agents, en <code>/sandbox/.deepagents/agent/skills/&lt;nombre&gt;</code>.</li>
+<li>Abre una <strong>sesión nueva</strong> del agente para que la vea. NemoClaw no garantiza que la skill quede activa: la autoridad es <code>skill list</code> y una sesión nueva.</li>
+</ul>
+<p>Para quitar una: <code>nemoclaw my-assistant skill remove resumen-diario</code>.</p>
+<h2 id="seguridad">Seguridad</h2>
+<p>Una skill son <strong>instrucciones persistentes</strong>: sobreviven entre sesiones. Una skill envenenada es una directiva envenenada que no se va.
+- Revisa las skills como revisas código (pull request, diff, dueño).
+- Pon los límites en las herramientas y en el sandbox, no solo en el texto de la skill.
+- Decide quién puede escribir en la carpeta <code>skills/</code> del agente (Módulos 4 y 5).</p>
+<hr />
+<p>Las skills de ejemplo adaptan la idea de las skills de práctica del curso de NVIDIA DLI <em>Seguridad de agentes con OpenShell y NemoClaw</em>, lección 03c (Apache-2.0), y el formato de <a href="https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview">Agent Skills</a>.</p></div>
+
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

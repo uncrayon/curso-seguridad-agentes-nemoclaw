@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2.1 From a single call to the agent loop · Securing Agents with OpenShell and NemoClaw</title>
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Module 2 · Build the basic agent loop</span><h1><span class="num">2.1</span>From a single call to the agent loop</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Skill: Build a basic agent loop</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Open in Colab</a></p></section>
+<section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
+<p>🇪🇸 Original Spanish guide: <a href="../../../clases/2.1-loop-de-agente/index.html"><code>clases/2.1-loop-de-agente/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
+</blockquote>
+<p>Goal: build an agent from scratch and understand what changes when an LLM makes the decision.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Video length</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Practice</strong></td>
+<td>Notebook (≈45 min), works without a key in MOCK mode</td>
+</tr>
+<tr>
+<td><strong>Skill</strong></td>
+<td>Build a basic agent loop</td>
+</tr>
+<tr>
+<td><strong>NVIDIA lesson</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01a-loop.html">01a · The Agent</a></td>
+</tr>
+<tr>
+<td><strong>Materials</strong></td>
+<td><a href="slides.html">Slides</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb" target="_blank" rel="noopener">Notebook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-youll-achieve">What you'll achieve</h2>
+<ul>
+<li>Write the <strong>observe → decide → act → stop?</strong> loop and use it with three different "brains": a fixed rule, a search (BFS) and an LLM.</li>
+<li>Validate the model's output before acting, so an invalid move doesn't break your agent.</li>
+<li>Give a chat memory with the <code>messages</code> list and put a context limit on it: the first version of <strong>Soporte NemoClaw</strong> (NemoClaw Support).</li>
+</ul>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>Python 3.10 or later on your machine, or a Google account to use Colab.</li>
+<li>Your <code>nvapi-</code> API key from class 1.2. <strong>It's optional:</strong> without a key, the notebook runs end to end in MOCK mode (a simulated model).</li>
+<li>The class 1.3 notebook passing, or at least knowing how to read its errors (401, 404, 429, <code>length</code>).</li>
+</ul>
+<h2 id="step-by-step">Step by step</h2>
+<h3 id="1-open-the-notebook">1. Open the notebook</h3>
+<p><strong>In Colab:</strong> upload <code>2.1-loop-de-agente.ipynb</code> (File → Upload notebook). To use your key, open the key panel 🔑 (<em>Secrets</em>), create <code>NVIDIA_API_KEY</code> with your key and turn on notebook access.</p>
+<p><strong>On your machine</strong>, from the root of the course repository:</p>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">          </span><span class="c1"># on Windows: .venv\Scripts\activate</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"NVIDIA_API_KEY=nvapi-xxxxxxxx"</span><span class="w"> </span>&gt;<span class="w"> </span>.env<span class="w">    </span><span class="c1"># use your real key; .env isn't pushed to git</span>
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb
+</code></pre></div>
+<h3 id="2-run-the-setup-cells">2. Run the setup cells</h3>
+<p>Run the first two cells and the simulator cell.</p>
+<p>You should see <code>Modo: EN VIVO · nvidia/nemotron-3.5-lightning-30b-a3b</code> (live mode) if your key is fine, or <code>Modo: MOCK (sin NVIDIA_API_KEY: respuestas simuladas)</code> (no key: simulated answers) if there's no key. Either one works for what follows.</p>
+<h3 id="3-make-a-single-call-section-1">3. Make a single call (section 1)</h3>
+<p>Run the cell with the question "¿Qué significa que una API de LLM sea 'sin estado'?" (what does it mean for an LLM API to be "stateless"?).</p>
+<p>You should see <code>finish_reason: stop</code>, a one-sentence answer and, in live mode, the <code>usage</code> with the tokens spent. Then change the question to "What did I just ask you?": the model doesn't know, because every call starts from zero.</p>
+<h3 id="4-build-the-environment-and-an-agent-without-an-llm-sections-2-and-3">4. Build the environment and an agent without an LLM (sections 2 and 3)</h3>
+<p>Run the <code>Laberinto</code> (maze) cell, then the <code>correr_agente</code> (run agent) cell.</p>
+<p>You should see that <code>siempre_derecha</code> (always right) moves one step and gets stuck: <code>'derecha' no es válido → no se aplica</code> ("right" isn't valid, so it isn't applied), until <code>⛔ Se acabó el presupuesto de 6 pasos sin llegar.</code> (the 6-step budget ran out without reaching the goal). That cap is what prevents an infinite loop.</p>
+<p>Then run <code>decidir_bfs</code> (decide with BFS). You should see <code>✅ Meta en 15 pasos.</code> (goal in 15 steps) and the map with the path marked with <code>·</code>.</p>
+<p>Look at <code>correr_agente</code> again: it never says "maze" or "BFS". That function won't change for the rest of the class.</p>
+<h3 id="5-swap-the-decision-for-an-llm-section-4">5. Swap the decision for an LLM (section 4)</h3>
+<p>Run <code>decidir_llm</code> (decide with the LLM). We describe the map to it as text and ask for <strong>one word</strong>.</p>
+<p>You should see the agent's steps and, at some point, a line like <code>⚠ el modelo respondió 'arriba': no es legal. Se lo decimos y reintenta.</code> (the model answered "up": that's not legal; we tell it and it retries). In MOCK this always happens on the first step; in live mode, when the model makes a mistake. At the end, the comparison <code>BFS: 15 pasos · LLM: N pasos</code> (BFS: 15 steps · LLM: N steps).</p>
+<p>Do the <strong>✏️ Tu turno</strong> (your turn) experiments: remove the strategy line, remove the map or raise the temperature, and compare how many steps it takes.</p>
+<h3 id="6-trigger-the-error-an-invalid-move-section-5">6. Trigger the error: an invalid move (section 5)</h3>
+<p>Run <code>decidir_ingenuo</code> (naive decision), which uses a sloppy prompt and passes the model's text straight to the environment.</p>
+<p>You should see something like:</p>
+<div class="highlight"><pre><span></span><code>El modelo dijo: 'Te sugiero ir hacia abajo: a la derecha casi todo es pared...'
+💥 Movimiento inválido: 'Te sugiero ir hacia abajo: ...'. Desde (0, 0) solo puedes: ['abajo', 'derecha']
+</code></pre></div>
+<p>The model said "I suggest going down: to the right it's almost all wall…", and the environment rejects that as an invalid move, because from (0, 0) you can only go <code>abajo</code> (down) or <code>derecha</code> (right).</p>
+<p>Run the next cell: <code>extraer_movimiento</code> (extract move) pulls out <code>'abajo'</code>, validates it against the legal moves and applies it. The lesson: <strong>the model's output is untrusted input; the harness validates it before acting.</strong></p>
+<h3 id="7-check-that-memory-is-messages-section-6">7. Check that memory is <code>messages</code> (section 6)</h3>
+<p>Run the "Me llamo Ada" (my name is Ada) cell.</p>
+<p>You should see that with history it answers "Te llamas Ada" (your name is Ada) and without history it says it doesn't know. Below, you'll see the exact JSON that was sent on turn 2: that list <strong>is</strong> the memory.</p>
+<h3 id="8-build-soporte-nemoclaw-v1-section-7">8. Build Soporte NemoClaw v1 (section 7)</h3>
+<p>Run the <code>ChatSoporte</code> (support chat) cell. The same conversation runs twice: with a 4-message window and with a 20-message window.</p>
+<p>You should see that with 4 messages the bot <strong>forgets your name</strong> ("No sé cómo te llamas", I don't know your name) and with 20 it remembers it. If you want to chat with it, set <code>INTERACTIVO = True</code> (interactive) in the next cell.</p>
+<h3 id="9-optional-practice-in-the-browser-with-the-nvidia-lesson">9. (Optional) Practice in the browser with the NVIDIA lesson</h3>
+<p>In <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01a-loop.html">NVIDIA lesson 01a</a> you can run the same experiments without installing anything:</p>
+<ol>
+<li>Save your <code>nvapi-</code> key in the panel in the <strong>A real call, in your browser</strong> section.</li>
+<li>Find the <strong>LLM maze run · model chooses moves</strong> cell and open the <strong>Maze agent · editable run</strong> node.</li>
+<li>Run it once as is. Then change <code>includeHistory: true</code> to <code>includeHistory: false</code> and compare: the model no longer sees the coordinates it already visited.</li>
+<li>Delete the line that starts with <code>Prefer unvisited branches</code> from <code>DIRECTIVE</code> and run it again.</li>
+<li>Change <code>model: "direct"</code> to <code>"reasoning"</code> and then to <code>"omni"</code>. Open the request details and compare <code>max_tokens</code>, temperature and reasoning for each profile.</li>
+<li>At the bottom of the page, in <strong>Try it · compare conversation history</strong>, type "My name is Ada. Remember it." and then "What is my name?". Repeat with the 🧠 memory toggle off.</li>
+</ol>
+<p>It's the same thing you did in the notebook: the <code>direct</code> profile is our <code>SIN_RAZONAR</code> (no reasoning), and <code>includeHistory:false</code> is like removing the map in <code>describir</code> (describe).</p>
+<h2 id="check-that-it-worked">Check that it worked</h2>
+<ul>
+<li>☐ <code>siempre_derecha</code> stops at the step cap and <code>decidir_bfs</code> reaches the goal.</li>
+<li>☐ <code>decidir_llm</code> reaches the goal using <strong>the same</strong> <code>correr_agente</code> function.</li>
+<li>☐ You saw the <code>💥 Movimiento inválido</code> (invalid move) and fixed it with <code>extraer_movimiento</code> + validation.</li>
+<li>☐ You can explain why "What is my name?" works with history and fails without it.</li>
+<li>☐ <code>ChatSoporte</code> with a window of 4 forgets the name and with a window of 20 remembers it.</li>
+</ul>
+<h2 id="common-errors">Common errors</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Modo: MOCK (sin NVIDIA_API_KEY: respuestas simuladas)</code> even though you set up your key</td>
+<td>The kernel started before you created <code>.env</code>, <code>.env</code> isn't at the repo root, or in Colab you didn't turn on secret access</td>
+<td>Restart the kernel and run again from the first cell. See <a href="../../../FAQ.html#emock">FAQ (Spanish): MOCK mode</a></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 401 · Key rechazada: ...</code> (key rejected)</td>
+<td>Key incomplete, with spaces, or regenerated</td>
+<td>Copy the full key again (<code>nvapi-...</code>). See <a href="../../../FAQ.html#e401">FAQ (Spanish): 401</a></td>
+</tr>
+<tr>
+<td><code>ValueError: Movimiento inválido: 'Te sugiero ir hacia abajo...'</code> (invalid move)</td>
+<td>You passed the model's text straight to <code>env.actuar</code> (act)</td>
+<td>Extract the move with <code>extraer_movimiento</code> and validate it against <code>obs["legales"]</code> (legal moves) before acting</td>
+</tr>
+<tr>
+<td><code>⛔ Se acabó el presupuesto de 30 pasos sin llegar.</code> (30-step budget ran out)</td>
+<td>The model goes in circles: you removed the map or the strategy, or the temperature is high</td>
+<td>Restore the map in <code>describir</code>, lower the temperature to 0 or raise <code>max_pasos</code> (max steps). This is the cap doing its job</td>
+</tr>
+<tr>
+<td><code>⚠ finish_reason=length sin contenido: el modelo gastó max_tokens razonando.</code> (no content: the model spent max_tokens reasoning)</td>
+<td>Nemotron reasoned and ran out of <code>max_tokens</code> before answering</td>
+<td>Keep <code>extra_body=SIN_RAZONAR</code> in the call or raise <code>max_tokens</code>. See <a href="../../../FAQ.html#elength">FAQ (Spanish): length</a></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 400 · Solicitud inválida: ...</code> (invalid request) when you change <code>MODEL</code></td>
+<td>The new model doesn't accept <code>chat_template_kwargs</code></td>
+<td>Remove <code>extra_body=SIN_RAZONAR</code> from the calls or go back to <code>nvidia/nemotron-3.5-lightning-30b-a3b</code></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 429 · Demasiadas solicitudes por minuto.</code> (too many requests per minute)</td>
+<td>Each maze step is a call; you ran several runs back to back</td>
+<td>Wait a few seconds between runs. See <a href="../../../FAQ.html#e429">FAQ (Spanish): 429</a></td>
+</tr>
+<tr>
+<td>Soporte NemoClaw "forgets" what you told it</td>
+<td>The window (<code>max_mensajes</code>, max messages) no longer includes that message</td>
+<td>That's the memory vs. cost trade-off: widen the window or solve the challenge below</td>
+</tr>
+</tbody>
+</table>
+<h2 id="challenge-memory-of-facts">Challenge: memory of facts</h2>
+<p>With <code>max_mensajes=4</code>, Soporte NemoClaw forgets your name. Make it remember <strong>without widening the window</strong>: when the user says "me llamo X" (my name is X), store <code>X</code> in a <code>hechos</code> (facts) dictionary and add it to the system prompt on every call.</p>
+<p><strong>Success criteria</strong> (live): with <code>max_mensajes=4</code>, the notebook's <code>CONVERSACION</code> (conversation) and two extra questions, the bot correctly answers "¿Cómo me llamo?" (what is my name?) and <code>len(soporte.historial)</code> never goes above 5. Write your solution in the <code>ChatSoporteConHechos</code> cell (support chat with facts).</p>
+<h2 id="project-milestone">Project milestone</h2>
+<p><strong>Soporte NemoClaw v1: a chat with memory and limits.</strong> It has a system prompt with its role and rules (it never asks for or repeats an API key), memory in <code>historial</code> (history), a <code>max_mensajes</code> window and a <code>max_turnos</code> (max turns) cap per session.</p>
+<p>Copy <code>SISTEMA_SOPORTE</code> (support system prompt) and the <code>ChatSoporte</code> class into a <code>soporte_nemoclaw.py</code> file in your own repository. In class 2.2 you add the ReAct loop and its first tool.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/01a-loop.html">Lesson 01a · The Agent</a>, NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
+<li><a href="https://github.com/NVDLI/NemoClawDLI">NVIDIA's course repository (NVDLI/NemoClawDLI)</a>: the code for the maze cells.</li>
+<li>Russell and Norvig, <em>Artificial Intelligence: A Modern Approach</em>, ch. 2 (agents and environments): the origin of the perceive → reason → act cycle.</li>
+<li><a href="../../../FAQ.html">Course FAQ (Spanish)</a>, sections <a href="../../../FAQ.html#errores-api">API errors</a> and <a href="../../../FAQ.html#notebooks">Notebooks</a>.</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../1.3-rutas-de-modelo-y-errores/index.html"><small>Previous class</small>1.3 · Configure model routes and diagnose errors</a><a class="pn next" href="../2.2-patron-react/index.html"><small>Next class</small>2.2 · Reasoning with the ReAct pattern</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copy$/, "").trim()).then(function () {
+      b.textContent = "Copied!"; setTimeout(function () { b.textContent = "Copy"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>

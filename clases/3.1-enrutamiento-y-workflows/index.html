@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3.1 Enruta trabajo entre varias llamadas · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+</head><body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero"><span class="tag">Módulo 3 · Coordina, fundamenta y planea</span><h1><span class="num">3.1</span>Enruta trabajo entre varias llamadas</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Enrutar subtareas entre llamadas a modelos</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.1-enrutamiento-y-workflows/3.1-enrutamiento-y-workflows.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Cuando ya sabes cómo se reparte un trabajo, no hace falta que el modelo lo decida todo. Tu código reparte: clasifica cada petición, lanza varias búsquedas a la vez y junta las respuestas. Y siempre revisa lo que contesta el modelo antes de usarlo.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>La recepcionista que te dice a qué ventanilla ir.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#router" class="glos" data-def="Un paso que clasifica una petición y la manda al especialista correcto. · La recepcionista que te dice a qué ventanilla ir.">router</a>, ReWOO (planear todo primero y después hacer las búsquedas a la vez, como la lista del súper antes de salir), fan-out (mandar la misma consulta a varios especialistas al mismo tiempo y juntar sus notas).</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Abre el notebook en Google Colab (en Colab: menú <strong>Archivo → Subir notebook</strong>). Sin API key funciona con respuestas simuladas. Presiona ▶ en cada celda, en orden, de arriba hacia abajo, y mira solo lo que aparece debajo; no hace falta leer el código. Después responde: (1) en la lista de seis tickets, ¿a qué categoría fue el mensaje del 401 y a cuál el del reembolso?; (2) ¿qué etiqueta inventó el modelo para el reembolso y en cuál terminó después del segundo intento?; (3) en la sección 4, ¿qué especialista "no contestó" y qué dice la respuesta final sobre eso?</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Puedes decidir cuándo conviene repartir un trabajo entre varias llamadas al modelo y cuándo basta con una, y sabes que lo que contesta el modelo siempre se revisa.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Objetivo: que tu código, y no el modelo, sea dueño de la forma del trabajo: un router de triage con enum fijo, un pipeline ReWOO en paralelo y un fan-out que sobrevive a una rama caída.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Duración del video</strong></td>
+<td>≈9 min</td>
+</tr>
+<tr>
+<td><strong>Práctica</strong></td>
+<td>Notebook (≈50 min), funciona sin key en modo MOCK</td>
+</tr>
+<tr>
+<td><strong>Habilidad</strong></td>
+<td>Enrutar subtareas entre llamadas a modelos</td>
+</tr>
+<tr>
+<td><strong>Lección de NVIDIA</strong></td>
+<td><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02a-routing.html">02a · El agente de flujo de trabajo</a></td>
+</tr>
+<tr>
+<td><strong>Material</strong></td>
+<td><a href="slides.html">Diapositivas</a> · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.1-enrutamiento-y-workflows/3.1-enrutamiento-y-workflows.ipynb" target="_blank" rel="noopener">Notebook</a> · <a href="../../FAQ.html">Preguntas frecuentes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
+<ul>
+<li>Clasificar tickets de estudiantes con un <strong>enum cerrado</strong> (<code>instalacion | api_key | brev | seguridad | otro</code>), validar el JSON y decidir qué hacer cuando el modelo inventa una etiqueta.</li>
+<li>Construir un pipeline <strong>ReWOO</strong>: planear una vez, ejecutar búsquedas en paralelo con <code>concurrent.futures</code> y sintetizar una vez, midiendo la latencia de cada fase.</li>
+<li>Hacer <strong>fan-out / fan-in</strong> a varios especialistas, aislar la rama que falla, reintentar solo lo reintentable y saber cuándo <strong>no</strong> dividir.</li>
+</ul>
+<h2 id="antes-de-empezar">Antes de empezar</h2>
+<ul>
+<li>Terminaste la clase 2.3: sabes que una herramienta es un contrato y que los errores vuelven al modelo como texto.</li>
+<li>Python 3.10+ o Colab. Tu key <code>nvapi-</code> es opcional: sin key, el notebook usa el modelo simulado (MOCK).</li>
+<li>Si trabajas en local, el entorno de la <a href="../2.1-loop-de-agente/index.html">clase 2.1</a> ya tiene todo lo que necesitas (<code>openai</code>, <code>python-dotenv</code>).</li>
+</ul>
+<h2 id="paso-a-paso">Paso a paso</h2>
+<h3 id="1-abre-el-notebook-y-ejecuta-la-configuración">1. Abre el notebook y ejecuta la configuración</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+jupyter<span class="w"> </span>lab<span class="w"> </span>clases/3.1-enrutamiento-y-workflows/3.1-enrutamiento-y-workflows.ipynb
+</code></pre></div>
+<p>En Colab: <strong>Archivo → Subir notebook</strong> y guarda tu key en Secrets como <code>NVIDIA_API_KEY</code>.</p>
+<p>Ejecuta las cuatro primeras celdas (configuración, cliente, ayudas y reglas mock). Deberías ver:</p>
+<div class="highlight"><pre><span></span><code>Modo: EN VIVO · nvidia/nemotron-3.5-lightning-30b-a3b      (o "Modo: MOCK ...")
+Cliente listo: https://integrate.api.nvidia.com/v1
+Ayudas listas: llm(), llamar(), extraer_json(), ErrorSimulado
+Reglas mock de la clase 3.1 listas
+</code></pre></div>
+<h3 id="2-define-el-enum-y-el-validador-sección-2">2. Define el enum y el validador (sección 2)</h3>
+<p>Ejecuta la celda de <code>CATEGORIAS</code>, <code>ESQUEMA_TRIAGE</code> y <code>validar_triage</code>. Deberías ver:</p>
+<div class="highlight"><pre><span></span><code>[]
+["categoria inválida: 'facturacion'"]
+</code></pre></div>
+<p>Una lista vacía significa "válido". La segunda línea es lo que pasa cuando el modelo inventa una categoría.</p>
+<h3 id="3-clasifica-con-reintento">3. Clasifica con reintento</h3>
+<p>Ejecuta la celda de <code>clasificar</code>. Fíjate en el orden:</p>
+<ol>
+<li>Pide JSON con <code>response_format</code> y el esquema (si la ruta no lo acepta y responde 400, sigue solo con el prompt).</li>
+<li>Extrae el JSON aunque venga con prosa alrededor.</li>
+<li>Valida. Si falla, <strong>un</strong> reintento que le muestra al modelo su error. Si vuelve a fallar, <code>otro</code>.</li>
+</ol>
+<p>Deberías ver <code>intento 1: ... -&gt; OK</code> y un diccionario con <code>'categoria': 'api_key'</code>.</p>
+<h3 id="4-router-y-especialistas">4. Router y especialistas</h3>
+<p>Ejecuta la celda de <code>crear_especialista</code> y <code>soporte</code>. Recorre seis tickets. Busca estos dos casos en la salida:</p>
+<div class="highlight"><pre><span></span><code>   intento 1: 'Claro, esta es la clasificación:\n{"categoria": "brev", ...' -&gt; OK
+   ...
+   intento 1: '{"categoria": "facturacion", ...' -&gt; ["categoria inválida: 'facturacion'"]
+   intento 2: '{"categoria": "otro", ...' -&gt; OK
+→ otro        baja  intentos=2 | Quiero un reembolso, me hicieron un cobro doble
+</code></pre></div>
+<p>El router es un diccionario: <code>ESPECIALISTAS[t["categoria"]]</code>. Nunca falla porque validaste antes. Haz el <strong>✏️ Tu turno</strong> con tres tickets tuyos, uno ambiguo.</p>
+<h3 id="5-rewoo-planear--ejecutar-en-paralelo--sintetizar-sección-3">5. ReWOO: planear → ejecutar en paralelo → sintetizar (sección 3)</h3>
+<p>Ejecuta la celda de la FAQ (carga la muestra o, dentro del repo, <code>datos/faq/</code> completa) y luego la celda de <code>planear</code>, <code>ejecutar</code> y <code>sintetizar</code>. Deberías ver algo así:</p>
+<div class="highlight"><pre><span></span><code>   (el plan traía 5 consultas; lo recorto a 4)
+PLAN (cada consulta → la entrada que encontró):
+   'cómo detener la instancia de brev'            → brev.md#cómo-detengo-o-borro-mi-instancia
+   'session expired en el laboratorio'            → conexion-laboratorio.md#me-sale-session-expired-or-unreachable
+   ...
+llamadas al modelo: 2 ['planificador', 'sintetizador']
+</code></pre></div>
+<p>Dos llamadas al modelo, sin importar cuántas búsquedas tenga el plan.</p>
+<h3 id="6-mide-la-latencia">6. Mide la latencia</h3>
+<p>Ejecuta la celda de las barras. Deberías ver las búsquedas en paralelo (≈0.5 s) contra en serie (≈2 s). En vivo, mira cuánto pesan el planificador y el sintetizador en el total: si tardan 5 s cada uno, ahorrar 1.5 s en búsquedas casi no se nota.</p>
+<h3 id="7-fan-out-con-una-rama-que-falla-sección-4">7. Fan-out con una rama que falla (sección 4)</h3>
+<p>Ejecuta la celda de <code>fan_out</code>. Deberías ver:</p>
+<div class="highlight"><pre><span></span><code>  api_key    0.31s ███
+  brev       0.31s ███
+  seguridad  FALLÓ → TimeoutError: el especialista no respondió a tiempo (simulado)
+</code></pre></div>
+<p>Y una respuesta unida que termina en "Ojo: falta la revisión de seguridad; esta respuesta puede estar incompleta."</p>
+<h3 id="8-compara-con-una-sola-llamada-sección-5">8. Compara con una sola llamada (sección 5)</h3>
+<p>Ejecuta la celda del <code>generalista</code>. Compara llamadas y segundos: 1 llamada contra 4. Lee la tabla "Divide cuando… / NO dividas cuando…".</p>
+<h3 id="9-cuando-algo-falla-">9. Cuando algo falla (🧯)</h3>
+<ul>
+<li><strong>a)</strong> Ejecuta <code>SALIDAS_MALAS</code>. Deberías ver que <code>"Brev"</code> con mayúscula y el JSON cortado (<code>{"categoria": "brev", "prio</code>) se rechazan.</li>
+<li><strong>b)</strong> Ejecuta <code>rama_con_429</code>: la rama <code>seguridad</code> recibe un 429 y verás el diagnóstico <code>429 · Demasiadas solicitudes por minuto...</code>. Luego <code>con_reintento</code>: <code>429 en seguridad (intento 1): espero 0.5s y reintento</code> y las tres ramas OK.</li>
+</ul>
+<h3 id="10-avance-del-proyecto">10. Avance del proyecto</h3>
+<p>Ejecuta <code>soporte_nemoclaw</code>. Un ticket simple va a un especialista; el reporte del 401 tiene prioridad alta y pasa por el fan-out.</p>
+<h3 id="11-opcional-practica-en-el-navegador-con-la-lección-de-nvidia">11. (Opcional) Practica en el navegador con la lección de NVIDIA</h3>
+<p>En la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02a-routing.html">lección 02a</a>, con tu key guardada en el panel del curso:</p>
+<ol>
+<li>En <strong>Planificar búsquedas paralelas en el glosario</strong>, nodo <strong>Objetivo de investigación</strong>, cambia <code>state.goal</code> por una pregunta tuya y ejecuta el flujo. Cuenta las llamadas al modelo: siempre son 2.</li>
+<li>En <strong>Enviar un ticket a un especialista</strong>, nodo <strong>Ticket del usuario</strong>, cambia <code>state.ticket</code> por <code>"Mi pantalla parpadea y la VPN se cae"</code> (toca dos categorías). ¿Cuál elige?</li>
+<li>En <strong>Distribuir una entrada entre especialistas</strong>, compara el tiempo de reloj contra la suma de duraciones.</li>
+<li>En el panel <strong>Prueba · router de selección en vivo</strong>, escribe "I want a refund for last month's subscription".</li>
+</ol>
+<p><code>[VERIFICAR EN LAB]</code> los nombres en español de las celdas.</p>
+<h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
+<ul>
+<li>☐ <code>validar_triage</code> rechaza <code>facturacion</code>, <code>Brev</code> con mayúscula y el JSON cortado.</li>
+<li>☐ El ticket de reembolso termina en <code>otro</code> después de 2 intentos y no rompe el pipeline.</li>
+<li>☐ ReWOO hace exactamente 2 llamadas al modelo y las búsquedas en paralelo tardan menos que en serie.</li>
+<li>☐ El fan-out entrega una respuesta aunque <code>seguridad</code> falle, y la respuesta lo dice.</li>
+<li>☐ Con <code>con_reintento</code>, el 429 se recupera y un 401 no se reintentaría.</li>
+</ul>
+<h2 id="errores-comunes">Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>["categoria inválida: 'facturacion'"]</code> (o cualquier etiqueta fuera de la lista)</td>
+<td>El modelo inventó una categoría o la ruta no aplicó el esquema</td>
+<td>Es esperado: el reintento le muestra su error y, si insiste, va a <code>otro</code>. Nunca mapees sinónimos a mano</td>
+</tr>
+<tr>
+<td><code>JSON ilegible (ValueError)</code> o <code>JSONDecodeError</code></td>
+<td>El modelo agregó prosa sin JSON o <code>finish_reason=length</code> cortó el JSON</td>
+<td><code>extraer_json</code> rescata la prosa; para el corte, sube <code>max_tokens</code>. Ver <a href="../../FAQ.html#elength">FAQ: length</a></td>
+</tr>
+<tr>
+<td><code>RuntimeError: 400 · Solicitud inválida</code> al clasificar</td>
+<td>La ruta o el modelo no acepta <code>response_format</code> con <code>json_schema</code></td>
+<td><code>_pedir_triage</code> reintenta sin esquema; tu validador sigue protegiéndote</td>
+</tr>
+<tr>
+<td><code>RuntimeError: 429 · Demasiadas solicitudes por minuto</code> en una rama</td>
+<td>Lanzaste muchas llamadas en paralelo</td>
+<td>Baja <code>max_workers</code> y envuelve la rama con <code>con_reintento</code>. Ver <a href="../../FAQ.html#e429">FAQ: 429</a></td>
+</tr>
+<tr>
+<td><code>KeyError: 'facturacion'</code> al llamar al especialista</td>
+<td>Usaste la etiqueta del modelo sin validar</td>
+<td>Llama a <code>clasificar</code> (que valida) antes del router</td>
+</tr>
+<tr>
+<td><code>ValueError: max_workers must be greater than 0</code></td>
+<td>El plan llegó vacío y <code>ThreadPoolExecutor</code> recibió 0 hilos</td>
+<td><code>planear</code> ya lanza un error claro si no hay consultas; revisa lo que devolvió el planificador</td>
+</tr>
+<tr>
+<td>ReWOO responde algo sin sentido en el paso 2</td>
+<td>El paso 2 dependía del resultado del paso 1</td>
+<td>ReWOO no sirve ahí: usa ReAct o un loop dentro de esa etapa</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reto">Reto</h2>
+<p>Agrega la categoría <strong><code>costos</code></strong> (créditos y precio de Brev; en la clase 2.3 hiciste <code>estimar_costo_brev</code>): súmala a <code>CATEGORIAS</code>, al prompt <code>SISTEMA_TRIAGE</code> y a <code>ESPECIALISTAS</code>, y escribe 3 tickets de costos y 1 ambiguo.</p>
+<p><strong>Criterio de éxito:</strong> los 3 tickets de costos llegan a <code>costos</code>, el de reembolso sigue cayendo en <code>otro</code> por validación y ningún ticket rompe el pipeline. Sin key, agrega una regla al mock; con key, pruébalo en vivo.</p>
+<h2 id="avance-del-proyecto">Avance del proyecto</h2>
+<p><strong>Soporte NemoClaw v3.1: triage + especialistas.</strong> Tu agente ya no responde todo con el mismo prompt: clasifica cada ticket en <code>instalacion | api_key | brev | seguridad | otro</code>, valida la etiqueta y lo manda al especialista correcto. Si el ticket es urgente, corre el fan-out y une las revisiones, diciendo qué faltó.</p>
+<p>Agrega <code>clasificar</code>, <code>validar_triage</code>, <code>ESPECIALISTAS</code>, <code>fan_out</code>, <code>unir</code> y <code>con_reintento</code> a tu <code>soporte_nemoclaw.py</code>. En la clase 3.2 los especialistas dejan de responder de memoria: les das RAG sobre la FAQ, con citas.</p>
+<h2 id="recursos">Recursos</h2>
+<ul>
+<li><a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/02a-routing.html">Lección 02a · El agente de flujo de trabajo</a>, curso de NVIDIA DLI en español. Esta clase está basada en ella (Apache-2.0).</li>
+<li>Xu et al. (2023), <a href="https://arxiv.org/abs/2305.18323">ReWOO: Decoupling Reasoning from Observations for Efficient Augmented Language Models</a>.</li>
+<li>Yao et al. (2022), <a href="https://arxiv.org/abs/2210.03629">ReAct</a>, para comparar.</li>
+<li>Documentación de Python: <a href="https://docs.python.org/es/3/library/concurrent.futures.html"><code>concurrent.futures</code></a>.</li>
+<li><a href="../../FAQ.html#errores-api">Preguntas frecuentes del curso</a> y el corpus <a href="../../datos/faq/"><code>datos/faq/</code></a>.</li>
+</ul></div></section>
+<nav class="prevnext"><a class="pn prev" href="../2.3-funciones-a-herramientas/index.html"><small>Clase anterior</small>2.3 · Convierte funciones en herramientas</a><a class="pn next" href="../3.2-rag/index.html"><small>Clase siguiente</small>3.2 · RAG para fundamentar en tus fuentes</a></nav>
+</main>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<script>
+document.querySelectorAll("pre").forEach(function (pre) {
+  var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";
+  b.addEventListener("click", function () {
+    navigator.clipboard.writeText(pre.innerText.replace(/Copiar$/, "").trim()).then(function () {
+      b.textContent = "¡Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1500); });
+  });
+  pre.appendChild(b);
+});
+</script>
+</body></html>
