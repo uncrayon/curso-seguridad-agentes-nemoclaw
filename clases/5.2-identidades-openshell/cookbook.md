@@ -1,60 +1,78 @@
 # Cookbook 5.2 · Identidad y límites dentro del sandbox
 
-Recetas de terminal para el laboratorio NemoClaw en Brev. Todas son **de solo lectura o se limpian solas**: ninguna cambia la política ni rompe el agente.
+Recetas para el laboratorio NemoClaw en Brev, todas desde el navegador. Todas son **de solo lectura o se limpian solas**: ninguna cambia la política ni rompe el agente.
 
 **Convenciones**
 - `my-assistant` es el nombre del sandbox del launchable. Si el tuyo es otro, cámbialo (receta 0).
-- Corre los comandos en el **host** del lab (no dentro del sandbox). `openshell sandbox exec` los ejecuta dentro por ti.
+- Los comandos van en la **VM TERMINAL** del tablero de tu laboratorio (la terminal de operador, usuario `ubuntu`). `openshell sandbox exec` los ejecuta dentro del sandbox por ti.
+- Haz clic dentro del área negra antes de escribir. **Shift + Esc** cierra la terminal.
 - Cada `openshell sandbox exec` abre una shell nueva y corta. Si tu comando usa tuberías (`|`) o `&&`, envuélvelo en `sh -c '...'`; si no, el `|` lo interpreta la shell del host.
-- Las salidas "esperadas" vienen de la documentación de NemoClaw y de la lección 04a de NVIDIA. Las marcadas `[VERIFICAR EN LAB]` se confirman en la prueba previa.
+- Todos los comandos `nemoclaw` imprimen `ExperimentalWarning: SQLite is an experimental feature`. Ignórala.
+- Las salidas "esperadas" vienen de una prueba real del laboratorio. Donde una prueba no se repitió, la receta te dice qué buscar en lugar de prometer el texto exacto.
 
 ---
 
-## 0 · Conéctate y encuentra tu sandbox
+## 0 · Abre la terminal de operador y encuentra tu sandbox
+
+En la consola de Brev, ve a **Compute** → tu instancia → botón verde **NemoClaw**. En el tablero, haz clic en **VM TERMINAL**. Estos comandos listan los sandboxes y revisan que el laboratorio esté sano:
 
 ```bash
-brev shell <tu-instancia>          # sin --host en el launchable de NemoClaw
 openshell sandbox list
 nemoclaw my-assistant status
+openshell status
 ```
 
-Deberías ver una fila `my-assistant` en estado listo, y en `status` la inferencia como `healthy`.
+Esperado: una fila `my-assistant` con `PHASE Ready`; en `status`, la inferencia `healthy` y la fase `Ready`; en `openshell status`, el gateway `nemoclaw-18080` en `https://127.0.0.1:18080` con `Status Connected`.
 
 **Si falla**
-- `brev shell` se queda en "waiting for instance to be ready": `brev refresh` y reintenta (FAQ de Brev, clase 4.1).
 - No aparece `my-assistant`: usa el nombre que sí aparece en `openshell sandbox list` en todas las recetas.
 - La fila no está lista: `nemoclaw my-assistant recover` y vuelve a listar.
 
-## 1 · ¿Quién es el agente? (`whoami`, `id`, `pwd`)
+## 1 · ¿Quién es el agente? Dos terminales, dos poderes
+
+**Dentro del cuarto.** En el tablero, haz clic en **SANDBOX TERMINAL** y escribe:
 
 ```bash
-openshell sandbox exec -n my-assistant -- whoami
-openshell sandbox exec -n my-assistant -- id
-openshell sandbox exec -n my-assistant -- pwd
+whoami
+pwd
+id
 ```
 
 Esperado:
 ```text
 sandbox
-uid=…(sandbox) gid=…(sandbox) groups=…(sandbox)
 /sandbox
+uid=998(sandbox) gid=998(sandbox) …
 ```
-`[VERIFICAR EN LAB]` los números de `uid`/`gid` y el `pwd` exacto de `openshell sandbox exec` (con `nemoclaw … exec` el `HOME` es `/sandbox`).
 
-Lo mismo con la CLI de NemoClaw (corre como el usuario `sandbox` con `HOME=/sandbox`):
+**Afuera, como operador.** Cierra con **Shift + Esc**, abre la **VM TERMINAL** y escribe:
+
 ```bash
-nemoclaw my-assistant exec -- id
+whoami
+id
 ```
 
-Y preguntándole **al agente** (un turno sin abrir el chat):
+Esperado: `ubuntu` y `uid=1000(ubuntu) …`, con `sudo` y `docker` entre los grupos. El operador puede administrar la máquina y sus contenedores; el agente no.
+
+**Desde la VM TERMINAL, hacia adentro.** Las dos formas de preguntarle al sandbox sin entrar:
+
+```bash
+openshell sandbox exec -n my-assistant -- id
+nemoclaw my-assistant exec -- whoami
+nemoclaw my-assistant exec -- pwd
+```
+
+Esperado: `uid=998(sandbox) gid=998(sandbox)`, `sandbox` y `/sandbox`.
+
+**Y preguntándole al agente** (un turno sin abrir el chat):
 ```bash
 nemoclaw my-assistant agent -m "Usa tu herramienta exec para ejecutar whoami y pwd, y dime en una frase qué usuario eres y dónde estás."
 ```
-Esperado: una frase como "Soy el usuario sandbox y estoy en /sandbox". Compara con lo que viste tú: como operador, **verificas** lo que el agente afirma (clase 4.2).
+Compara con lo que viste tú. En una prueba del curso, desde el chat, el agente dijo que trabajaba en `/sandbox/.openclaw/workspace` pero afirmó ser `gateway-owner`; el usuario real es `sandbox`. Como operador, **verificas** lo que el agente afirma de sí mismo (clase 4.2).
 
 **Si falla**
-- `uid=0(root)`: estás en un contenedor equivocado o usaste `docker exec` (corre como root). Usa siempre `openshell sandbox exec` o `nemoclaw … exec`.
-- El agente no ejecuta nada: puede tener la herramienta `exec` deshabilitada o pedir aprobación. Revisa la página 04a, celda "🩺 Health check" (receta 7), que lista aprobaciones pendientes.
+- `uid=0(root)`: usaste `docker exec` (corre como root). Usa siempre `openshell sandbox exec` o `nemoclaw … exec`.
+- El agente no ejecuta nada: puede tener la herramienta `exec` deshabilitada o pedir aprobación. Anótalo: lo que cuenta es lo que viste tú en la terminal.
 
 ## 2 · La autoridad del proceso, de un vistazo
 
@@ -62,12 +80,10 @@ Esperado: una frase como "Soy el usuario sandbox y estoy en /sandbox". Compara c
 openshell sandbox exec -n my-assistant -- grep -E '^(Uid|Gid|NoNewPrivs|Seccomp|Seccomp_filters|CapEff|CapBnd)' /proc/self/status
 ```
 
-Esperado `[VERIFICAR EN LAB]`:
+Esperado (las líneas que importan):
 ```text
-Uid:    …  (no 0)
 NoNewPrivs:     1          ← no puede ganar privilegios con binarios setuid
 Seccomp:        2          ← filtro seccomp activo (modo filter)
-Seccomp_filters:        1 o más
 CapEff: 0000000000000000   ← sin capacidades efectivas de root
 ```
 
@@ -76,16 +92,25 @@ Es la forma más segura de comprobar seccomp: **solo lee** un archivo del kernel
 **Si falla**
 - `Seccomp: 0`: el filtro no está activo para ese proceso. Anótalo y repórtalo; no sigas a la receta 4 suponiendo que seccomp bloquea.
 
-## 3 · Pedir más autoridad (catálogo de NVIDIA 04a)
+## 3 · Pedir más autoridad y clasificar el mensaje
+
+Primero, las tres pruebas que ya vimos en el laboratorio:
 
 ```bash
 openshell sandbox exec -n my-assistant -- sudo id
+openshell sandbox exec -n my-assistant -- touch /usr/local/bin/prueba-curso
+openshell sandbox exec -n my-assistant -- sh -c 'touch /tmp/prueba-curso && echo "tmp: se puede escribir" && rm /tmp/prueba-curso'
+```
+
+Esperado: `sudo` da `command not found`; `touch` en `/usr/local/bin` da `Permission denied`; en `/tmp` sí se puede escribir (y el archivo se borra).
+
+Después, más intentos de pedir poder. Todos **deberían fallar**; no hay un texto fijo que esperar. Lee el mensaje de cada uno y clasifícalo con la tabla:
+
+```bash
 openshell sandbox exec -n my-assistant -- nsenter -t 1 -m -- id
 openshell sandbox exec -n my-assistant -- docker ps
 openshell sandbox exec -n my-assistant -- dd if=/proc/1/environ of=/dev/null status=none
 ```
-
-Todas deberían fallar. **Lee el mensaje**, porque cada uno cuenta una historia distinta:
 
 | Mensaje | Qué significa |
 |---|---|
@@ -93,11 +118,9 @@ Todas deberían fallar. **Lee el mensaje**, porque cada uno cuenta una historia 
 | `Permission denied` (`EACCES`) | Permisos de archivo o Landlock negaron el acceso. |
 | `Operation not permitted` (`EPERM`) | El kernel negó la operación: falta de capacidades o seccomp. |
 
-`[VERIFICAR EN LAB]` el mensaje y el código de salida de cada una en la imagen actual.
-
 **Si falla** (es decir, si alguna funciona): anota cuál y repórtalo. Que `sudo id` devuelva `uid=0` sería un hallazgo serio.
 
-## 4 · seccomp: `ptrace`, `mount` y `setuid` sin romper nada
+## 4 · seccomp: `setuid`, `ptrace` y `mount` sin romper nada
 
 Tres llamadas que seccomp excluye, probadas con Python sin efectos secundarios:
 
@@ -112,63 +135,63 @@ openshell sandbox exec -n my-assistant -- python3 -c 'import ctypes, os; l = cty
 openshell sandbox exec -n my-assistant -- python3 -c 'import ctypes, os, tempfile; l = ctypes.CDLL(None, use_errno=True); d = tempfile.mkdtemp(); r = l.mount(b"none", d.encode(), b"tmpfs", 0, None); print(r, os.strerror(ctypes.get_errno())); os.rmdir(d)'
 ```
 
-Esperado `[VERIFICAR EN LAB]`:
-```text
-PermissionError: [Errno 1] Operation not permitted
--1 Operation not permitted
--1 Operation not permitted
-```
+Esperado en `setuid`: `PermissionError: [Errno 1] Operation not permitted`. En `ptrace` y `mount` deberías ver un `-1` con un mensaje de error; clasifícalo con la tabla de la receta 3.
 
 Importante: `EPERM` **no te dice** si lo frenó seccomp o la falta de capacidades. Por eso la receta 2 lee `/proc/self/status`: ahí ves que ambas defensas están puestas.
 
 **Si falla**
-- `python3: command not found`: la imagen cambió. Usa la celda de la página 04a (receta 7) o salta esta receta.
-- `ptrace` devuelve `0`: seccomp permitió `PTRACE_TRACEME`. No es grave por sí solo (no da acceso a otros procesos), pero anótalo para la prueba previa.
+- `python3: command not found`: la imagen cambió. Salta esta receta; la receta 2 ya muestra las defensas.
+- `ptrace` devuelve `0`: seccomp permitió `PTRACE_TRACEME`. No es grave por sí solo (no da acceso a otros procesos), pero anótalo.
 
-## 5 · Permisos por binario: el host está permitido, el binario no
+## 5 · Permisos por binario
 
-En la política base, `docs.openclaw.ai` solo se permite para `/usr/local/bin/openclaw`.
+En la política del laboratorio, `docs.openclaw.ai` está en el grupo `openclaw_docs`, pero ese grupo no deja pasar a `curl`.
 
 ```bash
-# 5a · curl hacia un host permitido... para otro binario
-openshell sandbox exec -n my-assistant -- curl -sS -m 8 -o /dev/null -w 'code=%{http_code}\n' https://docs.openclaw.ai
+# 5a · curl hacia un destino que la política nombra... para otro programa
+openshell sandbox exec -n my-assistant -- curl -sS -m 8 -o /dev/null -w 'code=%{http_code}\n' https://docs.openclaw.ai; echo "salida=$?"
 ```
-Esperado: `curl: (56) CONNECT tunnel failed, response 403`. El proxy negó la conexión porque el binario es `curl`.
+Esperado: `curl: (56) CONNECT tunnel failed, response 403`, `code=000` y `salida=56`. El proxy negó la conexión por el programa.
+
+Ahora intenta engañar al guardia. Según la documentación de NemoClaw, OpenShell no mira el nombre que dice el programa (`argv[0]`, que se puede falsificar): lee la ruta real del ejecutable en `/proc/<pid>/exe`, recorre los procesos padre y guarda un hash SHA256 de cada binario la primera vez que lo ve (*trust-on-first-use*). Pruébalo y anota qué pasa:
 
 ```bash
 # 5b · Falsificar argv[0]: curl se presenta como "openclaw"
 openshell sandbox exec -n my-assistant -- bash -c 'exec -a /usr/local/bin/openclaw curl -sS -m 8 -o /dev/null -w "code=%{http_code}\n" https://docs.openclaw.ai'
-```
-Esperado: el mismo 403. OpenShell no mira `argv[0]` (se puede falsificar). Lee la ruta real del ejecutable en `/proc/<pid>/exe`, recorre los procesos padre y calcula un hash SHA256 de cada binario la primera vez que lo ve (*trust-on-first-use*).
 
-```bash
 # 5c · Copiar curl con el nombre "openclaw" en /tmp (se borra al final)
 openshell sandbox exec -n my-assistant -- sh -c 'cp /usr/bin/curl /tmp/openclaw && /tmp/openclaw -sS -m 8 -o /dev/null https://docs.openclaw.ai; echo "salida=$?"; rm -f /tmp/openclaw'
 ```
-Esperado: 403 y `salida=56`. La ruta real es `/tmp/openclaw`, no `/usr/local/bin/openclaw`.
+Si el guardia funciona como dice la documentación, las dos deberían terminar igual que 5a. Si alguna pasa, anótalo y compártelo en el foro del curso.
 
 ```bash
 # 5d · ¿Y si reemplazo el binario permitido? /usr es de solo lectura
 openshell sandbox exec -n my-assistant -- touch /usr/local/bin/prueba-curso
 ```
-Esperado: `touch: cannot touch '/usr/local/bin/prueba-curso': Permission denied`. Y si alguien lograra cambiar el binario, el hash ya no coincidiría y OpenShell negaría la solicitud.
+Esperado: `touch: cannot touch '/usr/local/bin/prueba-curso': Permission denied`.
 
 ```bash
-# 5e · Ahora el binario correcto: se lo pides al agente
+# 5e · Ahora se lo pides al agente
 nemoclaw my-assistant agent -m "Abre https://docs.openclaw.ai y dime en una línea de qué trata la página."
 ```
-Esperado `[VERIFICAR EN LAB]`: el agente responde con el contenido. Mismo destino, otro binario, otra respuesta.
+Lo que pasó en la prueba del curso: el agente intentó con `curl` y después con `node`; el guardia **negó los dos**. Aun así, el agente respondió con una frase creíble sobre OpenClaw, sacada de lo que ya sabía. Una respuesta no prueba que hubo acceso. La prueba está en el registro:
 
 ```bash
-# 5f · El log te dice quién fue bloqueado y por qué
-nemoclaw my-assistant logs --tail 30
+# 5f · El registro te dice quién fue bloqueado y por qué
+nemoclaw my-assistant logs --tail 300 | grep DENIED | tail -4
 ```
-Busca una línea de denegación con el binario `/usr/bin/curl` y el host `docs.openclaw.ai:443`. `[VERIFICAR EN LAB]` el formato exacto de la línea.
+Esperado, algo como esto (recortado):
+```text
+[sandbox] [OCSF ] [ocsf] NET:OPEN [MED] DENIED /usr/bin/curl(11932) -> docs.openclaw.ai:443 [policy:- engine:opa] [reason:binary '/usr/bin/curl' not allowed in policy 'openclaw_docs' (ancestors: [/usr/bin/bash -> /usr/local/bin/node -> /usr/bin/bash], cmdline: …
+… DENIED /usr/local/bin/node(11950) -> docs.openclaw.ai:443 … [reason:binary '/usr/local/bin/node' not allowed in policy 'openclaw_docs' …
+```
+Léela así: **quién** (el binario y su número de proceso), **sus procesos padre** (`ancestors`: aquí se ve que el `curl` lo lanzó el agente, que corre sobre `node`), **a dónde** (`docs.openclaw.ai:443`) y **por qué** (el binario no está en `openclaw_docs`).
 
 **Si falla**
-- 5a responde `code=200`: tu política permite `docs.openclaw.ai` para curl (tier o preset distinto). Mira la política (clase 5.3, receta 1) y elige otro host que solo tenga `openclaw`.
-- Ves `nemoclaw: recent network policy denial detected for …`: es una pista informativa de `nemoclaw … exec`, no un error nuevo. Se silencia con `NEMOCLAW_NO_POLICY_HINT=1`.
-- 5e falla: el agente quizá no tiene herramienta de navegación activa. No cambies la política para "arreglarlo"; anótalo.
+- 5a responde `code=200`: tu política permite `docs.openclaw.ai` para curl (tier o preset distinto). Mira la política (clase 5.3, receta 1) y elige otro destino.
+- Ves `nemoclaw: recent network policy denial detected for …`: es una pista informativa de `nemoclaw … exec`, no un error nuevo.
+- 5f no muestra nada: el agente quizá no intentó salir y respondió de memoria. Pídeselo otra vez, más explícito («usa una herramienta para descargar la página»), y repite 5f.
+- No cambies la política para "arreglar" 5e: eso es la clase 5.3.
 
 ## 6 · Las credenciales reales nunca entran al sandbox
 
@@ -176,42 +199,40 @@ Busca una línea de denegación con el binario `/usr/bin/curl` y el host `docs.o
 # Nombres de variables con key/token. Muestra el placeholder y oculta cualquier otro valor.
 openshell sandbox exec -n my-assistant -- sh -c 'env | grep -iE "key|token" | sed -E "s/=(openshell:resolve:env:).*/=\1…/; t; s/=.*/=<oculto>/"'
 ```
-Esperado `[VERIFICAR EN LAB]`:
+Esperado, entre otras líneas:
 ```text
 NVIDIA_INFERENCE_API_KEY=openshell:resolve:env:…
+OPENCLAW_GATEWAY_TOKEN=<oculto>
 ```
-Es un **placeholder**. El proxy L7 de OpenShell lo cambia por la key real solo cuando la petición sale por la ruta permitida hacia `integrate.api.nvidia.com`. Puede que veas otras variables `<oculto>` (por ejemplo, el token del gateway de OpenClaw, que sí vive en el sandbox y no es una credencial del proveedor).
+La primera es un **placeholder**. El proxy L7 de OpenShell lo cambia por la key real solo cuando la petición sale por la ruta permitida hacia NVIDIA. La segunda es el token del gateway de OpenClaw: ese sí vive en el sandbox (no es la credencial del proveedor, pero es un secreto). Por eso el filtro lo tapa.
 
 ```bash
 # ¿Hay alguna key nvapi- escrita en el sandbox?
 openshell sandbox exec -n my-assistant -- sh -c 'grep -rIl "nvapi-" /sandbox 2>/dev/null | wc -l'
 ```
-Esperado: `0`.
+Deberías ver `0`.
 
 ```bash
-# En el HOST: dónde vive la key de verdad (los valores nunca se muestran)
+# En la VM TERMINAL: qué credenciales guarda NemoClaw (los valores no se muestran)
 nemoclaw credentials list
 openshell provider list
 ```
+Deberías ver nombres de credenciales y proveedores, sin valores. Si tu versión muestra otro formato, busca que ninguna línea imprima una `nvapi-` completa.
 
 **Si falla**
-- No sale ninguna variable `…KEY`: los sandboxes creados antes de NemoClaw v0.0.132 usan la ruta `inference.local`, donde el sandbox no recibe ni el placeholder. La key tampoco está dentro.
+- No sale ninguna variable `…KEY`: los sandboxes que usan la ruta `inference.local` no reciben ni el placeholder. La key tampoco está dentro.
 - El conteo de `nvapi-` es mayor que 0: **detente**. Alguien pegó una key en un archivo del workspace. Rótala en build.nvidia.com y bórrala del archivo.
-- Nunca corras `env` sin filtro frente a cámara o en un chat: imprime tokens.
+- Nunca corras `env` sin filtro frente a cámara, en un chat ni en la SANDBOX TERMINAL: imprime el token del gateway.
 
-## 7 · En la página 04a de NVIDIA
+## 7 · Las reglas, en el panel del guardia (OPENSHELL TUI)
 
-Abre [04a · El sandbox de OpenShell](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html) con el launchable abierto en otra pestaña y conectado desde la página 03a (Kickstart).
+Es la forma visual de ver lo mismo que las recetas 2 a 5.
 
-1. **Salud primero.** En el bloque "Detect & recover", ejecuta **🩺 Health check**. Si sale `✗ DEGRADED`, ejecuta **🛠 Recover** y repite.
-2. **Identidad.** En la celda **"Pregunta cualquier cosa al entorno, en código"**, abre el código y agrega esta línea al inicio del arreglo `questions`:
-   ```js
-   ["¿Quién soy?", ["whoami", "id", "pwd"]],
-   ```
-   Ejecuta. Lee el bloque "¿Qué ocurre cuando estos comandos solicitan más permisos?": son las pruebas de la receta 3, con su código de salida.
-3. **Binario.** Ejecuta **"Lee la política activa del launchable"**. En el mapa que se dibuja abajo, cambia el **binario que llama** de `curl` a `openclaw` y mira cómo cambian los destinos permitidos.
-4. En el selector de escenarios elige **"reach the inference API as a stray curl, not the runtime"** (está en inglés). Pulsa **Predecir** y luego **Confirmar**. `[VERIFICAR EN LAB]` el resultado de Confirmar con la ruta nativa del proveedor de NVIDIA.
+1. En el tablero, haz clic en **OPENSHELL TUI**.
+2. Pantalla principal: **Tab** cambia de panel, **j**/**k** mueven la selección, **Enter** abre, **:** abre la línea de comandos y **q** sale. Selecciona `my-assistant` y presiona **Enter**.
+3. Vista del sandbox: muestra las carpetas de solo lectura y de lectura y escritura, y las reglas de red. Teclas: **h** cambia de pestaña, **s** abre una shell, **l** muestra el registro, **r** abre las reglas y **d** borra el sandbox. **No presiones d.**
+4. Presiona **r** (Rules). Si hiciste la receta 5, verás peticiones pendientes, por ejemplo de `openclaw_docs` con `curl`. Las teclas son **a** (Approve), **x** (Reject), **A** (Approve All) y **p** (Policy). En esta clase solo las miras; decidir es tema de la clase 5.3.
 
 **Si falla**
-- "Mantén el launchable abierto en otra pestaña, vuelve a ejecutar y comprueba el nombre con: openshell sandbox list": la página perdió la sesión con tu launchable. Reabre el launchable y reconéctate en 03a.
-- "No exit status arrived. Check the runtime before running more probes.": ejecuta 🩺 Health check y 🛠 Recover antes de seguir.
+- El panel se ve cortado: agranda la ventana del navegador.
+- No ves peticiones pendientes: provoca una con la receta 5a y vuelve a presionar **r**.

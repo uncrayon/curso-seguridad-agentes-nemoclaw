@@ -99,12 +99,12 @@ T = {
         "consola": "Consola de Brev", "consola_sub": "enciendes y apagas tu máquina",
         "instancia": "Tu instancia", "instancia_sub": "una computadora rentada por horas",
         "launch": "Launchable", "launch_sub": "ya trae NemoClaw instalado",
-        "curso": "Página del curso de NVIDIA", "curso_sub": "botones ▶ para cada paso",
+        "curso": "Tu tablero de NemoClaw", "curso_sub": "chat, terminal y reglas, en el navegador",
         "cookie": "Cookie de sesión", "cookie_sub": "la pulsera que prueba que eres tú",
         "running": "Encendida", "running_sub": "cobra la máquina y el disco",
-        "stopped": "Detenida", "stopped_sub": "cobra solo el disco",
+        "stopped": "Detenida", "stopped_sub": "cobra el disco: ≈ USD 1.20 al día",
         "deleted": "Borrada", "deleted_sub": "no cobra · se pierde todo",
-        "credito": "≈ USD 0.15 por hora encendida · tu cupón: 1 USD ≈ 6 horas",
+        "credito": "≈ USD 0.25 por hora encendida · 1 USD ≈ 4 horas · detenida ≈ USD 1.20 al día",
         "ruta_meta": "Tu sesión", "ruta_meta_sub": "¿eres tú?",
         "ruta_gw": "Recepción", "ruta_gw_sub": "¿el agente contesta?",
         "ruta_term": "Terminal", "ruta_term_sub": "¿hay una consola?",
@@ -116,7 +116,7 @@ T = {
         "b2": "Organización", "b2s": "el crédito es de la organización",
         "b3": "Cupón", "b3s": "Billing → Credits → canjéalo",
         "b4": "Launchable", "b4s": "revisa el costo por hora",
-        "b5": "Despliega", "b5s": "espera de 5 a 15 minutos",
+        "b5": "Despliega", "b5s": "espera unos 5 minutos",
         "no_retry": "Mientras se configura: no recargues la pestaña ni toques RETRY",
     },
     "en": {
@@ -158,12 +158,12 @@ T = {
         "consola": "Brev console", "consola_sub": "turn your machine on and off",
         "instancia": "Your instance", "instancia_sub": "a computer rented by the hour",
         "launch": "Launchable", "launch_sub": "NemoClaw comes preinstalled",
-        "curso": "NVIDIA course page", "curso_sub": "▶ buttons for each step",
+        "curso": "Your NemoClaw dashboard", "curso_sub": "chat, terminal and rules, in the browser",
         "cookie": "Session cookie", "cookie_sub": "the wristband that proves it's you",
         "running": "Running", "running_sub": "machine and disk are billed",
-        "stopped": "Stopped", "stopped_sub": "only the disk is billed",
+        "stopped": "Stopped", "stopped_sub": "disk still billed: ≈ USD 1.20 a day",
         "deleted": "Deleted", "deleted_sub": "nothing billed · everything lost",
-        "credito": "≈ USD 0.15 per hour running · your coupon: 1 USD ≈ 6 hours",
+        "credito": "≈ USD 0.25 per hour running · 1 USD ≈ 4 hours · stopped ≈ USD 1.20 a day",
         "ruta_meta": "Your session", "ruta_meta_sub": "is it you?",
         "ruta_gw": "Front desk", "ruta_gw_sub": "does the agent answer?",
         "ruta_term": "Terminal", "ruta_term_sub": "is there a console?",
@@ -175,7 +175,7 @@ T = {
         "b2": "Organization", "b2s": "credit belongs to the organization",
         "b3": "Coupon", "b3s": "Billing → Credits → redeem it",
         "b4": "Launchable", "b4s": "check the hourly cost",
-        "b5": "Deploy", "b5s": "wait 5 to 15 minutes",
+        "b5": "Deploy", "b5s": "wait about 5 minutes",
         "no_retry": "While it sets up: don't reload the tab or click RETRY",
     },
 }
@@ -289,7 +289,7 @@ def brev_laboratorio(lang):
             + cuarto(t["instancia"], f'<small class="dg-room-sub">{t["instancia_sub"]}</small>'
                      + nodo("rocket_launch", t["launch"], t["launch_sub"], clase="is-primary mini"), paso=2)
             + flecha("h", paso=3)
-            + nodo("language", t["curso"], t["curso_sub"], paso=3)
+            + nodo("terminal", t["curso"], t["curso_sub"], paso=3)
             + "</div></div>")
 
 

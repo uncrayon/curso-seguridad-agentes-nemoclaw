@@ -59,9 +59,11 @@ It's on the course home page (the **"Entering Your API Key"** section) and also 
 
 ## Step by step
 
-### 1. Configure the panel in NVIDIA's course
+### 1. (Optional) Configure the panel in NVIDIA's course
 
-1. Open <https://nvdli.github.io/NemoClawDLI/nemoclaw/index.html> and scroll down to **"Entering Your API Key"**.
+This step is optional: the notebook in step 2 runs the same check. It helps if you are also following NVIDIA DLI's web course "Securing Agents with OpenShell and NemoClaw".
+
+1. On that course's home page, scroll down to **"Entering Your API Key"**.
 2. Leave the base URL and the model as they are. Paste your key into the key field.
 3. Open **Embedding route** and confirm the model is `nvidia/nemotron-3-embed-1b`.
 4. Open **Request handling**: leave the wait at 60 s and raise retries to 2.
@@ -143,7 +145,7 @@ More wait time or more retries **never** fix a 401 or a 403.
 
 ## Check that it worked
 
-- [ ] "Save & verify" on NVIDIA's page showed "✓ Connected.".
+- [ ] (If you used the optional panel) "Save & verify" on NVIDIA's page showed "✓ Connected.".
 - [ ] The notebook ended in **✅ entorno listo** (environment ready), or I know exactly what I'm missing.
 - [ ] I saw the latency and the `usage` block of a call.
 - [ ] I triggered a 401, a 404 and a `finish_reason=length`, and understood each diagnosis.

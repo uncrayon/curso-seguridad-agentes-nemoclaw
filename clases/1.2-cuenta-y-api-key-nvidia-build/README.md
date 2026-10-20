@@ -48,14 +48,14 @@ Objetivo: tener una API key `nvapi-` guardada de forma segura y una primera llam
 1. Abre <https://build.nvidia.com/?ncid=ref-dli-146986>.
 2. Haz clic en el botón para iniciar sesión y crea una cuenta de NVIDIA con tu correo (o entra con la que ya tengas).
 3. Confirma tu correo con el enlace que te llega.
-4. Si te pide verificar tu teléfono, escribe tu número con el código de país y el código del SMS. **[VERIFICAR EN LAB]** en qué momento exacto se pide el teléfono.
+4. Si en algún momento te pide verificar tu teléfono (puede ser al crear la cuenta o al generar la key), escribe tu número con el código de país y luego el código del SMS.
 
 Deberías ver: el catálogo de modelos de build.nvidia.com con tu sesión iniciada (tu avatar arriba a la derecha).
 
 ### 2. Genera tu API key
 
-1. Abre la página **API Keys** de tu cuenta. También puedes entrar a la ficha de un modelo, por ejemplo Nemotron, y usar el botón para obtener una key. **[VERIFICAR EN LAB]** el nombre exacto del menú y del botón.
-2. Genera una key nueva. Si te deja ponerle nombre, usa algo como `curso-platzi-nemoclaw`. Si te deja elegir vencimiento, elige uno corto: vas a regenerarla al terminar el curso. **[VERIFICAR EN LAB]** si existe la opción de vencimiento.
+1. Abre el menú de tu cuenta y entra a la página de **API Keys**. También puedes entrar a la ficha de un modelo, por ejemplo Nemotron, y usar el botón para generar tu API key (puede decir *Generate API Key* o *Get API Key*).
+2. Genera una key nueva. Si te deja ponerle nombre, usa algo como `curso-platzi-nemoclaw`. Si te deja elegir vencimiento, elige uno corto: vas a regenerarla al terminar el curso. Si no ves esas opciones, sigue con el siguiente paso.
 3. Copia la key **en ese momento**. Empieza con `nvapi-` y es larga.
 
 Deberías ver: un texto como `nvapi-xxxxxxxx…`. Trátalo como una contraseña.
@@ -156,7 +156,7 @@ Invoke-RestMethod -Uri "https://integrate.api.nvidia.com/v1/chat/completions" -M
 
 ### 6. Cuida tus créditos y tus límites
 
-- La cuenta gratuita de NVIDIA Build da acceso a los modelos alojados con **límites de uso**: créditos o solicitudes por minuto. **[VERIFICAR EN LAB]** las cifras vigentes y en qué página de tu cuenta se ven el consumo y los créditos.
+- La cuenta gratuita de NVIDIA Build da acceso a los modelos alojados con **límites de uso**: créditos o solicitudes por minuto. Las cifras cambian con el tiempo: revisa tu consumo y tus créditos en tu cuenta de build.nvidia.com.
 - Cuando superas el límite por minuto, la API responde **429**. Espera y reintenta (en la 1.3 escribes un reintento con backoff).
 - Lo que más gasta: loops sin límite de pasos, ejecutar celdas en ráfaga y `max_tokens` enormes. En el Módulo 2 tu loop siempre tendrá un máximo de pasos.
 - Los modelos gratuitos **cambian**. Un modelo retirado responde **410**. Le pasó al curso de NVIDIA con `nvidia/nemotron-3-nano-30b-a3b`. Por eso el modelo vive en una variable (`NVIDIA_MODEL`) y no escrito en el código.
@@ -165,7 +165,7 @@ Invoke-RestMethod -Uri "https://integrate.api.nvidia.com/v1/chat/completions" -M
 
 Si tu key apareció en un commit, en una captura, en un notebook compartido o en un chat:
 
-1. Entra a **API Keys** en build.nvidia.com y **revoca** (elimina) esa key. **[VERIFICAR EN LAB]** el nombre exacto del botón.
+1. Entra a **API Keys** en build.nvidia.com y **revoca** (elimina) esa key. El botón puede decir *Revoke*, *Delete* o mostrarse como un icono de bote de basura.
 2. Genera una nueva.
 3. Actualízala en todos lados: `.env`, tus variables de entorno, los Secrets de Colab y, si ya la usaste, en NemoClaw (clase 6.3).
 4. Si la subiste a GitHub, borrar el archivo **no basta**: la key queda en el historial. Lo que te protege es revocarla.

@@ -7,32 +7,35 @@ Open the folder that defines your agent, compare what the agent says about itsel
 | | |
 |---|---|
 | Video length | ≈8 min |
-| Practice | Lab on Brev: NVIDIA course page + terminal ([cookbook.md (Spanish)](../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.md)) |
+| Practice | Lab on Brev: NemoClaw dashboard + in-browser terminal ([cookbook.md (Spanish)](../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.md)) |
 | Skill | Orientation (no assessed skill) |
 
 Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.md) · [FAQ (Spanish)](../../../FAQ.md)
 
-> Based on lesson 03b-openclaw from the NVIDIA DLI course (Apache-2.0).
+> Based on lesson 03b-openclaw from the NVIDIA DLI «NemoClaw» course (Apache-2.0).
 
 ## What you'll achieve
 
 - Name the pieces of OpenClaw (gateway, sessions, workspace) and which workspace file shapes each part of the behavior.
-- Verify as the operator, with `cat`, what the agent claims about its files and its memory.
-- Customize `SOUL.md` and `MEMORY.md` so your agent behaves like **Soporte NemoClaw**.
+- Verify as the operator, with `ls` and `cat`, what the agent claims about its files and its memory.
+- Customize `SOUL.md` so your agent behaves like **Soporte NemoClaw**, and test it in a new session.
+- List and reset sessions, and check that what's written to files survives into a new session.
+
+**Your credit:** this practice uses ≈20 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). If you stop for today, use **Stop** and come back soon. At the very end of the lab (after class 6.1), use **Delete**.
 
 ## Before you start
 
-- Class 4.1 finished: instance in `RUNNING` and **Test connection** green in [lesson 03a](https://nvdli.github.io/NemoClawDLI/nemoclaw/03a-kickstart.html). The 03b page reuses that connection.
-- For the terminal route: `brev shell <instancia>` working (4.1 cookbook, recipe 5).
-- Your sandbox name (usually `my-assistant`; confirm it with `nemoclaw list`).
+- Class 4.1 finished: instance **Running**, your `my-assistant` agent live, and the dashboard open.
+- If you closed the tab: Brev console → **Compute** → your instance → green **NemoClaw** button. It may ask you to sign in with NVIDIA again; that's normal.
+- Remember how to use the **VM TERMINAL**: click inside the black area before typing, and ignore the `ExperimentalWarning: SQLite is an experimental feature` line.
 
 ## The pieces, in one table
 
 | Piece | Where it lives | What it does |
 |---|---|---|
-| OpenClaw gateway | Inside the sandbox; it reaches your machine on port 18789 | Receives every turn, runs the agent loop, serves the dashboard and the WebSocket. |
-| OpenShell gateway | On the host, port 8080 (local only) | Manages the sandbox lifecycle, the inference routes, and the ports. |
-| Sessions | In the OpenClaw gateway | The history of each conversation, identified by its key (`sessionKey`). |
+| OpenClaw gateway | Inside the sandbox, port 18789 | Receives every turn, runs the agent loop, and serves the chat you open with **CHAT WITH AGENT**. |
+| OpenShell gateway | On the machine (the host), port 18080, local only | Manages the sandbox lifecycle and the route to the model. You see it with `openshell gateway info`. |
+| Sessions | In the OpenClaw gateway | The history of each conversation, identified by its session key. |
 | Workspace | `/sandbox/.openclaw/workspace/` | Markdown files the agent reads **at the start of every session**. They are its configuration. |
 
 The workspace, file by file:
@@ -42,145 +45,171 @@ The workspace, file by file:
 | `SOUL.md` | Personality, boundaries, tone, and values. |
 | `AGENTS.md` | Operating instructions and rules: memory, safety, the flow of each session. |
 | `IDENTITY.md` | A short card: name, language, emoji. |
-| `USER.md` | Who the person it helps is, and their preferences. Starts empty. |
+| `USER.md` | Who the person it helps is, and their preferences. |
 | `TOOLS.md` | Usage notes for each tool. |
 | `HEARTBEAT.md` | A list of periodic tasks (we cover it in 4.3). |
 | `POLICY.md` | A summary of the network policy, written by NemoClaw. |
 | `memory/` | Daily `AAAA-MM-DD.md` (YYYY-MM-DD) notes the agent appends as it works. Created the first time the agent saves a note. |
-| `MEMORY.md` | Curated long-term memory. Loaded in the main session. Created the first time the agent uses it. |
-| `skills/` | One folder per skill, with its `SKILL.md` (we cover it in 4.3). |
+| `MEMORY.md` | Curated long-term memory. Created the first time the agent uses it. |
+| `skills/` | One folder per skill, with its `SKILL.md`. It shows up when you install the first skill (class 4.3). |
 
 One detail causes a lot of errors: inside the sandbox, `~` is `/sandbox`, **not** the workspace. `~/SOUL.md` points to `/sandbox/SOUL.md`, which the agent doesn't read as its personality. Always use the full path `/sandbox/.openclaw/workspace/SOUL.md`.
 
 ## Step by step
 
-### Part A · Ask the agent to describe itself (course page)
+### Part A · Ask the agent to describe itself (chat)
 
-1. **Open the lesson** [The OpenClaw Agent](https://nvdli.github.io/NemoClawDLI/nemoclaw/03b-openclaw.html). Check that the pill at the top says **OpenClaw ✓**. If it says **OpenClaw ⚠**, go back to 03a, copy a new cookie, and repeat **Test connection**.
+1. **Open the chat.** On the dashboard, **MY-ASSISTANT** card, click **CHAT WITH AGENT**. OpenClaw opens in a new tab.
 
-2. **Run Step 1 · Ask the agent to describe itself.** In the **Ask OpenClaw to describe its workspace** cell, click **▶ Run**. The message it sends is:
-   > Briefly list the files in your workspace and explain each in one bullet without dumping file contents.
+   ![OpenClaw chat: 1 marks the left menu with Sessions and 2 marks the box where you type the message](../../../assets/lab/22-chat-openclaw.jpg)
 
-   The message is already in English. If you want to try another language, open the code and change the `content:` text. For example, the Spanish version is:
-   ```js
-   content: "Enumera brevemente los archivos de tu workspace y explica cada uno en una viñeta, sin volcar su contenido.",
-   ```
-   You should see: a list of files with one explanation per bullet. **Write it down**: this is what the agent *says*.
+2. **Ask it to describe its desk.** Type:
+   > Briefly list the files in your workspace and explain each one in a bullet, without dumping their contents.
+
+   You should see: a list of files with one explanation per bullet. **Write it down**: it's what the agent *says*.
 
 ### Part B · Verify as the operator
 
-3. **Run Step 1b · Read the workspace yourself.** The **Read the live workspace over the operator terminal** cell opens an operator terminal (over WebSocket) and enters the sandbox with `openshell sandbox connect <nombre>`. It gets the name from `GET /api/agent`. It runs these commands:
-   ```js
-   const commands = [
-     "ls .openclaw/workspace",
-     "echo '=== SOUL.md ==='; cat .openclaw/workspace/SOUL.md",
-     "echo '=== daily memory ==='; ls -1 .openclaw/workspace/memory/ 2>/dev/null",
-     "echo '=== MEMORY.md ==='; cat .openclaw/workspace/MEMORY.md 2>/dev/null || echo '(no curated MEMORY.md yet; the agent writes it in a main session)'",
-   ];
-   ```
-   You can edit the list. For example, add `"cat .openclaw/workspace/AGENTS.md"` or `"ls -la .openclaw/workspace/skills"`.
+3. **Open the operator terminal.** Go back to the dashboard tab and click **VM TERMINAL**.
 
-   You should see: the real list of files and the contents of `SOUL.md`. It's normal for `MEMORY.md` and `memory/` not to exist yet.
-
-4. **Compare.** Did the agent mention a file that doesn't exist? Did it forget one? That gap is the point of this class: **what the agent says is not evidence; the file is**.
-
-   Why it works this way: the launchable has two planes of authority. The operator terminal runs **outside** the sandbox. The agent runs **inside**, under a narrower policy.
-
-5. **(Terminal route)** The same thing from `brev shell <instancia>`:
+4. **List the real workspace.** This command asks the sandbox for the list of files on the agent's desk:
    ```bash
-   openshell sandbox list
-   openshell sandbox connect my-assistant       # or: nemoclaw my-assistant connect
+   nemoclaw my-assistant exec -- ls -la /sandbox/.openclaw/workspace
    ```
-   Once inside the sandbox:
+   You should see, in a freshly created lab: `AGENTS.md`, `HEARTBEAT.md`, `IDENTITY.md`, `POLICY.md`, `SOUL.md`, `TOOLS.md`, and `USER.md`. There's **no** `MEMORY.md`, `memory/`, or `skills/` yet, and that's normal.
+
+5. **Read its personality and its rules.** These commands show the contents of `SOUL.md` and the start of `AGENTS.md`:
    ```bash
-   whoami; pwd
-   cd /sandbox/.openclaw/workspace
-   ls -la
-   cat SOUL.md
-   cat AGENTS.md
-   exit
+   nemoclaw my-assistant exec -- cat /sandbox/.openclaw/workspace/SOUL.md
+   nemoclaw my-assistant exec -- head -n 30 /sandbox/.openclaw/workspace/AGENTS.md
    ```
-   Details in the [cookbook (Spanish)](../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.md), recipes 1 to 4.
 
-### Part C · The agent edits its own memory
+6. **Compare.** Did the agent mention a file that doesn't exist, like `MEMORY.md`? Did it forget one, like `POLICY.md`? That gap is the point of the class: **what the agent says is not evidence; the file is**.
 
-6. **Run Step 3 · The agent edits its own context.** In the **Verify file memory across separate sessions** flow, click **▶ Run all**:
-   - **Save and verify a preference:** in a new session, it asks the agent "Append this preference to MEMORY.md without replacing existing content: …" with a `course-review-…` label and a `REF-…` reference. Then it **reads the file** and fails if the preference isn't there.
-   - **Read from a fresh conversation:** it opens another session and asks the agent to read `MEMORY.md` and report the reference.
+   Why it works this way: the lab has two planes of authority. The **VM TERMINAL** is the operator and runs **outside** the sandbox. The agent runs **inside**, under a narrower policy.
 
-   You should see: `Verified the appended note on disk. It remains in MEMORY.md for inspection.` and the reference recovered in the second session.
-
-   The agent saying "saved" isn't enough. The cell checks by reading the file.
-
-7. **Do it with your own preference.** In the **Try it · chat with your live agent** part of the same page, type:
-   > Append this line to the end of /sandbox/.openclaw/workspace/MEMORY.md without deleting anything: "soporte-pref-01: answer in plain English and cite the FAQ file you used. Reference REF-4821."
-
-   Verify with the operator cell (add `"tail -n 5 .openclaw/workspace/MEMORY.md"` to `commands`) and then, in a new conversation, ask:
-   > Read MEMORY.md and report the preference and the reference for soporte-pref-01.
-
-   You should see: `REF-4821` in the file and in the answer from the new session.
-
-### Part D · Customize SOUL.md for Soporte NemoClaw
-
-8. **Back up and edit as the operator.** From `brev shell <instancia>`:
+7. **(Optional) Look at the desk from inside.** On the dashboard, click **SANDBOX TERMINAL**. That terminal is inside the room, like the agent. Type:
    ```bash
-   mkdir -p ~/soporte && cd ~/soporte
-   nemoclaw my-assistant download /sandbox/.openclaw/workspace/SOUL.md ./
-   cp SOUL.md SOUL.md.original
-   cat >> SOUL.md <<'EOF'
+   whoami; echo "$HOME"
+   ls /sandbox/.openclaw/workspace
+   ```
+   You should see: `sandbox`, `/sandbox`, and the same list of files. Notice: here `~` is `/sandbox`, not the workspace.
 
-   ## Project: Soporte NemoClaw
-   - You help students of the course "Securing Agents with OpenShell and NemoClaw".
-   - You answer in plain English, with short sentences and numbered steps.
-   - Before answering, you classify the question into one category: instalacion, api_key, brev, seguridad, or otro.
-   - If you use the course FAQ, you cite the file the answer comes from.
-   - You never ask for, repeat, or store API keys, tokens, or cookies. If someone pastes one, you ask them to revoke it.
-   - If you don't know something, you say so and suggest opening an issue or asking in the course forum.
+### Part C · Customize SOUL.md for Soporte NemoClaw
+
+You'll write your section into a file on the machine, upload it to the sandbox, and append it to the end of `SOUL.md`. All in the **VM TERMINAL**. The section stays in Spanish, as the course project answers in Spanish.
+
+8. **Write your section into a file.** This command creates `~/soul-extra.md` on the machine with the text between the two `EOF` lines. Replace the text with your own, or use this one:
+   ```bash
+   cat > ~/soul-extra.md <<'EOF'
+
+   ## Proyecto: Soporte NemoClaw
+   - Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".
+   - Respondes en español neutro, con frases cortas y pasos numerados.
+   - Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.
+   - Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.
+   - Nunca pides, repites ni guardas API keys, tokens o cookies. Si alguien pega una, le pides que la revoque.
+   - Si no sabes algo, lo dices y sugieres preguntar en el foro del curso.
    EOF
-   nemoclaw my-assistant upload ./SOUL.md /sandbox/.openclaw/workspace/SOUL.md
-   nemoclaw my-assistant exec -- tail -n 9 /sandbox/.openclaw/workspace/SOUL.md
    ```
-   You should see: the last lines with the "Project: Soporte NemoClaw" section.
+   If you prefer an editor, use `nano ~/soul-extra.md`, paste the text, save with **Ctrl + O**, **Enter**, and exit with **Ctrl + X**.
 
-9. **Check the change in a new session.** The agent reads the workspace at the start of every session, so ask it in a new conversation (in **Try it · chat with your live agent** or with cookbook recipe 7):
-   > Who are you, who do you help, and what do you never do?
+9. **Keep a copy of the original.** This command copies `SOUL.md` to the sandbox's `/tmp` folder, in case you want to go back:
+   ```bash
+   nemoclaw my-assistant exec -- cp /sandbox/.openclaw/workspace/SOUL.md /tmp/SOUL.md.original
+   ```
 
-   You should see: it mentions the course, plain English, and that it never asks for API keys.
+10. **Upload your section to the sandbox.** This command copies the file from the machine to the sandbox's `/tmp` folder, and the second one checks that it arrived:
+    ```bash
+    nemoclaw my-assistant upload ~/soul-extra.md /tmp/
+    nemoclaw my-assistant exec -- ls -la /tmp/soul-extra.md
+    ```
+    You should see: the `soul-extra.md` file, owned by `sandbox`.
 
-   If you want to go back to the original: `nemoclaw my-assistant upload ./SOUL.md.original /sandbox/.openclaw/workspace/SOUL.md`.
+11. **Append it to SOUL.md and read it back.** The first command appends your section to the end of the file, inside the sandbox. The second shows the last lines:
+    ```bash
+    nemoclaw my-assistant exec -- sh -c 'cat /tmp/soul-extra.md >> /sandbox/.openclaw/workspace/SOUL.md'
+    nemoclaw my-assistant exec -- tail -n 9 /sandbox/.openclaw/workspace/SOUL.md
+    ```
+    You should see: the "Proyecto: Soporte NemoClaw" section at the end.
+
+    Use `>>` (two signs), not `>`: with just one, you wipe everything that was in `SOUL.md`.
+
+    To go back to the original: `nemoclaw my-assistant exec -- cp /tmp/SOUL.md.original /sandbox/.openclaw/workspace/SOUL.md`. The copy in `/tmp` is erased if you stop the instance.
+
+### Part D · Test it in a new session
+
+The agent reads the workspace at the **start** of each session. A conversation that was already open doesn't change.
+
+12. **Ask in a new session.** In the **VM TERMINAL**:
+    ```bash
+    nemoclaw my-assistant agent --session-key soul-42 -m 'Who are you, who do you help, and what do you never do?'
+    ```
+    Or in **CHAT WITH AGENT**: in the **Sessions** menu, open a new conversation and ask the same question.
+
+    You should see: it mentions the course, neutral Spanish, and that it never asks for API keys.
+
+### Part E · Sessions and memory in files
+
+13. **List your sessions.** This command shows the conversations the gateway keeps, in an easy-to-read format:
+    ```bash
+    nemoclaw my-assistant sessions list --json
+    ```
+    You should see: a JSON with your sessions and fields like `"agentId": "main"` and `"kind": "direct"`. Look for the keys you used (`memo-41`, `soul-42`). Without `--json`, the table is too wide for the browser terminal.
+
+14. **Ask the agent to save a preference to a file.** This is memory on disk, not in the conversation:
+    ```bash
+    nemoclaw my-assistant agent --session-key memoria-a -m 'Agrega esta linea al final de /sandbox/.openclaw/workspace/MEMORY.md sin borrar nada: "soporte-pref-01: responde en español neutro y cita el archivo de la FAQ que usaste. Referencia REF-4821." Despues leelo de vuelta y cita la linea.'
+    ```
+    You should see: the agent says it saved it. Don't believe it yet.
+
+15. **Check it as the operator.** This command searches for the reference inside the file:
+    ```bash
+    nemoclaw my-assistant exec -- grep -n "REF-4821" /sandbox/.openclaw/workspace/MEMORY.md
+    ```
+    You should see: the line with `REF-4821`. If it doesn't show up, the agent didn't write it there, even if it said so.
+
+16. **Reset the session and ask from another one.** Resetting clears the conversation, not the files:
+    ```bash
+    nemoclaw my-assistant sessions reset memoria-a
+    nemoclaw my-assistant agent --session-key memoria-b -m 'Lee /sandbox/.openclaw/workspace/MEMORY.md e indica la preferencia y la referencia de soporte-pref-01.'
+    ```
+    You should see: `REF-4821` in the new session's answer. The conversation is gone; the file stayed.
 
 ## Check that it worked
 
 - [ ] You wrote down the list of files the agent gave you and the real `ls` list, and you know whether they match.
 - [ ] You read `SOUL.md` and `AGENTS.md` as the operator.
-- [ ] The **Verify file memory across separate sessions** flow finished green.
-- [ ] `REF-4821` is in `MEMORY.md`, and a new session recovers it.
-- [ ] `SOUL.md` has the "Project: Soporte NemoClaw" section, and a new session reflects it.
-- [ ] You have `SOUL.md.original` as a backup.
+- [ ] `tail` shows the "Proyecto: Soporte NemoClaw" section at the end of `SOUL.md`.
+- [ ] A new session (`soul-42`) answers with the Soporte NemoClaw identity.
+- [ ] `sessions list --json` shows your session keys.
+- [ ] `REF-4821` is in `MEMORY.md`, and the `memoria-b` session recovers it.
 
 ## Common errors
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| The agent says "done, I saved it" but the file didn't change | The model reports an action it didn't take, or it wrote to another path. | Always verify with `cat` as the operator. Ask again with the full path and have it read the file back. |
-| You edited `~/SOUL.md` and the agent didn't change | `~` is `/sandbox`, not the workspace. You wrote `/sandbox/SOUL.md`. | Use `/sandbox/.openclaw/workspace/SOUL.md` (or `$OPENCLAW_WORKSPACE_DIR/SOUL.md`). Delete the stray file. |
-| You changed `SOUL.md` and the open conversation stays the same | The workspace is read at the start of each session. | Open a new session to test. |
-| `MEMORY.md` or `memory/` doesn't exist | The agent hasn't saved any memory yet. | That's normal. They're created the first time the agent saves something. |
-| `Pairing required` / `Device pairing required` in the dashboard | OpenClaw requires pairing the device (since OpenClaw 2026.9.1 it can't be skipped). | Wait a few minutes and reload, or **Overview → Gateway Access → Connect**. If it persists: cookbook recipe 9 (`openclaw devices list --json` and `openclaw devices approve <requestId>`). |
-| `gateway connect failed: GatewayClientRequestError: scope upgrade pending approval (requestId: ...)` | A connection is asking for more permissions and waiting for approval. | Approve it the same way as pairing: cookbook recipe 9. |
-| You ran `openclaw update` inside the sandbox and it hung | OpenClaw is pinned in the sandbox image. It isn't updated in place. | Don't do it. Cancel with `Ctrl+C`. In your own install, you update with `nemoclaw update` and then `nemoclaw <nombre> rebuild`; in the course launchable, don't touch versions. |
-| `No valid connected sandbox name.` in the operator cell | The page didn't get the sandbox name from `/api/agent`. | Go back to 03a and repeat **Test connection**. |
-| `File readback did not contain the saved preference` | The agent didn't write the line, or it replaced it somewhere else. | Check the turn's trace (`⚙️` rows). Run **Health check** and retry. |
+| The agent says "done, I saved it" but the file didn't change | The model reports an action it didn't take, or it wrote to another path. | Always verify with `cat` or `grep` as the operator. Ask again with the full path and have it read the file back. |
+| You wrote to `~/SOUL.md` and the agent didn't change | Inside the sandbox, `~` is `/sandbox`, not the workspace. You wrote `/sandbox/SOUL.md`. | Use `/sandbox/.openclaw/workspace/SOUL.md`. Delete the stray file: `nemoclaw my-assistant exec -- rm /sandbox/SOUL.md`. |
+| You changed `SOUL.md` and the open conversation stays the same | The workspace is read at the start of each session. | Test with a new session key or a new conversation under **Sessions**. |
+| `SOUL.md` ended up with only your section | You used `>` instead of `>>`. | Restore the copy: `nemoclaw my-assistant exec -- cp /tmp/SOUL.md.original /sandbox/.openclaw/workspace/SOUL.md` and repeat with `>>`. |
+| After pasting the `cat > … <<'EOF'` block, the terminal shows `>` and waits | The final `EOF` line is missing, or has spaces before it. | Type `EOF` on its own, at the start of the line, and press **Enter**. |
+| `MEMORY.md`, `memory/`, or `skills/` doesn't exist | The agent hasn't saved memory or had skills installed yet. | That's normal. They're created the first time they're needed. |
+| `ls: cannot access '/tmp/soul-extra.md'` | The file didn't reach the sandbox, or landed on another path. | Repeat the `upload` and check with `nemoclaw my-assistant exec -- ls -la /tmp/`. |
+| `Pairing required` in the chat | The lab's chat comes already paired; this notice shouldn't show up. | Close the tab and open the chat again from **CHAT WITH AGENT** on the dashboard. |
+| You ran `openclaw update` inside the sandbox and it hung | OpenClaw is pinned in the sandbox image. It isn't updated in place. | Don't do it. Cancel with `Ctrl+C`. In the course lab, don't touch versions. |
 
 ## Challenge
 
-**Make the agent prove what it saves.** Add this rule to the end of `AGENTS.md` (with the same download, edit, and upload method from step 8):
+**Make the agent prove what it saves.** Add this rule to the end of `AGENTS.md`, with the same method as Part C (file on the machine, `upload` to `/tmp`, and `cat >>`):
 
 ```text
-- Every time you say you saved something to a file, read it back and quote the exact line that was written.
+- Cada vez que digas que guardaste algo en un archivo, léelo de vuelta y cita la línea exacta que quedó escrita.
 ```
 
-Success criteria: in a new session, you ask it to save a preference to `MEMORY.md`, its answer includes the line it read back, and `cat` as the operator confirms that line exists.
+("Every time you say you saved something to a file, read it back and quote the exact line that was written.")
+
+Success criteria: in a new session, you ask it to save a preference to `MEMORY.md`, its answer includes the line it read back, and `grep` as the operator confirms that line exists.
 
 ## Project milestone
 
@@ -189,12 +218,19 @@ Your agent now has the **Soporte NemoClaw** identity:
 - `SOUL.md` with the project section (language, triage categories, the no-keys rule).
 - `MEMORY.md` with the `soporte-pref-01` preference (cite the FAQ file).
 
-Save `proyecto/SOUL-soporte.md` in your repo with the section you added, and repeat the 4.1 baseline question ("My notebook returns HTTP 401"). Write down in `proyecto/linea-base-4.1.md` what changed. It doesn't know the FAQ yet: that comes in 4.3 with the `soporte-nemoclaw` skill.
+Copy the section you added to `SOUL.md` into your notes. Then repeat the 4.1 baseline question in a new session:
+
+```bash
+nemoclaw my-assistant agent --session-key linea-base-42 -m 'A student says: "My notebook returns HTTP 401 when I call the model". What do you tell them? Answer in 5 lines at most.'
+```
+
+Write down in your notes, under the baseline, what changed. It doesn't know the FAQ yet: that comes in 4.3 with the `soporte-nemoclaw` skill.
 
 ## Resources
 
-- [Lesson 03b · The OpenClaw Agent (NVIDIA DLI)](https://nvdli.github.io/NemoClawDLI/nemoclaw/03b-openclaw.html)
 - [NemoClaw · Sandbox state and workspace files](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/manage-sandboxes/workspace-files.md)
-- [NemoClaw · Command reference](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands.md) (`connect`, `exec`, `agent`, `sessions`, `download`, `upload`)
-- [NemoClaw · Troubleshooting](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/troubleshooting.md) (pairing, `openclaw update`)
+- [NemoClaw · Command reference](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands.md) (`exec`, `agent`, `sessions`, `upload`)
+- [NemoClaw · Troubleshooting](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/troubleshooting.md)
+- [OpenClaw · Documentation](https://docs.openclaw.ai)
+- [Your Brev lab: credit, plan and dashboard (Spanish)](../../../LABORATORIO.md)
 - [MemGPT: tiered memory for LLMs (arXiv 2310.08560)](https://arxiv.org/abs/2310.08560)

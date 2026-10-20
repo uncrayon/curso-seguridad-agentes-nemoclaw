@@ -219,7 +219,7 @@ INDICE_COMPACTO = code(r'''
 # --- El índice RAG de la clase 3.2, en una celda -----------------------------------
 import math
 
-MIN_SCORE = 0.10 if USE_MOCK else 0.30     # umbral de evidencia [VERIFICAR EN LAB el valor en vivo]
+MIN_SCORE = 0.10 if USE_MOCK else 0.30     # umbral de evidencia; en vivo, ajústalo con tu evaluación
 
 def texto_para_indexar(f):
     return f"{f['tema']}. P: {f['pregunta']}\n{f['respuesta']}"
@@ -916,7 +916,7 @@ for consulta in ["la cookie del laboratorio venció: session expired", "¿cuál 
 Mira los puntajes de la segunda pregunta: **no hay nada relevante**, pero top-K igual devuelve K fragmentos. Por eso necesitamos un **umbral de evidencia** (`MIN_SCORE`): por debajo, no hay evidencia y la respuesta correcta es "no sé". El valor depende del modelo de embeddings: **calíbralo con tus datos** mirando puntajes de preguntas buenas y malas.
 """),
     code(r'''
-MIN_SCORE = 0.10 if USE_MOCK else 0.30      # [VERIFICAR EN LAB] el valor en vivo con nemotron-3-embed-1b
+MIN_SCORE = 0.10 if USE_MOCK else 0.30      # punto de partida; en vivo, ajústalo midiendo con nemotron-3-embed-1b
 print("MIN_SCORE =", MIN_SCORE)
 '''),
     md("""
@@ -1105,7 +1105,7 @@ print(f"Español : Hit@1 = {h1:.2f} · Hit@3 = {h3:.2f}")
 print(f"Inglés  : Hit@1 = {h1_en:.2f} · Hit@3 = {h3_en:.2f}")
 '''),
     md("""
-Sin key, el buscador por palabras solo acierta donde hay términos idénticos (`Brev`, `429`, `CF_Authorization`). En vivo, un modelo multilingüe recupera mejor, pero **mídelo** antes de confiar [VERIFICAR EN LAB: Hit@k en inglés con `nemotron-3-embed-1b`]. Soluciones: escribe la FAQ en el idioma de tus usuarios, traduce la pregunta antes de buscar o usa un modelo de embeddings multilingüe.
+Sin key, el buscador por palabras solo acierta donde hay términos idénticos (`Brev`, `429`, `CF_Authorization`). En vivo, un modelo multilingüe recupera mejor, pero **mídelo** antes de confiar: con tu key, corre esta misma celda y compara el Hit@k en inglés con `nemotron-3-embed-1b`. Soluciones: escribe la FAQ en el idioma de tus usuarios, traduce la pregunta antes de buscar o usa un modelo de embeddings multilingüe.
 
 ### c) Fragmentos demasiado grandes
 ¿Y si indexamos **cada archivo completo** como un solo fragmento?

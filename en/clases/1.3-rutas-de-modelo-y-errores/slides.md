@@ -21,7 +21,7 @@ The route is an office's postal address. Click 1: the address (base URL, https:/
 :::diagrama c13-panel
 
 Notes:
-Click 1: the route's three details (address and model come filled in; the key is kept in sessionStorage). Click 2: the CORS relay checkbox; it gives no key and no access, it only forwards (Python doesn't need it). Click 3: the Embedding route and Request handling dropdowns (60 s wait, 0 to 5 retries; set it to 2). Click 4: Save & verify runs a real test. Click 5: the key is cleared when the tab closes.
+Click 1: the route's three details (address and model come filled in; the key is kept in sessionStorage). Click 2: the CORS relay checkbox; it gives no key and no access, it only forwards (Python doesn't need it). Click 3: the Embedding route and Request handling dropdowns (60 s wait, 0 to 5 retries; set it to 2). Click 4: Save & verify runs a real test. Click 5: the key is cleared when the tab closes. This panel is optional; the notebook runs the same check.
 
 ---
 
@@ -39,7 +39,7 @@ Click 1: the notebook and its setup cells. Click 2: LIVE if it found the key; MO
 :::diagrama c13-rompe
 
 Notes:
-One row per click: fake key → 401; nonexistent model → 404; max_tokens=8 → finish_reason="length" and empty content. The third one isn't an exception: it's an incomplete 200 response. Click 4: diagnostico(e) turns each error into "what happened + what to do". [VERIFY IN LAB] 401 and not 403; 404 and not 400 or 422.
+One row per click: fake key → 401; nonexistent model → 404; max_tokens=8 → finish_reason="length" and empty content. The third one isn't an exception: it's an incomplete 200 response. Click 4: diagnostico(e) turns each error into "what happened + what to do". If you get 403 instead of 401 live, or 400/422 instead of 404, say so: the diagnosis is the same.
 
 ---
 

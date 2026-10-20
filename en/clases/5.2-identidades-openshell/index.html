@@ -2,8 +2,8 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>5.2 Identities and limits with OpenShell · Securing Agents with OpenShell and NemoClaw</title>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
-<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8c0f4e58">
+<link rel="stylesheet" href="../../../assets/guia.css?v=8c0f4e58">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
@@ -14,7 +14,7 @@
 <section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
 <p>🇪🇸 Original Spanish guide: <a href="../../../clases/5.2-identidades-openshell/index.html"><code>clases/5.2-identidades-openshell/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
 </blockquote>
-<p>Prove with evidence who your agent is inside the sandbox, which binaries can reach the network, and where your API key is (and isn't).</p>
+<p>Prove with evidence who your agent is inside the sandbox, which programs can reach the network, and where your API key is (and isn't).</p>
 <table>
 <thead>
 <tr>
@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td>Practice</td>
-<td>Brev lab (<a href="../../../clases/5.2-identidades-openshell/cookbook.html"><code>cookbook.md</code> (Spanish)</a>)</td>
+<td>Lab on Brev: NemoClaw dashboard + in-browser terminal (<a href="../../../clases/5.2-identidades-openshell/cookbook.html">cookbook.md (Spanish)</a>)</td>
 </tr>
 <tr>
 <td>Skill</td>
@@ -38,21 +38,26 @@
 </tbody>
 </table>
 <p>Materials: <a href="slides.html">slides</a> · <a href="../../../clases/5.2-identidades-openshell/cookbook.html">lab cookbook (Spanish)</a> · <a href="../../../FAQ.html">FAQ (Spanish)</a></p>
+<blockquote>
+<p>Based on lesson 04a-safety from the NVIDIA DLI «NemoClaw» course (Apache-2.0).</p>
+</blockquote>
 <h2 id="what-youll-achieve">What you'll achieve</h2>
 <ul>
-<li>Show that the agent runs as the <code>sandbox</code> user, without root, with seccomp active and no way to escalate.</li>
-<li>Explain why OpenShell grants network permissions <strong>per binary</strong> (real path + hash) and why faking <code>argv[0]</code> doesn't work.</li>
+<li>Show that the agent runs as the <code>sandbox</code> user, without root, with seccomp active and no way to escalate, and compare that with the operator's power.</li>
+<li>Explain why OpenShell grants network permissions <strong>per program</strong> (the binary's real path) and not to "the agent" in general.</li>
+<li>Check in the log that an answer from the agent doesn't prove it had access.</li>
 <li>Show that the real API key never enters the sandbox: inside, there's only a placeholder.</li>
 </ul>
+<p><strong>Your credit:</strong> this practice uses ≈20 min of running instance, inside your single lab sitting (see <a href="../../../LABORATORIO.html">the lab guide (Spanish)</a>). If you stop for today, use <strong>Stop</strong> and come back soon. At the very end of the lab (after class 6.1), use <strong>Delete</strong>.</p>
 <h2 id="before-you-start">Before you start</h2>
 <ul>
-<li>Your NemoClaw lab on Brev is running and the class 4.1 check is green.</li>
-<li>You know how to get into the host with <code>brev shell &lt;your-instance&gt;</code> (class 4.1).</li>
+<li>Your NemoClaw lab on Brev is running and you reached its dashboard (<code>https://nemoclaw-&lt;your-id&gt;.gobrev.dev/dashboard</code>) with the green <strong>NemoClaw</strong> button in the Brev console (class 4.1).</li>
+<li>You know how to open the <strong>VM TERMINAL</strong> from the dashboard, click the black area before typing, and paste commands (see <a href="../../../LABORATORIO.html">the lab guide (Spanish)</a>).</li>
 <li>Your sandbox is called <code>my-assistant</code> (or you wrote down the name that <code>openshell sandbox list</code> shows).</li>
 <li>You made your <code>trifecta.md</code> worksheet in class 5.1.</li>
 </ul>
 <h2 id="step-by-step">Step by step</h2>
-<h3 id="1-three-different-identities">1. Three different identities</h3>
+<h3 id="part-1--three-different-identities">Part 1 · Three different identities</h3>
 <p>Before you type anything, be clear about who we're talking about:</p>
 <table>
 <thead>
@@ -69,67 +74,113 @@
 <td>Whatever Landlock, seccomp and the network policy allow</td>
 </tr>
 <tr>
-<td><strong>The binary</strong></td>
-<td>The real path of the executable that opens the connection (<code>/usr/local/bin/openclaw</code>, <code>/usr/bin/curl</code>)</td>
+<td><strong>The program (binary)</strong></td>
+<td>The real path of the executable that opens the connection (<code>/usr/local/bin/openclaw</code>, <code>/usr/local/bin/node</code>, <code>/usr/bin/curl</code>)</td>
 <td>The destinations its policy group allows</td>
 </tr>
 <tr>
 <td><strong>The operator</strong></td>
-<td>You, in the host terminal, with <code>nemoclaw</code> and <code>openshell</code></td>
+<td>You, in the <strong>VM TERMINAL</strong>, with <code>nemoclaw</code> and <code>openshell</code></td>
 <td>Change policies, approve egress, read the gateway token</td>
 </tr>
 </tbody>
 </table>
-<h3 id="2-who-is-the-agent">2. Who is the agent?</h3>
-<p>On the lab host:</p>
-<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>whoami
-openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>id
-openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span><span class="nb">pwd</span>
+<h3 id="part-2--two-terminals-two-levels-of-power">Part 2 · Two terminals, two levels of power</h3>
+<p>The dashboard has two terminals. One is <strong>inside the agent's room</strong> and the other is <strong>outside</strong>, where the operator is.</p>
+<ol>
+<li>On the dashboard, click <strong>SANDBOX TERMINAL</strong>. Click inside the black area and type:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>whoami
+<span class="nb">pwd</span>
+id
 </code></pre></div>
-<p>You should see <code>sandbox</code>, a <code>uid</code> other than 0, and <code>/sandbox</code>. Then ask the agent the same thing:</p>
+<p>You see the world as the agent sees it: user <code>sandbox</code>, folder <code>/sandbox</code> and <code>uid=998(sandbox) gid=998(sandbox)</code>. Close it with <strong>Shift + Esc</strong>.</p>
+<ol start="2">
+<li>Now click <strong>VM TERMINAL</strong> and type the same:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>whoami
+id
+</code></pre></div>
+<p>Here you're <code>ubuntu</code>, with <code>uid=1000(ubuntu)</code> and, among your groups, <code>sudo</code> and <code>docker</code>. The operator has power over the machine; the agent doesn't.</p>
+<ol start="3">
+<li>From the VM TERMINAL you can also ask the sandbox without going in. This command runs <code>id</code> inside the room and brings back the answer:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>id
+</code></pre></div>
+<p>You should see <code>uid=998(sandbox) gid=998(sandbox)</code>.</p>
+<p><img alt="Identity checks in the terminal: 1 marks the sandbox user with uid 998, 2 marks NoNewPrivs and Seccomp, and 3 marks CapEff all zeros" src="../../../assets/lab/16-terminal-identidad-sandbox.png" /></p>
+<p>Then ask the agent the same thing. In the chat (<strong>CHAT WITH AGENT</strong>) or with this VM TERMINAL command, which sends a message without opening the chat:</p>
 <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Use your exec tool to run whoami and pwd, and tell me in one sentence which user you are and where you are."</span>
 </code></pre></div>
-<p>Compare its answer with what you saw. As the operator, you <strong>verify</strong> what the agent says.</p>
-<h3 id="3-read-its-authority-in-procselfstatus">3. Read its authority in <code>/proc/self/status</code></h3>
+<p>Compare its answer with what you saw. In one course test run, the agent said it worked in <code>/sandbox/.openclaw/workspace</code> but claimed to be the user <code>gateway-owner</code>; the real user is <code>sandbox</code>. As the operator, you <strong>verify</strong> what the agent says about itself.</p>
+<h3 id="part-3--read-its-authority-in-procselfstatus">Part 3 · Read its authority in <code>/proc/self/status</code></h3>
+<p>This command reads the record the process started with inside the sandbox. It's a safe test: it only reads a file.</p>
 <div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'^(Uid|Gid|NoNewPrivs|Seccomp|Seccomp_filters|CapEff|CapBnd)'</span><span class="w"> </span>/proc/self/status
 </code></pre></div>
-<p>You should see <code>NoNewPrivs: 1</code>, <code>Seccomp: 2</code> and <code>CapEff: 0000000000000000</code>: no new privileges, a seccomp filter, and no root capabilities. This test is safe: it only reads a file.</p>
-<h3 id="4-try-to-escalate-and-read-the-error-carefully">4. Try to escalate (and read the error carefully)</h3>
-<p>Run NVIDIA's tests from <a href="../../../clases/5.2-identidades-openshell/cookbook.html#3--pedir-más-autoridad-catálogo-de-nvidia-04a">recipe 3 (Spanish)</a> and the seccomp tests from <a href="../../../clases/5.2-identidades-openshell/cookbook.html#4--seccomp-ptrace-mount-y-setuid-sin-romper-nada">recipe 4 (Spanish)</a>:</p>
+<p>Look for three lines: <code>NoNewPrivs: 1</code>, <code>Seccomp: 2</code> and <code>CapEff: 0000000000000000</code>. They mean: no new privileges, a seccomp filter in place, and no root capabilities.</p>
+<h3 id="part-4--try-to-escalate-and-read-the-error-carefully">Part 4 · Try to escalate (and read the error carefully)</h3>
+<p>These two commands try to become administrator from inside the sandbox:</p>
 <div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>sudo<span class="w"> </span>id
 openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">'import os; os.setuid(0)'</span>
 </code></pre></div>
-<p>You should see failures. Tell the messages apart:
-- <code>command not found</code>: the tool doesn't exist in the image. It doesn't prove any boundary.
-- <code>Permission denied</code> (<code>EACCES</code>): file permissions or Landlock.
-- <code>Operation not permitted</code> (<code>EPERM</code>): the kernel denied the operation (missing capabilities or seccomp).</p>
-<p>A failure on its own doesn't tell you which mechanism caused it. That's why step 3 reads the process state.</p>
-<h3 id="5-the-network-permission-is-tied-to-the-binary">5. The network permission is tied to the binary</h3>
-<p>In the base policy, <code>docs.openclaw.ai</code> is only allowed for <code>/usr/local/bin/openclaw</code>. Test it with <code>curl</code>, then try to trick OpenShell:</p>
+<p>You'll see a <code>command not found</code> for the first one and <code>PermissionError: [Errno 1] Operation not permitted</code> for the second. Tell the messages apart:</p>
+<ul>
+<li><code>command not found</code>: the tool doesn't exist in the image. It doesn't prove any boundary.</li>
+<li><code>Permission denied</code> (<code>EACCES</code>): file permissions or Landlock. You'll see it with <code>touch /usr/local/bin/test</code>.</li>
+<li><code>Operation not permitted</code> (<code>EPERM</code>): the kernel refused the operation (missing capabilities or seccomp).</li>
+</ul>
+<p>A failure on its own doesn't tell you which mechanism stopped it. That's why Part 3 reads the process status. Recipe 3 in the cookbook has more probes to classify with this same table.</p>
+<h3 id="part-5--the-network-permission-is-tied-to-the-program">Part 5 · The network permission is tied to the program</h3>
+<p>Ask <code>curl</code>, a program that downloads pages, to open the OpenClaw docs from the sandbox:</p>
 <div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>curl<span class="w"> </span>-sS<span class="w"> </span>-m<span class="w"> </span><span class="m">8</span><span class="w"> </span>-o<span class="w"> </span>/dev/null<span class="w"> </span>-w<span class="w"> </span><span class="s1">'code=%{http_code}\n'</span><span class="w"> </span>https://docs.openclaw.ai
-openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">'exec -a /usr/local/bin/openclaw curl -sS -m 8 -o /dev/null -w "code=%{http_code}\n" https://docs.openclaw.ai'</span>
 </code></pre></div>
-<p>You should see <code>curl: (56) CONNECT tunnel failed, response 403</code> twice. OpenShell identifies the binary through <code>/proc/&lt;pid&gt;/exe</code> (the path the kernel guarantees), walks up the parent processes, and stores a SHA256 hash of each binary the first time it sees it (<em>trust-on-first-use</em>). <code>argv[0]</code> can be faked, so it doesn't count. The "copy curl as openclaw" and "replace the binary" variants are in <a href="../../../clases/5.2-identidades-openshell/cookbook.html#5--permisos-por-binario-el-host-está-permitido-el-binario-no">recipe 5 (Spanish)</a>.</p>
-<p>Then ask the agent, which does use the allowed binary:</p>
+<p>You'll see <code>curl: (56) CONNECT tunnel failed, response 403</code>. That 403 comes from the OpenShell guard, not from the site. The destination is in the policy (group <code>openclaw_docs</code>), but not for <code>curl</code>. OpenShell identifies the program by its real path (<code>/proc/&lt;pid&gt;/exe</code>), not by the name it claims. Recipe 5 in the cookbook has attempts to fool the guard for you to try.</p>
+<h3 id="part-6--an-answer-is-not-proof-read-the-log">Part 6 · An answer is not proof: read the log</h3>
+<p>Ask the agent for the same page, in the chat or with this command:</p>
 <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Open https://docs.openclaw.ai and tell me in one line what the page is about."</span>
 </code></pre></div>
-<h3 id="6-look-for-your-api-key-inside-the-sandbox">6. Look for your API key inside the sandbox</h3>
+<p>It will most likely answer with a convincing sentence about OpenClaw. Now check what really happened. This command looks for the latest denials in the lab log:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>DENIED<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-4
+</code></pre></div>
+<p>In the course test run, lines like these came out (trimmed):</p>
+<div class="highlight"><pre><span></span><code>[sandbox] [OCSF ] [ocsf] NET:OPEN [MED] DENIED /usr/bin/curl(11932) -&gt; docs.openclaw.ai:443 [policy:- engine:opa] [reason:binary '/usr/bin/curl' not allowed in policy 'openclaw_docs' (ancestors: [/usr/bin/bash -&gt; /usr/local/bin/node -&gt; /usr/bin/bash], cmdline: …
+… DENIED /usr/local/bin/node(11950) -&gt; docs.openclaw.ai:443 … [reason:binary '/usr/local/bin/node' not allowed in policy 'openclaw_docs' …
+</code></pre></div>
+<p><img alt="Denial line in the log: 1 marks DENIED and the curl program, 2 marks the destination docs.openclaw.ai:443, and 3 marks the reason with the openclaw_docs policy" src="../../../assets/lab/18-terminal-denegacion-log.png" /></p>
+<p>Read it like this: <strong>who</strong> (<code>/usr/bin/curl</code>, and its parent processes in <code>ancestors</code>: the agent runs on <code>node</code>), <strong>where to</strong> (<code>docs.openclaw.ai:443</code>) and <strong>why</strong> (that program isn't in <code>openclaw_docs</code>). The agent tried <code>curl</code> and then <code>node</code>, and the guard denied both. It still answered, with what it already knew. The lesson: <strong>an answer doesn't prove there was access</strong>. The log does.</p>
+<h3 id="part-7--see-the-rules-in-the-guards-panel">Part 7 · See the rules in the guard's panel</h3>
+<p>The <strong>OPENSHELL TUI</strong> button on the dashboard opens the guard's panel in text mode. It's the visual way to see the rules.</p>
+<ol>
+<li>On the dashboard, click <strong>OPENSHELL TUI</strong>.</li>
+<li>On the home screen, move with <strong>j</strong> and <strong>k</strong> to <code>my-assistant</code> and press <strong>Enter</strong>. (<strong>Tab</strong> switches panel, <strong>q</strong> quits.)</li>
+</ol>
+<p><img alt="OpenShell TUI home screen: 1 marks the my-assistant sandbox and 2 marks the key bar with Tab, j/k, Enter and q" src="../../../assets/lab/19-openshell-tui-inicio.jpg" /></p>
+<ol start="3">
+<li>The sandbox view shows the read-only and read-write folders, and the network rules. <strong>h</strong> switches tab and <strong>l</strong> shows the log.</li>
+</ol>
+<p><img alt="Sandbox view in the OpenShell TUI: 1 marks the read-only and read-write folders, 2 marks the network rules, and 3 marks the h, s, l, r and d keys" src="../../../assets/lab/20-openshell-tui-politica.jpg" /></p>
+<ol start="4">
+<li>Press <strong>r</strong> (Rules). Blocked requests waiting for a decision show up there, like the <code>openclaw_docs</code> one from <code>curl</code>. Today you only look: approving or rejecting is class 5.3.</li>
+</ol>
+<p>Don't press <strong>d</strong> in the sandbox view: it's <strong>Delete</strong> and it deletes the sandbox. To leave the panel, press <strong>q</strong>.</p>
+<h3 id="part-8--look-for-your-api-key-inside-the-sandbox">Part 8 · Look for your API key inside the sandbox</h3>
+<p>This command shows the names of variables with "key" or "token" and hides their values, except the placeholder:</p>
 <div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'env | grep -iE "key|token" | sed -E "s/=(openshell:resolve:env:).*/=\1…/; t; s/=.*/=&lt;oculto&gt;/"'</span>
-openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'grep -rIl "nvapi-" /sandbox 2&gt;/dev/null | wc -l'</span>
 </code></pre></div>
-<p>You should see something like <code>NVIDIA_INFERENCE_API_KEY=openshell:resolve:env:…</code> and a <code>0</code>. (Any other value is masked as <code>&lt;oculto&gt;</code>, "hidden".) The real key lives in the OpenShell gateway, on the host. The L7 proxy swaps the placeholder for the key <strong>only</strong> when the request goes out through the allowed route. If the agent prints that variable or sends it somewhere else, what leaks is worthless text.</p>
-<p>On the host, check where the real key lives (values are never shown):</p>
-<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>credentials<span class="w"> </span>list
+<p>Among the lines, you'll see <code>NVIDIA_INFERENCE_API_KEY=openshell:resolve:env:…</code> and <code>OPENCLAW_GATEWAY_TOKEN=&lt;oculto&gt;</code> ("hidden"). The first one <strong>is not your key</strong>: it's a voucher. The real key lives in the OpenShell gateway, outside the sandbox. The guard swaps the voucher for the key only when the request leaves through the allowed route to NVIDIA. If the agent prints that variable or sends it somewhere else, what leaks is worthless text. The second one is a real secret (the OpenClaw gateway token): that's why the filter hides it.</p>
+<p>To confirm no <code>nvapi-</code> key was written in the sandbox, count the files that contain one. You should see <code>0</code>:</p>
+<div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>my-assistant<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'grep -rIl "nvapi-" /sandbox 2&gt;/dev/null | wc -l'</span>
 </code></pre></div>
-<h3 id="7-the-same-thing-from-nvidias-04a-page">7. The same thing, from NVIDIA's 04a page</h3>
-<p>If you prefer the browser, open <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/04a-safety.html">lesson 04a</a> with your launchable connected and follow <a href="../../../clases/5.2-identidades-openshell/cookbook.html#7--en-la-página-04a-de-nvidia">recipe 7 (Spanish)</a>: add <code>["Who am I?", ["whoami", "id", "pwd"]]</code> to the "ask the box anything, in code" cell and change the binary in the policy map.</p>
+<p>Never run <code>env</code> without a filter, not even in the SANDBOX TERMINAL: it prints the gateway token.</p>
 <h2 id="check-that-it-worked">Check that it worked</h2>
 <ul>
-<li>☐ <code>whoami</code> says <code>sandbox</code> and <code>id</code> shows a <code>uid</code> other than 0.</li>
-<li>☐ <code>/proc/self/status</code> shows <code>NoNewPrivs: 1</code> and <code>Seccomp: 2</code>.</li>
+<li>☐ In the SANDBOX TERMINAL you're <code>sandbox</code> in <code>/sandbox</code>; in the VM TERMINAL you're <code>ubuntu</code>, with the <code>sudo</code> and <code>docker</code> groups.</li>
+<li>☐ <code>/proc/self/status</code> shows <code>NoNewPrivs: 1</code>, <code>Seccomp: 2</code> and <code>CapEff</code> all zeros.</li>
 <li>☐ <code>sudo id</code> and <code>os.setuid(0)</code> fail, and you know what each message means.</li>
-<li>☐ <code>curl</code> to <code>docs.openclaw.ai</code> returns 403 even when you fake <code>argv[0]</code>.</li>
-<li>☐ There's no <code>nvapi-</code> anywhere inside the sandbox: only an <code>openshell:resolve:env:…</code> placeholder.</li>
+<li>☐ <code>curl</code> to <code>docs.openclaw.ai</code> returns <code>CONNECT tunnel failed, response 403</code>.</li>
+<li>☐ You found the agent's <code>DENIED</code> lines in the log, even though it answered.</li>
+<li>☐ You saw the <code>my-assistant</code> rules in the OPENSHELL TUI.</li>
+<li>☐ There's no <code>nvapi-</code> inside the sandbox: only the <code>openshell:resolve:env:…</code> placeholder.</li>
 </ul>
 <h2 id="common-errors">Common errors</h2>
 <table>
@@ -142,18 +193,33 @@ openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb"
 </thead>
 <tbody>
 <tr>
-<td><code>curl: (56) CONNECT tunnel failed, response 403</code></td>
-<td>The policy denied the connection (host or binary not allowed). That's expected in step 5</td>
-<td>It's not a TLS problem. Check <code>nemoclaw my-assistant logs --tail 30</code> to see the binary and the reason</td>
+<td>You type in the terminal and nothing happens, or something else opens</td>
+<td>The terminal doesn't have focus and the keys go to the dashboard</td>
+<td>Click inside the black area before typing</td>
 </tr>
 <tr>
-<td><code>nemoclaw: recent network policy denial detected for docs.openclaw.ai:443 …</code></td>
-<td>An informational hint from <code>nemoclaw … exec</code> after a denial</td>
-<td>Read it and move on. Silence it with <code>NEMOCLAW_NO_POLICY_HINT=1</code></td>
+<td><code>ExperimentalWarning: SQLite is an experimental feature</code></td>
+<td>A notice every <code>nemoclaw</code> command prints</td>
+<td>Ignore it: it's not an error</td>
+</tr>
+<tr>
+<td><code>curl: (56) CONNECT tunnel failed, response 403</code></td>
+<td>The policy denied the connection (host or program not allowed). That's expected in Part 5</td>
+<td>It's not a TLS problem. See the reason with <code>nemoclaw my-assistant logs --tail 300 \| grep DENIED \| tail -4</code></td>
+</tr>
+<tr>
+<td>The agent answered and you see no denial</td>
+<td>You searched too few log lines</td>
+<td>Use <code>--tail 300</code> and filter with <code>grep DENIED</code>. If there's none, note that the agent didn't try to go out</td>
+</tr>
+<tr>
+<td><code>whoami</code> says <code>ubuntu</code></td>
+<td>You're in the VM TERMINAL, not inside the sandbox</td>
+<td>Use the SANDBOX TERMINAL or <code>openshell sandbox exec -n my-assistant -- …</code></td>
 </tr>
 <tr>
 <td><code>whoami</code> says <code>root</code></td>
-<td>You used <code>docker exec</code> on the container (it runs as root, <code>HOME=/root</code>)</td>
+<td>You used <code>docker exec</code> on the container (it runs as root)</td>
 <td>Use <code>openshell sandbox exec -n …</code> or <code>nemoclaw my-assistant exec -- …</code></td>
 </tr>
 <tr>
@@ -162,44 +228,40 @@ openshell<span class="w"> </span>sandbox<span class="w"> </span><span class="nb"
 <td>Wrap the whole command in <code>-- sh -c '…'</code></td>
 </tr>
 <tr>
-<td>No <code>…KEY</code> variable shows up in step 6</td>
-<td>Sandbox created before NemoClaw v0.0.132: it uses the <code>inference.local</code> route and doesn't even get the placeholder</td>
+<td>No <code>…KEY</code> variable shows up in Part 8</td>
+<td>Sandbox created with the <code>inference.local</code> route: it doesn't even get the placeholder</td>
 <td>That's normal. The key isn't inside either</td>
 </tr>
 <tr>
-<td>The 04a page says "Keep your launchable open in another tab, then re-run. Check the sandbox name with: openshell sandbox list"</td>
-<td>The page lost its session with your launchable</td>
-<td>Reopen the launchable, reconnect in 03a and run 🩺 Health check</td>
-</tr>
-<tr>
-<td><code>python3: command not found</code></td>
-<td>The image changed</td>
-<td>Use the cell on the 04a page or skip recipe 4</td>
+<td>Sandbox not found error</td>
+<td>Misspelled name (for example, <code>mi-asistente</code>)</td>
+<td>Copy the exact name from <code>openshell sandbox list</code></td>
 </tr>
 </tbody>
 </table>
 <h2 id="challenge">Challenge</h2>
-<p>Find <strong>one host your policy allows for <code>curl</code></strong> and another that it only allows for <code>openclaw</code>, using only read commands (<code>openshell policy get my-assistant --full</code> helps; you'll go deep on it in 5.3). Success criterion: two <code>curl</code> commands from the sandbox, one with <code>code=200</code> (or whatever code the server returns) and one with <code>CONNECT tunnel failed, response 403</code>, plus one sentence that explains the difference.</p>
+<p>Find <strong>one destination your policy allows for <code>curl</code></strong> and another it denies, using only read commands and the OPENSHELL TUI to see the rules. Hint: try <code>https://integrate.api.nvidia.com/v1/models</code> and <code>https://docs.openclaw.ai</code>. Success criterion: two <code>curl</code> commands from the sandbox, one with <code>code=200</code> and one with <code>CONNECT tunnel failed, response 403</code>, plus one sentence that explains the difference (you'll go deep on it in 5.3).</p>
 <h2 id="project-milestone">Project milestone</h2>
 <p>Add an <strong>"Identity"</strong> section to your <em>Soporte NemoClaw</em> (NemoClaw Support) <code>trifecta.md</code> with what you verified:</p>
 <div class="highlight"><pre><span></span><code><span class="gu">## Identity (class 5.2)</span>
-<span class="k">-</span><span class="w"> </span>Runs as: sandbox (uid …), NoNewPrivs 1, Seccomp 2
-<span class="k">-</span><span class="w"> </span>Binaries that reach the network: /usr/local/bin/openclaw, /usr/local/bin/node
-<span class="k">-</span><span class="w"> </span>Where the API key lives: OpenShell gateway (host). In the sandbox: openshell:resolve:env:…
-<span class="k">-</span><span class="w"> </span>Remaining risk: the OpenClaw gateway token is readable inside the sandbox
+<span class="k">-</span><span class="w"> </span>Runs as: sandbox (uid 998), NoNewPrivs 1, Seccomp 2, CapEff 0
+<span class="k">-</span><span class="w"> </span>The operator (ubuntu) has sudo and docker; the agent doesn't
+<span class="k">-</span><span class="w"> </span>Programs the agent uses to reach the network: /usr/local/bin/node (and curl from its tools)
+<span class="k">-</span><span class="w"> </span>In the lab, docs.openclaw.ai was denied to curl and node, and the agent answered anyway: check the log
+<span class="k">-</span><span class="w"> </span>Where the API key lives: OpenShell gateway (outside). In the sandbox: openshell:resolve:env:…
+<span class="k">-</span><span class="w"> </span>Remaining risk: the OpenClaw gateway token (OPENCLAW_GATEWAY_TOKEN) is inside the sandbox
 </code></pre></div>
 <p>In class 5.3 you'll read the full policy and write the project's preset.</p>
 <h2 id="resources">Resources</h2>
 <ul>
-<li>NVIDIA DLI · <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/04a-safety.html">04a · The OpenShell Sandbox</a> (Apache-2.0).</li>
+<li>NVIDIA DLI · lesson 04a "The OpenShell Sandbox" of the "NemoClaw" course (Apache-2.0).</li>
 <li>NemoClaw · <a href="https://docs.nvidia.com/nemoclaw/latest/">Security Best Practices</a> → "Binary-Scoped Endpoint Rules" (identification through <code>/proc/&lt;pid&gt;/exe</code> and a SHA256 hash).</li>
 <li>NemoClaw · Credential Storage (<code>docs/security/credential-storage.mdx</code>): <code>openshell:resolve:env:&lt;KEY&gt;</code> placeholders.</li>
 <li>NemoClaw · Process Controls (<code>docs/security/process-controls.mdx</code>): <code>no-new-privileges</code>, capabilities, <code>ulimit -u 512</code>.</li>
 <li>Linux kernel · <a href="https://docs.kernel.org/userspace-api/seccomp_filter.html">seccomp filter</a> · man7 · <a href="https://man7.org/linux/man-pages/man7/capabilities.7.html">capabilities(7)</a>.</li>
+<li><a href="../../../LABORATORIO.html">Your Brev lab: credit, plan and dashboard (Spanish)</a>.</li>
 <li><a href="../../../FAQ.html">FAQ (Spanish)</a>.</li>
-</ul>
-<hr />
-<p>Based on the 04a-safety lesson of the NVIDIA DLI course (Apache-2.0).</p></div></section>
+</ul></div></section>
 <nav class="prevnext"><a class="pn prev" href="../5.1-trifecta-letal/index.html"><small>Previous class</small>5.1 · The lethal trifecta and the risk surface</a><a class="pn next" href="../5.3-sandbox-y-politicas/index.html"><small>Next class</small>5.3 · Restrict tools, files and network</a></nav>
 </main>
 <footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>

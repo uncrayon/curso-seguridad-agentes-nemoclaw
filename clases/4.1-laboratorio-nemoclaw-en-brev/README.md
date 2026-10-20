@@ -1,278 +1,271 @@
 # 4.1 · Levanta el laboratorio NemoClaw en Brev
 
-Despliega el launchable de NemoClaw en Brev, conéctate por navegador y por terminal, verifica las 4 rutas y aprende a pausarlo sin gastar créditos de más.
+Canjea tu crédito, despliega NemoClaw en Brev, configura tu agente desde el navegador, recorre su tablero y aprende a pausarlo y borrarlo sin gastar de más.
 
 | | |
 |---|---|
 | Duración del video | ≈9 min |
-| Práctica | Laboratorio en Brev: página del curso de NVIDIA + terminal ([cookbook.md](cookbook.md)) |
+| Práctica | Laboratorio en Brev: tablero de NemoClaw + terminal del navegador ([cookbook.md](cookbook.md)) |
 | Habilidad | Desplegar NemoClaw en Brev |
 
 Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) · [preguntas frecuentes del curso](../../FAQ.md)
 
-> Basado en la lección 03a-kickstart del curso de NVIDIA DLI (Apache-2.0).
+> Basado en la lección 03a-kickstart del curso NVIDIA DLI «NemoClaw» (Apache-2.0).
 
 ## Lo esencial (sin tecnicismos)
 
-**La idea:** Vas a rentar una computadora en la nube con Brev, el servicio de NVIDIA que presta computadoras por horas, y a sentar ahí a tu agente dentro de su cuarto con cerradura. Todo se puede hacer con clics: desplegar, conectar la página del curso y apagar la máquina al terminar.
+**La idea:** Vas a rentar una computadora en la nube con Brev, el servicio de NVIDIA que presta computadoras por horas, y a sentar ahí a tu agente dentro de su cuarto con cerradura. Todo se hace en el navegador: desplegar, configurar el agente, conversar con él y apagar la máquina al terminar.
 
-**Piénsalo como:** rentar una oficina por horas que ya trae muebles, internet y llaves. Con la luz encendida cobra; con la luz apagada cobra solo el disco.
+**Piénsalo como:** rentar una oficina por horas que ya trae muebles, internet y llaves. Con la luz encendida cobra; con la luz apagada sigue cobrando el disco.
 
-**Palabras nuevas:** [launchable](../../GLOSARIO.md), [instancia](../../GLOSARIO.md), [cookie de sesión](../../GLOSARIO.md).
+**Palabras nuevas:** [launchable](../../GLOSARIO.md), [instancia](../../GLOSARIO.md), [terminal](../../GLOSARIO.md).
 
-**Hazlo sin programar (≈10 min):** Con tu laboratorio desplegado (pasos 1 a 7, todo en la consola de Brev), abre la [lección 03a](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/03a-kickstart.html), conecta la página con tu cookie (pasos 8 a 12) y presiona **Chat breve** (Paso 1) y **▶ Ejecutar todo** (Paso 3). Anota en dos líneas qué recordó el agente antes y después de reiniciar la conversación. Termina con **Stop** en la consola de Brev.
+**Hazlo sin programar (≈10 min):** Con tu laboratorio listo (Partes A y B, todo con clics), entra a **CHAT WITH AGENT** y pregúntale: «¿Quién eres y en qué carpeta trabajas?». Luego dile un código inventado, por ejemplo `CODE-7Q4`, y pídele que lo recuerde. En el menú **Sessions**, abre una conversación nueva y pregúntale por el código. Anota en dos líneas qué recordó en cada conversación.
 
-**Qué te llevas:** sabes encender, usar y apagar tu propio laboratorio en la nube sin gastar crédito de más.
+**Qué te llevas:** sabes encender, usar, pausar y borrar tu propio laboratorio en la nube sin gastar crédito de más.
 
-**Tu crédito:** esta práctica usa ≈30 min de instancia encendida, incluida la espera del despliegue `[VERIFICAR EN LAB]`. Al terminar, detén la instancia (ver [LABORATORIO.md](../../LABORATORIO.md)).
+**Tu crédito:** esta práctica usa ≈30 min de instancia encendida, dentro de tu sentada única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Si paras por hoy, haz **Stop** y vuelve pronto. Al final del laboratorio (después de la clase 6.1), haz **Delete**.
 
 ## Lo que vas a lograr
 
 - Tener tu propio laboratorio NemoClaw corriendo en Brev: OpenClaw (el agente) dentro de OpenShell (el sandbox).
-- Conectarte de dos formas: desde la página del curso de NVIDIA (navegador) y desde tu terminal con la CLI `brev`.
-- Detener y reanudar la instancia sabiendo cuánto cuesta cada estado.
+- Configurar el agente desde el navegador, sin instalar nada en tu computadora.
+- Usar el tablero: el chat con el agente y la terminal de operador.
+- Comprobar que la memoria de una conversación vive en su sesión.
+- Saber cuánto cuesta cada estado de la instancia y cuándo usar **Stop** o **Delete**.
 
 ## Antes de empezar
 
-- Tu API key `nvapi-` de la clase 1.2, guardada en el panel de la página del curso de NVIDIA (la usamos para el paso de control).
-- Un navegador de escritorio con herramientas de desarrollador: Chrome, Edge, Brave, Firefox o Safari. Desde el celular no se puede.
+- Tu API key `nvapi-` de la [clase 1.2](../1.2-cuenta-y-api-key-nvidia-build/README.md). La vas a pegar una sola vez, en la pantalla de configuración.
+- Tu cupón de 1 USD de crédito de Brev.
 - Una cuenta de NVIDIA (la misma de build.nvidia.com) para entrar a Brev.
-- Para la ruta de terminal: macOS, Linux o Windows con WSL (Ubuntu 22.04 o superior). La CLI `brev` no corre en Windows nativo.
-- 20 minutos sin prisa: el despliegue tarda entre 5 y 15 minutos.
+- Un navegador de escritorio: Chrome, Edge, Brave, Firefox o Safari. Desde el celular no se puede.
+- Haber visto los videos de los Módulos 4, 5 y 6. Vas a hacer todas las prácticas del laboratorio en una sola sentada de ≈2.5 a 3 horas (ver [LABORATORIO.md](../../LABORATORIO.md)).
 
 Las piezas que vas a levantar, en una frase cada una:
 
 | Pieza | Qué hace |
 |---|---|
-| Endpoint del modelo | Convierte un prompt en texto. No recuerda nada entre llamadas. |
-| OpenClaw | El agente (el *harness*): guarda el historial de la sesión, un workspace de archivos y las herramientas. |
+| Modelo (en la nube de NVIDIA) | Convierte un prompt en texto. No recuerda nada entre llamadas. |
+| OpenClaw | El agente (el *harness*): guarda el historial de cada sesión, un workspace de archivos y las herramientas. |
 | OpenShell | El sandbox: limita a qué archivos, red y procesos llega el agente. |
-| NemoClaw | El blueprint que configura OpenClaw dentro de OpenShell. |
+| NemoClaw | El kit que configura OpenClaw dentro de OpenShell. |
 
 ## Paso a paso
 
-### Parte A · Despliega el launchable
+### Parte A · Canjea tu crédito y despliega
 
 1. **Entra a Brev.** Abre https://brev.nvidia.com e inicia sesión con tu cuenta de NVIDIA.
-   Deberías ver: la consola de Brev con secciones como **GPUs**, **Launchables** y **Billing**.
+   Deberías ver: el menú de arriba con **Compute**, **Agents**, **Launchables**, **Team**, **Billing** y **Docs**, y tu saldo en la barra superior.
 
-2. **Revisa tu organización.** En Brev los créditos y las instancias pertenecen a una *organización*, no a tu usuario. Si te invitaron a varias (por ejemplo, la de tu empresa y la personal), revisa cuál está activa antes de desplegar. `[VERIFICAR EN LAB: dónde está el selector de organización en la consola y si una cuenta nueva recibe una organización personal automáticamente]`
+2. **Revisa tu organización.** En Brev los créditos y las instancias pertenecen a una *organización*, no a tu usuario. Arriba a la derecha está el **selector de organización**. Si tienes varias (por ejemplo, la de tu empresa y la personal), elige la tuya antes de canjear y antes de desplegar.
 
-3. **Revisa tus créditos.** Ve a **Billing**. Ahí ves el saldo y puedes canjear un código en **Credits → Redeem a credit code**. La página del curso de NVIDIA anuncia que NVIDIA cubre el costo de Brev por tiempo limitado con un crédito de 1 USD para los primeros 25 000 usuarios (uno por persona), suficiente para los 4 módulos. `[VERIFICAR EN LAB: si el crédito sigue vigente y si se aplica solo o hay que canjearlo]`
+3. **Canjea tu cupón.** Haz clic en **Billing** → **Credits** → **Redeem Code** y pega tu cupón. No uses **Purchase Credits**: ese botón es para comprar.
+   Deberías ver: tu saldo de 1 USD en la barra superior, en tu organización.
 
-   **Atención:** No actives la recarga automática (*auto-recharge*) si trabajas con créditos prepagados.
+   ![Página Billing de Brev: 1 marca el botón Redeem Code y 2 marca el saldo de la organización en la barra superior](../../assets/lab/01-billing-canjear-cupon.jpg)
 
 4. **Abre el launchable de NemoClaw:**
    https://brev.nvidia.com/launchable/deploy/now?launchableID=env-3Azt0aYgVNFEuz7opyx3gscmowS&ncid=ref-dli-759990
 
-   Deberías ver: la página de despliegue con el tipo de instancia, el proveedor y el costo por hora. Según los reportes públicos de NVIDIA (septiembre-octubre de 2026), es una instancia **solo CPU** `n2d-standard-4` (4 vCPU, 16 GiB de RAM) en Google Cloud, marcada como **Free**. No necesitas GPU: el modelo corre en la nube de NVIDIA. `[VERIFICAR EN LAB: tipo de instancia, precio, tamaño de disco y si aparece como Free]`
+   Deberías ver: una página dentro de **Agents** con el botón **Deploy NemoClaw** y la máquina: **4 CPUs · 16 GiB · GCP**. Es una máquina solo de CPU: no necesitas tarjeta gráfica porque el modelo corre en la nube de NVIDIA.
 
-5. **Despliega.** Haz clic en el botón de despliegue (en la versión anterior se llamaba **Deploy NemoClaw**). Deja la pestaña abierta. `[VERIFICAR EN LAB: texto exacto del botón]`
-   Deberías ver: un panel lateral con el progreso. La instancia pasa por los estados `DEPLOYING` → `STARTING` → `RUNNING`. Calcula entre 5 y 15 minutos: Brev crea la máquina en 1-2 minutos y la configuración del agente toma unos 5 más.
+5. **Despliega.** Haz clic en **Deploy NemoClaw**.
 
-6. **Configura el agente si te lo pide.** La interfaz del launchable cambia seguido. Vas a ver una de estas dos cosas:
-   - **Un asistente con tres opciones** (SET UP IN THIS BROWSER, SET UP OVER SSH, SET UP WITH MY CODING AGENT). Elige **SET UP IN THIS BROWSER**, deja **OpenClaw** como agente y **NVIDIA Cloud** como proveedor, pega tu key `nvapi-` y crea el agente. Termina con un mensaje tipo "AGENT CREATED SUCCESSFULLY".
-   - **Un dashboard** con una tarjeta **my-assistant** ya corriendo. Haz clic en **Chat with Agent**.
+6. **Espera a que tu instancia esté lista.** Ve a **Compute**. Tu instancia se llama algo como `nemoclaw-xxxxxx`.
+   Deberías ver: el estado **Running** en más o menos un minuto, el precio **$0.26/hr** y tres botones: **Stop**, **Delete** y un botón verde **NemoClaw**.
 
-   `[VERIFICAR EN LAB: cuál de los dos flujos muestra el launchable el día de la grabación]`
+   ![Instancia en estado Running: 1 marca el estado, 2 marca los botones Stop y Delete y 3 marca el botón verde NemoClaw](../../assets/lab/05-instancia-lista.jpg)
 
-   **Atención:** Durante la configuración **no recargues la pestaña** y **no hagas clic en RETRY** aunque veas una tarjeta roja: si el registro de actividad avanza, el paso sí funcionó, y RETRY reconstruye todo el sandbox.
+### Parte B · Configura tu agente en el navegador
 
-7. **Copia la URL de tu launchable.** Es la dirección de la app de NemoClaw y tiene esta forma (cambia el dominio según el proveedor de acceso):
-   - `https://nemoclaw-<id>.brevlab.com`
-   - `https://nemoclaw-<id>.apps.run.brev.nvidia.com`
-   - `https://nemoclaw-<id>.gobrev.dev`
+7. **Abre la página de NemoClaw.** Haz clic en el botón verde **NemoClaw**. Se abre una pestaña nueva con una dirección como `https://nemoclaw-<tu-id>.gobrev.dev`. Te pide iniciar sesión con NVIDIA: hazlo tú, con la misma cuenta de build.nvidia.com.
 
-   Captura: la barra de direcciones de la pestaña de NemoClaw con el host `nemoclaw-…` resaltado. `[VERIFICAR EN LAB: en qué parte de la consola de Brev aparece esta URL]`
+8. **Elige la configuración en el navegador.** La primera vez verás **Choose how to configure your launchable**, con tres opciones. Elige **SET UP IN THIS BROWSER** («No terminal required») y haz clic en **OPEN BROWSER SETUP →**.
 
-### Parte B · Conéctate desde el navegador (página del curso de NVIDIA)
+   ![Pantalla Choose how to configure your launchable: 1 marca la opción SET UP IN THIS BROWSER y 2 marca el botón OPEN BROWSER SETUP](../../assets/lab/07-elegir-configuracion-navegador.jpg)
 
-La página del curso vive en `nvdli.github.io`, un dominio distinto al de tu launchable. Por eso necesita dos cosas: la **URL base** y tu **sesión de acceso** (una cookie del navegador).
+9. **Conecta el modelo.** En **Connect to AI**:
+   1. Deja **OpenClaw** como agente.
+   2. El proveedor viene en **OpenRouter**. Cámbialo a **NVIDIA CLOUD**.
+   3. Pega tu key `nvapi-` en el campo **NVIDIA CLOUD API KEY**.
+   4. Deja el modelo que viene (Nemotron 3 Super 120B).
+   5. Haz clic en **CREATE AGENT**.
 
-8. **Abre la lección** [Conecta NemoClaw](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/03a-kickstart.html) y baja a **Inicia el launchable → Inspecciona las cuatro rutas de conexión**. Vas a ver el panel **Conectar NemoClaw** con dos campos: **URL base** y **Sesión de acceso**.
+   ![Paso Connect to AI: 1 marca el proveedor NVIDIA CLOUD seleccionado, 2 marca el campo NVIDIA CLOUD API KEY y 3 marca el botón CREATE AGENT](../../assets/lab/10-nvidia-cloud-api-key.jpg)
 
-9. **Pega la URL base** del paso 7. La página se queda solo con el origen (borra rutas como `/onboard`).
+   **Seguridad:** tu key se pega **solo** en ese campo. Nunca en el chat del agente, en un foro, en una captura ni en un video.
 
-10. **Lee esto antes de copiar la cookie.**
+10. **Espera a que se construya tu agente.** Verás **Building your agent** durante unos 3 minutos, con estos pasos: *Preflight checks*, *OpenShell gateway*, *Configure inference*, *Set inference route* y *Create sandbox (my-assistant)*.
 
-    > **Una cookie de sesión es una contraseña.** Quien la tenga puede actuar como tú en ese launchable hasta que expire.
-    > 1. Pégala **solo** en el campo **Sesión de acceso** de la página del curso. Nunca en un chat, un issue, una captura ni un video.
-    > 2. La página la guarda solo en esa pestaña (`sessionStorage`) y la borra al cerrarla.
-    > 3. Al terminar, cierra sesión en Brev y detén la instancia.
-    > 4. Si grabas tu pantalla, difumina el valor.
+    **Atención:** mientras se construye, **no recargues la pestaña**. Si ves una tarjeta roja con **RETRY** pero el registro de actividad sigue avanzando, **no hagas clic en RETRY**: el paso sí funcionó, y RETRY vuelve a construir todo desde cero.
 
-11. **Copia la cookie correcta.** En la pestaña del launchable (con la sesión iniciada), abre las herramientas de desarrollador y busca la cookie según el dominio de tu URL:
+11. **Tu agente está vivo.** Deberías ver: **YOUR AGENT IS LIVE**, con el agente `my-assistant`, OpenClaw, el modelo `nvidia/nemotron-3.5-super-vl-120b-a12b` y el proveedor NVIDIA Cloud. Haz clic en **Back to overview** para llegar a tu tablero.
 
-    | Tu URL contiene | Cookie que copias |
-    |---|---|
-    | `brevlab.com` | `CF_Authorization` |
-    | `apps.run.brev.nvidia.com` | `_pomerium` |
-    | `gobrev.dev` | `__Host-skybridge-brev-prd` |
+### Parte C · Recorre tu tablero
 
-    - **Chrome, Edge o Brave:** `F12` (o `Cmd+Opt+I` en Mac) → pestaña **Application** → **Storage → Cookies** → elige el origen del launchable → busca la cookie → doble clic en la celda **Value** → copia.
-    - **Firefox:** `F12` → pestaña **Storage** (Almacenamiento) → **Cookies** → origen del launchable → selecciona la fila → doble clic en el valor → copia.
-    - **Safari:** primero activa **Ajustes → Avanzado → Mostrar funciones para desarrolladores web**. Luego `Cmd+Opt+I` → pestaña **Storage** → **Cookies** → origen del launchable → copia el valor.
+12. **Mira el tablero.** Es la página principal de tu laboratorio (`…/dashboard`). Arriba ves el uso de procesador, memoria y disco, y el estado de seguridad («20 allowed sites», «13 network policies»). Abajo hay un panel de registros con los filtros **All**, **VM**, **Gateway** y **Agent**.
 
-    Copia **solo el Value completo**. No copies el encabezado `Cookie` entero ni el nombre de la cookie.
+    En la tarjeta **MY-ASSISTANT** tienes cuatro botones:
 
-12. **Pega el valor en Sesión de acceso y haz clic en Probar conexión.** La página corre 4 pruebas en orden:
+    | Botón | Qué abre | Para qué lo usas |
+    |---|---|---|
+    | **CHAT WITH AGENT** | El chat de OpenClaw, en una pestaña nueva. | Conversar con tu agente. |
+    | **SANDBOX TERMINAL** | Una terminal **dentro del cuarto** (usuario `sandbox`, carpeta `/sandbox`). | Ver el mundo como lo ve el agente. |
+    | **VM TERMINAL** | La **terminal de operador**: la computadora que rodea al cuarto (usuario `ubuntu`). | Pegar los comandos de las guías y revisar al agente desde afuera. |
+    | **OPENSHELL TUI** | El panel del guardia de OpenShell, en modo texto. | Ver la política y aprobar o rechazar accesos (Módulo 5). |
 
-    | Ruta | Qué comprueba |
-    |---|---|
-    | Metadatos del agente (`GET /api/agent`) | Que tu sesión es válida. De aquí la página saca el **token del gateway** (no lo escribas tú). |
-    | Gateway (WebSocket `/cli/gateway`) | Que el gateway de OpenClaw responde y acepta el token. |
-    | Terminal (WebSocket `/ws/terminal`) | Que hay una terminal de operador en la máquina. |
-    | Health (`GET /healthz`) | Que el runtime está sano. |
+    ![Tablero de NemoClaw: 1 marca CHAT WITH AGENT, 2 marca SANDBOX TERMINAL, 3 marca VM TERMINAL, 4 marca OPENSHELL TUI y 5 marca el panel de registros](../../assets/lab/13-panel-nemoclaw.jpg)
 
-    Deberías ver: `Conexión lista. Las pruebas de metadatos, gateway, terminal y estado se aprobaron.` y la pastilla de arriba en **OpenClaw ✓**.
-    Si ves `OpenClaw is starting. Retrying in N seconds.`, espera: la página reintenta sola hasta 30 minutos.
+13. **Habla con tu agente.** Haz clic en **CHAT WITH AGENT**. Se abre OpenClaw en una pestaña nueva. A la izquierda tiene **Home**, **Dashboards**, **Automations**, **Plugins** y **Sessions**. Escribe:
+    > ¿Quién eres y en qué carpeta trabajas?
 
-13. **Haz el control: una llamada directa al modelo, sin agente.** En **Paso 1 · Establece el control directo del modelo**, usa **Probar el endpoint activo del modelo** y luego **Chat breve**.
-    Deberías ver: una respuesta normal del modelo `nvidia/nemotron-3.5-lightning-30b-a3b`. Sin herramientas ni memoria. Esta es tu línea base.
+    Deberías ver: que trabaja en `/sandbox/.openclaw/workspace`. Puede que diga que es un usuario como `gateway-owner`. Anota su respuesta: ahora la comprobamos.
 
-14. **Haz un turno de agente a través del gateway.** En **Paso 2**, abre el flujo **Gateway · protocolo WebSocket paso a paso**:
-    1. Ejecuta el nodo **Abre la conexión del gateway** (botón **▶ Ejecutar**).
-    2. Ejecuta **Llama a models.list y cron.list**. Deberías ver la lista de modelos y `cron jobs: (none)`.
-    3. Abre el código de **Envía un mensaje de chat por streaming**. La **última** línea `message = …` sin comentar es la que se envía. Déjala así o cámbiala por:
-       ```js
-       message = "Usa tu herramienta exec para ejecutar `whoami` y `pwd` en tu sandbox y dime en una frase qué usuario eres y dónde estás.";
-       ```
-    4. Ejecuta el nodo.
+14. **Abre la terminal de operador.** Vuelve a la pestaña del tablero y haz clic en **VM TERMINAL**. Una **terminal** es una ventana donde escribes instrucciones en lugar de hacer clic. Se abre encima del tablero.
+    - **Haz clic dentro del área negra antes de escribir.** Si no, las teclas van al tablero.
+    - Para pegar: **Ctrl + V** (en Mac, **Cmd + V**) y luego **Enter**.
+    - **Shift + Esc** cierra la terminal.
+    - Todos los comandos `nemoclaw` imprimen una línea `ExperimentalWarning: SQLite is an experimental feature`. Ignórala: no es un error.
 
-    Deberías ver: filas `⚙️` (cada una es una llamada a herramienta con sus argumentos) y filas `✓` (el resultado). La respuesta menciona el usuario `sandbox` y la carpeta `/sandbox`. `[VERIFICAR EN LAB: salida exacta de whoami y pwd]`
-
-15. **Prueba que la memoria vive en la `sessionKey`.** En **Paso 3 · Compara el historial de la conversación**, haz clic en **▶ Ejecutar todo** del flujo **Compara el historial antes y después del restablecimiento**:
-    - **Introduce un dato nuevo:** le da al agente un código `CODE-…` y le pide no escribirlo en archivos.
-    - **Recupera el dato sin volver a introducirlo:** el agente lo recuerda.
-    - **Restablece la sesión y vuelve a preguntar:** llama a `sessions.reset` y el agente ya no lo sabe.
-    - **Elimina solo las sesiones de este flujo:** limpia lo que creó.
-
-    Deberías ver: `recalled` con el código antes del reset y "unknown" (o equivalente) después. Lo único que el cliente envía es la clave de sesión: el gateway reconstruye la conversación del lado del servidor.
-
-### Parte C · Conéctate desde tu terminal
-
-Los comandos completos, con su salida esperada y qué hacer si fallan, están en el [cookbook](cookbook.md). El resumen:
-
-16. **Instala la CLI de Brev e inicia sesión:**
-    ```bash
-    # macOS
-    brew install brevdev/homebrew-brev/brev
-    # Linux o WSL (sin sudo)
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/brevdev/brev-cli/main/bin/install-latest.sh)"
-
-    brev --version
-    brev login
-    ```
-
-17. **Busca tu instancia y entra:**
-    ```bash
-    brev ls
-    brev shell <instancia>      # sin --host
-    ```
-    Deberías ver: tu instancia en estado `RUNNING` y, tras `brev shell`, un prompt dentro de la máquina de Brev.
-
-    **Atención:** No uses `brev shell <instancia> --host` con este launchable: se queda esperando hasta agotar el tiempo (issue conocido de NemoClaw con la CLI ≥ v0.6.331).
-
-18. **Revisa el stack desde dentro de la máquina:**
+15. **Pregúntale al laboratorio qué agentes hay.** Este comando lista los sandboxes que maneja NemoClaw:
     ```bash
     nemoclaw list
-    nemoclaw status
-    openshell sandbox list
+    ```
+    Deberías ver: `my-assistant`, con el agente `openclaw`, el proveedor `nvidia-prod`, sus políticas (`brew-balanced`, `huggingface`, `npm`, `openclaw-pricing`, `pypi`) y el dashboard en `127.0.0.1:18789`.
+
+16. **Pregúntale si está sano.** Este comando revisa el sandbox y la conexión con el modelo:
+    ```bash
     nemoclaw my-assistant status
     ```
-    Deberías ver: tu sandbox (normalmente `my-assistant`) en estado `Ready` y la ruta de inferencia `healthy`. Si tu sandbox tiene otro nombre, usa el que muestra `nemoclaw list` en todos los comandos. `[VERIFICAR EN LAB: nombre del sandbox en el launchable]`
+    Deberías ver: la inferencia `healthy` y la fase `Ready`.
 
-19. **Abre el dashboard de OpenClaw en tu computadora** (opcional). En una terminal local, deja corriendo el túnel:
+17. **Verifica como operador quién es el agente.** Estos comandos corren dentro del cuarto y te dicen qué usuario es y en qué carpeta está:
     ```bash
-    brev port-forward <instancia> -p 18789:18789
+    nemoclaw my-assistant exec -- whoami
+    nemoclaw my-assistant exec -- pwd
     ```
-    En la terminal de `brev shell`, pide la URL autenticada:
+    Deberías ver: `sandbox` y `/sandbox`.
+
+    Compara con lo que te dijo el chat. Si el agente dijo `gateway-owner`, se equivocó: el sistema dice `sandbox`. Esa es la lección de operador: **lo que el agente dice de sí mismo no es evidencia; lo que muestra el sistema, sí.**
+
+### Parte D · La memoria vive en la sesión
+
+Cada conversación tiene una **clave de sesión**. El gateway guarda el historial con esa clave, no el modelo. Lo compruebas en la **VM TERMINAL** con cuatro comandos.
+
+18. **Dale un dato al agente en la sesión `memo-41`:**
     ```bash
-    nemoclaw my-assistant dashboard-url --quiet
+    nemoclaw my-assistant agent --session-key memo-41 -m 'Recuerda este codigo: CODE-7Q4. No lo escribas en ningun archivo. Responde solo OK.'
     ```
-    Abre esa URL en tu navegador. Contiene el token del gateway después de `#token=`: trátala como una contraseña.
+    Deberías ver: `OK`.
 
-### Parte D · Pausa, reanuda y no gastes de más
+19. **Pregúntale en la misma sesión:**
+    ```bash
+    nemoclaw my-assistant agent --session-key memo-41 -m 'Cual era el codigo que te di? Responde solo el codigo.'
+    ```
+    Deberías ver: `CODE-7Q4`.
 
-20. **Entiende los tres estados:**
+20. **Reinicia la sesión.** Este comando borra el historial de esa conversación:
+    ```bash
+    nemoclaw my-assistant sessions reset memo-41
+    ```
+    Deberías ver: `Reset session 'agent:main:memo-41' on agent 'main' via the OpenClaw gateway.`
 
-    | Estado | Cómputo | Disco | Tus datos |
+21. **Pregúntale otra vez:**
+    ```bash
+    nemoclaw my-assistant agent --session-key memo-41 -m 'Cual era el codigo que te di? Si no lo sabes, responde: no lo se.'
+    ```
+    Deberías ver: `no lo se`.
+
+    ![Terminal de operador con la prueba de memoria: 1 marca la respuesta CODE-7Q4, 2 marca el reinicio de la sesión memo-41 y 3 marca la respuesta no lo se](../../assets/lab/32-terminal-memoria-sesion.png)
+
+    El modelo no recuerda nada por sí mismo. La conversación vive en la sesión que guarda el gateway: si la reinicias, el dato desaparece.
+
+22. **(Opcional) Lo mismo en el chat.** En **CHAT WITH AGENT**, dale otro código y pídele que lo recuerde. Luego, en el menú **Sessions**, abre una conversación nueva y pregúntale por el código. En la conversación nueva no lo sabe. Si tu versión muestra el botón de conversación nueva en otro lugar, búscalo cerca de la lista de conversaciones.
+
+### Parte E · Trae los archivos del curso
+
+23. **Descarga los archivos del curso en tu laboratorio.** La clase 4.3 usa la FAQ de ejemplo y la skill de soporte. Este comando los copia en la carpeta `~/curso`. Pégalo en la **VM TERMINAL**:
+    ```bash
+    git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw ~/curso
+    ```
+    Comprueba que llegaron:
+    ```bash
+    ls ~/curso/datos/faq/
+    ```
+    Deberías ver: los archivos `.md` de la FAQ del curso.
+
+### Parte F · Pausa y borra sin gastar de más
+
+24. **Entiende los tres estados:**
+
+    | Estado | Qué cobra | Costo aprox. | Tu trabajo |
     |---|---|---|---|
-    | Corriendo (`RUNNING`) | Se cobra por hora | Se cobra | Ahí están |
-    | Detenida (`STOPPED`) | No se cobra | **Se sigue cobrando** | Se conservan (menos `/tmp`) |
-    | Eliminada | Nada | Nada | **Se pierden para siempre** |
+    | **Running** (encendida) | La computadora y el disco | ≈USD 0.25 por hora (la página muestra $0.26/hr) | Ahí está |
+    | **Stopped** (detenida) | Solo el disco | ≈USD 0.05 por hora, **≈USD 1.20 al día** | Se conserva |
+    | **Deleted** (borrada) | Nada | USD 0 | **Se pierde para siempre** |
 
-    El disco cuesta 0.0001314 USD por GB-hora. Con un disco de 100 GB, una semana detenida cuesta unos 2.2 USD. `[VERIFICAR EN LAB: tamaño real del disco del launchable]`
+    Con 1 USD tienes unas 4 horas encendida. Detenida, en un día gasta más que todo tu cupón.
 
-21. **Detén la instancia al terminar cada sesión de estudio.** En la consola: **GPUs** → tu instancia → **Stop**. O desde tu terminal:
-    ```bash
-    brev stop <instancia>
-    brev ls
-    ```
-    Si ves `instance "<nombre>" does not support stop.`, ese tipo de instancia no se puede pausar: respalda tu workspace (receta 11 del cookbook) y elimínala con `brev delete <instancia>`. `[VERIFICAR EN LAB: si la instancia del launchable es stoppable]`
+    Las preguntas al modelo no gastan crédito de Brev: se pagan con los créditos de tu cuenta de build.nvidia.com.
 
-22. **Reanuda y vuelve a verificar:**
-    ```bash
-    brev start <instancia>
-    brev refresh
-    brev shell <instancia>
-    nemoclaw my-assistant status
-    ```
-    Después vuelve a la página del curso: tu cookie probablemente expiró, así que copia una nueva (paso 11) y repite **Probar conexión**.
+25. **Sigue el plan de una sola sentada.** Haz ahora las prácticas de 4.2, 4.3, 4.4, 5.2, 5.3 y 6.1, una tras otra. Si de verdad tienes que parar: consola de Brev → **Compute** → tu instancia → **Stop**. Vuelve el mismo día o el siguiente; nunca la dejes detenida varios días.
 
-    Ojo: si el proveedor no tiene capacidad, `brev start` falla y tus datos quedan inaccesibles hasta que vuelva la capacidad. Con una instancia de CPU es poco común, pero pasa.
+26. **Al final del laboratorio, bórrala.** Cuando termines la clase 6.1: consola de Brev → **Compute** → tu instancia → **Delete**. Es la única forma de que deje de cobrar. Antes, copia a tus notas lo que quieras conservar. El detalle está en [LABORATORIO.md](../../LABORATORIO.md).
 
 ## Comprueba que funcionó
 
-- [ ] `brev ls` muestra tu instancia en `RUNNING`.
-- [ ] **Probar conexión** muestra `Conexión lista` con las 4 rutas en verde.
-- [ ] El control directo al modelo responde sin herramientas.
-- [ ] El turno por el gateway muestra una fila `⚙️` de `exec` y su resultado `✓`.
-- [ ] El código plantado se recuerda antes del reset y se olvida después.
-- [ ] Desde `brev shell`, `openshell sandbox list` muestra tu sandbox en `Ready`.
-- [ ] Sabes detener tu instancia y la dejaste en `STOPPED` al terminar.
+- [ ] Tu saldo de Brev muestra el crédito en la organización correcta.
+- [ ] Tu instancia aparece en **Running** en **Compute**.
+- [ ] Viste **YOUR AGENT IS LIVE** y llegaste al tablero con los 4 botones.
+- [ ] El chat respondió a «¿Quién eres y en qué carpeta trabajas?».
+- [ ] `nemoclaw my-assistant status` muestra la inferencia `healthy`.
+- [ ] `nemoclaw my-assistant exec -- whoami` responde `sandbox`.
+- [ ] La sesión `memo-41` recordó `CODE-7Q4` antes del reinicio y respondió `no lo se` después.
+- [ ] `ls ~/curso/datos/faq/` muestra los archivos de la FAQ.
+- [ ] Sabes dónde están **Stop** y **Delete**, y cuándo usar cada uno.
 
 ## Errores comunes
 
 | Síntoma | Causa | Solución |
 |---|---|---|
-| `OpenClaw is starting. Retrying in N seconds. Use Stop to cancel.` | El runtime todavía arranca (`/api/agent` responde 503 `starting`). | Espera. La página reintenta sola hasta 30 min. Si pasan más de 15 min, revisa la consola de Brev. |
-| La URL de puerto 80 muestra `503 … no_healthy_upstream` aunque Brev dice HEALTHY | Falla intermitente del proxy del launchable. | Espera un par de minutos y recarga. Si sigue, despliega una instancia nueva. |
-| La prueba de NemoClaw da 502 o agota el tiempo | Un 502 solo no dice la causa. | Abre la prueba que falló y lee su evidencia. Luego usa **Comprobación de estado** (flujo *Detectar y recuperar*). Usa **Recuperar** solo si la comprobación muestra un problema de configuración o de sesión. |
-| Pastilla **OpenClaw ⚠** o `no challenge arrived within 30s. Open the launchable, then retry with a fresh matching access session` | Tu cookie de sesión expiró o es de otro launchable. | Abre el launchable, inicia sesión, copia el **Value** nuevo de la cookie correcta y vuelve a **Probar conexión**. |
-| `The launchable needs a fresh <cookie> browser session.` | Pegaste el encabezado completo, otra cookie o nada. | Copia solo el **Value** de la cookie que corresponde a tu dominio (tabla del paso 11). |
-| `You have run out of credits ...` aunque sí tienes créditos | Tienes activa otra organización de Brev. | `brev ls orgs` y luego `brev set <org>`. En la consola, cambia de organización. |
-| `ssh: Could not resolve hostname <instancia>` aunque corriste `brev refresh` | La línea `Include` de Brev quedó dentro de un bloque `Host` de tu `~/.ssh/config`. | Respalda `~/.ssh/config` y mueve la línea `Include … .brev/ssh_config` hasta arriba, antes del primer `Host`. Receta 12 del cookbook. |
-| `brev shell <instancia> --host` se queda esperando | Problema conocido de la ruta `--host` con este launchable. | Usa `brev shell <instancia>` sin `--host`. |
-| Tarjeta roja con **RETRY** o progreso en 0 % durante la configuración | Error visual de la interfaz del launchable. | Mira el registro de actividad. Si avanza, no hagas nada. No hagas clic en **RETRY**: reconstruye el sandbox. |
-| El chat se queda sin respuesta y agota el tiempo; nunca aparece `exec` | `toolSearch` activado: el modelo da vueltas con `tool_search_code`. | **Comprobación de estado** lee el valor real. Si dice `toolSearch activado`, **Recuperar** lo apaga con `config.patch`. |
-| `brev start` falla después de una pausa | El proveedor no tiene capacidad para ese tipo de instancia. | Espera y reintenta. Si urge, elimina y despliega de nuevo (pierdes los datos que no respaldaste). |
+| Al hacer clic en **NemoClaw** te pide iniciar sesión con NVIDIA otra vez | Es una pestaña nueva en otra dirección. | Es normal. Inicia sesión con la misma cuenta. |
+| **Building your agent** tarda varios minutos | Está creando el gateway, la ruta al modelo y el sandbox. | Espera unos 3 minutos. No recargues la pestaña. |
+| Tarjeta roja con **RETRY** durante la configuración | Error visual de la página, o un paso que tarda. | Mira el registro de actividad. Si avanza, no hagas nada. No hagas clic en **RETRY**: reconstruye todo. |
+| Dejaste **OpenRouter** como proveedor | Es la opción que viene por defecto. | Tu key `nvapi-` es de NVIDIA: elige **NVIDIA CLOUD**. |
+| `You have run out of credits ...` aunque sí tienes crédito | Tienes activa otra organización de Brev. | Cambia de organización con el selector de arriba a la derecha y revisa el saldo. |
+| Escribes en la **VM TERMINAL** y no pasa nada, o el tablero reacciona | La terminal no tenía el foco. | Haz clic dentro del área negra y vuelve a escribir. |
+| La terminal se cerró de golpe | Presionaste **Shift + Esc**. | Vuelve a abrirla con **VM TERMINAL**. |
+| `ExperimentalWarning: SQLite is an experimental feature` | Aviso de la herramienta, en cada comando `nemoclaw`. | Ignóralo. No es un error. |
+| La página de NemoClaw muestra `503 … no_healthy_upstream` | El laboratorio todavía arranca, o el proxy falló un momento. | Espera un par de minutos y recarga. |
+| El chat dice que es un usuario como `gateway-owner` | El agente describe mal su propia identidad. | No le creas: verifica con `nemoclaw my-assistant exec -- whoami`. |
 | Un tutorial te dice que uses `nemoclaw deploy` | Ese comando se eliminó en NemoClaw v0.0.117. | No lo uses. En este curso desplegamos con el launchable de Brev. |
 
 ## Reto
 
-**Pausa y vuelve en menos de 10 minutos.** Detén tu instancia, reanúdala y deja todo en verde otra vez.
+**Demuestra que cada sesión tiene su propia memoria.** En la **VM TERMINAL**, dale al agente un código nuevo en la sesión `reto-41`. Luego pregúntale por el código en otra sesión, `reto-41-b`. Al final, vuelve a preguntar en `reto-41`.
 
-Criterio de éxito: `brev ls` mostró `STOPPED` y luego `RUNNING`, `nemoclaw my-assistant status` reporta la inferencia `healthy` y **Probar conexión** vuelve a mostrar `Conexión lista`. Anota cuánto tardó cada paso y qué tuviste que repetir (pista: la cookie).
+Criterio de éxito: en `reto-41-b` responde que no lo sabe y en `reto-41` lo recuerda. Explica en una frase por qué pasa eso.
 
 ## Avance del proyecto
 
-Tu agente **Soporte NemoClaw** ya tiene casa. Antes de enseñarle nada, mide cómo responde "de fábrica":
+Tu agente **Soporte NemoClaw** ya tiene casa. Antes de enseñarle nada, mide cómo responde «de fábrica»:
 
-1. En el turno por el gateway (paso 14), envía esta duda de estudiante:
-   ```js
-   message = "Un estudiante dice: 'Mi notebook responde HTTP 401 cuando llamo al modelo'. ¿Qué le respondes? Responde en español y en 5 líneas como máximo.";
+1. Hazle esta pregunta de estudiante. Puedes escribirla en **CHAT WITH AGENT** o pegar este comando en la **VM TERMINAL**:
+   ```bash
+   nemoclaw my-assistant agent --session-key linea-base -m 'Un estudiante dice: "Mi notebook responde HTTP 401 cuando llamo al modelo". ¿Que le respondes? Responde en español y en 5 lineas como maximo.'
    ```
-2. Guarda la respuesta en tu repo como `proyecto/linea-base-4.1.md`, junto con el nombre de tu instancia, el nombre del sandbox y el costo por hora que viste en Brev.
+2. Copia la respuesta en tus notas, con el título «Línea base 4.1». Agrega el nombre de tu instancia, el nombre del sandbox (`my-assistant`) y el precio por hora que viste en Brev.
 
 En la clase 4.3 instalarás la skill `soporte-nemoclaw` con la FAQ del curso y compararás contra esta línea base.
 
 ## Recursos
 
-- [Lección 03a · Conecta NemoClaw (NVIDIA DLI, español)](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/03a-kickstart.html)
 - [Launchable de NemoClaw en Brev](https://brev.nvidia.com/launchable/deploy/now?launchableID=env-3Azt0aYgVNFEuz7opyx3gscmowS&ncid=ref-dli-759990)
-- [Brev · Quickstart](https://docs.nvidia.com/brev/latest/getting-started/quickstart.md) y [CLI: conectividad](https://docs.nvidia.com/brev/latest/cli/connectivity.md)
+- [Tu laboratorio en Brev: crédito, plan y tablero](../../LABORATORIO.md)
+- [Brev · Quickstart](https://docs.nvidia.com/brev/latest/getting-started/quickstart.md)
 - [Brev · Instancias: estados y cobro](https://docs.nvidia.com/brev/latest/concepts/gpu-instances.md) y [Precios de launchables](https://www.nvidia.com/en-us/launchables/pricing)
 - [NemoClaw · Desplegar en un servidor headless (incluye Brev)](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/deployment/deploy-to-headless-server.md)
+- [NemoClaw · Referencia de comandos](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands.md)
 - [NemoClaw · Troubleshooting](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/troubleshooting.md)
-- Issues de referencia: [NemoClaw #13090](https://github.com/NVIDIA/NemoClaw/issues/13090) (hostname), [#11534](https://github.com/NVIDIA/NemoClaw/issues/11534) (`--host`), [#11535](https://github.com/NVIDIA/NemoClaw/issues/11535) (503), [#11536](https://github.com/NVIDIA/NemoClaw/issues/11536) (RETRY), [brev-cli #390](https://github.com/brevdev/brev-cli/issues/390) (organización)
+- Issues de referencia: [NemoClaw #11535](https://github.com/NVIDIA/NemoClaw/issues/11535) (503), [#11536](https://github.com/NVIDIA/NemoClaw/issues/11536) (RETRY), [brev-cli #390](https://github.com/brevdev/brev-cli/issues/390) (organización)

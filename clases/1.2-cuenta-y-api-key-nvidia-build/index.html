@@ -2,8 +2,8 @@
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>1.2 Crea tu cuenta y tu API key en NVIDIA Build · Seguridad de agentes con OpenShell y NemoClaw</title>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
-<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=8c0f4e58">
+<link rel="stylesheet" href="../../assets/guia.css?v=8c0f4e58">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
@@ -65,13 +65,13 @@
 <li>Abre <a href="https://build.nvidia.com/?ncid=ref-dli-146986">https://build.nvidia.com/?ncid=ref-dli-146986</a>.</li>
 <li>Haz clic en el botón para iniciar sesión y crea una cuenta de NVIDIA con tu correo (o entra con la que ya tengas).</li>
 <li>Confirma tu correo con el enlace que te llega.</li>
-<li>Si te pide verificar tu teléfono, escribe tu número con el código de país y el código del SMS. <strong>[VERIFICAR EN LAB]</strong> en qué momento exacto se pide el teléfono.</li>
+<li>Si en algún momento te pide verificar tu teléfono (puede ser al crear la cuenta o al generar la key), escribe tu número con el código de país y luego el código del SMS.</li>
 </ol>
 <p>Deberías ver: el catálogo de modelos de build.nvidia.com con tu sesión iniciada (tu avatar arriba a la derecha).</p>
 <h3 id="2-genera-tu-api-key">2. Genera tu API key</h3>
 <ol>
-<li>Abre la página <strong>API Keys</strong> de tu cuenta. También puedes entrar a la ficha de un modelo, por ejemplo Nemotron, y usar el botón para obtener una key. <strong>[VERIFICAR EN LAB]</strong> el nombre exacto del menú y del botón.</li>
-<li>Genera una key nueva. Si te deja ponerle nombre, usa algo como <code>curso-platzi-nemoclaw</code>. Si te deja elegir vencimiento, elige uno corto: vas a regenerarla al terminar el curso. <strong>[VERIFICAR EN LAB]</strong> si existe la opción de vencimiento.</li>
+<li>Abre el menú de tu cuenta y entra a la página de <strong>API Keys</strong>. También puedes entrar a la ficha de un modelo, por ejemplo Nemotron, y usar el botón para generar tu API key (puede decir <em>Generate API Key</em> o <em>Get API Key</em>).</li>
+<li>Genera una key nueva. Si te deja ponerle nombre, usa algo como <code>curso-platzi-nemoclaw</code>. Si te deja elegir vencimiento, elige uno corto: vas a regenerarla al terminar el curso. Si no ves esas opciones, sigue con el siguiente paso.</li>
 <li>Copia la key <strong>en ese momento</strong>. Empieza con <code>nvapi-</code> y es larga.</li>
 </ol>
 <p>Deberías ver: un texto como <code>nvapi-xxxxxxxx…</code>. Trátalo como una contraseña.</p>
@@ -168,7 +168,7 @@ git<span class="w"> </span>check-ignore<span class="w"> </span>.env<span class="
 </code></pre></div>
 <h3 id="6-cuida-tus-créditos-y-tus-límites">6. Cuida tus créditos y tus límites</h3>
 <ul>
-<li>La cuenta gratuita de NVIDIA Build da acceso a los modelos alojados con <strong>límites de uso</strong>: créditos o solicitudes por minuto. <strong>[VERIFICAR EN LAB]</strong> las cifras vigentes y en qué página de tu cuenta se ven el consumo y los créditos.</li>
+<li>La cuenta gratuita de NVIDIA Build da acceso a los modelos alojados con <strong>límites de uso</strong>: créditos o solicitudes por minuto. Las cifras cambian con el tiempo: revisa tu consumo y tus créditos en tu cuenta de build.nvidia.com.</li>
 <li>Cuando superas el límite por minuto, la API responde <strong>429</strong>. Espera y reintenta (en la 1.3 escribes un reintento con backoff).</li>
 <li>Lo que más gasta: loops sin límite de pasos, ejecutar celdas en ráfaga y <code>max_tokens</code> enormes. En el Módulo 2 tu loop siempre tendrá un máximo de pasos.</li>
 <li>Los modelos gratuitos <strong>cambian</strong>. Un modelo retirado responde <strong>410</strong>. Le pasó al curso de NVIDIA con <code>nvidia/nemotron-3-nano-30b-a3b</code>. Por eso el modelo vive en una variable (<code>NVIDIA_MODEL</code>) y no escrito en el código.</li>
@@ -176,7 +176,7 @@ git<span class="w"> </span>check-ignore<span class="w"> </span>.env<span class="
 <h3 id="7-si-filtras-tu-key">7. Si filtras tu key</h3>
 <p>Si tu key apareció en un commit, en una captura, en un notebook compartido o en un chat:</p>
 <ol>
-<li>Entra a <strong>API Keys</strong> en build.nvidia.com y <strong>revoca</strong> (elimina) esa key. <strong>[VERIFICAR EN LAB]</strong> el nombre exacto del botón.</li>
+<li>Entra a <strong>API Keys</strong> en build.nvidia.com y <strong>revoca</strong> (elimina) esa key. El botón puede decir <em>Revoke</em>, <em>Delete</em> o mostrarse como un icono de bote de basura.</li>
 <li>Genera una nueva.</li>
 <li>Actualízala en todos lados: <code>.env</code>, tus variables de entorno, los Secrets de Colab y, si ya la usaste, en NemoClaw (clase 6.3).</li>
 <li>Si la subiste a GitHub, borrar el archivo <strong>no basta</strong>: la key queda en el historial. Lo que te protege es revocarla.</li>

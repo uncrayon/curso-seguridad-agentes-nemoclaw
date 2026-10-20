@@ -51,9 +51,11 @@ No necesitas memorizar nada: vuelve a esta página cuando la necesites.
 | **Instancia** | Tu computadora en la nube. Puede estar encendida (cobra), detenida (cobra solo el disco) o borrada. | Tu oficina rentada: con luz encendida, con la luz apagada o entregada. | 4.1 |
 | **Terminal** | Una ventana donde escribes instrucciones en texto en lugar de hacer clic. | Hablarle a la computadora con frases cortas y exactas. | 4.1 |
 | **Comando** | Una instrucción que escribes en la terminal, como `nemoclaw list`. | Una orden corta: "enciende", "muestra la lista". | 4.1 |
-| **Cookie de sesión** | Un dato que tu navegador guarda para recordar que ya iniciaste sesión. | La pulsera de un evento: mientras la traigas, entras sin mostrar el boleto. Si alguien te la quita, entra como tú. | 4.1 |
-| **Dashboard** | La página web para conversar con tu agente y ver su estado. | El tablero de un auto. | 4.2 |
-| **Puerto** / **port-forward** | Un puerto es una "puerta" numerada de un servidor; port-forward abre un pasillo seguro desde tu computadora hasta esa puerta. | Un pasillo privado entre tu casa y la oficina rentada. | 4.1 |
+| **Cookie de sesión** | Un dato que tu navegador guarda solo para que sigas con la sesión iniciada en Brev y en tu laboratorio. No tienes que copiarla nunca; si alguien la obtiene, podría entrar como tú. | La pulsera de un evento: mientras la traigas, entras sin mostrar el boleto. Si alguien te la quita, entra como tú. | 4.1 |
+| **Tablero (dashboard) del laboratorio** | La página principal de tu laboratorio, que abres con el botón verde **NemoClaw** en Brev. Muestra el estado del agente y tiene cuatro botones: **CHAT WITH AGENT**, **SANDBOX TERMINAL**, **VM TERMINAL** y **OPENSHELL TUI**. | El tablero de un auto: ves cómo va todo y desde ahí manejas. | 4.1 |
+| **Terminal de operador** (**VM Terminal**) | La terminal de la computadora que rodea al cuarto del agente. Desde ahí revisas y controlas al agente; en el curso pegas ahí los comandos. | La oficina del administrador del edificio, desde donde ve y abre los cuartos. | 4.1 |
+| **Dashboard** (del agente) | La página web para conversar con tu agente y ver su estado. En el laboratorio la abres con **CHAT WITH AGENT**. | El tablero de un auto. | 4.2 |
+| **Puerto** / **port-forward** | Un puerto es una "puerta" numerada de un servidor (en el laboratorio, el gateway de OpenShell usa el 18080 y el chat el 18789); port-forward abre un pasillo seguro desde tu computadora hasta esa puerta, útil si instalas NemoClaw en tu propia máquina. | Un pasillo privado entre tu casa y la oficina rentada. | 6.3 |
 
 ## Las piezas de NVIDIA
 
@@ -69,6 +71,7 @@ No necesitas memorizar nada: vuelve a esta página cuando la necesites.
 | **SOUL.md** | Un archivo de texto con la personalidad y las reglas del agente. | El reglamento y la descripción del puesto. | 4.2 |
 | **Skill** (`SKILL.md`) | Un archivo de texto con instrucciones paso a paso para una tarea. El agente lo lee cuando lo necesita. | Una tarjeta de receta. | 4.3 |
 | **Cron** / tarea programada | Una tarea que se ejecuta sola a una hora fija. | La alarma del despertador. | 4.3 |
+| **Automatización** (*Automations*) | Una tarea que el agente ejecuta solo, una vez o cada cierto tiempo, y que creas con clics en la sección **Automations** del chat. Cada ejecución gasta créditos del modelo. | Dejarle a tu asistente un encargo con fecha y hora en la agenda. | 4.3 |
 | **NeMo Agent Toolkit** | Herramientas de NVIDIA para construir agentes y enviar sus trazas a páginas como Phoenix. | La caja de herramientas del taller. | 3.4 |
 
 ## Tu práctica con agentes

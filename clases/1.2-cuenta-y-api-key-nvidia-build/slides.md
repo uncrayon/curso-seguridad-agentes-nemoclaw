@@ -12,7 +12,7 @@ La API key es la tarjeta de acceso de un edificio. Clic 1: tú, con tu cuenta gr
 :::diagrama c12-pasos-cuenta
 
 Notas:
-Un clic por paso: entrar, confirmar el correo, generar la key en API Keys, copiarla en ese momento y probar el modelo en el cuadro de prueba de su ficha. Clic 6: el aviso para LATAM (issues #201 y #214 de NemoClaw; soporte en help@build.nvidia.com con correo, números probados y capturas). [VERIFICAR EN LAB] nombres exactos de menú y botón, y si la ficha de Nemotron tiene cuadro de prueba.
+Un clic por paso: entrar, confirmar el correo, generar la key en API Keys, copiarla en ese momento y probar el modelo en el cuadro de prueba de su ficha. Clic 6: el aviso para LATAM (issues #201 y #214 de NemoClaw; soporte en help@build.nvidia.com con correo, números probados y capturas). Los nombres del menú y del botón pueden variar (Generate API Key o Get API Key); si la ficha de Nemotron no tiene cuadro de prueba, la primera llamada se hace con curl.
 
 ---
 
@@ -56,7 +56,7 @@ Clic 1: tu pregunta viaja con tu key. Clic 2: Nemotron piensa antes de responder
 :::diagrama c12-creditos
 
 Notas:
-Clic 1: tus créditos, como el saldo de prepago del celular. Clic 2: cada pregunta gasta tokens; si te pasas del límite, NVIDIA responde 429. Clic 3: espera y reintenta. Clic 4: lo que más gasta. Clic 5: los modelos gratuitos cambian; uno retirado da 410, por eso el modelo vive en NVIDIA_MODEL y no escrito en el código. [VERIFICAR EN LAB] cifras vigentes de créditos o solicitudes por minuto y la página donde se ve el consumo. No dar números sin confirmar.
+Clic 1: tus créditos, como el saldo de prepago del celular. Clic 2: cada pregunta gasta tokens; si te pasas del límite, NVIDIA responde 429. Clic 3: espera y reintenta. Clic 4: lo que más gasta. Clic 5: los modelos gratuitos cambian; uno retirado da 410, por eso el modelo vive en NVIDIA_MODEL y no escrito en el código. No dar cifras de créditos ni de solicitudes por minuto: cambian; cada quien revisa su consumo en su cuenta de build.nvidia.com.
 
 ---
 

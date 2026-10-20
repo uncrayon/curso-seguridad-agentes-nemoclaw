@@ -89,6 +89,9 @@ th{background:var(--sin-surface-container);color:var(--sin-on-surface-variant);f
 tr:last-child td{border-bottom:0}
 tr:target td{background:var(--sin-primary-container)}
 hr{border:0;border-top:1px solid var(--sin-outline-variant);margin:32px 0}
+.md img{display:block;max-width:100%;height:auto;margin:14px 0 18px;border-radius:var(--sin-radius-xl);border:1px solid var(--sin-outline-variant);
+  box-shadow:var(--shadow-raised)}
+.md li img{margin:10px 0 14px}
 
 /* Palabras del glosario: definición al pasar el mouse o con el foco */
 a.glos{position:relative;text-decoration:underline dotted;text-decoration-color:color-mix(in srgb,var(--sin-primary) 70%,transparent)}

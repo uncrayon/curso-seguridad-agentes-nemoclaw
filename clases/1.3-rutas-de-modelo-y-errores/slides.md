@@ -21,7 +21,7 @@ La ruta es la dirección postal de una oficina. Clic 1: la dirección (URL base,
 :::diagrama c13-panel
 
 Notas:
-Clic 1: los tres datos de la ruta (dirección y modelo ya vienen llenos; la key se guarda en sessionStorage). Clic 2: la casilla del relay de CORS; no da key ni acceso, solo reenvía (en Python no hace falta). Clic 3: los desplegables Ruta de embeddings y Gestión de la solicitud (espera de 60 s, reintentos de 0 a 5; subir a 2). Clic 4: Guardar y verificar hace una prueba real. Clic 5: la key se borra al cerrar la pestaña. [VERIFICAR EN LAB] textos del panel en español.
+Clic 1: los tres datos de la ruta (dirección y modelo ya vienen llenos; la key se guarda en sessionStorage). Clic 2: la casilla del relay de CORS; no da key ni acceso, solo reenvía (en Python no hace falta). Clic 3: los desplegables Ruta de embeddings y Gestión de la solicitud (espera de 60 s, reintentos de 0 a 5; subir a 2). Clic 4: Guardar y verificar hace una prueba real. Clic 5: la key se borra al cerrar la pestaña. Los textos del panel en español son traducción y pueden cambiar: lee lo que veas. Este panel es opcional; el notebook hace la misma verificación.
 
 ---
 
@@ -39,7 +39,7 @@ Clic 1: el notebook y sus celdas de configuración. Clic 2: EN VIVO si encontró
 :::diagrama c13-rompe
 
 Notas:
-Una fila por clic: key falsa → 401; modelo inexistente → 404; max_tokens=8 → finish_reason="length" y contenido vacío. El tercero no es una excepción: es una respuesta 200 incompleta. Clic 4: diagnostico(e) traduce cada error a "qué pasó + qué hacer". [VERIFICAR EN LAB] 401 y no 403; 404 y no 400 o 422.
+Una fila por clic: key falsa → 401; modelo inexistente → 404; max_tokens=8 → finish_reason="length" y contenido vacío. El tercero no es una excepción: es una respuesta 200 incompleta. Clic 4: diagnostico(e) traduce cada error a "qué pasó + qué hacer". Si en vivo sale 403 en lugar de 401, o 400/422 en lugar de 404, dilo así: el diagnóstico es el mismo.
 
 ---
 

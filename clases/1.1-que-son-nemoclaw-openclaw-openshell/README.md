@@ -142,7 +142,7 @@ Qué necesitas en cada etapa:
 5. Lee **"Proyecto del curso: «Soporte NemoClaw»"**: ahí ves cómo crece el agente del Módulo 2 al 6.
 6. Baja a **"Clase por clase"**: 6 módulos y 20 clases. Cada tarjeta trae la duración, lo que vas a aprender y sus enlaces: **Guía** (la página de la clase, como esta), **Diapositivas** y, según la clase, **Colab** (el notebook, que se abre en tu navegador) o **Recetario** (las recetas de comandos del laboratorio). Compara con la tabla de arriba y ubica la clase 1.3: es la primera con botón de Colab.
 7. Lee **"Los errores que más vas a ver"**. Ahí está la regla de oro: ante un 401 o 403, revisa tu key y tu cuenta; ante un 404 o 410, revisa el nombre del modelo; ante un 429, espera unos segundos y reintenta.
-8. Ubica las páginas de apoyo: el **Glosario** (botón de arriba), **Tu laboratorio en Brev** (el enlace «plan de 3 sesiones», en la primera sección: crédito, sesiones y cookie) y las **Preguntas frecuentes**, con más de 50 casos resueltos. Guarda la portada en tus marcadores.
+8. Ubica las páginas de apoyo: el **Glosario** (botón de arriba), **Tu laboratorio en Brev** (el enlace «plan del laboratorio», en la primera sección: cuánto cuesta y cómo hacer que te alcance el crédito) y las **Preguntas frecuentes**, con más de 50 casos resueltos. Guarda la portada en tus marcadores.
 
 Deberías ver: arriba, el título del curso con los botones "Empieza con la clase 1.1", "Consigue tu API key", "Laboratorio en Brev", "Preguntas frecuentes" y "Glosario", y la línea "6 módulos · 20 clases".
 

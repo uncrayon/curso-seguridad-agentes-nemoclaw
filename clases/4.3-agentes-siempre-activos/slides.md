@@ -21,7 +21,7 @@ Un clic por pregunta: sesión (¿qué conversación recuerda?), directiva (¿qu�
 :::diagrama c43-mecanismos
 
 Notas:
-Clic 1: la skill usa tu misma conversación, sigue su SKILL.md y empieza cuando la pides. Clic 2: el cron empieza a una hora, en una conversación nueva y vacía (sesión aislada), con el mensaje programado (payload.message). Clic 3: heartbeat y subagente, punteados porque hoy son solo concepto: ninguna celda de la 03c los dispara. El heartbeat lo configura NemoClaw en una sesión aislada. Clic 4: lo que corremos hoy.
+Clic 1: la skill usa tu misma conversación, sigue su SKILL.md y empieza cuando la pides. Clic 2: el cron empieza a una hora, en una conversación nueva y vacía (Isolated session), con el Prompt de la automatización. Clic 3: heartbeat y subagente, punteados porque hoy son solo concepto. El heartbeat aparece en Automations como heartbeat-main, cada 30 min; en el laboratorio su historial dice Skipped · no-route, y es normal. Clic 4: lo que corremos hoy.
 
 ---
 
@@ -41,26 +41,27 @@ La tarjeta de receta de soporte-nemoclaw, por partes. Clic 1: la etiqueta (el fr
 .lead La skill es el procedimiento. La FAQ es el conocimiento.
 
 Notas:
-Clic 1: la skill soporte-nemoclaw. Clic 2: el error en vivo, una copia sin name: NemoClaw revisa la etiqueta antes de subirla. Clic 3: la copia buena llega a skills/ del escritorio. Clic 4: la FAQ llega a faq/. skill install valida el frontmatter y llama a openclaw skills install --agent main --force; reinstalar reemplaza la del mismo nombre.
+Clic 1: la skill soporte-nemoclaw. Clic 2: el error en vivo, una copia sin name: NemoClaw revisa la etiqueta antes de subirla. Clic 3: la copia buena llega a skills/ del escritorio: "✓ Validated SKILL.md" e "Installed soporte-nemoclaw from path -> /sandbox/.openclaw/workspace/skills/soporte-nemoclaw". Clic 4: la FAQ llega a faq/. Ojo con upload: el destino es workspace/, no faq/, o queda faq/faq.
 
 ---
 
 ## La forma de operador, en la terminal
 
 ```bash
-# Instala la skill y comprueba que está
-nemoclaw my-assistant skill install ./soporte-nemoclaw/
-nemoclaw my-assistant skill list
+# Instala la skill
+nemoclaw my-assistant skill install ~/curso/clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/
 
-# Sube la FAQ al escritorio del agente y compruébalo
-nemoclaw my-assistant upload ./faq/ /sandbox/.openclaw/workspace/faq/
-nemoclaw my-assistant exec --workdir /sandbox/.openclaw/workspace -- ls faq
+# Sube la FAQ al escritorio del agente (el destino es workspace/)
+nemoclaw my-assistant upload ~/curso/datos/faq/ /sandbox/.openclaw/workspace/
+
+# Compruébalo desde dentro del cuarto
+nemoclaw my-assistant exec -- ls /sandbox/.openclaw/workspace/skills/ /sandbox/.openclaw/workspace/faq/
 ```
 
-.lead Instalar la skill es el único paso de hoy que va por la terminal. Lo demás, con clics.
+.lead Instalar va por la VM TERMINAL. Programar la tarea, con clics en Automations.
 
 Notas:
-Antes de cada línea, decir para qué sirve. Error en vivo: nemoclaw my-assistant skill install ./soporte-rota/ (copia sin la línea name:).
+En el tablero de NemoClaw, VM TERMINAL; clic dentro del área negra antes de escribir. Antes de cada línea, decir para qué sirve. La línea ExperimentalWarning de SQLite es inofensiva. Error en vivo: nemoclaw my-assistant skill install ~/soporte-rota/ (copia sin la línea name:).
 
 ---
 
@@ -69,7 +70,7 @@ Antes de cada línea, decir para qué sirve. Error en vivo: nemoclaw my-assistan
 :::diagrama c43-explicita
 
 Notas:
-Clic 1: explícita, le das la ruta: prueba que puede seguirla (Paso 1 de la 03c). Clic 2: automática, solo describes el problema: prueba que la elige solo (panel "Prueba · activa una skill durante la conversación"). Clic 3: siempre en sesión nueva. La celda de la 03c lo dice: obtener la referencia del runbook no prueba la selección automática.
+Clic 1: explícita, le das la ruta en el chat (CHAT WITH AGENT): prueba que puede seguirla. Clic 2: automática, solo describes el problema: prueba que la elige solo. En la VM TERMINAL: nemoclaw my-assistant agent --session-key prueba-43 -m 'Mi API key de NVIDIA me da 401, ¿qué hago?' respondió Categoría api_key, pasos y Fuente: faq/errores-api.md, faq/api-key.md. Clic 3: siempre en sesión nueva. Seguir la ruta que le diste no prueba que la elija solo.
 
 ---
 
@@ -78,7 +79,7 @@ Clic 1: explícita, le das la ruta: prueba que puede seguirla (Paso 1 de la 03c)
 :::diagrama c43-cron
 
 Notas:
-Un clic por etapa: la alarma (cron.add con schedule.kind "at"), suena, conversación nueva y vacía (sessionTarget "isolated"), sigue el mensaje, deja el archivo reportes/resumen-faq-<id>.md. Clic 6: toISOString() da la hora en UTC (termina en Z). El fragmento completo está en la página de la clase, paso 10: se pega en el nodo "Llama a models.list y cron.list" de la 03a, después de "Abre la conexión del gateway". Luego cron.runs hasta ver ok.
+Un clic por etapa: la alarma (Automations → New automation, Repeat Once, Run at dentro de 2 minutos), suena, conversación nueva y vacía (Runs in: Isolated session), sigue el Prompt con la skill, deja el archivo reportes/resumen-faq.md. Clic 6: Run at usa la hora local de tu navegador; la fecha dentro del archivo va en UTC. Name soporte-resumen-faq, Delivery None, Advanced → Delete after run encendido. La lista dice in 2m, luego Running, y Run history dice OK con ≈112 mil tokens.
 
 ---
 
@@ -87,7 +88,7 @@ Un clic por etapa: la alarma (cron.add con schedule.kind "at"), suena, conversac
 :::diagrama c43-prueba
 
 Notas:
-Clic 1: un status ok en cron.runs no basta. Clic 2: lo lees tú, como operador (celda de Paso 1b de la 03b). Clic 3: el archivo existe. Clic 4: nadie escribió en el chat. Por terminal: nemoclaw my-assistant exec -- bash -lc 'cat /sandbox/.openclaw/workspace/course-cron-*.txt' (exec no usa shell: para * o &&, envuélvelo en bash -lc).
+Clic 1: un OK en Run history no basta. Clic 2: lo lees tú, como operador, en la VM TERMINAL: nemoclaw my-assistant exec -- bash -lc 'ls -la /sandbox/.openclaw/workspace/reportes/; cat /sandbox/.openclaw/workspace/reportes/resumen-faq.md'. Clic 3: el archivo existe, con dueño sandbox y la línea "Generado por la skill soporte-nemoclaw.". Clic 4: nadie escribió en el chat. Y nemoclaw my-assistant exec -- openclaw cron list confirma que la tarea se borró sola.
 
 ---
 
@@ -96,7 +97,7 @@ Clic 1: un status ok en cron.runs no basta. Clic 2: lo lees tú, como operador (
 :::diagrama c43-nadie-mira
 
 Notas:
-Clic 1: "Envía el reporte diario" se dispara aunque no estés. Clic 2: cada disparo es una sesión aislada, pero el workspace se comparte y afecta lo que viene. Clic 3: cada disparo consume créditos del modelo. Clic 4: nombra tus tareas, revisa cron.list y borra lo que no reconozcas. Puente al Módulo 5: un agente con datos, herramientas y tareas autónomas es el escenario de la trifecta letal.
+Clic 1: "Envía el reporte diario" se dispara aunque no estés. Clic 2: cada disparo es una sesión aislada, pero el workspace se comparte y afecta lo que viene. Clic 3: cada disparo consume créditos del modelo: nuestra tarea usó ≈112 mil tokens. Nunca dejes un Interval de pocos minutos encendido. Clic 4: nombra tus tareas, revisa Automations y pausa o borra con el menú ⋯ lo que no reconozcas. Puente al Módulo 5: un agente con datos, herramientas y tareas autónomas es el escenario de la trifecta letal.
 
 ---
 
@@ -104,15 +105,15 @@ Clic 1: "Envía el reporte diario" se dispara aunque no estés. Clic 2: cada dis
 
 | Ves | Haz esto |
 |---|---|
-| La tarea no dice `ok` en 3 minutos | Revisa la lista de tareas y que la instancia esté encendida |
-| Corrió a otra hora | Agrega tu zona horaria: el agente usa la hora universal |
-| Dice `ok`, pero no ves el archivo | Léelo como operador y búscalo por nombre |
+| **NEXT RUN** no dice `in 2m` | **Run at** usa la hora de tu navegador: pon tu hora + 2 min |
+| Se queda en **Running** mucho rato | Espera y mira **Run history**; revisa que la inferencia esté sana |
+| Dice **OK**, pero no ves el archivo | Léelo como operador y búscalo por nombre |
 | El agente no elige la skill solo | Mejora la descripción, reinstálala y abre una conversación nueva |
 | `skill install` falla | Revisa que la etiqueta tenga `name` |
 | «No encuentro la FAQ» | Súbela a `workspace/faq/` (sin que quede `faq/faq/`) |
 
 Notas:
-Zona horaria de la Ciudad de México: -06:00. Con deleteAfterRun, algunas versiones de OpenClaw rechazan cron.remove porque la tarea ya se borró sola: confirmar con cron.list. Búsqueda por nombre: grep -rl.
+La hora del archivo va en UTC (la Ciudad de México está 6 horas atrás). heartbeat-main en Skipped · no-route es normal en el laboratorio. Búsqueda por nombre: grep -rl "Generado por la skill soporte-nemoclaw". Estado de la inferencia: nemoclaw my-assistant status.
 
 ---
 
@@ -121,10 +122,10 @@ Zona horaria de la Ciudad de México: -06:00. Con deleteAfterRun, algunas versio
 .lead Soporte NemoClaw ya vive en OpenClaw.
 
 - La skill `soporte-nemoclaw` y la FAQ en su escritorio
-- Una tarea programada que deja un resumen de la FAQ
+- Una tarea en Automations que dejó un resumen de la FAQ
 - Repite la pregunta del 401 y compárala con la de la clase 4.1
 
 ¿Qué riesgos abrimos? Lo vemos en el Módulo 5.
 
 Notas:
-Guardar la respuesta nueva debajo de la anterior en proyecto/linea-base-4.1.md.
+Guardar la respuesta nueva debajo de la anterior en proyecto/linea-base-4.1.md. Si paras por hoy: Stop en la consola de Brev y vuelve pronto.

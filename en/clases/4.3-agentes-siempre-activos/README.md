@@ -7,26 +7,29 @@ Install the `soporte-nemoclaw` skill with the course FAQ, schedule a task that w
 | | |
 |---|---|
 | Video length | ≈8 min |
-| Practice | Lab on Brev: NVIDIA course page + terminal ([cookbook.md (Spanish)](../../../clases/4.3-agentes-siempre-activos/cookbook.md)) |
+| Practice | Lab on Brev: NemoClaw dashboard + browser terminal ([cookbook.md (Spanish)](../../../clases/4.3-agentes-siempre-activos/cookbook.md)) |
 | Skill | Operate agents in continuous mode |
 
 Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clases/4.3-agentes-siempre-activos/cookbook.md) · [soporte-nemoclaw skill (Spanish)](../../../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.md) · [FAQ (Spanish)](../../../FAQ.md)
 
-> Based on lesson 03c-always-on from the NVIDIA DLI course (Apache-2.0).
+> Based on lesson 03c of the NVIDIA DLI course "NemoClaw" (Apache-2.0).
 
 ## What you'll achieve
 
 - Install a skill (a folder with a `SKILL.md`) in your agent and check that it uses it, first explicitly and then automatically.
-- Schedule a task with the gateway's cron that writes a file without any chat message, and verify it as the operator.
+- Schedule a task in **Automations** that writes a file without any chat message, and verify it as the operator.
 - Describe any "always-on" mechanism with 3 controls: session, directive, and trigger.
 
 ## Before you start
 
-- Classes 4.1 and 4.2 finished: instance in `RUNNING`, **Test connection** green in [lesson 03a](https://nvdli.github.io/NemoClawDLI/nemoclaw/03a-kickstart.html), and a customized `SOUL.md`.
-- `brev shell <instancia>` working.
-- On your computer, the course repository with:
-  - the skill: [`clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.md`](../../../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.md) (Spanish)
-  - the course FAQ: `datos/faq/*.md`
+- Classes 4.1 and 4.2 finished: instance **Running** in the Brev console, the NemoClaw dashboard open through the green **NemoClaw** button, and a customized `SOUL.md`.
+- The course files on the machine, in `~/curso`. You cloned them in class 4.1. If they're missing, open **VM TERMINAL** on the dashboard, click inside the black area, and paste:
+  ```bash
+  git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw ~/curso
+  ```
+  That brings the skill (`~/curso/clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/`) and the course FAQ (`~/curso/datos/faq/`).
+- Every `nemoclaw` command prints an `ExperimentalWarning: SQLite is an experimental feature` line. It's harmless: ignore it.
+- Your credit: this practice uses ≈25 min of your single lab sitting (see [LABORATORIO.md (Spanish)](../../../LABORATORIO.md)). The scheduled task also spends model credits on build.nvidia.com, not Brev credit: one run used ≈112k tokens. If you stop for today, click **Stop** and come back soon; at the very end of the lab (after 6.1), **Delete**.
 
 ## The 3 controls
 
@@ -40,183 +43,155 @@ Every agent run, whether you asked for it or not, is described by three question
 |---|---|---|---|---|
 | Skill | Reuses the caller's | `workspace/skills/<nombre>/SKILL.md` | A request in the conversation | You install it and use it |
 | Heartbeat | A session dedicated to the heartbeat | `HEARTBEAT.md` | Gateway timer, every 30 min by default | Concept only |
-| Cron | Isolated: a new session on every fire | The job's `payload.message` | A scheduled time | You schedule it and verify it |
+| Cron (Automations) | Isolated: a new session on every fire | The automation's **Prompt** | Scheduled time (**Once**, **Interval**, or **Cron**) | You schedule it and verify it |
 | Subagent | New; the parent agent keeps the handle | The instructions the parent gives it | The parent agent decides mid-turn | Concept only |
 
 ## Step by step
 
 ### Part A · See what a skill looks like (course page)
 
-1. **Open the lesson** [The Always-On Agent](https://nvdli.github.io/NemoClawDLI/nemoclaw/03c-always-on.html). Check that the pill says **OpenClaw ✓**.
+1. **Open the skill** [soporte-nemoclaw (Spanish)](../../../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.md) on the course site. Notice its three parts:
+   - **The label** (between the two `---` lines): `name` is the skill's name and `description` says what it solves and the words a student would use to ask. The agent uses that description to decide whether the recipe fits.
+   - **The steps:** classify the question, search the FAQ, answer in a fixed format, and cite the source.
+   - **The rules:** never ask for keys, never invent commands, and only write inside `reportes/`.
 
-2. **Run Step 1 · Read a skill and its runbook.** In the **Install a practice skill, then explicitly read it in a fresh session** flow, click **▶ Run all**:
-   - **Install and verify the fixture** creates `/sandbox/.openclaw/workspace/skills/course-triage-<id>/` with a `SKILL.md` and a `runbook.md`, and reads them back.
-   - **Use the installed skill** opens a new session and asks the agent to read that `SKILL.md` and follow it for a practice incident.
+   That's all a skill is: a folder with a `SKILL.md` file written in plain language.
 
-   Open the code of the first node and look at the shape of the `SKILL.md`:
-   ```markdown
-   ---
-   name: course-triage-<id>
-   description: Review a checkout-service incident using the bundled practice runbook; propose changes without executing them.
-   ---
-   Read runbook.md in this skill directory. Confirm service and time window. ...
-   ```
-   You should see: the agent's answer with the runbook's `BOOK-…` reference. The cell warns you: this proves **explicit use** (you gave it the path), not that the agent discovers the skill on its own.
+### Part B · Install the skill and the FAQ (VM TERMINAL)
 
-### Part B · Install the soporte-nemoclaw skill (terminal)
+2. **Open the operator terminal.** On the NemoClaw dashboard, on the **MY-ASSISTANT** card, click **VM TERMINAL**. Click inside the black area before typing; otherwise your keys trigger dashboard shortcuts.
 
-3. **Bring the skill and the FAQ to the Brev machine.** Pick one option (details in the [cookbook (Spanish)](../../../clases/4.3-agentes-siempre-activos/cookbook.md), recipe 1):
+3. **Install the skill in the agent.** This command asks NemoClaw to check the skill folder and copy it onto the agent's desk:
    ```bash
-   # On your computer, from the root of the course repo
-   brev copy ./clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw <instancia>:/home/ubuntu/soporte-nemoclaw
-   brev copy ./datos/faq <instancia>:/home/ubuntu/faq
+   nemoclaw my-assistant skill install ~/curso/clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/
    ```
-   `[VERIFY IN LAB: that brev copy accepts folders and that home is /home/ubuntu]`. If not, the cookbook has the skill ready to paste with a heredoc.
+   You should see:
+   ```text
+   ✓ Validated SKILL.md
+   Installed soporte-nemoclaw from path -> /sandbox/.openclaw/workspace/skills/soporte-nemoclaw
+   ```
+   NemoClaw checks that the folder has a `SKILL.md` with a label and a `name` before installing it.
 
-4. **Install it in the sandbox.** In `brev shell <instancia>`:
+4. **Upload the FAQ to the agent's desk.** This command copies the course's `faq/` folder into the workspace:
    ```bash
-   cd ~
-   nemoclaw my-assistant skill install ./soporte-nemoclaw/
-   nemoclaw my-assistant skill list
+   nemoclaw my-assistant upload ~/curso/datos/faq/ /sandbox/.openclaw/workspace/
    ```
-   NemoClaw checks that the folder has a `SKILL.md` with frontmatter and a `name`, and then calls OpenClaw's native command (`openclaw skills install … --agent main --force`).
-   You should see: `soporte-nemoclaw` in the list. `[VERIFY IN LAB: output of skill install and skill list]`
+   The target ends in `workspace/`, not `faq/`. If you use `/sandbox/.openclaw/workspace/faq/` as the target, the folder ends up nested as `faq/faq/` and the skill can't find it.
 
-5. **Copy the FAQ into the workspace:**
+5. **Check both.** This command lists, from inside the sandbox, the installed skill and the FAQ files:
    ```bash
-   nemoclaw my-assistant upload ./faq/ /sandbox/.openclaw/workspace/faq/
-   nemoclaw my-assistant exec --workdir /sandbox/.openclaw/workspace -- ls -la faq
+   nemoclaw my-assistant exec -- ls /sandbox/.openclaw/workspace/skills/ /sandbox/.openclaw/workspace/faq/
    ```
-   You should see: the FAQ `.md` files inside `faq/` (not in `faq/faq/`). `[VERIFY IN LAB: how upload nests a folder]`
+   You should see `soporte-nemoclaw` in `skills/` and the FAQ `.md` files (`api-key.md`, `brev.md`, `errores-api.md`…) directly in `faq/`.
 
 ### Part C · Check that the agent uses it
 
-6. **Explicit use.** On the 03c page, scroll down to **Try it · trigger a skill in conversation** and type (or use cookbook recipe 4):
-   > Read /sandbox/.openclaw/workspace/skills/soporte-nemoclaw/SKILL.md and follow it for this student question: "brev shell gives me ssh: Could not resolve hostname".
+6. **Explicit use (in the chat).** On the dashboard, click **CHAT WITH AGENT**. The OpenClaw chat opens in another tab. Type:
+   > Lee /sandbox/.openclaw/workspace/skills/soporte-nemoclaw/SKILL.md y síguelo para esta duda de un estudiante: "Si detengo mi instancia de Brev, ¿me siguen cobrando?"
 
-   You should see: an answer with **Categoría:** (category) `brev`, numbered steps, and **Fuente:** (source) `faq/<archivo>.md`. The skill is written in Spanish, so its labels are too. Check the `⚙️` rows: the agent ran `ls`, `grep`, or `cat` on `faq/`. `[VERIFY IN LAB: path where the skill was installed]`
+   (Read that SKILL.md and follow it for this student question: "If I stop my Brev instance, do they keep charging me?") You should see an answer with **Categoría:**, numbered steps, and **Fuente:** `faq/<archivo>.md`. This proves the agent follows the recipe when you give it the path.
 
-7. **Automatic use.** Open a **new** conversation and ask **without** giving the path:
-   > A student says: "My notebook returns HTTP 401 when I call the model". What do you tell them?
+7. **Automatic use (without the path).** Now ask in a **new** conversation, without mentioning the skill. You have two ways:
+   - **In the chat:** open a new session from the sidebar (the **+** button next to **SESSIONS**) and type: *"Mi API key de NVIDIA me da 401, ¿qué hago?"* (My NVIDIA API key gives me a 401, what do I do?)
+   - **In the VM TERMINAL:** this command asks the agent the same question in a session named `prueba-43`:
+     ```bash
+     nemoclaw my-assistant agent --session-key prueba-43 -m 'Mi API key de NVIDIA me da 401, ¿qué hago?'
+     ```
 
-   If the agent uses the skill on its own, the answer follows the skill's format and cites the FAQ. If not, the description wasn't good enough: that's this class's challenge.
+   If the agent picks the skill on its own, the answer follows the skill's format. In the course test run it answered with **Categoría:** `api_key`, numbered steps, and **Fuente:** `faq/errores-api.md` and `faq/api-key.md`. The `prueba-43` session also shows up later in the chat sidebar.
 
-### Part D · Watch a scheduled write (course page)
+   ![The agent's answer in the VM TERMINAL: number 1 marks the line Categoría api_key and number 2 marks the numbered steps taken from the FAQ](../../../assets/lab/15-terminal-respuesta-skill.png)
 
-8. **Run Step 2 · Inspect your running agent.** In the **Observe one scheduled write and remove the owned job** flow, click **▶ Run** on the **Schedule, verify, and clean up** node. The cell calls the gateway with:
-   ```js
-   state.call("cron.add", {
-     name, schedule: {kind: "at", at: new Date(Date.now() + 15000).toISOString()}, deleteAfterRun: true,
-     sessionTarget: "isolated", wakeMode: "now",
-     delivery: {mode: "none"},
-     payload: {kind: "agentTurn", message: "Write the file specified by the JSON object below. …", timeoutSeconds: 120}
-   });
-   ```
-   Then it queries `cron.runs` every 5 seconds, for up to 3 minutes.
+   If it doesn't use the skill, the description wasn't good enough: that's this class's challenge.
 
-   **Don't type anything in the chat while it waits.** Leave the tab open until the cleanup finishes.
+### Part D · Schedule a task in Automations
 
-   You should see: `Scheduled run: Ns elapsed; ok` and the message `Verified a successful scheduled run and its new file. No new chat message was sent when it fired.`
+Now the agent will work without anyone typing to it. You'll schedule a task that runs **once**, 2 minutes from now, and deletes itself.
 
-9. **Read it yourself, as the operator.** In `brev shell <instancia>`:
-   ```bash
-   nemoclaw my-assistant exec -- bash -lc 'ls -la /sandbox/.openclaw/workspace/course-cron-*.txt; cat /sandbox/.openclaw/workspace/course-cron-*.txt'
-   ```
-   You should see: a `course-cron-<id>.txt` file with `CRON-<id>` as its content. Nobody typed in the chat, and the file exists: that's the proof.
+8. **Open Automations.** In the OpenClaw chat, click **Automations** in the sidebar. You'll see the list *Scheduled tasks and recurring agent runs* with the tasks the agent already has: `heartbeat-main` (**Every 30m**), **Memory Dreaming Promotion** (**Cron 0 3 \* \* \***), and `skill-collection-review-main` (**Every 7d**). Click **New automation**, top right.
 
-### Part E · Schedule the Soporte NemoClaw summary
+   ![Automations page with the three built-in tasks; number 1 marks the New automation button](../../../assets/lab/24-automations-lista.jpg)
 
-10. **Open lesson 03a** and scroll down to the **Gateway · WebSocket protocol, step by step** flow.
-    1. Run **Open the gateway connection**.
-    2. Open the code of the **Call models.list and cron.list** node, delete its contents, and paste this:
+9. **Write the instruction.** In **Prompt**, paste:
+   > Usa la skill soporte-nemoclaw. Lee los archivos de faq/ y escribe en reportes/resumen-faq.md un resumen de 5 líneas: qué temas cubre la FAQ y cuál es la pregunta más útil para alguien nuevo. No cambies ningún otro archivo.
 
-    ```js
-    // Soporte NemoClaw scheduled job: a FAQ summary, with no chat messages.
-    if (!state.call) { helpers.log("Ejecuta primero el nodo Abre la conexión del gateway."); return; }
+   (Use the soporte-nemoclaw skill, read the faq/ files, and write a 5-line summary to reportes/resumen-faq.md: what topics the FAQ covers and the most useful question for a newcomer. Don't change any other file.) Leave **Action** on **Run agent task**, **Model** on **Default**, and **Reasoning** on **low**.
 
-    const id = helpers.randomId();
-    const archivo = "/sandbox/.openclaw/workspace/reportes/resumen-faq-" + id + ".md";
-    const cuando = new Date(Date.now() + 60000).toISOString(); // 60 s from now, in UTC (ends in Z)
+   ![New automation form: number 1 marks the Prompt field, 2 the Name field, and 4 the Create automation button](../../../assets/lab/25-automation-nueva.jpg)
 
-    const job = await state.call("cron.add", {
-      name: "soporte-resumen-" + id,
-      schedule: { kind: "at", at: cuando },
-      deleteAfterRun: true,        // deletes itself after it runs
-      sessionTarget: "isolated",   // a new session on every fire
-      wakeMode: "now",
-      delivery: { mode: "none" },  // doesn't send messages to any channel
-      payload: {
-        kind: "agentTurn",
-        timeoutSeconds: 180,
-        message: "Read /sandbox/.openclaw/workspace/skills/soporte-nemoclaw/SKILL.md and follow its Modo reporte section. " +
-          "Write the FAQ summary to " + archivo + ". Do not modify other files or send messages."
-      }
-    });
-    if (!job?.id) throw new Error("cron.add no devolvió un id; revisa cron.list");
-    helpers.log({ jobId: job.id, programadaPara: cuando, archivo });
+10. **Give it a name and a schedule.**
+    - In **GENERAL → Name**, type `soporte-resumen-faq`. Leave **Agent** on `main` and **Runs in** on **Isolated session**.
+    - In **SCHEDULE → Repeat**, choose **Once**.
+    - In **Run at**, set today's date and a time **2 minutes after** your clock. This field uses your browser's local time.
+    - In **DELIVERY → Mode**, leave **None (internal)**: the result isn't posted to the chat.
+    - Open **ADVANCED** and check that **Delete after run** is on. With **Once** it comes on.
 
-    // Check the run history every 5 s, for up to 4 minutes
-    const limite = Date.now() + 240000;
-    while (Date.now() < limite) {
-      const historial = await state.call("cron.runs", { id: job.id, limit: 20 });
-      const corridas = historial?.entries || historial?.runs || [];
-      helpers.log("estado: " + (corridas[0]?.status || "todavía no corre"));
-      if (corridas.some(c => c.status === "ok")) { helpers.log("Listo. Ahora léelo como operador."); return { archivo }; }
-      const mala = corridas.find(c => c.status === "error" || c.status === "skipped");
-      if (mala) { helpers.log.details("corrida fallida", mala); throw new Error("La ejecución programada falló: " + (mala.error || mala.status)); }
-      await helpers.delay(5000, helpers.signal);
-    }
-    throw new Error("No hubo una ejecución correcta en 4 minutos; revisa cron.list y la hora programada");
-    ```
+    ![Form with Name soporte-resumen-faq (2) and, under SCHEDULE, the Once option with its Run at field (3)](../../../assets/lab/27-automation-una-vez.jpg)
 
-    The prompt points the agent to the skill's `Modo reporte` (report mode) section, so keep that name exactly as written. The log and error strings are in Spanish, like the rest of the course code: `estado` is the run status, and `Listo. Ahora léelo como operador.` means "Done. Now read it as the operator."
+11. **Create the task.** Click **Create automation** (not **Create & run now**). You should see `soporte-resumen-faq` in the list, with **NEXT RUN** at `in 2m`.
 
-    3. Click **▶ Run** on that node. Don't type in the chat.
+    ![Automations list with soporte-resumen-faq scheduled; the NEXT RUN column says in 2m](../../../assets/lab/28-automation-programada.jpg)
 
-    `[VERIFY IN LAB: this snippet reuses the same cron.add parameters as lesson 03c; test it before recording]`
+12. **Wait without typing in the chat.** Take your hands off the keyboard. At the set time, the task shows **Running** with a spinner. Then open the **Run history** tab. You should see a run with status **OK**, the model, the token count (≈112k in the course test run), and the summary the agent wrote, with an **Open run chat** link. Because it had **Delete after run**, the task no longer appears in the **All** list.
 
-    To get the node's original code back, use **↺ Reset**. Running it afterward shows you `cron.list`: your job should no longer appear, because `deleteAfterRun` deletes it.
+    ![Run history tab (1) with the run in OK status (2) and the agent's summary below](../../../assets/lab/30-automation-historial-ok.jpg)
 
-11. **Read the summary as the operator:**
+### Part E · Check it as the operator (VM TERMINAL)
+
+An **OK** in the history says the run finished, not that the file exists. You provide that proof.
+
+13. **Read the file.** In the VM TERMINAL, this command lists the `reportes/` folder and prints the summary:
     ```bash
-    nemoclaw my-assistant exec -- bash -lc 'ls -la /sandbox/.openclaw/workspace/reportes/ && cat /sandbox/.openclaw/workspace/reportes/resumen-faq-*.md'
+    nemoclaw my-assistant exec -- bash -lc 'ls -la /sandbox/.openclaw/workspace/reportes/; cat /sandbox/.openclaw/workspace/reportes/resumen-faq.md'
     ```
-    You should see: a Markdown file with one section per category, questions with their source file, and the line "Generado por la skill soporte-nemoclaw" ("Generated by the soporte-nemoclaw skill").
+    You should see `resumen-faq.md` owned by `sandbox` (the room's user) and a text that starts with `# Resumen FAQ -` and the date, and ends with `Generado por la skill soporte-nemoclaw.` Nobody typed in the chat and the file exists: that's the proof.
+
+    ![VM TERMINAL: number 1 marks the resumen-faq.md file owned by sandbox and 2 marks the summary ending in Generado por la skill soporte-nemoclaw](../../../assets/lab/31-resumen-operador.jpg)
+
+    The file's time is in UTC, universal time. That's why it may not match your clock.
+
+14. **Check the task list as the operator.** This command shows the agent's scheduled tasks, seen from inside the sandbox:
+    ```bash
+    nemoclaw my-assistant exec -- openclaw cron list
+    ```
+    You should see a table with `heartbeat:main` (every 30m), the memory task (`cron 0 3 * * *`), and `skill-collection-review` (every 7d). Your `soporte-resumen-faq` is gone: it deleted itself.
+
+**Mind the model credit.** That run used ≈112k tokens. Never leave a task with an **Interval** of a few minutes running: it would spend that on every fire. To pause or delete a task, use the **⋯** menu on its row in **Automations**.
 
 ### Part F · Heartbeat and subagents (concept only)
 
-- **Heartbeat:** every so often (30 min by default in OpenClaw), the agent wakes up in a dedicated session, checks pending items, and reads `HEARTBEAT.md` if it exists. NemoClaw configures that isolated session so your normal activity doesn't replace it. Don't change it in the lab; in your own install, you adjust it with `NEMOCLAW_AGENT_HEARTBEAT_EVERY` before onboarding, or with `openclaw config set agents.defaults.heartbeat.every 2h` inside the sandbox (`0m` turns it off). No step in this class fires it: don't wait for it.
-- **Subagents:** the parent agent launches a child with a new session and passes it task instructions, like the subagents from class 3.3. The difference: here the child runs inside the same sandbox, under the same policy.
+- **Heartbeat:** every so often (30 min by default in OpenClaw) the agent wakes up in a dedicated session, checks pending items, and reads `HEARTBEAT.md` if it exists. In **Automations** it's the `heartbeat-main` task (**Every 30m**). In the lab, its history says **Skipped** with `heartbeat skipped: no-route`: that's normal, don't fix it. On your own install you adjust it with `NEMOCLAW_AGENT_HEARTBEAT_EVERY` before onboarding (details in the [cookbook (Spanish)](../../../clases/4.3-agentes-siempre-activos/cookbook.md), recipe 8).
+- **Subagents:** the parent agent launches a child with a new session and passes it task instructions, like the subagents in class 3.3. The difference: here the child runs inside the same sandbox, under the same policy.
 
-**Warning:** a scheduled job runs even when nobody is watching. An instruction like "send the daily report" fires all the same. Each fire uses an isolated session, but shared files in the workspace can still influence future runs. Name your jobs, review `cron.list`, and delete the ones you don't recognize.
+**Heads-up:** a scheduled task runs even when nobody's watching. An instruction like "send the daily report" fires anyway. Each fire uses an isolated session, but the shared files in the workspace can influence future runs. Name your tasks, review **Automations**, and delete the ones you don't recognize.
 
 ## Check that it worked
 
-- [ ] The 03c practice skill flow finished with the `BOOK-…` reference.
-- [ ] `nemoclaw my-assistant skill list` shows `soporte-nemoclaw`.
-- [ ] `faq/` is in the workspace with the FAQ files.
+- [ ] `skill install` answered `✓ Validated SKILL.md` and `Installed soporte-nemoclaw`.
+- [ ] `faq/` is in the workspace with the FAQ files (not in `faq/faq/`).
 - [ ] A question with the skill path returns **Categoría**, steps, and **Fuente: faq/…**.
-- [ ] The 03c cron finished in `ok`, and you read `course-cron-<id>.txt` as the operator.
-- [ ] Your `soporte-resumen-…` cron left `reportes/resumen-faq-<id>.md`, and you read it as the operator.
+- [ ] A question **without** the path, in a new session, also follows the skill's format.
+- [ ] Your `soporte-resumen-faq` automation ended in **OK** in **Run history**.
+- [ ] You read `reportes/resumen-faq.md` as the operator, owned by `sandbox`.
+- [ ] `openclaw cron list` no longer shows your task.
 - [ ] You can explain skill, heartbeat, cron, and subagent in terms of session, directive, and trigger.
 
 ## Common errors
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| `No successful scheduled run observed within three minutes` (or your snippet runs out its 4 min) | The `at` time ended up in the past or too far away, the gateway restarted, or the instance was paused. | Check `cron.list` (the original 03a node). Always use `new Date(Date.now() + 60000).toISOString()`. Run **Test connection** again and retry. |
-| The cron fired at a different time | You wrote the time without a time zone. `toISOString()` always returns UTC (it ends in `Z`); Mexico City is at UTC-6. | Write the time with an explicit offset, for example `"2026-10-20T09:00:00-06:00"`, or compute it from `Date.now()`. `[VERIFY IN LAB: how the gateway interprets a time without an offset]` |
-| `Scheduled agent run reported an error: …` | The agent turn failed (model, timeout, or permissions). | Read the run details. Raise `timeoutSeconds`. Run the **Health check** (the *Detect & recover* flow). |
-| The job "ran" but there's no file | The agent reported success without writing, or wrote to another path. | Cron proves nothing on its own: read the file as the operator. Look with `nemoclaw my-assistant exec -- bash -lc 'ls -la /sandbox/.openclaw/workspace/reportes/'`. |
-| `Inspect/remove the prior owned job before starting another` | The page saved the ID of a previous job that wasn't cleaned up. | Run the **Retry removal of the owned job** node. |
-| `Cleanup incomplete; run Remove owned job. Retained id: …` | You closed the tab, or `cron.remove` failed. | Use the ID with **Retry removal of the owned job**. With `deleteAfterRun`, some OpenClaw versions reject `cron.remove` because the job already deleted itself: confirm with `cron.list`. |
-| The agent doesn't use the skill unless you give it the path | The frontmatter `description` is vague ("skill de soporte", support skill) and doesn't match the question. | Rewrite the `description`: what it does, who it's for, and the words a student would use to ask. Reinstall with `skill install` (it replaces the one with the same name) and test in a **new** session. |
-| `skill install` fails because of the `SKILL.md` | The frontmatter is missing, `name` is missing, or the name has characters that aren't allowed. | YAML frontmatter between `---` with `name` (only letters, numbers, dots, hyphens, and underscores) and `description`. Files that start with `.` are skipped. |
-| The skill answers "No encuentro la FAQ del curso en el workspace" ("I can't find the course FAQ in the workspace") | You didn't copy the FAQ, or it ended up in `faq/faq/`. | `nemoclaw my-assistant exec --workdir /sandbox/.openclaw/workspace -- ls -R faq` and fix it with `upload`. |
+| **NEXT RUN** says `in 2h`, `in 6h`, or an odd date instead of `in 2m` | **Run at** uses your browser's local time and you set a different time or day. | Delete the task from the **⋯** menu and create it again with your clock's time plus 2 minutes. |
+| **Run history** says **OK**, but there's no file | The agent said it finished without writing, or wrote to another path. | OK proves nothing on its own: read it as the operator (step 13). To search for it: `nemoclaw my-assistant exec -- bash -lc 'grep -rl "Generado por la skill soporte-nemoclaw" /sandbox/.openclaw/workspace/'`. |
+| The task stays in **Running** for a long time | The model is slow to answer or the run hit its time limit. | Wait a few minutes and check **Run history**. If there's an error, check that **Inference** says `healthy` with `nemoclaw my-assistant status` and create the task again. |
+| `heartbeat-main` says **Skipped** · `no-route` | That's how the heartbeat behaves in this lab. | It's normal. It isn't your task or your mistake. |
+| The agent doesn't use the skill unless you give it the path | The label's `description` is vague ("skill de soporte", support skill) and doesn't match the question. | Rewrite the `description`: what it does, who it's for, and the words a student would use to ask. Reinstall with `skill install` and test in a **new** session. |
+| `skill install` fails because of the `SKILL.md` | The label is missing, `name` is missing, or the name has characters that aren't allowed. | Label between `---` with `name` (only letters, numbers, dots, hyphens, and underscores) and `description`. |
+| The skill answers "No encuentro la FAQ del curso en el workspace" ("I can't find the course FAQ in the workspace") | You didn't upload the FAQ, or it ended up in `faq/faq/` because the target ended in `faq/`. | Check with `nemoclaw my-assistant exec -- ls -R /sandbox/.openclaw/workspace/faq/` and upload again with target `/sandbox/.openclaw/workspace/`. |
+| You type in the VM TERMINAL and odd things happen on the dashboard | The terminal didn't have focus and your keys triggered dashboard shortcuts. | Click inside the black area before typing. **Shift+Escape** closes the terminal and its processes. |
 
 ## Challenge
 
-**Get the agent to discover the skill on its own.** Temporarily replace the `description` in your `SKILL.md` with `Skill de soporte.` (support skill), reinstall it, and ask the step 7 question in a new session. Then restore a good description (the original or a better one) and repeat.
+**Get the agent to discover the skill on its own.** Temporarily replace the `description` in your `SKILL.md` with `Skill de soporte.` (support skill), reinstall it, and ask the step 7 question in a new session. Then restore a good description (the original or a better one) and repeat. The commands are in the [cookbook (Spanish)](../../../clases/4.3-agentes-siempre-activos/cookbook.md), recipe 5.
 
 Success criteria: with the vague description, the agent doesn't follow the skill's format; with the good one, in a new session and **without giving it the path**, it answers with **Categoría**, steps, and **Fuente:** `faq/…`. Write down both answers.
 
@@ -225,13 +200,12 @@ Success criteria: with the vague description, the agent doesn't follow the skill
 **Soporte NemoClaw (NemoClaw Support) is now deployed on OpenClaw:**
 
 - The `soporte-nemoclaw` skill installed, with the course FAQ in `faq/` inside the workspace.
-- A scheduled job that leaves `reportes/resumen-faq-<id>.md` with no intervention.
+- A scheduled task in **Automations** that left `reportes/resumen-faq.md` with no intervention.
 
-Repeat the 4.1 baseline question ("My notebook returns HTTP 401") and compare. Save the new answer in `proyecto/linea-base-4.1.md`, below the previous one, and write down the difference: does it cite the FAQ now? Does it follow the categories from the class 3.1 router? In Module 5 you'll review the risks all this opened up: an agent with data, tools, and jobs that run on their own.
+Repeat the 4.1 baseline question ("My notebook returns HTTP 401") and compare. Save the new answer in your project notes (`proyecto/linea-base-4.1.md`), below the previous one, and write down the difference: does it cite the FAQ now? Does it follow the categories from the class 3.1 router? In Module 5 you'll review the risks all this opened up: an agent with data, tools, and jobs that run on their own.
 
 ## Resources
 
-- [Lesson 03c · The Always-On Agent (NVIDIA DLI)](https://nvdli.github.io/NemoClawDLI/nemoclaw/03c-always-on.html)
 - [NemoClaw · Command reference: `skill install`, `skill list`, `skill remove`, `upload`](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands.md)
 - [NemoClaw · Configure agent heartbeats](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/configure-agents/configure-agent-heartbeats.md)
 - [OpenClaw · Automation: cron vs. heartbeat](https://docs.openclaw.ai/cron-vs-heartbeat)

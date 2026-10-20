@@ -142,7 +142,7 @@ Tu hoja `trifecta.md` de *Soporte NemoClaw* queda lista. En la clase 5.2 vas a c
 
 ## Recursos
 
-- NVIDIA DLI · [04a · El sandbox de OpenShell](https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04a-safety.html) (Apache-2.0). Esta clase se basa en su sección sobre la trifecta letal.
+- NVIDIA DLI · lección 04a «El sandbox de OpenShell» del curso «NemoClaw» (Apache-2.0). Esta clase se basa en su sección sobre la trifecta letal.
 - Simon Willison · [The lethal trifecta](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/) (2025).
 - Greshake et al. · [Not what you've signed up for](https://arxiv.org/abs/2302.12173) (2023), el artículo de referencia sobre inyección de prompt indirecta.
 - OWASP · [Top 10 for Agentic Applications](https://genai.owasp.org/2025/12/09/owasp-top-10-for-agentic-applications-the-benchmark-for-agentic-security-in-the-age-of-autonomous-ai/).

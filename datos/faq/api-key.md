@@ -2,7 +2,7 @@
 
 ## P: ¿Dónde consigo mi API key de NVIDIA para el curso?
 Entra a https://build.nvidia.com e inicia sesión o crea tu cuenta.
-Abre tu perfil, ve a **API Keys** y pulsa **Generate API Key**.
+Abre el menú de tu cuenta, ve a **API Keys** y pulsa el botón para generar una key (puede decir *Generate API Key* o *Get API Key*).
 Copia la key completa: empieza con `nvapi-`.
 Guárdala en un gestor de contraseñas y nunca la pegues en el código.
 
@@ -16,6 +16,7 @@ Mientras tanto, los notebooks del curso corren en modo MOCK sin key.
 Es la misma key `nvapi-` en todo el curso.
 En Colab, guárdala en Secrets (icono de llave) como `NVIDIA_API_KEY` y activa el acceso del notebook.
 En tu máquina, ponla en el archivo `.env` de la raíz del repo como `NVIDIA_API_KEY` (ese archivo ya está en `.gitignore`).
+En el laboratorio la pegas una sola vez, en el campo NVIDIA CLOUD API KEY, al crear tu agente (clase 4.1).
 Para NemoClaw instalado en tu máquina, usa la variable `NVIDIA_INFERENCE_API_KEY`.
 
 ## P: ¿Cómo pruebo rápido si mi key funciona?
@@ -26,4 +27,5 @@ Si ves 401 o 403, revisa que la key esté completa y sin espacios.
 ## P: ¿Cuántos créditos o solicitudes por minuto tengo gratis?
 NVIDIA Build limita el uso por cuenta, pero los números cambian y no están documentados en las fuentes del curso.
 Revisa tu uso en tu cuenta de build.nvidia.com.
-Para no gastarlos, pon un límite de pasos a tus loops de agente y no ejecutes celdas en ráfaga. [VERIFICAR EN LAB]
+El agente del laboratorio y sus automatizaciones también gastan estos créditos: una sola ejecución de una automatización usó unos 112 000 tokens.
+Para no gastarlos, pon un límite de pasos a tus loops de agente, no ejecutes celdas en ráfaga y no dejes automatizaciones que se repitan cada pocos minutos.

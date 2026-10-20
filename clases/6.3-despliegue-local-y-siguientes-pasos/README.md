@@ -5,13 +5,13 @@ Cierra tu proyecto, aprende qué necesitas para correr NemoClaw en tu máquina y
 | | |
 |---|---|
 | **Duración del video** | ≈8 min |
-| **Práctica** | Guiada en esta página + [cookbook opcional de instalación local](cookbook.md) |
+| **Práctica** | Guiada en esta página + [cookbook opcional de instalación local](cookbook.md) (en tu propia computadora, fuera de Brev) |
 | **Habilidad** | Planear un despliegue local y cerrar un proyecto de agente con criterios de calidad |
 | **Material** | [Diapositivas](slides.html) · [FAQ del curso](../../FAQ.md) |
 
 ## Lo esencial (sin tecnicismos)
 
-**La idea:** Puedes seguir en Brev, llevar tu agente a tu propia computadora (con 16 GB de memoria y Docker) o a un servidor. Para producción, NVIDIA tiene piezas que mejoran el modelo, la búsqueda y los filtros de lo que entra y sale, pero ninguna reemplaza al sandbox. Y al terminar el curso, guarda tu trabajo y borra tu instancia: detenida sigue cobrando el disco.
+**La idea:** Puedes seguir en Brev, llevar tu agente a tu propia computadora (con 16 GB de memoria y Docker) o a un servidor. Para producción, NVIDIA tiene piezas que mejoran el modelo, la búsqueda y los filtros de lo que entra y sale, pero ninguna reemplaza al sandbox. Y si no lo hiciste al final del laboratorio, guarda tu trabajo y borra tu instancia: detenida sigue cobrando el disco.
 
 **Piénsalo como:** pasar de una [oficina rentada por horas](../../GLOSARIO.md) a montar la oficina en tu casa, y entregar la llave de la rentada al irte.
 
@@ -28,15 +28,15 @@ Cierra tu proyecto, aprende qué necesitas para correr NemoClaw en tu máquina y
 
 ## Antes de empezar
 - Tu proyecto **Soporte NemoClaw** con lo hecho en las clases 2.1 a 6.2 (notebooks, skills en [`skill-library/`](../../skill-library/README.md), análisis de seguridad de la 5.x).
-- Tu laboratorio de Brev: hoy lo vas a dejar **detenido o borrado**.
-- Opcional, para instalar en local: una máquina con Linux, macOS Apple Silicon o Windows con WSL2 (ver tabla del paso 2).
+- Tu laboratorio de Brev ya debería estar **borrado**: lo cerraste al final de la [6.1](../6.1-clis-de-agentes/README.md) (o de la [6.2](../6.2-biblioteca-de-skills/README.md), si hiciste su parte opcional). Si no, el paso 7 te dice cómo.
+- Opcional, solo si quieres instalar NemoClaw en tu propia máquina: Linux, macOS Apple Silicon o Windows con WSL2 (ver tabla del paso 2). No necesitas Brev para esto.
 
 ## Paso a paso
 
 ### 1. Decide dónde vive tu agente
 | Opción | Cuándo conviene | Costo | Qué cuidas tú |
 |---|---|---|---|
-| **Seguir en Brev** (launchable de NemoClaw) | Quieres el mismo entorno del curso, sin instalar nada | Créditos por hora encendida; disco mientras exista | Detenerla al terminar |
+| **Seguir en Brev** (un despliegue nuevo del launchable de NemoClaw) | Quieres el mismo entorno del curso, sin instalar nada | ≈USD 0.25/h encendida; detenida, el disco sigue cobrando ≈USD 1.20 al día | Borrarla (**Delete**) al terminar |
 | **Tu máquina** | Tienes 16 GB de RAM y quieres el agente cerca de tus archivos | Luz y disco | Docker, actualizaciones, reinicios |
 | **Un servidor propio o DGX Spark** | Agente 24/7, inferencia local, datos que no salen | Hardware | Acceso remoto seguro (`ssh -L`), respaldos |
 
@@ -59,13 +59,14 @@ node --version                 # v22.19.0 o mayor
 Deberías ver: 4 o más CPUs, 8 GB o más de RAM, 20 GB o más libres, `Docker OK` y Node 22.19+. Si algo falta, el [cookbook](cookbook.md) (Recetas 0 y 1) dice cómo arreglarlo.
 
 ### 3. (Opcional) Instala NemoClaw en local
-Sigue el [cookbook](cookbook.md). El camino corto:
+Solo si quieres tener NemoClaw en tu propia máquina. Todo esto pasa en tu computadora, no en Brev. Sigue el [cookbook](cookbook.md). El camino corto:
 ```bash
 curl -fsSL https://www.nvidia.com/nemoclaw.sh | NEMOCLAW_INSTALL_REF= NEMOCLAW_INSTALL_TAG=vX.Y.Z bash
 ```
 - Las variables van **del lado de `bash`** del pipe.
 - En el onboarding, la key se lee de `NVIDIA_INFERENCE_API_KEY` (no de `NVIDIA_API_KEY`).
 - Proveedores: **NVIDIA Endpoints** (sin GPU), **Ollama** local, **vLLM** local, **NIM** local (experimental, requiere GPU NVIDIA).
+- Igual que en el laboratorio, el chat de OpenClaw queda en `http://127.0.0.1:18789/` y el gateway de OpenShell en el puerto 18080. `openshell status` te dice si está `Connected`.
 
 Día 1 y día 2 en una tabla:
 
@@ -97,7 +98,7 @@ Para cada una, escribe una línea en tu proyecto: "la usaría para ___ cuando __
 - [ ] **Skills** (6.2): 4 skills en `skill-library/`, validadas, con tasa de acierto ≥ 90 % y la tabla en `docs/evaluacion-skills.md`.
 - [ ] **Elección de agente** (6.1): `docs/eleccion-de-agente.md`.
 - [ ] **README del proyecto**: qué hace, cómo correrlo, límites conocidos y una captura (con el token difuminado).
-- [ ] **Brev**: instancia detenida o borrada (`brev ls`).
+- [ ] **Brev**: instancia borrada (ya no aparece en **Compute**) y saldo revisado en **Billing**.
 
 ### 6. Autoevalúate con la rúbrica
 | Criterio | Inicial (1) | Competente (2) | Destacado (3) |
@@ -110,19 +111,19 @@ Para cada una, escribe una línea en tu proyecto: "la usaría para ___ cuando __
 
 Suma tus puntos: **5–8** sigue iterando · **9–12** listo para mostrar · **13–15** publícalo y compártelo.
 
-### 7. Apaga el laboratorio
-```bash
-brev ls
-brev stop <instancia>      # o, si ya no lo vas a usar: brev delete <instancia>
-brev ls                    # confirma STOPPED o que ya no aparece
-```
-Encendida = se cobra cómputo · detenida = solo disco · borrada = nada, pero pierdes los datos. Copia antes lo que quieras conservar: `brev copy <instancia>:/ruta ./local`.
+### 7. Confirma que el laboratorio está borrado
+Lo normal es que ya hayas borrado tu instancia al final de la última práctica de laboratorio ([6.1](../6.1-clis-de-agentes/README.md), o [6.2](../6.2-biblioteca-de-skills/README.md) si hiciste su parte opcional). Compruébalo en el navegador:
+1. En la consola de Brev (brev.nvidia.com), abre **Compute**. Tu instancia (`nemoclaw-…`) ya no debe aparecer.
+2. Si sigue ahí, guarda lo que quieras (muéstralo en la **VM TERMINAL** y copia el texto a tus notas), y luego abre la instancia y presiona **Delete**. Confirma en el aviso que aparece.
+3. Abre **Billing** en el menú de arriba y revisa tu saldo.
+
+Encendida, la instancia cuesta ≈USD 0.25/h. Detenida (**Stop**), el disco sigue cobrando ≈USD 0.05/h, unos USD 1.20 al día. Borrada (**Delete**), ya no cobra nada, pero pierdes lo que había adentro. Detalles en [LABORATORIO.md](../../LABORATORIO.md).
 
 ## Comprueba que funcionó
 - [ ] Sabes si tu máquina cumple los requisitos (o qué le falta).
 - [ ] Escribiste una línea por pieza de producción para tu proyecto.
 - [ ] Marcaste el checklist de entrega y tienes tu puntaje de la rúbrica.
-- [ ] Tu instancia de Brev está detenida o borrada.
+- [ ] Tu instancia de Brev está borrada y revisaste tu saldo.
 
 ## Errores comunes
 
@@ -134,7 +135,8 @@ Encendida = se cobra cómputo · detenida = solo disco · borrada = nada, pero p
 | `nemoclaw: command not found` al terminar | El `PATH` de tu shell no se actualizó | Terminal nueva o `source ~/.bashrc` |
 | `Docker is not running` aunque Docker corre | Tu usuario no está en el grupo `docker` | `sudo usermod -aG docker $USER && newgrp docker` |
 | `✗ openshell <versión> is above the maximum supported by this NemoClaw release.` | Actualizaste OpenShell por fuera | No uses `openshell self-update`; reinstala la versión soportada |
-| `brev stop` responde `does not support stop` | El tipo de instancia no se puede detener | Guarda tu trabajo y usa `brev delete <instancia>` |
+| Tu saldo de Brev sigue bajando aunque ya no usas el laboratorio | La instancia está detenida (**Stop**), no borrada: el disco cobra | Consola de Brev → **Compute** → tu instancia → **Delete** |
+| `Port 18080 is not available` al instalar en local | Otro proceso usa el puerto del gateway de OpenShell | Cierra ese proceso o revisa la Receta 5 del cookbook |
 
 ## Reto
 Elige **una** pieza de producción y haz un plan de una página para agregarla a Soporte NemoClaw: qué cambia en el código, qué riesgo reduce, cómo medirías la mejora y qué **no** resuelve.

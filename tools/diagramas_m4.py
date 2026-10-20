@@ -153,12 +153,12 @@ T = {
         "elige": "Prueba que <b>la elige</b> solo",
         "mejora": "Si no la elige solo, mejora la descripción. Pruébalo siempre en una conversación nueva.",
         # 4.3 · cron
-        "c1": "Pones la alarma", "c1s": "para dentro de un minuto",
+        "c1": "Pones la alarma", "c1s": "para dentro de 2 minutos",
         "c2": "Suena", "c2s": "nadie escribe en el chat",
         "c3": "Conversación nueva", "c3s": "vacía, sin historial",
         "c4": "Sigue tu mensaje", "c4s": "lee su skill y la FAQ",
         "c5": "Deja un archivo", "c5s": "un resumen de la FAQ",
-        "zona": "Si escribes la hora a mano, ponle zona horaria: el agente usa la hora universal (Ciudad de México: −6 h).",
+        "zona": "«Run at» usa la hora local de tu navegador; la fecha dentro del archivo va en hora universal (UTC).",
         # 4.3 · la prueba
         "registro": "El registro dice «ok»", "registro_sub": "no basta",
         "tu_op": "Tú, como operador", "tu_op_sub": "lees el archivo",
@@ -183,7 +183,7 @@ T = {
         "h3": "Crea el cuarto", "h3s": "mi-hermes, con nemohermes",
         "h4": "¿Está sano?", "h4s": "estado y prueba de salud",
         "h5": "Una puerta nueva", "h5s": "para que otros programas le hablen",
-        "credito": "Usa ≈35 min de instancia y crea un segundo cuarto: hazla si te alcanza el crédito.",
+        "credito": "Usa ≈35 min de tu sesión de laboratorio y crea un segundo cuarto. Al terminar, enciende otra vez my-assistant.",
         # 4.4 · comparar
         "personalidad": "Personalidad", "memoria": "Memoria", "skills": "Skills",
         "conversaciones": "Conversaciones", "puerta": "Puerta para programas",
@@ -301,12 +301,12 @@ T = {
         "automatica_cita": "“A student says: ‘My notebook returns HTTP 401’. What do you tell them?”",
         "elige": "Proves it <b>picks it</b> on its own",
         "mejora": "If it doesn't pick it, improve the description. Always test in a new conversation.",
-        "c1": "You set the alarm", "c1s": "for one minute from now",
+        "c1": "You set the alarm", "c1s": "for 2 minutes from now",
         "c2": "It rings", "c2s": "nobody types in the chat",
         "c3": "New conversation", "c3s": "empty, no history",
         "c4": "Follows your message", "c4s": "reads its skill and the FAQ",
         "c5": "Leaves a file", "c5s": "a summary of the FAQ",
-        "zona": "If you type the time by hand, add a time zone: the agent uses universal time (Mexico City: −6 h).",
+        "zona": "“Run at” uses your browser's local time; the date inside the file is in universal time (UTC).",
         "registro": "The log says “ok”", "registro_sub": "not enough",
         "tu_op": "You, as the operator", "tu_op_sub": "you read the file",
         "existe": "The file exists", "existe_sub": "that's the evidence",
@@ -327,7 +327,7 @@ T = {
         "h3": "Create the room", "h3s": "mi-hermes, with nemohermes",
         "h4": "Is it healthy?", "h4s": "status and health check",
         "h5": "A new door", "h5s": "so other programs can talk to it",
-        "credito": "Uses ≈35 min of instance time and creates a second room: do it if your credit allows.",
+        "credito": "Uses ≈35 min of your lab sitting and creates a second room. When you finish, turn my-assistant back on.",
         "personalidad": "Personality", "memoria": "Memory", "skills": "Skills",
         "conversaciones": "Conversations", "puerta": "Door for programs",
         "oc_soul": "SOUL.md on its desk", "he_soul": "/sandbox/SOUL.md",
@@ -421,7 +421,7 @@ def c42_planos(lang):
 def c42_dice_vs_archivo(lang):
     t = T[lang]
     izq = carta(t["dice"], cita(t["dice_cita"]) + pie(t["relato"], icono="info"), icono="chat", clase="m4-warn", paso=1)
-    reales = chips(["SOUL.md", "AGENTS.md", "USER.md", "TOOLS.md", "IDENTITY.md", "HEARTBEAT.md", "skills/"], "m4-files")
+    reales = chips(["SOUL.md", "AGENTS.md", "USER.md", "TOOLS.md", "IDENTITY.md", "HEARTBEAT.md", "POLICY.md"], "m4-files")
     der = carta(t["muestra"], reales + pie(t["lista_real"], icono="verified"), icono="terminal", clase="is-primary", paso=2)
     return f'<div class="dg dg-two m4-two-eq">{izq}{der}</div>' + llamada(t["compara"], "tip", paso=3)
 

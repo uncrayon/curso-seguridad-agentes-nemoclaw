@@ -12,7 +12,7 @@ The API key is a building's access card. Click 1: you, with your free account. C
 :::diagrama c12-pasos-cuenta
 
 Notes:
-One click per step: sign in, confirm your email, generate the key in API Keys, copy it right then and try the model in its page's test box. Click 6: the LATAM warning (NemoClaw issues #201 and #214; support at help@build.nvidia.com with your email, the numbers you tried and screenshots). [VERIFY IN LAB] exact menu and button names, and whether Nemotron's page has a test box.
+One click per step: sign in, confirm your email, generate the key in API Keys, copy it right then and try the model in its page's test box. Click 6: the LATAM warning (NemoClaw issues #201 and #214; support at help@build.nvidia.com with your email, the numbers you tried and screenshots). Menu and button names may vary (Generate API Key or Get API Key); if Nemotron's page has no test box, the first call is made with curl.
 
 ---
 
@@ -56,7 +56,7 @@ Click 1: your question travels with your key. Click 2: Nemotron thinks before an
 :::diagrama c12-creditos
 
 Notes:
-Click 1: your credits, like prepaid phone balance. Click 2: every question spends tokens; if you go over the limit, NVIDIA returns 429. Click 3: wait and retry. Click 4: what burns the most. Click 5: free models change; a retired one returns 410, which is why the model lives in NVIDIA_MODEL and isn't hard-coded. [VERIFY IN LAB] current credit or requests-per-minute numbers and the page that shows usage. Don't quote numbers without confirming.
+Click 1: your credits, like prepaid phone balance. Click 2: every question spends tokens; if you go over the limit, NVIDIA returns 429. Click 3: wait and retry. Click 4: what burns the most. Click 5: free models change; a retired one returns 410, which is why the model lives in NVIDIA_MODEL and isn't hard-coded. Don't quote credit or requests-per-minute numbers: they change; everyone checks their usage in their build.nvidia.com account.
 
 ---
 

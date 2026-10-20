@@ -1,71 +1,71 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cookbook 6.1 · Inspecciona tu agente desde la shell del laboratorio · Seguridad de agentes con OpenShell y NemoClaw</title>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=b692c8e2">
-<link rel="stylesheet" href="../../assets/guia.css?v=b692c8e2">
+<title>Cookbook 6.1 · Inspecciona tu agente desde la terminal del laboratorio · Seguridad de agentes con OpenShell y NemoClaw</title>
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=8c0f4e58">
+<link rel="stylesheet" href="../../assets/guia.css?v=8c0f4e58">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero doc"><h1>Cookbook 6.1 · Inspecciona tu agente desde la shell del laboratorio</h1></section>
-<div class="md"><p>Recetas de terminal para la VM de Brev con NemoClaw. Sirven para esta clase y para cualquier instalación de NemoClaw, en Brev o local.</p>
+<section class="hero doc"><h1>Cookbook 6.1 · Inspecciona tu agente desde la terminal del laboratorio</h1></section>
+<div class="md"><p>Recetas para la <strong>VM TERMINAL</strong> del tablero de NemoClaw en Brev. Todo se hace en el navegador: no necesitas instalar nada en tu computadora. Las mismas recetas sirven en una instalación local de NemoClaw (clase 6.3).</p>
 <p><strong>Convenciones</strong>
-- <code>&lt;instancia&gt;</code>: el nombre de tu instancia en Brev (<code>brev ls</code>).
-- <code>my-assistant</code>: el nombre de tu sandbox. Cámbialo por el tuyo (<code>openshell sandbox list</code>).
-- <strong>[host]</strong> = en la shell de la VM (plano del operador). <strong>[sandbox]</strong> = dentro del sandbox del agente.
-- Las salidas exactas cambian entre versiones de NemoClaw. Donde no las confirmamos dice <code>[VERIFICAR EN LAB]</code>.</p>
-<p>Basado en la lección 04b del curso de NVIDIA DLI (Apache-2.0) y en la documentación de NVIDIA/NemoClaw.</p>
+- <code>my-assistant</code>: el nombre de tu sandbox. Si el tuyo es otro, cámbialo (lo ves con <code>openshell sandbox list</code>).
+- <strong>[host]</strong> = en la VM TERMINAL (plano del operador, usuario <code>ubuntu</code>). <strong>[sandbox]</strong> = dentro del sandbox del agente, a través de <code>nemoclaw my-assistant exec -- &lt;comando&gt;</code>.
+- Cada comando de <code>nemoclaw</code> imprime la línea <code>ExperimentalWarning: SQLite is an experimental feature</code>. Ignórala.
+- Las salidas cambian un poco entre versiones. En el laboratorio verás nemoclaw v0.0.135, nemohermes v0.0.135, openshell 0.0.116 y OpenClaw v2026.9.2. Si tu versión muestra otro texto, compara la idea y sigue con la siguiente receta.</p>
+<p>Basado en la lección 04b del curso NVIDIA DLI «NemoClaw» (Apache-2.0) y en la documentación de NVIDIA/NemoClaw.</p>
 <hr />
-<h2 id="receta-0--entra-a-la-vm">Receta 0 · Entra a la VM</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># en tu computadora</span>
-brev<span class="w"> </span>ls
-brev<span class="w"> </span>shell<span class="w"> </span>&lt;instancia&gt;
-</code></pre></div>
-<strong>Esperado:</strong> <code>brev ls</code> muestra tu instancia en <code>RUNNING</code>; luego ves el prompt de la VM.</p>
+<h2 id="receta-0--abre-la-terminal-de-operador">Receta 0 · Abre la terminal de operador</h2>
+<ol>
+<li>En la consola de Brev, tu instancia debe estar en <strong>Running</strong>. Presiona el botón verde <strong>NemoClaw</strong>: se abre <code>https://nemoclaw-&lt;tu-id&gt;.gobrev.dev</code> en otra pestaña.</li>
+<li>En el tablero, en la tarjeta <strong>MY-ASSISTANT</strong>, presiona <strong>VM TERMINAL</strong>.</li>
+<li>Haz clic dentro del área negra antes de escribir.</li>
+</ol>
+<p><strong>Esperado:</strong> una terminal con el prompt de <code>ubuntu</code>. El aviso de arriba dice que <strong>Escape</strong> se envía a la terminal y que <strong>Shift+Escape</strong> cierra la sesión.</p>
 <p><strong>Si falla:</strong>
-- La instancia está <code>STOPPED</code>: <code>brev start &lt;instancia&gt;</code> y espera a <code>RUNNING</code>.
-- <code>ssh: Could not resolve hostname</code>: <code>brev refresh</code> y reintenta. Si sigue, mueve la línea <code>Include</code> de Brev al inicio de <code>~/.ssh/config</code>.
-- <code>brev shell --host</code> se cuelga: usa <code>brev shell &lt;instancia&gt;</code> <strong>sin</strong> <code>--host</code>.
-- <code>You have run out of credits</code> pero tienes créditos: estás en otra organización. <code>brev ls orgs</code> y <code>brev set &lt;org&gt;</code>.</p>
-<p><strong>Sin terminal local:</strong> en la <a href="https://nvdli.github.io/NemoClawDLI/es/nemoclaw/04b-modern-clis.html">lección 04b</a>, sección "Abre un shell real en el launchable", usa los botones <code>openshell sandbox list</code>, <code>openshell status</code> y <code>agent ls</code>. Ahí el prefijo <code>agent &lt;comando&gt;</code> corre el comando <strong>dentro</strong> del sandbox. Esa consola no acepta comandos interactivos (<code>nemoclaw</code>, <code>openshell term</code>, <code>openclaw tui</code>).</p>
-<hr />
+- Escribes y no aparece nada, o se abre algo del tablero: la terminal no tiene el foco. Haz clic en el área negra.
+- La página de NemoClaw no carga: revisa en la consola de Brev que la instancia siga en <strong>Running</strong>.</p>
 <h2 id="receta-1--qué-sandboxes-hay-openshell">Receta 1 · ¿Qué sandboxes hay? (OpenShell)</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
+<p>Para ver los sandboxes que maneja OpenShell:
+<div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
 openshell<span class="w"> </span>sandbox<span class="w"> </span>list
 </code></pre></div>
-<strong>Esperado:</strong> una tabla con tu sandbox (p. ej. <code>my-assistant</code>) y su estado. <code>[VERIFICAR EN LAB]</code> columnas exactas.</p>
-<p><strong>Si falla:</strong>
-- <code>openshell: command not found</code>: NemoClaw se instaló sin OpenShell. En un launchable no debería pasar; en local, reinstala con el instalador oficial (clase 6.3).
-- La lista está vacía: el gateway no está arriba. Sigue con la Receta 2.</p>
+<strong>Esperado:</strong> columnas <code>NAME</code>, <code>CREATED</code> y <code>PHASE</code>, con <code>my-assistant</code> en <code>Ready</code>.</p>
+<p><strong>Si falla:</strong> la lista está vacía o da error de conexión: el gateway no está arriba. Sigue con la Receta 2.</p>
 <h2 id="receta-2--está-vivo-el-gateway-de-openshell">Receta 2 · ¿Está vivo el gateway de OpenShell?</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
+<p>Para preguntarle a OpenShell por su recepción (el gateway que maneja sandboxes, rutas de inferencia y credenciales):
+<div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
 openshell<span class="w"> </span>status
+openshell<span class="w"> </span>gateway<span class="w"> </span>info
 </code></pre></div>
-<strong>Esperado:</strong> el estado del gateway de OpenShell (el que maneja sandboxes, rutas de inferencia y reenvíos de puertos). <code>[VERIFICAR EN LAB]</code> texto exacto.</p>
-<p><strong>Si falla:</strong> después de reiniciar la VM, levanta las piezas en orden:
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>info
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status<span class="w">        </span><span class="c1"># también arranca el gateway</span>
+<strong>Esperado:</strong> <code>openshell status</code> imprime un bloque <code>Server Status</code> con el gateway <code>nemoclaw-18080</code>, el servidor <code>https://127.0.0.1:18080</code>, <code>Connected</code>, <code>Authenticated (mTLS transport)</code> y la versión <code>0.0.116</code>. <code>openshell gateway info</code> repite el nombre, la dirección y la versión. El puerto del gateway es <strong>18080</strong>.</p>
+<p><strong>Si falla:</strong>
+- <code>openshell gateway status</code> da error: ese subcomando no existe. Usa los dos de arriba.
+- Después de reiniciar la VM, levanta las piezas en este orden (comandos de la documentación de NemoClaw):
+  <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status<span class="w">        </span><span class="c1"># también arranca el gateway</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>start<span class="w">         </span><span class="c1"># si el sandbox estaba detenido</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>recover<span class="w">       </span><span class="c1"># si el gateway o el reenvío siguen mal</span>
 </code></pre></div></p>
 <h2 id="receta-3--qué-ve-nemoclaw-registro-y-agentes">Receta 3 · ¿Qué ve NemoClaw? (registro y agentes)</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
-nemoclaw<span class="w"> </span>list<span class="w">            </span><span class="c1"># sandboxes registrados, con modelo, proveedor y presets</span>
-nemoclaw<span class="w"> </span>agents<span class="w"> </span>list<span class="w">     </span><span class="c1"># runtimes de agente instalados (OpenClaw, Hermes, Deep Agents)</span>
-nemoclaw<span class="w"> </span>status<span class="w">          </span><span class="c1"># inventario del gateway y servicios auxiliares</span>
+<p>Para ver los sandboxes que registró NemoClaw y confirmar qué agentes trae la VM:
+<div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
+nemoclaw<span class="w"> </span>list
+ls<span class="w"> </span>/usr/bin/nemohermes<span class="w"> </span>/usr/bin/nemo-deepagents
 </code></pre></div>
-<strong>Esperado:</strong> <code>nemoclaw list</code> muestra el mismo sandbox que la Receta 1, con el modelo y el proveedor (NVIDIA Endpoints).</p>
+<strong>Esperado:</strong> <code>nemoclaw list</code> muestra <code>my-assistant</code> con el agente <code>openclaw</code>, el proveedor <code>nvidia-prod</code>, sus presets de política (por ejemplo <code>brew-balanced</code>, <code>huggingface</code>, <code>npm</code>, <code>openclaw-pricing</code>, <code>pypi</code>) y la dirección del chat <code>127.0.0.1:18789</code>. El <code>ls</code> imprime las dos rutas: Hermes y Deep Agents vienen instalados.</p>
 <p><strong>Si falla:</strong>
 - <code>No sandboxes registered</code>, pero <code>openshell sandbox list</code> sí muestra uno: el registro <code>~/.nemoclaw/sandboxes.json</code> se perdió o está dañado. No borres nada; corre <code>nemoclaw my-assistant status</code> y revisa la FAQ.
 - <code>Configuration file is present but is not valid JSON</code>: registro dañado. Ver "Malformed Registry File" en la documentación de NemoClaw.</p>
 <h2 id="receta-4--salud-completa-de-un-sandbox">Receta 4 · Salud completa de un sandbox</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
+<p>Para preguntarle a NemoClaw si tu agente está sano:
+<div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 </code></pre></div>
-<strong>Esperado:</strong> salud del sandbox, una prueba de inferencia y la política activa. En la fila de inferencia:</p>
+<strong>Esperado:</strong> la inferencia en <code>healthy</code> y la fase en <code>Ready</code>. Si ves otro valor en la inferencia:</p>
 <table>
 <thead>
 <tr>
@@ -83,95 +83,107 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 <tr>
 <td><code>unauthorized</code></td>
 <td>La ruta responde 401/403: credencial</td>
-<td><code>nemoclaw credentials reset &lt;PROVIDER&gt;</code> y <code>nemoclaw onboard</code></td>
+<td>Revisa tu key en build.nvidia.com. Para rotarla: <code>nemoclaw credentials reset &lt;PROVIDER&gt;</code> y <code>nemoclaw onboard</code></td>
 </tr>
 <tr>
 <td><code>unreachable</code></td>
 <td>No llega al proveedor</td>
-<td>Revisa red/DNS de la VM y la Receta 2</td>
+<td>Revisa la Receta 2</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Si falla:</strong> <code>sandbox_container_stopped</code> → <code>nemoclaw my-assistant recover</code>. Solo si eso falla: <code>nemoclaw my-assistant rebuild --yes</code>.</p>
+<p><strong>Si falla:</strong> <code>sandbox_container_stopped</code> → <code>nemoclaw my-assistant recover</code>.</p>
 <h2 id="receta-5--eje-identidad-el-mismo-comando-en-dos-planos">Receta 5 · Eje identidad: el mismo comando en dos planos</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
+<p>Para preguntar "¿quién soy?" afuera y adentro:
+<div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
 id
-whoami
 <span class="c1"># [sandbox] (una sola ejecución, sin abrir shell)</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>id
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span><span class="nb">pwd</span>
 </code></pre></div>
-<strong>Esperado:</strong> en el host, tu usuario de la VM (<code>[VERIFICAR EN LAB]</code> probablemente <code>ubuntu</code>). En el sandbox, <code>uid=...(sandbox) gid=...(sandbox)</code>.</p>
-<p><strong>Equivalente con OpenShell puro:</strong> <code>openshell sandbox exec -n my-assistant -- id</code>. Úsalo solo para inspeccionar; para operar, prefiere <code>nemoclaw</code>.</p>
-<p><strong>Si falla:</strong> <code>exec</code> imprime <code>nemoclaw: recent network policy denial detected for ...</code>: es un aviso de una denegación reciente, no un error de <code>exec</code>. Para silenciarlo: <code>NEMOCLAW_NO_POLICY_HINT=1</code>.</p>
+<strong>Esperado:</strong> en el host, <code>uid=1000(ubuntu)</code> con grupos como <code>sudo</code> y <code>docker</code>: el operador tiene poder. En el sandbox, <code>uid=998(sandbox) gid=998(sandbox)</code> y la carpeta <code>/sandbox</code>.</p>
+<p><strong>Equivalente con OpenShell puro:</strong> <code>openshell sandbox exec -n my-assistant -- id</code>. Úsalo para inspeccionar; para operar, prefiere <code>nemoclaw</code>.</p>
+<p><strong>Compáralo con lo que dice el agente:</strong> en <strong>CHAT WITH AGENT</strong>, pregúntale "¿Como qué usuario corres?". Puede responder un nombre que no es <code>sandbox</code> (por ejemplo, <code>gateway-owner</code>). La respuesta del operador es la que vale: nunca confíes en lo que el agente dice de sí mismo.</p>
+<p><strong>Si falla:</strong> <code>exec</code> imprime <code>nemoclaw: recent network policy denial detected for ...</code>: es un aviso de una denegación reciente, no un error de <code>exec</code>.</p>
 <h2 id="receta-6--eje-archivos-dónde-puede-escribir-el-agente">Receta 6 · Eje archivos: dónde puede escribir el agente</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [sandbox]</span>
+<p>Para intentar escribir en el sistema, en la carpeta temporal y listar el workspace:
+<div class="highlight"><pre><span></span><code><span class="c1"># [sandbox]</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>touch<span class="w"> </span>/usr/prueba<span class="w">       </span><span class="c1"># debe FALLAR</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>touch<span class="w"> </span>/tmp/prueba<span class="w">       </span><span class="c1"># debe funcionar</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>ls<span class="w"> </span>-la<span class="w"> </span>/sandbox/.openclaw/workspace
 </code></pre></div>
-<strong>Esperado:</strong> el primero da <code>Permission denied</code> o <code>Read-only file system</code> <code>[VERIFICAR EN LAB]</code>; el segundo no imprime nada; el tercero lista <code>SOUL.md</code>, <code>AGENTS.md</code>, <code>MEMORY.md</code>, <code>skills/</code>…</p>
-<p><strong>Si falla:</strong> si el <code>touch /usr/prueba</code> <strong>funciona</strong>, Landlock no se está aplicando (kernel menor a 5.13 o modo <code>best_effort</code> degradado). Revisa los logs de arranque del sandbox y anótalo: es un hallazgo.</p>
+<strong>Esperado:</strong> el primero responde <code>Permission denied</code>; el segundo no imprime nada; el tercero lista <code>AGENTS.md</code>, <code>HEARTBEAT.md</code>, <code>IDENTITY.md</code>, <code>POLICY.md</code>, <code>SOUL.md</code>, <code>TOOLS.md</code> y <code>USER.md</code>, y después de la 4.3 también <code>faq/</code>, <code>reportes/</code> y <code>skills/</code>. Solo hay <code>MEMORY.md</code> si el agente guardó memoria.</p>
+<p><strong>Si falla:</strong> si <code>touch /usr/prueba</code> <strong>funciona</strong>, Landlock no se está aplicando. Anótalo: es un hallazgo.</p>
 <h2 id="receta-7--eje-red-qué-se-bloquea-y-dónde-lo-ves">Receta 7 · Eje red: qué se bloquea y dónde lo ves</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [sandbox]</span>
+<p>Para pedir una página fuera de la lista y luego buscar el bloqueo:
+<div class="highlight"><pre><span></span><code><span class="c1"># [sandbox]</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>curl<span class="w"> </span>-sS<span class="w"> </span>https://example.com
 <span class="c1"># [host]</span>
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">50</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>DENIED<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-4
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>policy<span class="w"> </span>list
 </code></pre></div>
-<strong>Esperado:</strong> <code>curl: (56) CONNECT tunnel failed, response 403</code>. En los logs aparece la denegación de <code>example.com:443</code>. <code>policy list</code> muestra los presets con su origen (p. ej. <code>[from balanced tier]</code>).</p>
-<p><strong>Si falla / quieres permitir el host:</strong>
-- Temporal (solo esta instancia del sandbox): <code>openshell term</code> → elige el sandbox → <code>r</code> → la solicitud pendiente → <code>a</code> para aprobar. <code>[VERIFICAR EN LAB]</code> teclas en OpenShell 0.0.116.
-- Persistente: <code>nemoclaw my-assistant policy add &lt;preset&gt; --dry-run</code> y luego <code>--yes</code>.
+<strong>Esperado:</strong> <code>curl: (56) CONNECT tunnel failed, response 403</code>. En los logs, una línea parecida a:
+<div class="highlight"><pre><span></span><code>[OCSF ] [ocsf] NET:OPEN [MED] DENIED /usr/bin/curl(…) -&gt; example.com:443 [policy:- engine:opa] [reason:…]
+</code></pre></div>
+<code>policy list</code> muestra los presets: los activos con <code>●</code> (por ejemplo <code>brew-balanced</code>, <code>huggingface</code>, <code>npm</code>, <code>pypi</code> y <code>openclaw-pricing</code>) y los disponibles con <code>○</code>.</p>
+<p><img alt="La VM TERMINAL con una línea DENIED del log; los números marcan el programa bloqueado, el destino y la razón" src="../../assets/lab/18-terminal-denegacion-log.png" /></p>
+<p><strong>Quieres permitir el host:</strong>
+- Temporal: en el tablero, <strong>OPENSHELL TUI</strong> → entra al sandbox con <strong>[Enter]</strong> → <strong>[r]</strong> para ver las reglas → la solicitud pendiente → <strong>[a]</strong> Approve (o <strong>[x]</strong> Reject).
+- Persistente: <code>nemoclaw my-assistant policy add &lt;preset&gt; --dry-run</code> y luego <code>--yes</code> (clase 5.3).
 - No uses el tier <strong>Personal</strong> salvo para cargas de confianza: abre cualquier host en 80/443 sin aprobaciones.</p>
+<p><img alt="La OpenShell TUI en la vista de reglas, con una solicitud pendiente; los números marcan las teclas Approve y Reject" src="../../assets/lab/21-openshell-tui-reglas-pendientes.jpg" /></p>
 <h2 id="receta-8--eje-persistencia-lo-que-sobrevive">Receta 8 · Eje persistencia: lo que sobrevive</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
+<p>Para ver las skills, la persona del agente y las sesiones guardadas:
+<div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>list
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>sessions<span class="w"> </span>list
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>sessions<span class="w"> </span>list<span class="w"> </span>--json
 </code></pre></div>
-<strong>Esperado:</strong> las skills instaladas (en la 4.3 instalaste <code>soporte-nemoclaw</code>), la persona del agente y las sesiones guardadas. <code>[VERIFICAR EN LAB]</code> formato de <code>sessions list</code>.</p>
+<strong>Esperado:</strong> <code>skill list</code> da un resumen como <code>22/57 ready</code> (el número puede cambiar) e incluye <code>soporte-nemoclaw</code> de la 4.3. <code>SOUL.md</code> es la persona del agente. <code>sessions list --json</code> imprime JSON legible, con campos como <code>"agentId": "main"</code>, <code>"modelProvider": "inference"</code> y <code>"kind": "direct"</code>.</p>
 <p><strong>Por qué importa:</strong> todo lo que se escribe aquí vuelve a entrar al contexto en la próxima sesión. Si un atacante logra escribir una skill o editar <code>SOUL.md</code>, su instrucción sobrevive.</p>
-<p><strong>Si falla:</strong> <code>cat: ... No such file</code>: tu workspace puede tener otro nombre. Lista primero con <code>nemoclaw my-assistant exec -- ls /sandbox/.openclaw</code>.</p>
+<p><strong>Si falla:</strong>
+- <code>sessions list</code> sin <code>--json</code> imprime una tabla demasiado ancha para la terminal del navegador. Usa <code>--json</code>.
+- <code>cat: ... No such file</code>: lista primero con <code>nemoclaw my-assistant exec -- ls /sandbox/.openclaw</code>.</p>
 <h2 id="receta-9--logs-openshell-vs-nemoclaw-cuidado-con---tail">Receta 9 · Logs: OpenShell vs. NemoClaw (cuidado con <code>--tail</code>)</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
+<p>Para leer el registro de distintas formas:
+<div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">50</span><span class="w">          </span><span class="c1"># 50 líneas y termina</span>
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>5m<span class="w">         </span><span class="c1"># últimos 5 minutos</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--follow<span class="w">           </span><span class="c1"># en vivo; sal con Ctrl+C</span>
 openshell<span class="w"> </span>logs<span class="w"> </span>my-assistant<span class="w"> </span>-n<span class="w"> </span><span class="m">20</span><span class="w">             </span><span class="c1"># 20 líneas, OpenShell puro</span>
 </code></pre></div>
-<strong>Esperado:</strong> logs del gateway y la auditoría de OpenShell (denegaciones de política).</p>
+<strong>Esperado:</strong> logs del gateway y la auditoría de OpenShell (denegaciones de política). En la VM TERMINAL, <strong>Ctrl+C</strong> detiene el comando; <strong>Shift+Escape</strong> cierra la ventana.</p>
 <p><strong>Si falla:</strong> <code>openshell logs my-assistant --tail</code> se queda abierto: en <code>openshell</code>, <code>--tail</code> <strong>sigue</strong> el log. Sal con Ctrl+C y usa <code>-n</code>.</p>
 <h2 id="receta-10--lee-la-política-real-para-la-ficha-comparativa">Receta 10 · Lee la política real (para la ficha comparativa)</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
+<p><strong>Con clics:</strong> en el tablero, <strong>OPENSHELL TUI</strong> → tu sandbox con <strong>[Enter]</strong>. La vista del sandbox muestra las rutas de solo lectura y de lectura-escritura, y las reglas de red. Cambia de pestaña con <strong>[h]</strong>.</p>
+<p><strong>En la terminal:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
 openshell<span class="w"> </span>policy<span class="w"> </span>get<span class="w"> </span>my-assistant<span class="w"> </span>--full<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-60
 </code></pre></div>
 <strong>Esperado:</strong> el YAML vivo: <code>filesystem_policy</code> (<code>read_only</code>, <code>read_write</code>), <code>landlock</code>, <code>process</code> (<code>run_as_user: sandbox</code>) y <code>network_policies</code>. Con esto llenas la Tabla 2 del README <strong>con datos de tu sandbox</strong>.</p>
 <p><strong>Si falla:</strong> el nombre del sandbox está mal. Confírmalo con <code>openshell sandbox list</code>.</p>
 <h2 id="receta-11--diagnóstico-rápido-para-reportar-un-problema">Receta 11 · Diagnóstico rápido para reportar un problema</h2>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
+<p>Para juntar información antes de pedir ayuda (comandos de la documentación de NemoClaw):
+<div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
 nemoclaw<span class="w"> </span>doctor<span class="w">                       </span><span class="c1"># chequeos del host y del gateway (solo lectura)</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>doctor<span class="w">          </span><span class="c1"># Docker, OpenShell, contenedor, puertos, sandbox</span>
-nemoclaw<span class="w"> </span>debug<span class="w"> </span>--quick<span class="w">                </span><span class="c1"># paquete de diagnóstico para un issue</span>
 </code></pre></div>
-<strong>Esperado:</strong> una lista de chequeos con su estado. <code>debug</code> genera un archivo para adjuntar a un issue.</p>
-<p><strong>Si falla:</strong> antes de subir el paquete de <code>debug</code> a un issue público, revisa que no tenga tokens ni URLs con <code>#token=</code>.</p>
+<strong>Esperado:</strong> una lista de chequeos con su estado.</p>
+<p><strong>Si falla:</strong> antes de pegar una salida en un foro público, revisa que no tenga tokens ni URLs con <code>#token=</code>.</p>
 <h2 id="receta-12-opcional--conoce-otro-agente-de-nemoclaw">Receta 12 (opcional) · Conoce otro agente de NemoClaw</h2>
-<p>Solo si tienes tiempo y créditos: crear un segundo sandbox usa disco y memoria de la VM.
-<div class="highlight"><pre><span></span><code><span class="c1"># [host]</span>
-nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--agent<span class="w"> </span>hermes<span class="w">                       </span><span class="c1"># o: nemohermes onboard</span>
-nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--agent<span class="w"> </span>langchain-deepagents-code<span class="w">    </span><span class="c1"># o: nemo-deepagents onboard</span>
-</code></pre></div>
-<strong>Esperado:</strong> el asistente de onboarding, con el agente ya elegido. Al final, <code>nemoclaw list</code> muestra dos sandboxes.</p>
-<p><strong>Si falla:</strong>
-- <code>Invalid sandbox name</code>: usa de 1 a 19 caracteres, minúsculas, que empiece con letra (p. ej. <code>mi-hermes</code>).
-- Errores de memoria al crear el sandbox: la VM no aguanta dos sandboxes. Borra el de prueba con <code>nemoclaw &lt;nombre&gt; destroy --yes</code>.
-- <code>[VERIFICAR EN LAB]</code> si los alias <code>nemohermes</code> y <code>nemo-deepagents</code> vienen instalados en la imagen del launchable.</p>
-<h2 id="receta-13--cierra-sin-gastar-de-más">Receta 13 · Cierra sin gastar de más</h2>
-<p><div class="highlight"><pre><span></span><code><span class="nb">exit</span><span class="w">                         </span><span class="c1"># sal de la VM</span>
-brev<span class="w"> </span>stop<span class="w"> </span>&lt;instancia&gt;<span class="w">        </span><span class="c1"># en tu computadora</span>
-brev<span class="w"> </span>ls<span class="w">                      </span><span class="c1"># confirma STOPPED</span>
-</code></pre></div>
-<strong>Si falla:</strong> <code>instance "&lt;instancia&gt;" does not support stop.</code> → guarda tu trabajo (<code>brev copy &lt;instancia&gt;:/ruta ./local</code>) y usa <code>brev delete &lt;instancia&gt;</code>. Encendida = se cobra cómputo; detenida = solo disco; eliminada = nada, pero pierdes los datos.</p></div>
+<p>Hermes y Deep Agents vienen instalados en la VM (<code>/usr/bin/nemohermes</code> y <code>/usr/bin/nemo-deepagents</code>). Crear un segundo sandbox usa memoria de la VM, minutos de tu sesión y tu key de NVIDIA. Si quieres probar Hermes, sigue la clase <a href="../4.4-hermes-en-nemoclaw/index.html">4.4</a> <strong>antes</strong> de cerrar el laboratorio.</p>
+<h2 id="receta-13--cierra-el-laboratorio-guarda-y-borra">Receta 13 · Cierra el laboratorio: guarda y borra</h2>
+<p>Si vas a hacer la parte opcional de laboratorio de la <a href="../6.2-biblioteca-de-skills/index.html">6.2</a>, deja la instancia encendida y sigue con esa clase. Si no, guarda lo que quieras y <strong>Delete</strong>. Al borrar la instancia, todo lo que hay en la VM se pierde.</p>
+<ol>
+<li><strong>Guarda lo que quieras.</strong> Los archivos del curso (<code>~/curso</code>) ya están en GitHub. Para conservar algo que escribió tu agente, muéstralo y copia el texto a tus notas (selecciónalo con el mouse):
+   <div class="highlight"><pre><span></span><code><span class="c1"># [sandbox]</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/sandbox/.openclaw/workspace/reportes/resumen-faq.md
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md
+</code></pre></div></li>
+<li><strong>Cierra la terminal</strong> con <strong>Shift+Escape</strong>.</li>
+<li><strong>Borra la instancia.</strong> En la consola de Brev: <strong>Compute</strong> → tu instancia (<code>nemoclaw-…</code>) → <strong>Delete</strong>. Confirma en el aviso que aparece.</li>
+<li><strong>Revisa tu saldo.</strong> En el menú de arriba, <strong>Billing</strong>, o el saldo en la barra superior. La instancia ya no debe aparecer en <strong>Compute</strong>.</li>
+</ol>
+<p><strong>Por qué Delete y no Stop:</strong> encendida, la instancia cuesta ≈USD 0.25/h. Detenida, el disco sigue cobrando ≈USD 0.05/h, unos USD 1.20 al día: más que tu cupón. Borrada, ya no cobra nada. Detalles en <a href="../../LABORATORIO.html">LABORATORIO.md</a>.</p></div>
 
 </main>
 <footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>

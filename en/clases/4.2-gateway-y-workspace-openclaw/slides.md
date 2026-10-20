@@ -3,7 +3,7 @@
 :::diagrama c42-edificio
 
 Notes:
-The office building. Click 1: you write. Click 2: the front desk (gateway) takes every turn and keeps the conversations. Click 3: the locked room with the assistant inside. Click 4: its desk (workspace). Click 5: the idea of the class, the directory is the configuration. There are two gateways: OpenShell's on the host (8080, local only, sandbox lifecycle) and OpenClaw's inside the sandbox (18789, the agent). Today we talk about OpenClaw's.
+The office building. Click 1: you write. Click 2: the front desk (gateway) takes every turn and keeps the conversations. Click 3: the locked room with the assistant inside. Click 4: its desk (workspace). Click 5: the idea of the class, the directory is the configuration. There are two gateways: OpenShell's on the host (port 18080, local only, sandbox lifecycle; you see it with openshell gateway info) and OpenClaw's inside the sandbox (18789, the agent and its chat). Today we talk about OpenClaw's.
 
 ---
 
@@ -12,7 +12,7 @@ The office building. Click 1: you write. Click 2: the front desk (gateway) takes
 :::diagrama c42-escritorio
 
 Notes:
-Click 1: SOUL.md, the rulebook and the job description. Click 2: AGENTS.md, USER.md and TOOLS.md. Click 3: HEARTBEAT.md and the skills folder (class 4.3). Click 4: two-tier memory, memory/ and MEMORY.md. Click 5: it rereads it at the start of every conversation. IDENTITY.md (name, emoji) and POLICY.md (policy summary, written by NemoClaw) are there too. MEMORY.md and memory/ are created the first time the agent saves memory.
+Click 1: SOUL.md, the rulebook and the job description. Click 2: AGENTS.md, USER.md and TOOLS.md. Click 3: HEARTBEAT.md and the skills folder (class 4.3). Click 4: two-tier memory, memory/ and MEMORY.md. Click 5: it rereads it at the start of every conversation. IDENTITY.md (name, emoji) and POLICY.md (policy summary, written by NemoClaw) are there too. In a fresh lab, MEMORY.md, memory/ and skills/ don't exist yet: they show up when they're needed.
 
 ---
 
@@ -21,7 +21,7 @@ Click 1: SOUL.md, the rulebook and the job description. Click 2: AGENTS.md, USER
 :::diagrama c42-memoria
 
 Notes:
-Click 1: the conversation lives at the front desk and is lost when the session resets (sessions.reset). Click 2: the files, daily notes in memory/YYYY-MM-DD.md. Click 3: what matters goes into MEMORY.md. Click 4: the files survive the restart. By default MEMORY.md goes into the main session's context, not every session's; not being in context doesn't stop the agent from reading it. Inspired by MemGPT.
+Click 1: the conversation lives at the front desk and is lost when the session resets (nemoclaw my-assistant sessions reset <key>). Click 2: the files, daily notes in memory/YYYY-MM-DD.md. Click 3: what matters goes into MEMORY.md. Click 4: the files survive the reset. Not being in context doesn't stop the agent from reading the file. Inspired by MemGPT.
 
 ---
 
@@ -30,7 +30,7 @@ Click 1: the conversation lives at the front desk and is lost when the session r
 :::diagrama c42-planos
 
 Notes:
-Click 1: the room, with the agent inside (user sandbox, narrower policy); it can only tell you what it did. Click 2: the operator, outside, at the machine's terminal. Click 3: the operator reads the files directly (openshell sandbox connect, nemoclaw … exec, cat). Click 4: the rule. This separation is the foundation of Module 5: an agent that rewrites its own workspace can influence its future runs.
+Click 1: the room, with the agent inside (user sandbox, narrower policy); it can only tell you what it did. Click 2: the operator, outside, with the dashboard's VM TERMINAL. Click 3: the operator reads the files directly (nemoclaw my-assistant exec -- ls / cat). Click 4: the rule. This separation is the foundation of Module 5: an agent that rewrites its own workspace can influence its future runs.
 
 ---
 
@@ -39,7 +39,7 @@ Click 1: the room, with the agent inside (user sandbox, narrower policy); it can
 :::diagrama c42-dice-vs-archivo
 
 Notes:
-Click 1: what the agent says about itself (Step 1 in 03b). Click 2: what the operator cell shows (Step 1b, "Read the live workspace over the operator terminal"). Click 3: compare. The example is on purpose: the agent mentions MEMORY.md, which doesn't exist yet, and forgets USER.md. The commands are on the "If you prefer the terminal" slide.
+Click 1: what the agent says about itself, in CHAT WITH AGENT ("Briefly list the files in your workspace…"). Click 2: what the VM TERMINAL shows with nemoclaw my-assistant exec -- ls -la /sandbox/.openclaw/workspace. Click 3: compare. In a fresh lab the real list is AGENTS.md, HEARTBEAT.md, IDENTITY.md, POLICY.md, SOUL.md, TOOLS.md and USER.md; if the agent mentions MEMORY.md, it doesn't exist yet.
 
 ---
 
@@ -48,7 +48,7 @@ Click 1: what the agent says about itself (Step 1 in 03b). Click 2: what the ope
 :::diagrama c42-dos-sesiones
 
 Notes:
-In 03b: the "Verify file memory across separate sessions" flow, ▶ Run all. Click 1: conversation A asks to append a preference to MEMORY.md without deleting anything. Click 2: the cell doesn't trust it and reads the file. Click 3: a new conversation finds it on disk. Click 4: the rule. The cell fails if reading the file back doesn't contain the preference.
+Click 1: the memoria-a session asks to append a preference (REF-4821) to MEMORY.md without deleting anything. Click 2: the operator doesn't trust it and searches for the line with grep in the VM TERMINAL. Click 3: after resetting memoria-a, a new session (memoria-b) finds it on disk. Click 4: the rule. Commands in Part E of the README and in cookbook recipe 8.
 
 ---
 
@@ -57,7 +57,7 @@ In 03b: the "Verify file memory across separate sessions" flow, ▶ Run all. Cli
 :::diagrama c42-soul
 
 Notes:
-Click 1: the "Project: Soporte NemoClaw" section, written in plain language (it's the no-code activity). Click 2: it's appended to SOUL.md, on the desk. Click 3: in a new conversation, the agent knows its job. Click 4: the workspace is read at the start of each conversation; one that's already open doesn't change.
+Click 1: the "Proyecto: Soporte NemoClaw" section, written in plain language (it's the no-code activity). Click 2: it's appended to the end of SOUL.md: you write it in ~/soul-extra.md on the machine, upload it to the sandbox's /tmp, and append it with sh -c 'cat … >> …'. Click 3: in a new session (soul-42), the agent knows its job. Click 4: the workspace is read at the start of each conversation; one that's already open doesn't change.
 
 ---
 
@@ -66,31 +66,28 @@ Click 1: the "Project: Soporte NemoClaw" section, written in plain language (it'
 :::diagrama c42-tilde
 
 Notes:
-The live error. Click 1: you ask the agent to append the section to ~/SOUL.md. Click 2: inside the room, ~ is /sandbox: it writes a stray file nobody reads. Click 3: with the full path (/sandbox/.openclaw/workspace/SOUL.md) it reaches the real rulebook. Click 4: always ask for the full path and verify as the operator with tail. Delete the stray file with the operator cell (rm ~/SOUL.md).
+The live error. Click 1: you append the section to ~/SOUL.md, inside the sandbox. Click 2: inside the room, ~ is /sandbox: you get a stray file nobody reads. Click 3: with the full path (/sandbox/.openclaw/workspace/SOUL.md) it reaches the real rulebook. Click 4: always use the full path and verify as the operator with tail. Delete the stray file: nemoclaw my-assistant exec -- rm /sandbox/SOUL.md.
 
 ---
 
-## If you prefer the terminal
+## Operator commands
 
 ```bash
-# Look at the agent's desk, as the operator
-openshell sandbox connect my-assistant
-cd /sandbox/.openclaw/workspace && ls -la
+# Look at the agent's desk
+nemoclaw my-assistant exec -- ls -la /sandbox/.openclaw/workspace
 
 # Append your section to SOUL.md without relying on the agent
-nemoclaw my-assistant download /sandbox/.openclaw/workspace/SOUL.md ./
-cp SOUL.md SOUL.md.original
-cat >> SOUL.md <<'EOF'
-## Project: Soporte NemoClaw
-- You answer in plain English …
-EOF
-nemoclaw my-assistant upload ./SOUL.md /sandbox/.openclaw/workspace/SOUL.md
+nemoclaw my-assistant upload ~/soul-extra.md /tmp/
+nemoclaw my-assistant exec -- sh -c 'cat /tmp/soul-extra.md >> /sandbox/.openclaw/workspace/SOUL.md'
+
+# Test it in a new session
+nemoclaw my-assistant agent --session-key soul-42 -m 'Who are you?'
 ```
 
-.lead It's optional: the same thing you did with clicks and in the chat, written as instructions.
+.lead You paste them in the dashboard's VM TERMINAL.
 
 Notes:
-Cookbook recipe 7 (download → cp … .original → cat >> → upload → tail). To find the saved preference: nemoclaw my-assistant exec -- grep -n "REF-" /sandbox/.openclaw/workspace/MEMORY.md (recipe 8). Test it in a new conversation.
+Cookbook recipe 5: ~/soul-extra.md with cat > … <<'EOF', a backup in /tmp/SOUL.md.original, upload, cat >> and tail. Two signs >>: with just one, SOUL.md is wiped. To see sessions: sessions list --json (recipe 7).
 
 ---
 
@@ -99,13 +96,13 @@ Cookbook recipe 7 (download → cp … .original → cat >> → upload → tail)
 | You see | Do this |
 |---|---|
 | The agent says "I saved it" and it isn't there | Read it as the operator and ask for the full path |
-| You edited `~/SOUL.md` and nothing changed | Use the desk: `/sandbox/.openclaw/workspace/` |
-| An open conversation doesn't change | Start a new conversation |
-| `Pairing required` on the dashboard | Wait and reload; the steps are on the class page |
+| You wrote `~/SOUL.md` and nothing changed | Use the desk: `/sandbox/.openclaw/workspace/` |
+| An open conversation doesn't change | Use a new session |
+| `SOUL.md` ended up with only your section | You used `>`: restore the copy and use `>>` |
 | `openclaw update` hangs | Don't use it: the version is pinned |
 
 Notes:
-Pairing: Overview → Gateway Access → Connect, or openclaw devices approve (recipe 9). In your own install, updating is nemoclaw update and then nemoclaw <name> rebuild. In the launchable, don't touch versions.
+The lab's chat comes already paired: if "Pairing required" ever showed up, close the tab and open CHAT WITH AGENT again from the dashboard. In your own install, updating is nemoclaw update and then nemoclaw <name> rebuild. In the lab, don't touch versions.
 
 ---
 
@@ -120,4 +117,4 @@ Pairing: Overview → Gateway Access → Connect, or openclaw devices approve (r
 It still lacks knowledge: in class 4.3 the skill with the FAQ arrives.
 
 Notes:
-Save the section in proyecto/SOUL-soporte.md. The project's memory preference is soporte-pref-01: cite the FAQ file.
+Copy the SOUL.md section into your project notes. The project's memory preference is soporte-pref-01: cite the FAQ file. Repeat the 401 question in a new session (linea-base-42).

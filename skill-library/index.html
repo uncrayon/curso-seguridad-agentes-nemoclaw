@@ -2,8 +2,8 @@
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>skill-library · Biblioteca de skills del proyecto &quot;Soporte NemoClaw&quot; · Seguridad de agentes con OpenShell y NemoClaw</title>
-<link rel="stylesheet" href="../assets/sinapsis.css?v=b692c8e2">
-<link rel="stylesheet" href="../assets/guia.css?v=b692c8e2">
+<link rel="stylesheet" href="../assets/sinapsis.css?v=8c0f4e58">
+<link rel="stylesheet" href="../assets/guia.css?v=8c0f4e58">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../index.html"><img src="../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
@@ -56,7 +56,7 @@
 </tbody>
 </table>
 <blockquote>
-<p><strong><code>soporte-nemoclaw</code> viene de la clase 4.3</strong> (<a href="../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.html">versión original</a>). Esta versión mantiene la ruta de la FAQ, el formato de respuesta, las reglas y el "Modo reporte" que usa el cron de la 4.3. Solo cambia la description: ya no menciona errores HTTP, porque ahora los atiende <code>diagnostico-api</code>. Si instalas esta versión encima de la de la 4.3, OpenClaw la reemplaza (<code>skill install</code> usa <code>--force</code>) y tu cron sigue funcionando.</p>
+<p><strong><code>soporte-nemoclaw</code> viene de la clase 4.3</strong> (<a href="../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.html">versión original</a>). Esta versión mantiene la ruta de la FAQ, el formato de respuesta, las reglas y el "Modo reporte" que usa el cron de la 4.3. Solo cambia la description: ya no menciona errores HTTP, porque ahora los atiende <code>diagnostico-api</code>. Para cambiar la versión de la 4.3 por esta, quita la vieja con <code>skill remove soporte-nemoclaw</code> e instala esta (ver abajo).</p>
 </blockquote>
 <h2 id="anatomía-de-una-skill">Anatomía de una skill</h2>
 <p>Una carpeta por skill y un <code>SKILL.md</code> adentro. El archivo empieza con un <strong>frontmatter</strong> YAML:</p>
@@ -81,19 +81,19 @@
 </ol>
 <p>Por eso la descripción es la línea más importante: si no dice cuándo usar la skill, la selección automática falla. En el notebook de la 6.2 la medimos con un set de pedidos (tasa de acierto).</p>
 <h2 id="llevarla-al-laboratorio-brev--nemoclaw">Llevarla al laboratorio (Brev + NemoClaw)</h2>
-<p>Desde tu computadora, en la raíz del repo:</p>
-<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>ls<span class="w">                                                  </span><span class="c1"># nombre de tu instancia</span>
-brev<span class="w"> </span>copy<span class="w"> </span>./skill-library<span class="w"> </span>&lt;instancia&gt;:/home/ubuntu/skill-library<span class="w">   </span><span class="c1"># [VERIFICAR EN LAB] ruta del home</span>
-brev<span class="w"> </span>shell<span class="w"> </span>&lt;instancia&gt;
+<p>Todo en el navegador: en el tablero de NemoClaw de tu instancia, presiona <strong>VM TERMINAL</strong> y haz clic dentro del área negra. Esta biblioteca viene en la copia del curso que clonaste en la clase 4.3 (<code>~/curso/skill-library/</code>). Si no la tienes:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw<span class="w"> </span>~/curso
 </code></pre></div>
-<p>Ya en la VM:</p>
+<p>Después, en la misma terminal:</p>
 <div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span>list<span class="w">                                   </span><span class="c1"># nombre del sandbox (p. ej. my-assistant)</span>
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/skill-library/soporte-nemoclaw/
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/skill-library/diagnostico-api/
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/skill-library/lector-seguro-archivos/
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/skill-library/resumen-diario/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>remove<span class="w"> </span>soporte-nemoclaw<span class="w">      </span><span class="c1"># solo si ya instalaste la versión de la 4.3</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/curso/skill-library/soporte-nemoclaw/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/curso/skill-library/diagnostico-api/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/curso/skill-library/lector-seguro-archivos/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/curso/skill-library/resumen-diario/
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>list
 </code></pre></div>
+<p>Cada instalación responde <code>✓ Validated SKILL.md</code> e <code>Installed &lt;nombre&gt; from path -&gt; /sandbox/.openclaw/workspace/skills/&lt;nombre&gt;</code>. Ignora la línea <code>ExperimentalWarning: SQLite…</code>. Es la parte opcional de laboratorio de la clase 6.2: al terminarla, guarda lo que quieras y borra la instancia (<strong>Delete</strong>) en la consola de Brev.</p>
 <ul>
 <li>Con OpenClaw, <code>skill install</code> llama a <code>openclaw skills install</code> y la skill queda en <code>/sandbox/.openclaw/workspace/skills/&lt;nombre&gt;</code>.</li>
 <li>Con Hermes queda en <code>/sandbox/.hermes/skills/&lt;nombre&gt;</code>; con Deep Agents, en <code>/sandbox/.deepagents/agent/skills/&lt;nombre&gt;</code>.</li>

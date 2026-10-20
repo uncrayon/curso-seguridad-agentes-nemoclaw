@@ -10,8 +10,8 @@ Por ejemplo, npm corre como `/usr/local/bin/node`, y si el preset no lista ese b
 Lee la línea DENIED en `nemoclaw <sandbox> logs --tail 50`, copia la ruta exacta del binario y agrégala a la sección `binaries:` de tu preset.
 
 ## P: ¿Cómo apruebo en vivo una conexión bloqueada?
-En el host ejecuta `openshell term`.
-Elige el sandbox con `j`/`k` y Enter, pulsa `r` para ir a Network Rules, selecciona la solicitud pendiente y pulsa `a` para aprobar o `x` para rechazar.
+En el tablero del laboratorio pulsa OPENSHELL TUI (en tu máquina, ejecuta `openshell term` en el host).
+Elige el sandbox con `j`/`k` y Enter, pulsa `r` para ver las reglas, selecciona la solicitud pendiente y pulsa `a` para aprobar o `x` para rechazar.
 Estas aprobaciones duran solo mientras exista esa instancia del sandbox; para que sean permanentes, usa un preset.
 
 ## P: ¿Cómo veo la política activa y agrego un preset como pypi o github?

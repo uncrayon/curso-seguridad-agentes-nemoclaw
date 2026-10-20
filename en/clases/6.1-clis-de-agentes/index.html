@@ -2,8 +2,8 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>6.1 Compare modern agent CLIs · Securing Agents with OpenShell and NemoClaw</title>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
-<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8c0f4e58">
+<link rel="stylesheet" href="../../../assets/guia.css?v=8c0f4e58">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
@@ -14,7 +14,7 @@
 <section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
 <p>🇪🇸 Original Spanish guide: <a href="../../../clases/6.1-clis-de-agentes/index.html"><code>clases/6.1-clis-de-agentes/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
 </blockquote>
-<p>Learn to compare any CLI agent with five questions, and check the answers in your lab's real shell.</p>
+<p>Learn to compare any CLI agent with five questions, check the answers in your lab's real terminal, and close the lab without overspending.</p>
 <table>
 <thead>
 <tr>
@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td><strong>Practice</strong></td>
-<td>Brev lab · <a href="../../../clases/6.1-clis-de-agentes/cookbook.html">cookbook.md (Spanish)</a></td>
+<td>Brev lab: NemoClaw dashboard + browser terminal (<a href="../../../clases/6.1-clis-de-agentes/cookbook.html">cookbook.md (Spanish)</a>)</td>
 </tr>
 <tr>
 <td><strong>Skill</strong></td>
@@ -41,17 +41,21 @@
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>Based on lesson 04b of the NVIDIA DLI course "NemoClaw" (Apache-2.0) and on the NVIDIA/NemoClaw repo.</p>
+</blockquote>
 <h2 id="what-youll-achieve">What you'll achieve</h2>
 <ul>
 <li>Explain why Claude Code, Codex, Cursor, Hermes, Deep Agents and OpenClaw are <strong>the same loop with different defaults</strong>.</li>
 <li>Compare agents on five axes: <strong>files, network, identity, persistence and default sandbox</strong>.</li>
-<li>Verify those axes in your lab with <code>openshell</code> and <code>nemoclaw</code>, and choose a tool based on the task and the risk.</li>
+<li>Verify those axes in your lab from the <strong>VM TERMINAL</strong> with <code>openshell</code> and <code>nemoclaw</code>, and choose a tool based on the task and the risk.</li>
+<li>Close the lab: save your work, delete the instance and check your balance.</li>
 </ul>
 <h2 id="before-you-start">Before you start</h2>
 <ul>
-<li>Your NemoClaw lab on Brev is working (class <a href="../4.1-laboratorio-nemoclaw-en-brev/index.html">4.1</a>). If you stopped it, start it with <code>brev start &lt;instance&gt;</code>.</li>
-<li>The Brev CLI is logged in (<code>brev ls</code> shows your instance).</li>
-<li>You've read your sandbox's policy (class <a href="../5.3-sandbox-y-politicas/index.html">5.3</a>). Today we use it to compare.</li>
+<li>Your Brev instance is <strong>Running</strong> and the NemoClaw dashboard is open: in the Brev console, your instance, green <strong>NemoClaw</strong> button (class <a href="../4.1-laboratorio-nemoclaw-en-brev/index.html">4.1</a>).</li>
+<li>You've done <a href="../4.3-agentes-siempre-activos/index.html">4.3</a> (you installed the <code>soporte-nemoclaw</code> skill) and <a href="../5.3-sandbox-y-politicas/index.html">5.3</a> (you read your sandbox's policy). Today we use them to compare.</li>
+<li><strong>Your credit:</strong> this practice takes ≈20 min of your single lab sitting (see <a href="../../../LABORATORIO.html">your Brev lab (Spanish)</a>). When you finish: if you'll do 6.2's optional lab part, leave the instance running and keep going; if not, save what you want and <strong>Delete</strong>.</li>
 </ul>
 <h2 id="the-idea-in-one-minute">The idea in one minute</h2>
 <p>All these agents wrap the same things: <strong>a working folder, a palette of tools, a memory, optional unattended execution (cron, long tasks) and a network</strong>. What changes is what comes open by default, and whether there's a runtime underneath that stops a bad call.</p>
@@ -59,7 +63,7 @@
 <p>The CLI sets the starting values. The OpenShell sandbox decides how far they reach.</p>
 </blockquote>
 <h3 id="table-1--the-clis-as-you-install-them">Table 1 · The CLIs as you install them</h3>
-<p>Source: NVIDIA lesson 04b. Anything 04b doesn't say is marked <code>[VERIFY]</code>: check it in the docs for the version you install, because defaults change between versions.</p>
+<p>Source: NVIDIA lesson 04b. Where it says "see its docs", 04b doesn't cover it: check the docs for the version you install, because defaults change between versions.</p>
 <table>
 <thead>
 <tr>
@@ -77,18 +81,18 @@
 <td><strong>Claude Code</strong></td>
 <td><code>CLAUDE.md</code></td>
 <td>Tool rules and the permission mode decide what gets edited without asking</td>
-<td><code>[VERIFY]</code></td>
-<td>Your system user <code>[VERIFY]</code></td>
-<td><code>CLAUDE.md</code>, project settings <code>[VERIFY]</code></td>
-<td>Configurable sandbox settings; don't assume they're on <code>[VERIFY]</code></td>
+<td>See its docs</td>
+<td>Your system user (confirm in its docs)</td>
+<td><code>CLAUDE.md</code> and project settings</td>
+<td>Configurable sandbox settings; don't assume they're on</td>
 </tr>
 <tr>
 <td><strong>Codex CLI</strong></td>
 <td><code>AGENTS.md</code></td>
 <td>Edits and runs only within the sandbox limits</td>
-<td>Depends on the sandbox settings <code>[VERIFY]</code></td>
-<td>Your user <code>[VERIFY]</code></td>
-<td><code>AGENTS.md</code> <code>[VERIFY]</code></td>
+<td>Depends on the sandbox settings</td>
+<td>Your user (confirm in its docs)</td>
+<td><code>AGENTS.md</code></td>
 <td>Sandbox + approval policy</td>
 </tr>
 <tr>
@@ -104,33 +108,33 @@
 <td><strong>Hermes</strong></td>
 <td>Skills and persistent memory (in NemoClaw, <code>SOUL.md</code>)</td>
 <td>Depends on the terminal backend</td>
-<td>Messaging integrations <code>[VERIFY]</code></td>
-<td>Depends on the backend <code>[VERIFY]</code></td>
+<td>Messaging integrations (see its docs)</td>
+<td>Depends on the backend</td>
 <td>Skills, memory, scheduled tasks</td>
 <td>The approval mode and the terminal backend decide the isolation</td>
 </tr>
 <tr>
 <td><strong>Deep Agents Code</strong> (<code>dcode</code>)</td>
-<td><code>[VERIFY]</code> (04b doesn't cover it)</td>
-<td><code>[VERIFY]</code></td>
-<td><code>[VERIFY]</code></td>
-<td><code>[VERIFY]</code></td>
+<td>See its docs (04b doesn't cover it)</td>
+<td>See its docs</td>
+<td>See its docs</td>
+<td>See its docs</td>
 <td>Skills and memory</td>
-<td>Tool approval UI <code>[VERIFY]</code></td>
+<td>Tool approval UI (see its docs)</td>
 </tr>
 <tr>
 <td><strong>OpenClaw</strong></td>
 <td><code>SOUL.md</code>, <code>AGENTS.md</code></td>
 <td>The workspace</td>
-<td>Whatever the host allows <code>[VERIFY]</code></td>
-<td><code>[VERIFY]</code></td>
+<td>Outside a sandbox, whatever the host allows</td>
+<td>Outside a sandbox, see its docs</td>
 <td>Gateway sessions, cron, skills, <code>SOUL.md</code></td>
 <td>In this course it runs <strong>inside OpenShell</strong></td>
 </tr>
 </tbody>
 </table>
 <h3 id="table-2--the-three-agents-inside-nemoclaw">Table 2 · The three agents inside NemoClaw</h3>
-<p>NemoClaw isn't just OpenClaw: it supports <strong>OpenClaw</strong> (the default), <strong>Hermes</strong> (<code>nemohermes</code>) and <strong>LangChain Deep Agents Code</strong> (<code>nemo-deepagents</code>, binary <code>dcode</code>). Source: blueprint and policies in the NVIDIA/NemoClaw repo (October 2026).</p>
+<p>NemoClaw isn't just OpenClaw: it supports <strong>OpenClaw</strong> (the default), <strong>Hermes</strong> (<code>nemohermes</code>) and <strong>LangChain Deep Agents Code</strong> (<code>nemo-deepagents</code>, binary <code>dcode</code>). All three commands come installed on the lab VM. Source: blueprint and policies in the NVIDIA/NemoClaw repo (October 2026).</p>
 <table>
 <thead>
 <tr>
@@ -155,25 +159,25 @@
 </tr>
 <tr>
 <td><strong>Network</strong></td>
-<td>Denied by default. Short list: NVIDIA, clawhub, openclaw.ai, npm (only the <code>openclaw</code> binary)</td>
+<td>Denied by default. Short per-program list: NVIDIA, clawhub, openclaw.ai, npm. In your lab, the <code>docs.openclaw.ai</code> group lets neither <code>curl</code> nor <code>node</code> out</td>
 <td>Denied by default. NVIDIA, Nous Research endpoints, PyPI</td>
 <td>Denied by default. NVIDIA, GitHub, PyPI. OpenShell sees <code>dcode</code> as Python: the permission applies to <strong>all</strong> Python in the sandbox</td>
 </tr>
 <tr>
 <td><strong>Identity</strong></td>
-<td><code>sandbox</code> user, not root. <code>ptrace</code>, <code>mount</code> and <code>setuid</code> blocked</td>
+<td><code>sandbox</code> user (uid 998), not root. <code>ptrace</code>, <code>mount</code> and <code>setuid</code> blocked</td>
 <td><code>sandbox</code> user</td>
 <td><code>sandbox</code> user</td>
 </tr>
 <tr>
 <td><strong>Persistence</strong></td>
-<td>Workspace (<code>SOUL.md</code>, <code>AGENTS.md</code>, <code>MEMORY.md</code>), skills, cron</td>
+<td>Workspace (<code>SOUL.md</code>, <code>AGENTS.md</code>, <code>USER.md</code>…; <code>MEMORY.md</code> only if the agent saved memory), skills, cron</td>
 <td><code>/sandbox/.hermes</code>: <code>SOUL.md</code>, memories, skills, cron, messaging</td>
 <td><code>/sandbox/.deepagents</code>: skills, memory, <code>config.toml</code></td>
 </tr>
 <tr>
 <td><strong>Interface</strong></td>
-<td>Gateway + dashboard (port 18789)</td>
+<td>Gateway + browser chat (port 18789)</td>
 <td>Gateway, dashboard and OpenAI-compatible API</td>
 <td>Terminal only (TUI or <code>dcode -n</code>). No gateway or dashboard</td>
 </tr>
@@ -186,66 +190,76 @@
 </tbody>
 </table>
 <h2 id="step-by-step">Step by step</h2>
-<p>The full practice, with expected outputs and what to do if something fails, is in the <strong><a href="../../../clases/6.1-clis-de-agentes/cookbook.html">cookbook (Spanish)</a></strong>. Summary:</p>
+<p>The full practice, with expected outputs and what to do if something fails, is in the <strong><a href="../../../clases/6.1-clis-de-agentes/cookbook.html">cookbook (Spanish)</a></strong>. Everything happens in the browser: the NemoClaw dashboard and its <strong>VM TERMINAL</strong>, the operator terminal (the host, user <code>ubuntu</code>). To run something <strong>inside</strong> the sandbox, the command starts with <code>nemoclaw my-assistant exec --</code>.</p>
+<h3 id="part-1--open-the-operator-terminal">Part 1 · Open the operator terminal</h3>
 <ol>
-<li>
-<p><strong>Connect to the VM.</strong>
-   <div class="highlight"><pre><span></span><code>brev<span class="w"> </span>ls
-brev<span class="w"> </span>shell<span class="w"> </span>&lt;instance&gt;
-</code></pre></div>
-   You should see the VM prompt. No local terminal? Use the "Open a real shell on your launchable" cell in <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/04b-modern-clis.html">lesson 04b</a>.</p>
-</li>
-<li>
-<p><strong>Inventory: which agents and sandboxes exist.</strong>
+<li>On the NemoClaw dashboard, on the <strong>MY-ASSISTANT</strong> card, click <strong>VM TERMINAL</strong>. A black window opens over the dashboard.</li>
+<li>Click inside the black area before typing. If you type without clicking, your keys trigger dashboard shortcuts. To close it later: <strong>Shift+Escape</strong>.</li>
+<li>Every <code>nemoclaw</code> command prints the line <code>ExperimentalWarning: SQLite is an experimental feature</code>. Ignore it: it isn't an error.</li>
+</ol>
+<p><img alt="The NemoClaw dashboard with the MY-ASSISTANT card and its four buttons; the number marks the VM TERMINAL button" src="../../../assets/lab/13-panel-nemoclaw.jpg" /></p>
+<h3 id="part-2--inventory-which-sandboxes-and-agents-exist">Part 2 · Inventory: which sandboxes and agents exist</h3>
+<ol>
+<li>To see the sandboxes OpenShell manages:
    <div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>sandbox<span class="w"> </span>list
-openshell<span class="w"> </span>status
-nemoclaw<span class="w"> </span>list
-nemoclaw<span class="w"> </span>agents<span class="w"> </span>list
 </code></pre></div>
-   You should see your sandbox (e.g. <code>my-assistant</code>), the active gateway, and the installed agent (OpenClaw).</p>
-</li>
-<li>
-<p><strong>Sandbox health.</strong>
-   <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
+   You should see the columns <code>NAME</code>, <code>CREATED</code> and <code>PHASE</code>, with <code>my-assistant</code> in <code>Ready</code>.</li>
+<li>To check whether the front desk (the OpenShell gateway) is connected:
+   <div class="highlight"><pre><span></span><code>openshell<span class="w"> </span>status
 </code></pre></div>
-   Look for the inference row: <code>healthy</code> is what you expect. <code>unauthorized</code> = credential; <code>unreachable</code> = route.</p>
-</li>
-<li>
-<p><strong>Identity axis: the same command on two planes.</strong>
+   You should see a <code>Server Status</code> block with the gateway <code>nemoclaw-18080</code>, the server <code>https://127.0.0.1:18080</code>, <code>Connected</code>, <code>Authenticated (mTLS transport)</code> and version <code>0.0.116</code>.</li>
+<li>To see what NemoClaw has registered and confirm the other two agents are installed:
+   <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>list
+ls<span class="w"> </span>/usr/bin/nemohermes<span class="w"> </span>/usr/bin/nemo-deepagents
+</code></pre></div>
+   <code>nemoclaw list</code> shows <code>my-assistant</code> with the <code>openclaw</code> agent, the <code>nvidia-prod</code> provider and its policy presets. The <code>ls</code> prints both paths: Hermes and Deep Agents are on the VM, even if you don't use them today.</li>
+</ol>
+<h3 id="part-3--sandbox-health">Part 3 · Sandbox health</h3>
+<p>To ask NemoClaw whether your agent is healthy:
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
+</code></pre></div>
+Look for inference <code>healthy</code> and phase <code>Ready</code>. <code>unauthorized</code> means a credential problem; <code>unreachable</code> means the route to the model.</p>
+<h3 id="part-4--the-axes-outside-and-inside">Part 4 · The axes, outside and inside</h3>
+<ol>
+<li><strong>Identity.</strong> To ask "who am I?" on the VM and then inside the sandbox:
    <div class="highlight"><pre><span></span><code>id
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>id
 </code></pre></div>
-   You should see your VM user in the first one and <code>sandbox</code> in the second.</p>
-</li>
-<li>
-<p><strong>Files axis.</strong>
+   Outside you see <code>uid=1000(ubuntu)</code> with groups like <code>sudo</code> and <code>docker</code>: the operator has power. Inside you see <code>uid=998(sandbox) gid=998(sandbox)</code>: the agent doesn't.</li>
+<li><strong>Files.</strong> To try creating an empty file in a system folder and then in the temporary folder:
    <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>touch<span class="w"> </span>/usr/prueba
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>touch<span class="w"> </span>/tmp/prueba
 </code></pre></div>
-   The first one fails (read-only system); the second one works.</p>
-</li>
-<li>
-<p><strong>Network axis.</strong>
+   The first one answers <code>Permission denied</code>; the second prints nothing, because it worked.</li>
+<li><strong>Network.</strong> To ask the sandbox for a page that isn't on its list:
    <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>curl<span class="w"> </span>-sS<span class="w"> </span>https://example.com
 </code></pre></div>
-   You should see <code>curl: (56) CONNECT tunnel failed, response 403</code>: the network policy blocked it.</p>
-</li>
-<li>
-<p><strong>Persistence axis.</strong>
+   You should see <code>curl: (56) CONNECT tunnel failed, response 403</code>: the network policy blocked it.</li>
+<li><strong>Persistence.</strong> To see what survives between sessions:
    <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>ls<span class="w"> </span>/sandbox/.openclaw/workspace
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>list
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>sessions<span class="w"> </span>list<span class="w"> </span>--json
 </code></pre></div>
-   That's where <code>SOUL.md</code>, <code>AGENTS.md</code>, <code>MEMORY.md</code> and the skills live: what survives between sessions.</p>
-</li>
-<li>
-<p><strong>Logs: where to look when something gets blocked.</strong>
-   <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">50</span>
+   In the workspace you see <code>AGENTS.md</code>, <code>HEARTBEAT.md</code>, <code>IDENTITY.md</code>, <code>POLICY.md</code>, <code>SOUL.md</code>, <code>TOOLS.md</code> and <code>USER.md</code>; after 4.3, also <code>faq</code>, <code>reportes</code> and <code>skills</code>. You only see <code>MEMORY.md</code> if the agent saved memory. <code>skill list</code> shows a summary like <code>22/57 ready</code> (the number may change) and includes <code>soporte-nemoclaw</code>. With <code>--json</code>, sessions come out readable (for example, <code>"agentId": "main"</code>).</li>
+</ol>
+<p><img alt="The VM TERMINAL with the identity checks: the ubuntu user outside, the sandbox user inside; the numbers mark each output" src="../../../assets/lab/16-terminal-identidad-sandbox.png" /></p>
+<h3 id="part-5--who-stops-it-logs-and-the-openshell-tui">Part 5 · Who stops it: logs and the OpenShell TUI</h3>
+<ol>
+<li>To find the block from the network step in the log:
+   <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>DENIED<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-4
 </code></pre></div>
-   You should see the <code>example.com</code> denial from step 6.</p>
-</li>
-<li>
-<p><strong>Fill in your profile card</strong> (see Challenge) and <strong>stop the instance</strong> when you're done: <code>brev stop &lt;instance&gt;</code>.</p>
-</li>
+   You should see a line similar to <code>[OCSF ] [ocsf] NET:OPEN [MED] DENIED /usr/bin/curl(…) -&gt; example.com:443 [policy:- engine:opa] [reason:…]</code>.</li>
+<li>(Optional) Close the terminal with <strong>Shift+Escape</strong> and click <strong>OPENSHELL TUI</strong> on the dashboard. Open your sandbox with <strong>[Enter]</strong> and press <strong>[r]</strong> to see the rules. Pending requests show up there, with <strong>[a]</strong> Approve, <strong>[x]</strong> Reject, <strong>[A]</strong> Approve All and <strong>[p]</strong> Policy. If you see the <code>example.com</code> one, reject it with <strong>[x]</strong>: you don't need it. Exit with <strong>[q]</strong>.</li>
+</ol>
+<h3 id="part-6--close-the-lab-save-and-delete">Part 6 · Close the lab: save and delete</h3>
+<p>If you'll do the optional lab part of <a href="../6.2-biblioteca-de-skills/index.html">6.2</a>, leave the instance running and move on to that class: you close the lab there. If not, save what you want and <strong>Delete</strong>. When you delete the instance, everything on the VM is lost.
+1. <strong>Save what you want.</strong> The course files (<code>~/curso</code>) are already on GitHub. To keep something your agent wrote, print it in the VM TERMINAL, select it with the mouse and paste it into your notes. For example, the report from 4.3:
+   <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/sandbox/.openclaw/workspace/reportes/resumen-faq.md
+</code></pre></div>
+2. <strong>Delete the instance.</strong> Close the terminal (<strong>Shift+Escape</strong>) and go to the Brev console: <strong>Compute</strong> → your instance (<code>nemoclaw-…</code>) → <strong>Delete</strong>. Confirm in the dialog that appears.</p>
+<p><img alt="The instance page in the Brev console with the Stop, Delete and NemoClaw buttons; the number marks Delete" src="../../../assets/lab/05-instancia-lista.jpg" /></p>
+<ol start="3">
+<li><strong>Check your balance.</strong> In the top menu, open <strong>Billing</strong> (or look at the balance in the top bar). Confirm the instance no longer shows up under <strong>Compute</strong>. If something doesn't add up, see <a href="../../../LABORATORIO.html">your Brev lab (Spanish)</a>.</li>
 </ol>
 <h2 id="how-to-choose-a-tool">How to choose a tool</h2>
 <p>Answer four questions: <strong>who's watching?</strong>, <strong>what does it touch?</strong>, <strong>who does it talk to?</strong> and <strong>what survives?</strong></p>
@@ -275,7 +289,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span c
 <td>24/7 assistant you message through chat</td>
 <td>Untrusted content + data + a way out (trifecta)</td>
 <td>OpenClaw or Hermes inside NemoClaw</td>
-<td>Deny-by-default policy, network approval in <code>openshell term</code>, audit logs</td>
+<td>Deny-by-default policy, network approval in the OpenShell TUI, audit logs</td>
 </tr>
 <tr>
 <td>Scheduled task (cron) that reads data and writes a report</td>
@@ -294,12 +308,13 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span c
 <p>Rule of thumb: <strong>if the task combines all three legs of the trifecta (5.1), the agent goes inside a sandbox.</strong> Choosing a tool means choosing which risk you accept.</p>
 <h2 id="check-that-it-worked">Check that it worked</h2>
 <ul>
-<li>☐ <code>openshell sandbox list</code> and <code>nemoclaw list</code> show the same sandbox.</li>
-<li>☐ <code>nemoclaw &lt;sandbox&gt; status</code> reports inference as <code>healthy</code>.</li>
-<li>☐ <code>id</code> inside the sandbox shows the <code>sandbox</code> user.</li>
+<li>☐ <code>openshell sandbox list</code> and <code>nemoclaw list</code> show the same sandbox, and <code>openshell status</code> says <code>Connected</code>.</li>
+<li>☐ <code>nemoclaw my-assistant status</code> reports inference as <code>healthy</code>.</li>
+<li>☐ <code>id</code> shows <code>ubuntu</code> outside and <code>sandbox</code> inside the sandbox.</li>
 <li>☐ Writing to <code>/usr</code> failed and writing to <code>/tmp</code> worked.</li>
-<li>☐ <code>curl</code> to a host outside the list returned <code>CONNECT tunnel failed, response 403</code> and you saw it in the logs.</li>
+<li>☐ <code>curl</code> to a host outside the list returned <code>CONNECT tunnel failed, response 403</code> and you saw the <code>DENIED</code> line in the logs.</li>
 <li>☐ You filled in the five-axis profile card for an agent you use.</li>
+<li>☐ You deleted your instance with <strong>Delete</strong> and it no longer shows up under <strong>Compute</strong> (or you left it running to continue with 6.2's lab part).</li>
 </ul>
 <h2 id="common-errors">Common errors</h2>
 <table>
@@ -312,39 +327,49 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span c
 </thead>
 <tbody>
 <tr>
-<td><code>openclaw: command not found</code> in the VM shell</td>
+<td>You type and nothing shows up in the terminal, or something on the dashboard opens</td>
+<td>The VM TERMINAL doesn't have focus</td>
+<td>Click inside the black area and type again</td>
+</tr>
+<tr>
+<td><code>ExperimentalWarning: SQLite is an experimental feature</code></td>
+<td>A notice every <code>nemoclaw</code> command prints</td>
+<td>Ignore it: it isn't an error</td>
+</tr>
+<tr>
+<td><code>openclaw: command not found</code> in the VM TERMINAL</td>
 <td>You're on the <strong>host</strong>, not in the sandbox. <code>openclaw</code> lives inside the sandbox</td>
-<td>Use <code>nemoclaw &lt;sandbox&gt; exec -- &lt;command&gt;</code> or <code>nemoclaw &lt;sandbox&gt; connect</code></td>
+<td>Use <code>nemoclaw my-assistant exec -- &lt;command&gt;</code> or the <strong>SANDBOX TERMINAL</strong> button</td>
 </tr>
 <tr>
 <td><code>curl: (56) CONNECT tunnel failed, response 403</code></td>
-<td>The network policy blocked the host. It's not a TLS error</td>
-<td>Expected in step 6. To allow a host: <code>openshell term</code> (temporary) or <code>nemoclaw &lt;sandbox&gt; policy add</code> (persistent)</td>
+<td>The network policy blocked the host. It's not a certificate error</td>
+<td>Expected in Part 4. To allow a host: <strong>OPENSHELL TUI</strong> → <strong>[r]</strong> → <strong>[a]</strong> (temporary) or <code>nemoclaw my-assistant policy add</code> (persistent, class 5.3)</td>
+</tr>
+<tr>
+<td><code>openshell gateway status</code> fails</td>
+<td>That subcommand doesn't exist</td>
+<td>Use <code>openshell status</code> or <code>openshell gateway info</code></td>
+</tr>
+<tr>
+<td><code>sessions list</code> prints an unreadable table</td>
+<td>It's too wide for the browser terminal</td>
+<td>Use <code>nemoclaw my-assistant sessions list --json</code></td>
 </tr>
 <tr>
 <td><code>nemoclaw list</code> says there are no sandboxes, but <code>openshell sandbox list</code> shows one</td>
 <td>The sandbox wasn't created with NemoClaw, or the <code>~/.nemoclaw/sandboxes.json</code> registry is corrupted</td>
-<td>Check <code>nemoclaw &lt;sandbox&gt; status</code>. If the sandbox belongs to NemoClaw, don't manage it with <code>openshell sandbox create/delete</code></td>
-</tr>
-<tr>
-<td><code>ssh: Could not resolve hostname &lt;instance&gt;</code></td>
-<td>The IP changed after a restart, or Brev's <code>Include</code> is missing from <code>~/.ssh/config</code></td>
-<td><code>brev refresh</code>; if it persists, move Brev's <code>Include</code> line to the top of <code>~/.ssh/config</code></td>
-</tr>
-<tr>
-<td><code>brev shell &lt;instance&gt; --host</code> hangs</td>
-<td>The <code>--host</code> path changed in recent CLI versions</td>
-<td>Use <code>brev shell &lt;instance&gt;</code> without <code>--host</code></td>
+<td>Check <code>nemoclaw my-assistant status</code>. If the sandbox belongs to NemoClaw, don't manage it with <code>openshell sandbox create/delete</code></td>
 </tr>
 <tr>
 <td>The inference row in <code>status</code> says <code>unauthorized</code></td>
 <td>The stored credential doesn't work (rotated or expired key)</td>
-<td>Rotate the key: <code>nemoclaw credentials reset &lt;PROVIDER&gt;</code>, then <code>nemoclaw onboard</code></td>
+<td>Check your key at build.nvidia.com. To rotate it: <code>nemoclaw credentials reset &lt;PROVIDER&gt;</code>, then <code>nemoclaw onboard</code></td>
 </tr>
 <tr>
 <td><code>openshell logs &lt;sandbox&gt; --tail</code> never ends</td>
 <td>In <code>openshell</code>, <code>--tail</code> <strong>follows</strong> the log; in <code>nemoclaw</code>, it's a number of lines</td>
-<td>Use <code>openshell logs &lt;sandbox&gt; -n 20</code> or <code>nemoclaw &lt;sandbox&gt; logs --tail 20</code></td>
+<td>Exit with Ctrl+C and use <code>openshell logs &lt;sandbox&gt; -n 20</code> or <code>nemoclaw my-assistant logs --tail 20</code></td>
 </tr>
 </tbody>
 </table>
@@ -400,13 +425,14 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span c
 3. Which agent you would use to <strong>code</strong> the project, and with which controls.</p>
 <h2 id="resources">Resources</h2>
 <ul>
-<li>NVIDIA DLI · <a href="https://nvdli.github.io/NemoClawDLI/nemoclaw/04b-modern-clis.html">Modern CLI Agents (04b)</a>. This class is based on lesson 04b of the NVIDIA DLI course (Apache-2.0).</li>
+<li>NVIDIA DLI · Modern CLI agents (lesson 04b). This class is based on that lesson of the NVIDIA DLI course "NemoClaw" (Apache-2.0).</li>
 <li>NemoClaw · <a href="https://docs.nvidia.com/nemoclaw/latest/">Platform and agent support</a> (<code>docs/reference/platform-support.mdx</code>) and <a href="https://github.com/NVIDIA/NemoClaw/tree/main/docs/about">Hermes / Deep Agents ecosystem</a>.</li>
 <li>Claude Code · <a href="https://code.claude.com/docs/en/permissions">Permissions</a></li>
 <li>Codex · <a href="https://learn.chatgpt.com/docs/agent-approvals-security">Approvals and security</a></li>
 <li>Cursor · <a href="https://cursor.com/docs/agent/security">Agent security</a></li>
 <li>Hermes · <a href="https://hermes-agent.nousresearch.com/docs/user-guide/security/">Security guide</a></li>
 <li>LangChain · <a href="https://docs.langchain.com/oss/python/deepagents/code/overview">Deep Agents Code</a></li>
+<li>Brev · <a href="https://docs.nvidia.com/brev/latest/guides/console-reference">Console reference</a>: instances, Stop, Delete and Billing.</li>
 </ul></div></section>
 <nav class="prevnext"><a class="pn prev" href="../5.3-sandbox-y-politicas/index.html"><small>Previous class</small>5.3 · Restrict tools, files and network</a><a class="pn next" href="../6.2-biblioteca-de-skills/index.html"><small>Next class</small>6.2 · Build your skill library</a></nav>
 </main>

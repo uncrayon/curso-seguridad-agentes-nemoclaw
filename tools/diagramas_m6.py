@@ -84,7 +84,7 @@ T = {
         "ds_l1": "Qué hace", "ds_l2": "Cuándo usarla", "ds_l3": "Las palabras del usuario",
         "ac_vagas": "Descripciones vagas", "ac_proy": "Descripciones del proyecto", "ac_turno": "Después de «Tu turno»",
         "ac_pie": "15 pedidos, cada uno con su skill esperada · modo de prueba (MOCK)",
-        "lb_biblio": "Tu biblioteca", "lb_biblio_s": "skill-library, en tu computadora",
+        "lb_biblio": "Tu biblioteca", "lb_biblio_s": "skill-library, en el repo del curso",
         "lb_inst": "Tu instancia de Brev", "lb_inst_s": "la oficina rentada",
         "lb_sandbox": "Sandbox", "lb_oc_s": "ya tiene la skill",
         "lb_pie": "Abre una sesión nueva y pruébala: por su nombre y sin nombrarla",
@@ -228,7 +228,7 @@ T = {
         "ds_l1": "What it does", "ds_l2": "When to use it", "ds_l3": "The user's words",
         "ac_vagas": "Vague descriptions", "ac_proy": "Project descriptions", "ac_turno": "After “Your turn”",
         "ac_pie": "15 requests, each with its expected skill · test mode (MOCK)",
-        "lb_biblio": "Your library", "lb_biblio_s": "skill-library, on your computer",
+        "lb_biblio": "Your library", "lb_biblio_s": "skill-library, in the course repo",
         "lb_inst": "Your Brev instance", "lb_inst_s": "the rented office",
         "lb_sandbox": "Sandbox", "lb_oc_s": "now has the skill",
         "lb_pie": "Open a new session and try it: by name and without naming it",
@@ -513,7 +513,7 @@ def c62_al_lab(lang):
     t = T[lang]
     return ('<div class="dg c6 dg-row">'
             + nodo("folder_open", t["lb_biblio"], t["lb_biblio_s"], paso=1)
-            + flecha("h", "brev copy", paso=2)
+            + flecha("h", "git clone", paso=2)
             + nodo("computer", t["lb_inst"], t["lb_inst_s"], paso=2)
             + flecha("h", "skill install", paso=3)
             + cuarto(t["lb_sandbox"], nodo("assistant", "OpenClaw", t["lb_oc_s"], clase="is-primary",

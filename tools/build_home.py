@@ -10,11 +10,9 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from course import CLASSES, COURSE, MODULES, NV  # noqa: E402
+from course import CLASSES, COURSE, MODULES  # noqa: E402
 from course_en import CLASSES_EN, COURSE_EN, MODULES_EN  # noqa: E402
 from diagramas import DIAGRAMAS  # noqa: E402
-
-NV_EN = "https://nvdli.github.io/NemoClawDLI/nemoclaw/"
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 E = html.escape
@@ -45,10 +43,10 @@ def repo(path, folder=False, prefix=""):
 def class_card(c, lang="es"):
     t, pre = UI[lang], ("" if lang == "es" else "../")
     if lang == "es":
-        title, promesa, skill_txt, nv, practica = c["title"], c["promesa"], c.get("skill"), NV, PRACTICA
+        title, promesa, skill_txt, practica = c["title"], c["promesa"], c.get("skill"), PRACTICA
     else:
         title, promesa, skill_txt = CLASSES_EN[c["id"]]
-        nv, practica = NV_EN, PRACTICE_EN
+        practica = PRACTICE_EN
     folder = ROOT / "clases" / c["slug"]
     base = f"clases/{c['slug']}"
     en_guide = ROOT / "en" / base / "README.md"
@@ -108,8 +106,8 @@ ERRORES = [
     ("404 / 410", "El modelo no existe o fue retirado del endpoint gratuito.", "Copia el ID exacto del catálogo; actualiza <code>NVIDIA_MODEL</code>."),
     ("429 Too Many Requests", "Demasiadas solicitudes por minuto.", "Espera unos segundos; reintenta con backoff."),
     ("finish_reason = length", "El modelo razonó hasta agotar <code>max_tokens</code>.", "Sube <code>max_tokens</code> (los modelos que razonan lo necesitan)."),
-    ("OpenClaw is starting / 503", "El launchable sigue arrancando.", "Espera; la verificación reintenta sola hasta 30 min."),
-    ("OpenClaw ⚠ sesión expirada", "La cookie de acceso de Brev caducó o reanudaste la instancia.", "Vuelve a abrir el launchable, copia la cookie nueva y repite la verificación."),
+    ("Building your agent / 503", "El agente todavía se está creando o arrancando.", "Espera unos minutos sin recargar; confirma en Brev que la instancia diga Running."),
+    ("Te pide iniciar sesión otra vez", "Tu sesión de NVIDIA en la página del laboratorio venció o reanudaste la instancia.", "Vuelve a pulsar el botón verde <strong>NemoClaw</strong> en Brev e inicia sesión con tu cuenta de NVIDIA."),
     ("Out of credits en Brev", "A menudo es la organización equivocada activa.", "Cambia de organización en Brev antes de desplegar."),
 ]
 
@@ -120,8 +118,8 @@ ERRORS_EN = [
     ("404 / 410", "The model doesn't exist or was retired from the free endpoint.", "Copy the exact ID from the catalog; update <code>NVIDIA_MODEL</code>."),
     ("429 Too Many Requests", "Too many requests per minute.", "Wait a few seconds; retry with backoff."),
     ("finish_reason = length", "The model reasoned until it ran out of <code>max_tokens</code>.", "Raise <code>max_tokens</code> (reasoning models need it)."),
-    ("OpenClaw is starting / 503", "The launchable is still starting up.", "Wait; the check retries on its own for up to 30 min."),
-    ("OpenClaw ⚠ session expired", "Your Brev access cookie expired or you resumed the instance.", "Reopen the launchable, copy the new cookie, and rerun the check."),
+    ("Building your agent / 503", "The agent is still being created or starting up.", "Wait a few minutes without reloading; check in Brev that the instance says Running."),
+    ("It asks you to sign in again", "Your NVIDIA session on the lab page expired or you resumed the instance.", "Click the green <strong>NemoClaw</strong> button in Brev again and sign in with your NVIDIA account."),
     ("Out of credits on Brev", "Often the wrong organization is active.", "Switch organizations in Brev before deploying."),
 ]
 
@@ -187,7 +185,7 @@ PAGE_ES = """<!doctype html>
   <div class="pasos">
     <div class="paso"><span>1</span><h3>Empieza por «Lo esencial»</h3><p>Cada clase abre con la idea en palabras simples, una comparación cotidiana y una actividad que haces sin programar. El detalle técnico queda abajo, para quien lo quiera.</p></div>
     <div class="paso"><span>2</span><h3>Notebooks con un botón</h3><p>En Colab presionas ▶ y lees lo que pasa. Las celdas de preparación (⚙️) están ocultas. Funcionan aunque todavía no tengas API key.</p></div>
-    <div class="paso"><span>3</span><h3>Laboratorio desde el navegador</h3><p>Sin instalar nada. Con tu crédito de 1 USD alcanza si sigues el <a href="{laboratorio}">plan de 3 sesiones</a> y detienes la instancia al terminar.</p></div>
+    <div class="paso"><span>3</span><h3>Laboratorio desde el navegador</h3><p>Sin instalar nada. Con tu crédito de 1 USD alcanza si sigues el <a href="{laboratorio}">plan del laboratorio</a>: ves los videos primero, haces todas las prácticas en una sola sesión y borras la instancia al terminar.</p></div>
   </div>
   <p class="note">¿Una palabra que no entiendes? Está en el <a href="{glosario}">glosario en palabras simples</a>, con una comparación para cada término.</p>
 </section>
@@ -197,7 +195,7 @@ PAGE_ES = """<!doctype html>
   <div class="pasos">
     <div class="paso"><span>1</span><h3>Tu acceso a modelos</h3><p>Creas una cuenta gratuita en NVIDIA Build y una API key <code>nvapi-</code>. Es lo único que necesitas en los módulos 1 a 3.</p></div>
     <div class="paso"><span>2</span><h3>Notebooks en Colab o local</h3><p>Construyes el agente desde cero en Python: loop, ReAct, herramientas, enrutamiento, RAG y subagentes. Sin key también corren, con un modelo simulado.</p></div>
-    <div class="paso"><span>3</span><h3>Laboratorio real en Brev</h3><p>Desde el módulo 4 lanzas NemoClaw en una máquina en la nube: OpenClaw dentro de un sandbox de OpenShell. Lo operas desde el navegador; la terminal es opcional, para quien la quiera.</p></div>
+    <div class="paso"><span>3</span><h3>Laboratorio real en Brev</h3><p>Desde el módulo 4 lanzas NemoClaw en una máquina en la nube: OpenClaw dentro de un sandbox de OpenShell. Lo operas desde el navegador: el tablero del laboratorio trae el chat, la terminal y el monitor de OpenShell.</p></div>
   </div>
   <p class="note">Cada clase trae <strong>guía paso a paso</strong>, <strong>diapositivas</strong>, <strong>notebook o cookbook</strong> y una tabla de <strong>errores comunes</strong>. Las diapositivas empiezan con lo que aprendimos la clase pasada y terminan con lo que viene.</p>
 </section>
@@ -266,7 +264,7 @@ PAGE_EN = """<!doctype html>
   <div class="pasos">
     <div class="paso"><span>1</span><h3>Access to models</h3><p>You create a free NVIDIA Build account and an <code>nvapi-</code> API key. That's all you need for modules 1 to 3.</p></div>
     <div class="paso"><span>2</span><h3>Notebooks in Colab or locally</h3><p>You build the agent from scratch in Python: loop, ReAct, tools, routing, RAG and subagents. They also run without a key, using a simulated model.</p></div>
-    <div class="paso"><span>3</span><h3>A real lab on Brev</h3><p>From module 4 you launch NemoClaw on a cloud machine: OpenClaw inside an OpenShell sandbox. You operate it from the browser and the terminal.</p></div>
+    <div class="paso"><span>3</span><h3>A real lab on Brev</h3><p>From module 4 you launch NemoClaw on a cloud machine: OpenClaw inside an OpenShell sandbox. You operate it from the browser: the lab dashboard gives you the chat, a terminal and the OpenShell monitor.</p></div>
   </div>
   <p class="note">Every class comes with a <strong>step-by-step guide</strong>, <strong>slides</strong>, a <strong>notebook or cookbook</strong>, and a table of <strong>common errors</strong>. The slides open with what we learned last class and close with what comes next.</p>
 </section>
@@ -366,16 +364,16 @@ def update_readme():
 def build(lang):
     if lang == "es":
         tpl, pre, out = PAGE_ES, "", ROOT / "index.html"
-        title, subtitle, nvcourse = COURSE["title"], COURSE["subtitle"], COURSE["nvidia_course_es"]
+        title, subtitle = COURSE["title"], COURSE["subtitle"]
     else:
         tpl, pre, out = PAGE_EN, "../", ROOT / "en" / "index.html"
-        title, subtitle, nvcourse = COURSE_EN["title"], COURSE_EN["subtitle"], NV_EN + "index.html"
+        title, subtitle = COURSE_EN["title"], COURSE_EN["subtitle"]
     page = tpl.format(
         title=E(title), partner=E(COURSE["partner"]), subtitle=E(subtitle),
         instructor=E(COURSE["instructor"]), build=COURSE["build"], launchable=COURSE["launchable"],
         start=f"{pre}clases/{CLASSES[0]['slug']}/index.html", faq=f"{pre}FAQ.html",
         modules=modules_html(lang), errores=errores_html(lang),
-        nvrepo=COURSE["nvidia_repo"], nemoclaw=COURSE["nemoclaw_repo"], nvcourse=nvcourse,
+        nvrepo=COURSE["nvidia_repo"], nemoclaw=COURSE["nemoclaw_repo"],
         glosario=f"{pre}GLOSARIO.html", laboratorio=f"{pre}LABORATORIO.html",
         n_clases=len(CLASSES), horas=f"{sum(c['minutes'] for c in CLASSES) / 60:.1f}",
         estilos=estilos(pre), cabecera=cabecera(lang, pre, len(CLASSES), f"{sum(c['minutes'] for c in CLASSES) / 60:.1f}"),

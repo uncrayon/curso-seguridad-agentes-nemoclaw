@@ -7,7 +7,7 @@ Wrap up your project, learn what you need to run NemoClaw on your own machine, a
 | | |
 |---|---|
 | **Video length** | ≈8 min |
-| **Practice** | Guided on this page + [optional local install cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md) |
+| **Practice** | Guided on this page + [optional local install cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md) (on your own computer, outside Brev) |
 | **Skill** | Plan a local deployment and close out an agent project with quality criteria |
 | **Materials** | [Slides](slides.html) · [FAQ (Spanish)](../../../FAQ.md) |
 
@@ -18,15 +18,15 @@ Wrap up your project, learn what you need to run NemoClaw on your own machine, a
 
 ## Before you start
 - Your **Soporte NemoClaw** project with the work from classes 2.1 to 6.2 (notebooks, skills in [`skill-library/` (Spanish)](../../../skill-library/README.md), the security analysis from 5.x).
-- Your Brev lab: today you'll leave it **stopped or deleted**.
-- Optional, for a local install: a machine with Linux, macOS on Apple Silicon, or Windows with WSL2 (see the table in step 2).
+- Your Brev lab should already be **deleted**: you closed it at the end of [6.1](../6.1-clis-de-agentes/README.md) (or of [6.2](../6.2-biblioteca-de-skills/README.md), if you did its optional part). If not, step 7 shows you how.
+- Optional, only if you want to install NemoClaw on your own machine: Linux, macOS on Apple Silicon, or Windows with WSL2 (see the table in step 2). You don't need Brev for this.
 
 ## Step by step
 
 ### 1. Decide where your agent lives
 | Option | When it makes sense | Cost | What you take care of |
 |---|---|---|---|
-| **Stay on Brev** (NemoClaw launchable) | You want the same environment as the course, with nothing to install | Credits per hour while running; disk while it exists | Stopping it when you're done |
+| **Stay on Brev** (a new deployment of the NemoClaw launchable) | You want the same environment as the course, with nothing to install | ≈USD 0.25/h while running; stopped, the disk keeps billing ≈USD 1.20 a day | Deleting it (**Delete**) when you're done |
 | **Your machine** | You have 16 GB of RAM and want the agent close to your files | Power and disk | Docker, updates, restarts |
 | **Your own server or a DGX Spark** | 24/7 agent, local inference, data that stays put | Hardware | Secure remote access (`ssh -L`), backups |
 
@@ -49,13 +49,14 @@ node --version                 # v22.19.0 or later
 You should see: 4 or more CPUs, 8 GB or more of RAM, 20 GB or more free, `Docker OK` and Node 22.19+. If something's missing, the [cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md) (Recipes 0 and 1) tells you how to fix it.
 
 ### 3. (Optional) Install NemoClaw locally
-Follow the [cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md). The short path:
+Only if you want NemoClaw on your own machine. All of this happens on your computer, not on Brev. Follow the [cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md). The short path:
 ```bash
 curl -fsSL https://www.nvidia.com/nemoclaw.sh | NEMOCLAW_INSTALL_REF= NEMOCLAW_INSTALL_TAG=vX.Y.Z bash
 ```
 - The variables go **on the `bash` side** of the pipe.
 - During onboarding, the key is read from `NVIDIA_INFERENCE_API_KEY` (not from `NVIDIA_API_KEY`).
 - Providers: **NVIDIA Endpoints** (no GPU), local **Ollama**, local **vLLM**, local **NIM** (experimental, requires an NVIDIA GPU).
+- Same as in the lab, the OpenClaw chat lives at `http://127.0.0.1:18789/` and the OpenShell gateway on port 18080. `openshell status` tells you whether it's `Connected`.
 
 Day 1 and day 2 in one table:
 
@@ -87,7 +88,7 @@ For each one, write a line in your project: "I'd use it for ___ when ___".
 - [ ] **Skills** (6.2): 4 skills in `skill-library/`, validated, with a hit rate ≥ 90 % and the table in `docs/evaluacion-skills.md`.
 - [ ] **Agent choice** (6.1): `docs/eleccion-de-agente.md`.
 - [ ] **Project README**: what it does, how to run it, known limits, and a screenshot (with the token blurred).
-- [ ] **Brev**: instance stopped or deleted (`brev ls`).
+- [ ] **Brev**: instance deleted (it no longer shows up under **Compute**) and balance checked in **Billing**.
 
 ### 6. Self-assess with the rubric
 | Criterion | Beginning (1) | Competent (2) | Outstanding (3) |
@@ -100,19 +101,19 @@ For each one, write a line in your project: "I'd use it for ___ when ___".
 
 Add up your points: **5–8** keep iterating · **9–12** ready to show · **13–15** publish it and share it.
 
-### 7. Shut down the lab
-```bash
-brev ls
-brev stop <instance>      # or, if you won't use it again: brev delete <instance>
-brev ls                   # confirm STOPPED or that it's gone
-```
-Running = you pay for compute · stopped = disk only · deleted = nothing, but you lose the data. Copy anything you want to keep first: `brev copy <instance>:/path ./local`.
+### 7. Confirm the lab is deleted
+Normally you already deleted your instance at the end of the last lab practice ([6.1](../6.1-clis-de-agentes/README.md), or [6.2](../6.2-biblioteca-de-skills/README.md) if you did its optional part). Check it in the browser:
+1. In the Brev console (brev.nvidia.com), open **Compute**. Your instance (`nemoclaw-…`) should no longer show up.
+2. If it's still there, save what you want (print it in the **VM TERMINAL** and copy the text into your notes), then open the instance and click **Delete**. Confirm in the dialog that appears.
+3. Open **Billing** in the top menu and check your balance.
+
+Running, the instance costs ≈USD 0.25/h. Stopped (**Stop**), the disk keeps billing ≈USD 0.05/h, about USD 1.20 a day. Deleted (**Delete**), nothing is billed, but you lose what was inside. Details in [your Brev lab (Spanish)](../../../LABORATORIO.md).
 
 ## Check that it worked
 - [ ] You know whether your machine meets the requirements (or what it's missing).
 - [ ] You wrote one line per production piece for your project.
 - [ ] You checked off the delivery checklist and have your rubric score.
-- [ ] Your Brev instance is stopped or deleted.
+- [ ] Your Brev instance is deleted and you checked your balance.
 
 ## Common errors
 
@@ -124,7 +125,8 @@ Running = you pay for compute · stopped = disk only · deleted = nothing, but y
 | `nemoclaw: command not found` when it finishes | Your shell's `PATH` wasn't updated | Open a new terminal or run `source ~/.bashrc` |
 | `Docker is not running` even though Docker is running | Your user isn't in the `docker` group | `sudo usermod -aG docker $USER && newgrp docker` |
 | `✗ openshell <version> is above the maximum supported by this NemoClaw release.` | You updated OpenShell outside NemoClaw | Don't use `openshell self-update`; reinstall the supported version |
-| `brev stop` answers `does not support stop` | That instance type can't be stopped | Save your work and use `brev delete <instance>` |
+| Your Brev balance keeps dropping even though you no longer use the lab | The instance is stopped (**Stop**), not deleted: the disk bills | Brev console → **Compute** → your instance → **Delete** |
+| `Port 18080 is not available` during a local install | Another process is using the OpenShell gateway port | Close that process or see Recipe 5 of the cookbook |
 
 ## Challenge
 Pick **one** production piece and write a one-page plan to add it to Soporte NemoClaw: what changes in the code, what risk it reduces, how you'd measure the improvement, and what it does **not** solve.

@@ -18,7 +18,7 @@ skill-library/
 | `lector-seguro-archivos` | "Abre / lee / muestra el archivo…" | `leer_archivo` (limitada a `datos/`) | 5.3 |
 | `resumen-diario` | "Resumen del día" o una tarea cron | `leer_archivo` | 4.3 |
 
-> **`soporte-nemoclaw` viene de la clase 4.3** ([versión original](../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.md)). Esta versión mantiene la ruta de la FAQ, el formato de respuesta, las reglas y el "Modo reporte" que usa el cron de la 4.3. Solo cambia la description: ya no menciona errores HTTP, porque ahora los atiende `diagnostico-api`. Si instalas esta versión encima de la de la 4.3, OpenClaw la reemplaza (`skill install` usa `--force`) y tu cron sigue funcionando.
+> **`soporte-nemoclaw` viene de la clase 4.3** ([versión original](../clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/SKILL.md)). Esta versión mantiene la ruta de la FAQ, el formato de respuesta, las reglas y el "Modo reporte" que usa el cron de la 4.3. Solo cambia la description: ya no menciona errores HTTP, porque ahora los atiende `diagnostico-api`. Para cambiar la versión de la 4.3 por esta, quita la vieja con `skill remove soporte-nemoclaw` e instala esta (ver abajo).
 
 ## Anatomía de una skill
 Una carpeta por skill y un `SKILL.md` adentro. El archivo empieza con un **frontmatter** YAML:
@@ -48,24 +48,25 @@ Reglas que conviene cumplir siempre:
 Por eso la descripción es la línea más importante: si no dice cuándo usar la skill, la selección automática falla. En el notebook de la 6.2 la medimos con un set de pedidos (tasa de acierto).
 
 ## Llevarla al laboratorio (Brev + NemoClaw)
-Desde tu computadora, en la raíz del repo:
+Todo en el navegador: en el tablero de NemoClaw de tu instancia, presiona **VM TERMINAL** y haz clic dentro del área negra. Esta biblioteca viene en la copia del curso que clonaste en la clase 4.3 (`~/curso/skill-library/`). Si no la tienes:
 
 ```bash
-brev ls                                                  # nombre de tu instancia
-brev copy ./skill-library <instancia>:/home/ubuntu/skill-library   # [VERIFICAR EN LAB] ruta del home
-brev shell <instancia>
+git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw ~/curso
 ```
 
-Ya en la VM:
+Después, en la misma terminal:
 
 ```bash
 openshell sandbox list                                   # nombre del sandbox (p. ej. my-assistant)
-nemoclaw my-assistant skill install ~/skill-library/soporte-nemoclaw/
-nemoclaw my-assistant skill install ~/skill-library/diagnostico-api/
-nemoclaw my-assistant skill install ~/skill-library/lector-seguro-archivos/
-nemoclaw my-assistant skill install ~/skill-library/resumen-diario/
+nemoclaw my-assistant skill remove soporte-nemoclaw      # solo si ya instalaste la versión de la 4.3
+nemoclaw my-assistant skill install ~/curso/skill-library/soporte-nemoclaw/
+nemoclaw my-assistant skill install ~/curso/skill-library/diagnostico-api/
+nemoclaw my-assistant skill install ~/curso/skill-library/lector-seguro-archivos/
+nemoclaw my-assistant skill install ~/curso/skill-library/resumen-diario/
 nemoclaw my-assistant skill list
 ```
+
+Cada instalación responde `✓ Validated SKILL.md` e `Installed <nombre> from path -> /sandbox/.openclaw/workspace/skills/<nombre>`. Ignora la línea `ExperimentalWarning: SQLite…`. Es la parte opcional de laboratorio de la clase 6.2: al terminarla, guarda lo que quieras y borra la instancia (**Delete**) en la consola de Brev.
 
 - Con OpenClaw, `skill install` llama a `openclaw skills install` y la skill queda en `/sandbox/.openclaw/workspace/skills/<nombre>`.
 - Con Hermes queda en `/sandbox/.hermes/skills/<nombre>`; con Deep Agents, en `/sandbox/.deepagents/agent/skills/<nombre>`.

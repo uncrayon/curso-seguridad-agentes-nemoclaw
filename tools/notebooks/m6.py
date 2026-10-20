@@ -235,10 +235,11 @@ print(f"Con 50 skills parecidas, el libro completo serían ~{completo*50//4//4:,
 # --- FAQ del curso (muestra incrustada; se reemplaza por datos/faq/ si existe) --
 FAQ = [
     {"id": "faq/brev.md", "pregunta": "¿Cómo detengo mi instancia de Brev para no gastar créditos?",
-     "respuesta": "Corre `brev ls` y luego `brev stop <instancia>`. Encendida = se cobra cómputo; detenida = solo disco; "
-                  "eliminada = nada, pero pierdes los datos. Si ves `does not support stop`, guarda tu trabajo y usa `brev delete <instancia>`."},
+     "respuesta": "En brev.nvidia.com, en Compute, abre tu instancia y pulsa Stop (o Delete al terminar el laboratorio). "
+                  "Encendida = cómputo + disco (≈0.25 USD/h); detenida = solo disco (≈1.20 USD al día); eliminada = nada, pero pierdes los datos."},
     {"id": "faq/brev.md", "pregunta": "¿Cómo me conecto o abro una terminal en mi instancia o laboratorio de Brev?",
-     "respuesta": "Usa `brev shell <instancia>` (sin --host). Si ves `Could not resolve hostname`, corre `brev refresh` y reintenta."},
+     "respuesta": "En Brev, abre tu instancia y pulsa el botón verde NemoClaw. En el tablero, VM TERMINAL abre la terminal de operador "
+                  "y SANDBOX TERMINAL, la del sandbox. Haz clic dentro del área negra antes de escribir."},
     {"id": "faq/openclaw.md", "pregunta": "Reinicié la instancia y el agente no responde",
      "respuesta": "En la VM: `nemoclaw <sandbox> status`; si está detenido, `nemoclaw <sandbox> start`; si el gateway falla, `nemoclaw <sandbox> recover`."},
     {"id": "faq/instalacion-local.md", "pregunta": "nemoclaw: command not found después de instalar",
@@ -251,7 +252,7 @@ FAQ = [
      "respuesta": "En build.nvidia.com, menú de tu cuenta, API Keys. Guárdala en NVIDIA_API_KEY o en .env; nunca en el código."},
     {"id": "faq/openshell-politicas.md", "pregunta": "curl dice CONNECT tunnel failed, response 403 dentro del sandbox",
      "respuesta": "No es TLS: es la política de red de OpenShell que bloqueó el host. Revisa `nemoclaw <sandbox> logs --tail 50` y "
-                  "`nemoclaw <sandbox> policy list`; aprueba en `openshell term` o agrega un preset con `nemoclaw <sandbox> policy add`."},
+                  "`nemoclaw <sandbox> policy list`; aprueba en el OpenShell TUI (botón OPENSHELL TUI) o agrega un preset con `nemoclaw <sandbox> policy add`."},
 ]
 
 if RAIZ_REPO and (RAIZ_REPO / "datos" / "faq").is_dir():
@@ -640,23 +641,32 @@ except Exception:
 '''),
     md("""
     ### Llévala a tu sandbox en Brev
-    Desde tu computadora (en la raíz del repo, o donde descomprimiste el zip):
+    Todo se hace en el navegador. En Brev, abre tu instancia, pulsa el botón verde **NemoClaw** y, en el tablero, pulsa **VM TERMINAL**. Haz clic dentro del área negra antes de escribir.
+
+    Si todavía no tienes los archivos del curso en la VM, clónalos (la biblioteca de referencia queda en `~/curso/skill-library/`):
 
     ```bash
-    brev ls                                                    # nombre de tu instancia
-    brev copy ./skill-library <instancia>:/home/ubuntu/skill-library   # [VERIFICAR EN LAB] ruta del home
-    brev shell <instancia>
+    git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw ~/curso
     ```
 
-    Ya dentro de la VM:
+    Instala una skill y confirma que quedó:
 
     ```bash
     openshell sandbox list                                     # nombre del sandbox, p. ej. my-assistant
-    nemoclaw my-assistant skill install ~/skill-library/diagnostico-api/
+    nemoclaw my-assistant skill install ~/curso/skill-library/diagnostico-api/
     nemoclaw my-assistant skill list                           # debe aparecer diagnostico-api
     ```
 
-    Repite `skill install` con las otras tres. Luego abre una **sesión nueva** en el chat del agente y prueba las dos selecciones:
+    Ignora la línea `ExperimentalWarning: SQLite is an experimental feature`: es un aviso sin importancia. La terminal del navegador no ve los archivos de tu Colab: el lab instala la versión de referencia del repo. Si quieres probar tu versión, vuelve a crear su `SKILL.md` en la VM antes de instalarla.
+
+    Repite `skill install` con las otras tres. `soporte-nemoclaw` ya está instalada desde la 4.3: para cambiarla por la versión de la biblioteca, quita la vieja e instala la nueva:
+
+    ```bash
+    nemoclaw my-assistant skill remove soporte-nemoclaw
+    nemoclaw my-assistant skill install ~/curso/skill-library/soporte-nemoclaw/
+    ```
+
+    Luego abre una **sesión nueva** en el chat del agente y prueba las dos selecciones:
     - **Explícita:** *"Lee /sandbox/.openclaw/workspace/skills/diagnostico-api/SKILL.md y síguela: me sale 401."*
     - **Automática:** *"Me sale 401 al llamar al modelo, ¿qué hago?"* (sin decir la skill).
 

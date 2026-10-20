@@ -37,12 +37,12 @@ Eres el agente de soporte del curso. Respondes con la FAQ del curso como fuente 
 
 ## Modo reporte (tareas programadas)
 
-Cuando la instrucción pida un resumen de la FAQ y una ruta de archivo:
+Cuando la instrucción pida un resumen de la FAQ y una ruta de archivo (por ejemplo, `reportes/resumen-faq.md`):
 
 1. Lee todos los archivos de `/sandbox/.openclaw/workspace/faq/`.
-2. Crea la carpeta `/sandbox/.openclaw/workspace/reportes/` si no existe.
+2. Crea la carpeta `/sandbox/.openclaw/workspace/reportes/` si no existe. Las rutas relativas como `reportes/…` son relativas a `/sandbox/.openclaw/workspace/`.
 3. Escribe en la ruta indicada un Markdown con:
    - Un título con la fecha (UTC).
-   - Una sección por categoría (`instalacion`, `api_key`, `brev`, `seguridad`, `otro`) con las 2 preguntas más importantes y su archivo fuente.
+   - El contenido que pida la instrucción. Si no pide un formato, una sección por categoría (`instalacion`, `api_key`, `brev`, `seguridad`, `otro`) con las 2 preguntas más importantes y su archivo fuente.
    - Una línea final: "Generado por la skill soporte-nemoclaw".
 4. Lee el archivo de vuelta y confirma que existe. No escribas nada más.

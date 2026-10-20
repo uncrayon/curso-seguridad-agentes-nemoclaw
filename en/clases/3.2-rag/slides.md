@@ -52,7 +52,7 @@ One click per SISTEMA_RAG rule: use only what's in the context; cite every claim
 .lead Never eyeball retrieval: 8 questions with known answers already tell you something.
 
 Notes:
-Hit@1: what share of the 8 came first. Hit@3: what share landed in the top three. Click 1: in Spanish, no key (lexical search), Hit@1 0.88 and Hit@3 1.00. Click 2: the same questions in English over a Spanish FAQ, Hit@1 0.50. The no-key numbers come from the repo's full FAQ; with the Colab sample they may vary. [VERIFY IN LAB] Note the live numbers from the dry run.
+Hit@1: what share of the 8 came first. Hit@3: what share landed in the top three. Click 1: in Spanish, no key (lexical search), Hit@1 0.88 and Hit@3 1.00. Click 2: the same questions in English over a Spanish FAQ, Hit@1 0.50. The no-key numbers come from the repo's full FAQ; with the Colab sample they may vary. Live, with a key, the numbers change: present them as "in my run I got…", not as fixed values.
 
 ---
 

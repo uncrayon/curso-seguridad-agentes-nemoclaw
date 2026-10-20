@@ -20,7 +20,7 @@ FAQ = [
     {"id": "faq-api-key", "titulo": "¿Dónde guardo mi API key de NVIDIA?",
      "texto": "Guárdala en la variable de entorno NVIDIA_API_KEY o en un archivo .env que nunca subes a Git. Empieza con nvapi-."},
     {"id": "faq-brev-stop", "titulo": "¿Cómo detengo mi instancia de Brev?",
-     "texto": "En brev.nvidia.com abre tu instancia y pulsa Stop, o usa `brev stop <instancia>`. Detenida no consume cómputo."},
+     "texto": "En brev.nvidia.com, en Compute, abre tu instancia y pulsa Stop. Detenida no consume cómputo, pero el disco sigue cobrando; al terminar el laboratorio, pulsa Delete."},
     {"id": "faq-403", "titulo": "Veo 'CONNECT tunnel failed, response 403'",
      "texto": "Es un bloqueo de la política de red del sandbox, no un problema de TLS. Revisa `nemoclaw <nombre> logs --tail 50`."},
 ]
@@ -501,7 +501,7 @@ ACCIONES = {
  "c": {"tipo": "red", "binario": CURL, "host": "169.254.169.254", "puerto": 80, "metodo": "GET", "ruta": "/latest/meta-data/",
        "desc": "curl → metadata de la nube", "lab": "curl -sS -m 6 http://169.254.169.254/latest/meta-data/"},
  "d": {"tipo": "red", "binario": CURL, "host": "integrate.api.nvidia.com", "metodo": "GET", "ruta": "/v1/models",
-       "desc": "curl → API de NVIDIA (binario equivocado)", "lab": "curl -sS -m 8 https://integrate.api.nvidia.com/v1/models"},
+       "desc": "curl → API de NVIDIA (política base: binario equivocado; en el laboratorio pasa por el perfil de NVIDIA)", "lab": "curl -sS -m 8 https://integrate.api.nvidia.com/v1/models"},
  "e": {"tipo": "red", "binario": OPENCLAW, "host": "integrate.api.nvidia.com", "metodo": "POST", "ruta": "/v1/chat/completions",
        "desc": "openclaw → NVIDIA POST chat", "lab": "(lo hace el agente en cada turno)"},
  "f": {"tipo": "red", "binario": OPENCLAW, "host": "docs.openclaw.ai", "metodo": "POST", "ruta": "/buscar",
@@ -716,21 +716,21 @@ for e in validar_preset(PRESET_MALO):
 
 # Falla 2 · El agente dice "no puedo descargar el paquete". Esto es lo que ves en el sandbox y en los logs.
 SALIDA_SANDBOX = "curl: (56) CONNECT tunnel failed, response 403"
-LOG = ("DENIED /usr/local/bin/node -> registry.npmjs.org:443 "
-       "reason: binary '/usr/local/bin/node' not allowed in policy 'npm_registry'")   # formato de ejemplo [VERIFICAR EN LAB]
+LOG = ("[OCSF ] [ocsf] NET:OPEN [MED] DENIED /usr/local/bin/node(4211) -> registry.npmjs.org:443 "
+       "[policy:- engine:opa] [reason:binary '/usr/local/bin/node' not allowed in policy 'npm_registry']")   # ejemplo con el formato del log del lab (el PID cambia)
 
 def diagnosticar_bloqueo(salida, log=""):
     pasos = []
     if "CONNECT tunnel failed" in salida and "403" in salida:
         pasos.append("Es la política de red del sandbox (el proxy respondió 403), no un problema de TLS ni de DNS.")
-    m = re.search(r"DENIED (\S+) -> ([\w.-]+):(\d+).*?reason: (.*)", log)
+    m = re.search(r"DENIED (\S+?)(?:\(\d+\))? -> ([\w.-]+):(\d+).*?reason:\s*([^\]]*)", log)
     if m:
         binario, host, puerto, razon = m.groups()
         pasos.append(f"Quién: {binario} · a dónde: {host}:{puerto} · por qué: {razon}")
         v, r = evaluar_red(binario, host, int(puerto))
         pasos.append(f"El simulador coincide: {v} ({r})")
         pasos.append("¿Era esperado? Si el agente no debía ir ahí, NO abras nada: el sandbox hizo su trabajo.")
-        pasos.append("Si sí lo necesita una vez: `openshell term` → elige el sandbox → r → selecciona la solicitud → a (aprobar) o x (rechazar).")
+        pasos.append("Si sí lo necesita una vez: botón OPENSHELL TUI del tablero → elige el sandbox (j/k y Enter) → r (Rules) → selecciona la solicitud → a (aprobar) o x (rechazar).")
         pasos.append("Si lo necesita siempre: `nemoclaw my-assistant policy list` y luego `policy add <preset> --dry-run`,")
         pasos.append(f"   o un preset propio con el binario exacto ({binario}) y `policy add --from-file ... --dry-run`.")
     return pasos
@@ -746,7 +746,7 @@ FALLA_LLM_53 = code(r'''
 def _explica_bloqueo(messages, nombres):
     if "DENIED" in (messages[-1].get("content") or ""):
         return _msg("1) El proxy de OpenShell bloqueó la conexión: node no está en la lista de binarios de 'npm_registry'. "
-                    "2) Si es necesario, apruébala una vez en `openshell term`. "
+                    "2) Si es necesario, apruébala una vez en el OpenShell TUI (botón OPENSHELL TUI del tablero). "
                     "3) Para dejarlo fijo, aplica el preset npm con `nemoclaw my-assistant policy add npm --dry-run` y revísalo antes de confirmar.")
 
 r = chat([{"role": "system", "content": "Eres Soporte NemoClaw. Explica en 3 pasos cortos, en español, qué pasó y qué hacer. No inventes comandos."},
@@ -837,13 +837,13 @@ Abrir GitHub para `git` no se lo abre a `curl`. Si alguna vez te tienta quitar `
     md("""
 ## 11 · 🧯 Cuando algo falla
 Un bloqueo inesperado se diagnostica en este orden: **¿qué dijo el sandbox? → ¿qué dice el log? → ¿era esperado? → ¿una vez o siempre?**
-En el lab, el log sale de `nemoclaw my-assistant logs --tail 50` y la aprobación interactiva de `openshell term` (cookbook, recetas 5 y 6).
+En el lab, el log sale de `nemoclaw my-assistant logs --tail 300 | grep DENIED` en la VM Terminal, y la aprobación interactiva se hace con el botón **OPENSHELL TUI** del tablero (cookbook de la clase 5.3).
 """),
     FALLA_53, FALLA_LLM_53,
     md("""
 **Ojo con dos confusiones frecuentes:**
 - Un **403** puede venir del proxy de OpenShell **o** de la aplicación de destino. `CONNECT tunnel failed, response 403` es del proxy; un `code=403` después de conectar es del servidor.
-- En `openshell term`, `policy_denied` significa que la política no coincidió; `upstream_unreachable` significa que sí coincidió pero el host no respondió. Abrir más la política no arregla lo segundo.
+- En el OpenShell TUI, `policy_denied` significa que la política no coincidió; `upstream_unreachable` significa que sí coincidió pero el host no respondió. Abrir más la política no arregla lo segundo.
 
 ## Avance del proyecto
 Guarda tu `PRESET_SOPORTE` como `soporte-docs.yaml` junto a la skill `soporte-nemoclaw` y anota en tu hoja de trifecta (clase 5.1) qué pata cubre la política y cuál **no**:

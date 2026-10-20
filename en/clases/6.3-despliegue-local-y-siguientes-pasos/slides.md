@@ -3,7 +3,7 @@
 :::diagrama c63-tres-caminos
 
 Notes:
-Like moving from a rented office to your own. Click 1: Brev, the course launchable; you pay per hour while it's on, and for the disk while it exists. Click 2: your computer (16 GB of RAM, Docker, Node 22.19+), close to your files. Click 3: a server or a DGX Spark: 24/7 and local inference, your data stays put. Click 4: the criterion. The lab ends; your project doesn't. This class is a map, not an install tutorial: the step by step is in the optional cookbook.
+Like moving from a rented office to your own. Click 1: Brev, the course launchable; ≈USD 0.25 per hour while it's on, and for the disk while it exists (≈USD 1.20 a day even when stopped). Click 2: your computer (16 GB of RAM, Docker, Node 22.19+), close to your files. Click 3: a server or a DGX Spark: 24/7 and local inference, your data stays put. Click 4: the criterion. The lab ends; your project doesn't. This class is a map, not an install tutorial: the step by step is in the optional cookbook.
 
 ---
 
@@ -98,7 +98,7 @@ One click per criterion, with its "Outstanding" level: works, tools and skills (
 :::diagrama c63-guarda-borra
 
 Notes:
-Click 1: save your skills, your SOUL.md and your notes to your computer or GitHub (operator way: `brev copy`). Click 2: Brev console → GPUs → your instance → Delete (operator way: `brev delete`). Don't delete the recording instance on camera. Click 3: once deleted, nothing is billed. Click 4: stopped, the disk keeps billing; deleted, what's inside is lost.
+Normally they already deleted it at the end of 6.1 (or 6.2, if they did its optional part); if not, today. Click 1: save your skills, your SOUL.md and your notes to your computer or GitHub (in the VM TERMINAL, print them with `cat` and copy the text). Click 2: Brev console → Compute → your instance → Delete; then check the balance in Billing. Don't delete the recording instance on camera. Click 3: once deleted, nothing is billed. Click 4: stopped, the disk keeps billing; deleted, what's inside is lost.
 
 ---
 

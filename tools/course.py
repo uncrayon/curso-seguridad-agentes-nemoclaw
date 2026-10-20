@@ -14,7 +14,6 @@ COURSE = {
     "subtitle": "De una sola llamada a un modelo hasta un agente siempre activo, con skills y dentro de un sandbox.",
     "partner": "Platzi × NVIDIA Deep Learning Institute",
     "instructor": "Ulises Rayón",
-    "nvidia_course_es": "https://nvdli.github.io/NemoClawDLI/es/nemoclaw/index.html",
     "nvidia_repo": "https://github.com/NVDLI/NemoClawDLI",
     "nemoclaw_repo": "https://github.com/NVIDIA/NemoClaw",
     "nemoclaw_docs": "https://docs.nvidia.com/nemoclaw/latest/",
@@ -26,8 +25,6 @@ COURSE = {
     "github": "uncrayon/curso-seguridad-agentes-nemoclaw",
     "sitio": "https://uncrayon.github.io/curso-seguridad-agentes-nemoclaw/",
 }
-
-NV = "https://nvdli.github.io/NemoClawDLI/es/nemoclaw/"
 
 MODULES = [
     {"n": 1, "title": "Prepara tu entorno de agentes",
@@ -50,7 +47,8 @@ MODULES = [
 #   promesa:    3 frases con lo que la clase va a enseñar.
 #               Se muestran al final de la clase anterior ("En la próxima clase aprenderemos").
 #   practica:   "notebook" | "lab" (cookbook en Brev) | "slides" | "navegador"
-#   nvidia:     página de la lección de NVIDIA DLI, o None si la clase no tiene lección equivalente;
+#   nvidia:     archivo de la lección de NVIDIA DLI en la que se basa la clase (solo para el crédito en texto;
+#               no se enlaza a las páginas de NVIDIA), o None si la clase no tiene lección equivalente;
 #               en ese caso "ref" = (etiqueta, url) apunta a la documentación de referencia.
 CLASSES = [
     # ------------------------------------------------------------------ Módulo 1
@@ -152,12 +150,12 @@ CLASSES = [
     {"id": "4.1", "module": 4, "slug": "4.1-laboratorio-nemoclaw-en-brev",
      "title": "Levanta el laboratorio NemoClaw en Brev", "minutes": 9, "practica": "lab",
      "nvidia": "03a-kickstart.html", "skill": "Desplegar NemoClaw en Brev",
-     "promesa": ["Lanzar el launchable de NemoClaw en Brev",
-                 "Conectarte por navegador y por terminal, y verificar las 4 rutas",
-                 "Pausar, reanudar y no gastar créditos de más"],
-     "aprendimos": ["Tu laboratorio NemoClaw corre en Brev y sabes conectarte",
-                    "La verificación de 4 rutas (metadata, gateway, terminal, health) está en verde",
-                    "Sabes detener la instancia y qué cuesta dejarla encendida"]},
+     "promesa": ["Lanzar el launchable de NemoClaw en Brev con tu cupón",
+                 "Configurar tu agente desde el navegador y abrir su tablero",
+                 "Cuidar tu crédito: cuánto cuesta y cuándo usar Stop o Delete"],
+     "aprendimos": ["Tu laboratorio NemoClaw corre en Brev y lo abres con el botón NemoClaw",
+                    "Configuraste tu agente en el navegador y conoces los 4 botones del tablero",
+                    "Sabes cuánto cuesta (≈0.25 USD/h) y cuándo usar Stop o Delete"]},
     {"id": "4.2", "module": 4, "slug": "4.2-gateway-y-workspace-openclaw",
      "title": "Explora el gateway y el workspace de OpenClaw", "minutes": 8, "practica": "lab",
      "nvidia": "03b-openclaw.html", "skill": None,
@@ -174,7 +172,7 @@ CLASSES = [
                  "Programar una tarea que corre sin que nadie escriba en el chat",
                  "Los 3 controles: sesión, directiva y disparador"],
      "aprendimos": ["Instalaste una skill (SKILL.md) y el agente la usó",
-                    "Programaste una tarea con cron que escribió un archivo sin intervención",
+                    "Programaste una automatización que escribió un archivo sin que nadie usara el chat",
                     "Un agente siempre activo = sesión + directiva + disparador"]},
     {"id": "4.4", "module": 4, "slug": "4.4-hermes-en-nemoclaw",
      "title": "Cambia OpenClaw por Hermes en NemoClaw", "minutes": 9, "practica": "lab",

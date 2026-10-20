@@ -52,7 +52,7 @@ Un clic por regla del SISTEMA_RAG: usa solo lo que está en el contexto; cita ca
 .lead Nunca evalúes la búsqueda a ojo: 8 preguntas con respuesta conocida ya te dicen algo.
 
 Notas:
-Hit@1: qué parte de las 8 quedó primera. Hit@3: qué parte quedó entre las tres primeras. Clic 1: en español, sin key (búsqueda léxica), Hit@1 0.88 y Hit@3 1.00. Clic 2: las mismas preguntas en inglés sobre una FAQ en español, Hit@1 0.50. Las cifras sin key salen de la FAQ completa del repo; con la muestra de Colab pueden variar. [VERIFICAR EN LAB] Anotar las cifras en vivo de la prueba previa.
+Hit@1: qué parte de las 8 quedó primera. Hit@3: qué parte quedó entre las tres primeras. Clic 1: en español, sin key (búsqueda léxica), Hit@1 0.88 y Hit@3 1.00. Clic 2: las mismas preguntas en inglés sobre una FAQ en español, Hit@1 0.50. Las cifras sin key salen de la FAQ completa del repo; con la muestra de Colab pueden variar. En vivo, con key, las cifras cambian: dilas como «en mi prueba salió…», no como valores fijos.
 
 ---
 

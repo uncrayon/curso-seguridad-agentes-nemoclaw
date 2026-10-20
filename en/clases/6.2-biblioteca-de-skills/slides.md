@@ -32,7 +32,7 @@ Click 1: the menu (`name: description`), always in the prompt: ~350 tokens for 4
 :::diagrama c62-dos-selecciones
 
 Notes:
-Click 1: explicit, you name it (`/diagnostico-api ...`); it almost never fails. In lab 03c it's when you give the `SKILL.md` path. Click 2: automatic, the model compares your request with the descriptions; it fails if the description doesn't say when to use it. In 03c it's when you leave out the path. Click 3: NVIDIA says it in 03c: the exercise with the path "doesn't demonstrate automatic selection".
+Click 1: explicit, you name it (`/diagnostico-api ...`); it almost never fails. In the lab it's when you give the `SKILL.md` path. Click 2: automatic, the model compares your request with the descriptions; it fails if the description doesn't say when to use it. In the lab it's when you leave out the path. Click 3: NVIDIA warns about it in its lesson 03c: the exercise with the path "doesn't demonstrate automatic selection".
 
 ---
 
@@ -65,7 +65,7 @@ One click per bar: vague descriptions 13 %, project descriptions 80 %, after ✏
 .lead Without a terminal, your library already works in the notebook. This is the operator path.
 
 Notes:
-Click 1: your skill-library folder. Click 2: `brev copy ./skill-library <instance>:/home/ubuntu/skill-library`. Click 3: `brev shell <instance>` and `nemoclaw my-assistant skill install ~/skill-library/diagnostico-api/`; confirm with `nemoclaw my-assistant skill list`. Click 4: new session and try both selection modes (lesson 03c, the block for activating a skill during the conversation). OpenClaw puts it in /sandbox/.openclaw/workspace/skills/<name>. Hermes in /sandbox/.hermes/skills; Deep Agents in /sandbox/.deepagents/agent/skills.
+Click 1: the skill-library folder, which already ships in the course repo. Click 2: in the dashboard's VM TERMINAL, the course is already cloned in `~/curso` since 4.3 (if not, `git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw ~/curso`). Click 3: `nemoclaw my-assistant skill install ~/curso/skill-library/diagnostico-api/`; it answers `✓ Validated SKILL.md` and `Installed diagnostico-api from path -> …`; confirm with `nemoclaw my-assistant skill list`. Click 4: new session and try both selection modes: `nemoclaw my-assistant agent --session-key prueba-62a -m '…'` or the CHAT WITH AGENT button. It's optional and comes right after the 6.1 practice. When done, close the lab: save what you want, Delete in the Brev console and check Billing. OpenClaw puts it in /sandbox/.openclaw/workspace/skills/<name>. Hermes in /sandbox/.hermes/skills; Deep Agents in /sandbox/.deepagents/agent/skills.
 
 ---
 

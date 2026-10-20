@@ -12,7 +12,7 @@ Mismo cuarto con cerradura, otro asistente. Clic 1: OpenClaw, el de las clases 4
 :::diagrama c44-crear
 
 Notas:
-Un clic por paso. 1: nemoclaw my-assistant stop (se detiene, no se borra). 2: la key con read -rsp, no aparece en pantalla ni en el historial. 3: NEMOCLAW_SANDBOX_NAME=mi-hermes nemohermes onboard; nemohermes es el CLI de NemoClaw con Hermes por defecto; proveedor NVIDIA Endpoints, búsqueda web none, reglas sugeridas. 4: nemohermes mi-hermes status. 5: la puerta nueva en el puerto 8642 (openshell forward list, curl /health). Clic 6: el crédito; antes de empezar, revisar el saldo en Billing.
+Un clic por paso. 1: nemoclaw my-assistant stop (se detiene, no se borra). 2: la key con read -rsp, no aparece en pantalla ni en el historial. 3: NEMOCLAW_SANDBOX_NAME=mi-hermes nemohermes onboard; nemohermes es el CLI de NemoClaw con Hermes por defecto; proveedor NVIDIA Endpoints, búsqueda web none, reglas sugeridas. 4: nemohermes mi-hermes status. 5: la puerta nueva en el puerto 8642 (openshell forward list, curl /health). Clic 6: el crédito; ≈35 min de la sesión de laboratorio, y al final se vuelve a encender my-assistant. Todo en la VM TERMINAL del tablero, no en la SANDBOX TERMINAL. Alternativa: un laboratorio nuevo puede elegir Hermes en la configuración del navegador.
 
 ---
 
@@ -27,10 +27,10 @@ nemohermes mi-hermes status                       # ¿está sano?
 curl -sf http://127.0.0.1:8642/health             # ¿la puerta nueva contesta?
 ```
 
-.lead En esta clase la terminal es el camino: antes de cada línea, dices para qué sirve.
+.lead En esta clase la VM TERMINAL es el camino: antes de cada línea, dices para qué sirve.
 
 Notas:
-En las preguntas del onboarding: NVIDIA Endpoints, el modelo que propone, búsqueda web none y las reglas sugeridas. El onboarding tarda varios minutos la primera vez: cortar en edición.
+Las preguntas del onboarding pueden variar un poco según la versión; elegir NVIDIA Endpoints, el modelo que propone, búsqueda web none y las reglas sugeridas. El onboarding tarda varios minutos la primera vez: cortar en edición. No presionar Shift+Escape mientras corre: cierra la terminal y sus procesos.
 
 ---
 
@@ -50,7 +50,7 @@ Dónde guarda cada cosa. Un clic por fila: personalidad, memoria (el diario, con
 .lead SKILL.md es un formato abierto: lo entienden los dos agentes.
 
 Notas:
-Clic 1: la skill soporte-nemoclaw de la clase 4.3. Clic 2: en OpenClaw vive en skills/ del escritorio. Clic 3: en Hermes solo cambian dos rutas (la FAQ en /sandbox/faq). Clic 4: el resultado, sin darle la ruta. Comandos: nemohermes mi-hermes skill install ~/soporte-nemoclaw-hermes/, nemohermes mi-hermes upload ~/faq/ /sandbox/faq/, nemohermes launch mi-hermes. Cada skill también es un comando del chat: /soporte-nemoclaw. Estándar: agentskills.io.
+Clic 1: la skill soporte-nemoclaw de la clase 4.3. Clic 2: en OpenClaw vive en skills/ del escritorio. Clic 3: en Hermes solo cambian dos rutas (la FAQ en /sandbox/faq). Clic 4: el resultado, sin darle la ruta. Comandos: nemohermes mi-hermes skill install ~/curso/clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/, nemohermes mi-hermes upload ~/curso/datos/faq/ /sandbox/ (el destino es la carpeta padre, como en la 4.3), nemohermes launch mi-hermes. Cada skill también es un comando del chat: /soporte-nemoclaw. Estándar: agentskills.io.
 
 ---
 
@@ -59,7 +59,7 @@ Clic 1: la skill soporte-nemoclaw de la clase 4.3. Clic 2: en OpenClaw vive en s
 :::diagrama c44-aprobacion
 
 Notas:
-Error en vivo. Clic 1: sin aprobación, "recuerda X" se guarda en MEMORY.md sin preguntarte (léelo como operador). Clic 2: si quien lo pide es un texto malicioso, también se guarda y queda para todas las conversaciones futuras. Clic 3: con /memory approval on, cada nota espera tu sí; /memory pending las muestra y /memory reject las rechaza. Clic 4: lo mismo con las skills que crea. Si la versión fijada ya trae la aprobación activada, mostrar /memory pending directamente y decirlo.
+Error en vivo. Clic 1: sin aprobación, "recuerda X" se guarda en MEMORY.md sin preguntarte (léelo como operador). Clic 2: si quien lo pide es un texto malicioso, también se guarda y queda para todas las conversaciones futuras. Clic 3: con /memory approval on, cada nota espera tu sí; /memory pending las muestra y /memory reject las rechaza. Clic 4: lo mismo con las skills que crea. Si la versión del día ya trae la aprobación activada, mostrar /memory pending directamente y decirlo.
 
 ---
 
@@ -68,7 +68,7 @@ Error en vivo. Clic 1: sin aprobación, "recuerda X" se guarda en MEMORY.md sin 
 :::diagrama c44-dos-capas
 
 Notas:
-Clic 1: tu programa en Python habla con Hermes por la puerta nueva (base_url http://127.0.0.1:8642/v1), con el token del gateway: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)", nunca en pantalla. Clic 2: capa 1, el instrumentador de la clase 3.4 (OpenAIInstrumentor) manda la traza a Phoenix: proyecto soporte-nemoclaw-hermes. Clic 3: capa 2, lo que Hermes hizo adentro (sus grep y cat) no aparece en Phoenix: está en su historial, nemohermes mi-hermes sessions export. Clic 4: dos capas de observabilidad. Script: hermes_trazado.py.
+Clic 1: tu programa en Python habla con Hermes por la puerta nueva (base_url http://127.0.0.1:8642/v1), con el token del gateway: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)", nunca en pantalla. Clic 2: capa 1, el instrumentador de la clase 3.4 (OpenAIInstrumentor) manda la traza a Phoenix, que corre en Docker en la misma VM: proyecto soporte-nemoclaw-hermes. Para confirmarlo sin abrir la interfaz web: curl -s http://127.0.0.1:6006/v1/projects. Clic 3: capa 2, lo que Hermes hizo adentro (sus grep y cat) no aparece en Phoenix: está en su historial, nemohermes mi-hermes sessions export. Clic 4: dos capas de observabilidad. Script: hermes_trazado.py.
 
 ---
 
@@ -76,11 +76,12 @@ Clic 1: tu programa en Python habla con Hermes por la puerta nueva (base_url htt
 
 | Ves | Haz esto |
 |---|---|
-| `nemohermes: command not found` | Usa `NEMOCLAW_AGENT=hermes nemoclaw onboard` |
+| `nemohermes: command not found` | Usa la VM TERMINAL, no la SANDBOX TERMINAL |
 | `Port 18789 is not available` | Usa el siguiente puerto libre (míralo en `openshell forward list`) |
 | `401` al hablarle por la puerta nueva | Pide el token otra vez y guárdalo en una variable, sin mostrarlo |
 | La skill no aparece en el chat | Sal con `/exit` y abre una conversación nueva |
 | `skill install` no reemplaza la anterior | Quítala con `skill remove` e instálala otra vez |
+| `my-assistant` no responde después | Enciéndelo: `nemoclaw my-assistant start` |
 
 Notas:
 El token: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)". Nunca muestres la salida de gateway-token en cámara.
@@ -91,7 +92,7 @@ El token: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)". Nunca muestres 
 
 :::diagrama c44-avance
 
-.lead Apaga lo que no uses: el cuarto de Hermes y Phoenix.
+.lead Apaga el cuarto de Hermes y Phoenix, y vuelve a encender my-assistant.
 
 Notas:
-Clic 1: Soporte NemoClaw corre en dos agentes, con la misma skill y la misma personalidad, dentro del mismo tipo de cuarto, y un cliente en Python con trazas. Clic 2: lo que abrimos para el Módulo 5: memoria que se escribe sola, skills que el agente crea y una API con token. Para apagar: docker stop phoenix, nemohermes mi-hermes stop, nemoclaw my-assistant start.
+Clic 1: Soporte NemoClaw corre en dos agentes, con la misma skill y la misma personalidad, dentro del mismo tipo de cuarto, y un cliente en Python con trazas. Clic 2: lo que abrimos para el Módulo 5: memoria que se escribe sola, skills que el agente crea y una API con token. Para apagar: docker stop phoenix, nemohermes mi-hermes stop, y volver a encender OpenClaw con nemoclaw my-assistant start (los módulos 5 y 6 lo usan). Si paras por hoy: Stop en la consola de Brev y vuelve pronto.

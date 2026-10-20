@@ -24,7 +24,7 @@ Si aparece `Socket not found: /var/run/docker.sock`, es una regresión abierta: 
 La imagen del sandbox pesa unos 2.4 GB comprimida y con 8 GB de RAM o menos el sistema puede matar el proceso.
 Agrega 4 GB de swap (el onboarding ofrece hacerlo) o usa una máquina de 16 GB.
 
-## P: El puerto 18789 o el 8080 ya está en uso, ¿qué hago?
+## P: El puerto 18789 o el 18080 ya está en uso, ¿qué hago?
 Mira quién lo ocupa con `sudo lsof -i :18789 -sTCP:LISTEN -P -n`.
 Puedes mover el dashboard con `nemoclaw onboard --control-ui-port 19000` y el gateway con `NEMOCLAW_GATEWAY_PORT=8990 nemoclaw onboard`, manteniendo esa variable en los comandos siguientes.
 Solo detén un proceso si sabes que es tuyo.

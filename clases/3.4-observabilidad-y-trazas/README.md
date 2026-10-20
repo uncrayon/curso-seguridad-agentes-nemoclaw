@@ -142,7 +142,7 @@ Deberías ver la respuesta a *"¿Por qué mi notebook responde HTTP 401...?"*, `
 | `pip install arize-phoenix` falla con un error de versión de Python | Phoenix requiere Python 3.11 o mayor | Usa Docker (`arizephoenix/phoenix`) o un entorno con Python 3.11+. El notebook funciona igual sin Phoenix |
 | `Overriding of current TracerProvider is not allowed` | Otro código llamó a `trace.set_tracer_provider` dos veces | El notebook no usa el proveedor global; si lo mezclas con otra librería, reinicia el kernel |
 | `ModuleNotFoundError: No module named 'opentelemetry'` | La celda del tracer no pudo instalar el SDK | `pip install opentelemetry-sdk opentelemetry-exporter-otlp-proto-http` y reinicia el kernel |
-| `401 Unauthorized` al exportar a un Phoenix remoto | El Phoenix tiene autenticación | Define `PHOENIX_API_KEY` antes de la celda del tracer. `[VERIFICAR EN LAB]` el formato de la cabecera con tu despliegue |
+| `401 Unauthorized` al exportar a un Phoenix remoto | El Phoenix tiene autenticación | Define `PHOENIX_API_KEY` antes de la celda del tracer. Si sigue el 401, revisa en la documentación de tu Phoenix qué cabecera de autenticación espera |
 | La traza muestra tu key o tu cookie | Pusiste un atributo sin pasar por `poner()` | Usa siempre `poner(span, ...)`; agrega el patrón que falte en `_SECRETOS` |
 | En vivo, los casos b y c salen "limpios" | El modelo real no repitió la búsqueda ni inventó la cita esta vez | Es normal: las funciones de revisión siguen sirviendo. En MOCK los errores siempre se reproducen |
 

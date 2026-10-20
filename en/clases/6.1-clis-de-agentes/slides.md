@@ -23,7 +23,7 @@ One click per axis: files, network, identity, persistence and default sandbox, e
 .lead Different assistants: what changes is the key you hand them on day one.
 
 Notes:
-Source: NVIDIA lesson 04b. Click 1: Claude Code, Codex CLI and Cursor (Cursor: `.cursor/rules/*.mdc`; edits without approval, the terminal asks). Click 2: Hermes and Deep Agents (Deep Agents' tool approval outside NemoClaw is marked [VERIFY]: don't state it). Click 3: OpenClaw, the only one that lives in the room here (gateway and cron inside OpenShell). Click 4: the sentence to always say. Defaults change with every release. Leave the slide on screen for 20 seconds.
+Source: NVIDIA lesson 04b. Click 1: Claude Code, Codex CLI and Cursor (Cursor: `.cursor/rules/*.mdc`; edits without approval, the terminal asks). Click 2: Hermes and Deep Agents (Deep Agents' tool approval outside NemoClaw isn't in 04b: don't state it). Click 3: OpenClaw, the only one that lives in the room here (gateway and cron inside OpenShell). Click 4: the sentence to always say. Defaults change with every release. Leave the slide on screen for 20 seconds.
 
 ---
 
@@ -32,7 +32,7 @@ Source: NVIDIA lesson 04b. Click 1: Claude Code, Codex CLI and Cursor (Cursor: `
 :::diagrama c61-tres-agentes
 
 Notes:
-Click 1: OpenClaw (`nemoclaw`), the usual one, with gateway and dashboard; Landlock `best_effort`. Click 2: Hermes (`nemohermes`); network to NVIDIA, Nous and PyPI. Click 3: Deep Agents (`nemo-deepagents`, `dcode` binary); Landlock `strict`: if it can't apply the lock, it won't start. Click 4: what all three share. From the NemoClaw repo. Subtle detail: OpenShell sees dcode as Python, so a network permission applies to all Python in the sandbox.
+Click 1: OpenClaw (`nemoclaw`), the usual one, with gateway and dashboard; Landlock `best_effort`. Click 2: Hermes (`nemohermes`); network to NVIDIA, Nous and PyPI. Click 3: Deep Agents (`nemo-deepagents`, `dcode` binary); Landlock `strict`: if it can't apply the lock, it won't start. Click 4: what all three share. From the NemoClaw repo; all three commands come installed on the lab VM. Subtle detail: OpenShell sees dcode as Python, so a network permission applies to all Python in the sandbox.
 
 ---
 
@@ -50,25 +50,26 @@ Click 1: the application plane (CLAUDE.md, AGENTS.md, approvals, modes): the age
 :::diagrama c61-de-que-lado
 
 Notes:
-Click 1: outside, you on the Brev machine (`id` answers with your operator user). Click 2: `nemoclaw my-assistant exec` goes into the room: inside, the agent is the sandbox user. Click 3: the agent tries to reach example.com and the rule answers 403 (`CONNECT tunnel failed, response 403`): it's the class's live error. Click 4: the forum's most common error, `openclaw: command not found`, because you're outside. Demo from the cookbook, recipes 5 to 7.
+Click 1: outside, you in the dashboard's VM TERMINAL (`id` answers `uid=1000(ubuntu)`, with the `sudo` and `docker` groups). Click 2: `nemoclaw my-assistant exec` goes into the room: inside, the agent is the sandbox user (`uid=998`). Click 3: the agent tries to reach example.com and the rule answers 403 (`CONNECT tunnel failed, response 403`): it's the class's live error. Click 4: the forum's most common error, `openclaw: command not found`, because you're outside. Demo from the cookbook, recipes 5 to 7, all in the VM TERMINAL.
 
 ---
 
 ## If you prefer the terminal
 
 ```bash
+# in the VM TERMINAL of the NemoClaw dashboard
 id                                     # outside: you, the operator
 nemoclaw my-assistant exec -- id       # inside: sandbox user
 nemoclaw my-assistant skill list       # not "openclaw ...": it lives inside
 nemoclaw my-assistant exec -- curl -sS https://example.com
 # curl: (56) CONNECT tunnel failed, response 403
-nemoclaw my-assistant logs --tail 50   # the denial gets logged
+nemoclaw my-assistant logs --tail 300 | grep DENIED | tail -4
 ```
 
 .lead It's optional: the same as the previous drawing, written as instructions.
 
 Notes:
-Other common errors: `openshell logs --tail` never ends (in openshell `--tail` follows: use `-n 20`); `brev shell --host` hangs (use `brev shell <instance>`); inference `unauthorized` in `status` (rotate the key: `credentials reset` + `onboard`); 403 from network policy (`openshell term` or `policy add`). The host/sandbox mix-up is the number one question in the forum.
+Other common errors: typing without clicking the black area (dashboard shortcuts fire); the `ExperimentalWarning: SQLite` line (ignore it); `openshell gateway status` doesn't exist (use `openshell status` or `openshell gateway info`); `openshell logs --tail` never ends (in openshell `--tail` follows: use `-n 20`); inference `unauthorized` in `status` (check the key); 403 from network policy (OPENSHELL TUI → [r] → [a], or `policy add`). The host/sandbox mix-up is the number one question in the forum.
 
 ---
 
@@ -86,4 +87,4 @@ One click per task, from less to more risk. Click 1: coding with you alongside: 
 :::diagrama c61-ficha
 
 Notes:
-It's the class challenge. Have them do it with the agent they use at work, reading its official docs in the browser, with one link per row. Click 1: the empty card. Click 2: if it isn't documented, that's the finding.
+It's the class challenge. Have them do it with the agent they use at work, reading its official docs in the browser, with one link per row. Click 1: the empty card. Click 2: if it isn't documented, that's the finding. Close with the reminder: if they'll do 6.2's optional lab part, they leave the instance running and keep going; if not, they save what they want and delete the instance in the Brev console with Delete (stopped, the disk keeps billing ≈USD 1.20 a day). Then check Billing.

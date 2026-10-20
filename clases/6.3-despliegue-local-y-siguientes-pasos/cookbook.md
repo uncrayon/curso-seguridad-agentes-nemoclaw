@@ -1,9 +1,9 @@
 # Cookbook opcional 6.3 · NemoClaw en tu propia máquina
 
 Recetas para instalar y operar NemoClaw fuera de Brev: en Linux, macOS con Apple Silicon o Windows con WSL2.
-Es **opcional**: el curso se completa en Brev. Úsalo cuando quieras tu agente en tu máquina o en un servidor propio.
+Es **opcional**: el curso se completa en Brev. Úsalo solo si quieres tu agente en tu propia máquina o en un servidor propio. Nada de aquí depende del laboratorio de Brev: todo pasa en tu computadora.
 
-> **Proyecto en *alpha*.** NemoClaw publica versiones cada 1 a 3 días. Fija una versión (Receta 3) y revisa la [documentación oficial](https://docs.nvidia.com/nemoclaw/latest/) antes de instalar. Las salidas exactas están marcadas `[VERIFICAR EN LAB]` donde no las confirmamos.
+> **Proyecto en *alpha*.** NemoClaw publica versiones cada 1 a 3 días. Fija una versión (Receta 3) y revisa la [documentación oficial](https://docs.nvidia.com/nemoclaw/latest/) antes de instalar. Las salidas cambian entre versiones: si la tuya muestra otro texto, compara la idea y sigue con el siguiente paso.
 
 **Convenciones:** `my-assistant` es el nombre del sandbox (cámbialo por el tuyo). Las keys de ejemplo (`nvapi-xxxxxxxx`) son falsas.
 
@@ -91,7 +91,7 @@ En DGX Spark, DGX Station y WSL puede preguntar `Run express install with these 
 ```bash
 curl -fsSL https://www.nvidia.com/nemoclaw.sh | NEMOCLAW_INSTALL_REF= NEMOCLAW_INSTALL_TAG=vX.Y.Z bash
 ```
-Cambia `vX.Y.Z` por la versión que usamos al grabar `[VERIFICAR EN LAB]`.
+Cambia `vX.Y.Z` por la versión que quieras fijar. Como referencia, el laboratorio del curso usaba NemoClaw v0.0.135 con OpenShell 0.0.116; revisa en la documentación cuál recomiendan hoy.
 
 > ⚠️ **Ojo:** Las variables van **del lado de `bash`** del pipe. `NEMOCLAW_INSTALL_TAG=... curl ... | bash` **no** funciona: la variable se la queda `curl`.
 
@@ -104,7 +104,7 @@ curl -fsSL https://www.nvidia.com/nemoclaw.sh | bash -s -- --defer-onboarding
 nemoclaw host probe            # reporte de preparación, solo lectura
 nemoclaw doctor                # chequeos de host y gateway, solo lectura
 ```
-**Esperado:** una lista de chequeos con su estado. `[VERIFICAR EN LAB]` formato.
+**Esperado:** una lista de chequeos con su estado. El formato puede cambiar entre versiones.
 
 **Si falla:** `host.docker.daemon_unreachable` → `sudo systemctl start docker` (Linux) o abre Docker Desktop / `colima start`.
 
@@ -142,7 +142,7 @@ Logs:     nemoclaw my-assistant logs --follow
 - `Invalid sandbox name` (y sugiere `Try: <slug>`): 1–19 caracteres, minúsculas, empieza con letra, guiones simples. Nombres reservados: `onboard`, `list`, `status`, `start`, `stop`, `debug`, `help`…
 - `Sandbox 'my-assistant' was created but did not become ready within 180s.`: `export NEMOCLAW_SANDBOX_READY_TIMEOUT=600`, borra el sandbox retenido con `nemoclaw my-assistant destroy` y repite (no reintentes el mismo nombre sin borrarlo).
 - Se cortó a la mitad: `nemoclaw onboard --resume` (o `--fresh` para empezar de cero).
-- `Port 18789 is not available` / `Port 8080 is not available`: otro proceso usa el puerto. `nemoclaw onboard --control-ui-port 19000` o `NEMOCLAW_GATEWAY_PORT=8990 nemoclaw onboard`. Revisa con `sudo lsof -i :18789 -sTCP:LISTEN -P -n`.
+- `Port 18789 is not available` / `Port 18080 is not available`: otro proceso usa el puerto (18789 es el chat de OpenClaw; 18080, el gateway de OpenShell). `nemoclaw onboard --control-ui-port 19000` o `NEMOCLAW_GATEWAY_PORT=<otro puerto> nemoclaw onboard`. Revisa con `sudo lsof -i :18789 -sTCP:LISTEN -P -n` (o `:18080`).
 - La key es correcta pero `status` dice `unauthorized`: `nemoclaw credentials reset <PROVIDER>` y `nemoclaw onboard` otra vez.
 
 ## Receta 6 · Onboarding sin preguntas (para scripts)
@@ -165,8 +165,9 @@ nemoclaw my-assistant dashboard-url --quiet   # URL del dashboard con token: tr�
 nemoclaw launch my-assistant                  # preflight + chat en la terminal (openclaw tui)
 nemoclaw my-assistant connect                 # shell dentro del sandbox; luego: openclaw tui
 nemoclaw my-assistant logs --follow           # logs en vivo
+openshell status                              # el gateway de OpenShell (puerto 18080)
 ```
-**Esperado:** en el navegador, `http://127.0.0.1:18789/` abre el dashboard de OpenClaw.
+**Esperado:** en el navegador, `http://127.0.0.1:18789/` abre el dashboard de OpenClaw. `openshell status` muestra el gateway en `https://127.0.0.1:18080` y `Connected`.
 
 **Si falla:**
 - Servidor remoto o sin pantalla: el dashboard escucha solo en `127.0.0.1`. Desde tu laptop: `ssh -L 18789:127.0.0.1:18789 <usuario>@<servidor>` y abre `http://127.0.0.1:18789/`.
@@ -180,10 +181,10 @@ nemoclaw my-assistant skill install ./skill-library/diagnostico-api/
 nemoclaw my-assistant skill install ./skill-library/lector-seguro-archivos/
 nemoclaw my-assistant skill install ./skill-library/resumen-diario/
 nemoclaw my-assistant skill list
-nemoclaw my-assistant upload ./datos/faq/ /sandbox/.openclaw/workspace/faq/
-nemoclaw my-assistant exec --workdir /sandbox/.openclaw/workspace -- ls -R faq   # deben verse los .md dentro de faq/ (no faq/faq/) [VERIFICAR EN LAB]
+nemoclaw my-assistant upload ./datos/faq/ /sandbox/.openclaw/workspace/
+nemoclaw my-assistant exec -- ls /sandbox/.openclaw/workspace/faq   # deben verse los .md dentro de faq/
 ```
-**Esperado:** las 4 skills en `skill list`. Abre una **sesión nueva** y pregunta: *"¿Cómo detengo mi instancia de Brev?"*
+**Esperado:** las 4 skills en `skill list` y los `.md` de la FAQ dentro de `workspace/faq/`. Ojo: si el destino ya termina en `faq/`, `upload` crea `faq/faq/`; por eso subimos a `workspace/`. Abre una **sesión nueva** y pregunta: *"¿Cómo detengo mi instancia de Brev?"*
 
 **Si falla:** el agente no usa la skill → revisa la description (clase 6.2) y que estés en una sesión nueva.
 
@@ -266,7 +267,7 @@ Abre un issue en [NVIDIA/NemoClaw](https://github.com/NVIDIA/NemoClaw/issues) co
 | Exit 137 / OOM al subir la imagen | Menos de 8 GB de RAM libres | 16 GB o swap de 4–8 GB |
 | La variable de entorno "no hace nada" | Quedó del lado de `curl` en el pipe | `curl ... \| VARIABLE=valor bash` |
 | `did not become ready within 180s` | VM o disco lentos al primer arranque | `NEMOCLAW_SANDBOX_READY_TIMEOUT=600`, `destroy` y repetir |
-| `Port 18789 is not available` | Otro proceso (o un `ssh -L` viejo) usa el puerto | `--control-ui-port 19000` o mata el proceso viejo |
-| `CONNECT tunnel failed, response 403` | La política bloqueó un host | `openshell term` o `nemoclaw <sb> policy add <preset>` |
+| `Port 18789 is not available` (o `18080`) | Otro proceso (o un `ssh -L` viejo) usa el puerto | `--control-ui-port 19000` o mata el proceso viejo |
+| `CONNECT tunnel failed, response 403` | La política bloqueó un host | `openshell term` (la OpenShell TUI: **[r]** reglas, **[a]** aprobar) o `nemoclaw <sb> policy add <preset>` |
 | `openshell ... is above the maximum supported` | Se actualizó OpenShell por fuera | No uses `openshell self-update`; reinstala la versión soportada |
 | El instalador rechaza la plataforma | Mac Intel o distro sin `apt` | Usa Linux Ubuntu, macOS Apple Silicon, WSL2 o Brev |

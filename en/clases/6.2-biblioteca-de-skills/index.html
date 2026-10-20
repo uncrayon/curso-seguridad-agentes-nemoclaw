@@ -2,8 +2,8 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>6.2 Build your skill library · Securing Agents with OpenShell and NemoClaw</title>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
-<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8c0f4e58">
+<link rel="stylesheet" href="../../../assets/guia.css?v=8c0f4e58">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td><strong>Practice</strong></td>
-<td>Notebook · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb" target="_blank" rel="noopener">6.2-biblioteca-de-skills.ipynb (Spanish)</a> (runs without a key, in MOCK mode)</td>
+<td>Notebook · <a href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb" target="_blank" rel="noopener">6.2-biblioteca-de-skills.ipynb (Spanish)</a> (runs without a key, in MOCK mode) · optional last part in the Brev lab (VM TERMINAL)</td>
 </tr>
 <tr>
 <td><strong>Skill</strong></td>
@@ -51,7 +51,8 @@
 <ul>
 <li>Python 3.10+ or Google Colab. The <code>nvapi-</code> key is optional: without a key, the notebook uses a simulated model.</li>
 <li>You've done class <a href="../2.3-funciones-a-herramientas/index.html">2.3</a> (loop with tools) and <a href="../4.3-agentes-siempre-activos/index.html">4.3</a> (you installed your first skill in OpenClaw).</li>
-<li>For the lab part: your Brev instance and the <code>brev</code> CLI, logged in.</li>
+<li>For the lab part: your Brev instance <strong>Running</strong>, the NemoClaw dashboard open (green <strong>NemoClaw</strong> button) and the course cloned in <code>~/curso</code> (class 4.3).</li>
+<li><strong>Your credit:</strong> the notebook uses no Brev credit. The lab part is optional and takes ≈15 min of your single sitting, right after the 6.1 practice (see <a href="../../../LABORATORIO.html">your Brev lab (Spanish)</a>). When you finish it, save what you want and <strong>Delete</strong> your instance.</li>
 </ul>
 <h2 id="the-idea-in-one-minute">The idea in one minute</h2>
 <p>Every session, your agent starts from scratch. A <strong>skill</strong> is how you say something once and keep it: a folder with a <code>SKILL.md</code>.</p>
@@ -106,21 +107,38 @@ jupyter<span class="w"> </span>notebook<span class="w"> </span>clases/6.2-biblio
 <p><strong>Trigger the failures (section 8 · 🧯).</strong> YAML broken by <code>:</code>, an invalid name, a skill that doesn't exist, and escape paths (<code>../.env</code>).</p>
 </li>
 <li>
-<p><strong>Export and bring the library to the lab (section 9).</strong>
-   <div class="highlight"><pre><span></span><code><span class="c1"># on your computer, at the repo root</span>
-brev<span class="w"> </span>copy<span class="w"> </span>./skill-library<span class="w"> </span>&lt;instance&gt;:/home/ubuntu/skill-library
-brev<span class="w"> </span>shell<span class="w"> </span>&lt;instance&gt;
-<span class="c1"># now on the VM</span>
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/skill-library/diagnostico-api/
+<p><strong>Bring the library to the lab (section 9).</strong> This part is optional and follows the <a href="../6.1-clis-de-agentes/index.html">6.1</a> practice, with the instance still running. If you already deleted your instance, skip it: the notebook is enough.</p>
+</li>
+</ol>
+<p>On the NemoClaw dashboard, click <strong>VM TERMINAL</strong> and click inside the black area. The library is already in the copy of the course you cloned in 4.3, under <code>~/curso/skill-library/</code>. If you don't have that folder, clone the course:
+   <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw<span class="w"> </span>~/curso
+</code></pre></div>
+   To install a skill, give NemoClaw the folder that contains its <code>SKILL.md</code>, then check the list:
+   <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/curso/skill-library/diagnostico-api/
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>list
 </code></pre></div>
-   You should see <code>diagnostico-api</code> in the list. Repeat with the other three.</p>
+   You should see <code>✓ Validated SKILL.md</code>, then <code>Installed diagnostico-api from path -&gt; /sandbox/.openclaw/workspace/skills/diagnostico-api</code>, and <code>diagnostico-api</code> in the list. Repeat with <code>lector-seguro-archivos</code> and <code>resumen-diario</code>. Ignore the <code>ExperimentalWarning: SQLite…</code> line.</p>
+<p><code>soporte-nemoclaw</code> is already installed from 4.3. To swap it for the library version, remove the old one and install the new one:
+   <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>remove<span class="w"> </span>soporte-nemoclaw
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>~/curso/skill-library/soporte-nemoclaw/
+</code></pre></div>
+   If you improved descriptions in the notebook, change them on the VM before installing. Open the file with <code>nano ~/curso/skill-library/diagnostico-api/SKILL.md</code>, paste your description, save with Ctrl+O and Enter, and exit with Ctrl+X.</p>
+<ol start="10">
+<li>
+<p><strong>Try both selection modes in a new session.</strong> The safest way to start from scratch is a new session key in the VM TERMINAL. First, automatic (you don't name the skill):
+    <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--session-key<span class="w"> </span>prueba-62a<span class="w"> </span>-m<span class="w"> </span><span class="s1">'Me sale 401 al llamar al modelo, ¿qué hago?'</span>
+</code></pre></div>
+    Then explicit (you give it the skill's path), in another session:
+    <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>agent<span class="w"> </span>--session-key<span class="w"> </span>prueba-62b<span class="w"> </span>-m<span class="w"> </span><span class="s1">'Lee /sandbox/.openclaw/workspace/skills/diagnostico-api/SKILL.md y síguela: me sale 401.'</span>
+</code></pre></div>
+    You can also try it in the browser with <strong>CHAT WITH AGENT</strong>, in a new conversation.</p>
 </li>
 <li>
-<p><strong>Try both selection modes in the agent's chat</strong>, in a <strong>new session</strong>:</p>
+<p><strong>Close the lab: save and delete.</strong> This is the course's last lab practice. When you delete the instance, everything on the VM is lost.</p>
 <ul>
-<li>Explicit: <em>"Read /sandbox/.openclaw/workspace/skills/diagnostico-api/SKILL.md and follow it: I'm getting a 401."</em></li>
-<li>Automatic: <em>"I'm getting a 401 when I call the model, what do I do?"</em></li>
+<li><strong>Save what you want.</strong> The course files (<code>~/curso</code>) are already on GitHub. To keep something your agent wrote, print it in the VM TERMINAL (for example, <code>nemoclaw my-assistant exec -- cat /sandbox/.openclaw/workspace/SOUL.md</code>), select it with the mouse and paste it into your notes.</li>
+<li><strong>Delete the instance.</strong> Close the terminal (<strong>Shift+Escape</strong>) and go to the Brev console: <strong>Compute</strong> → your instance (<code>nemoclaw-…</code>) → <strong>Delete</strong>. Confirm in the dialog that appears.</li>
+<li><strong>Check your balance.</strong> In the top menu, open <strong>Billing</strong>. Confirm the instance no longer shows up under <strong>Compute</strong>. Stopped, the disk would keep billing ≈USD 1.20 a day; deleted, nothing is billed. Details in <a href="../../../LABORATORIO.html">your Brev lab (Spanish)</a>.</li>
 </ul>
 </li>
 </ol>
@@ -131,6 +149,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span c
 <li>☐ Your hit rate in MOCK is ≥ 90 % after improving the descriptions.</li>
 <li>☐ The harness rejected <code>../.env</code> and <code>/etc/passwd</code>.</li>
 <li>☐ <code>nemoclaw &lt;sandbox&gt; skill list</code> shows your skills in the lab.</li>
+<li>☐ If you did the lab part, you deleted your instance with <strong>Delete</strong> and checked <strong>Billing</strong>.</li>
 </ul>
 <h2 id="common-errors">Common errors</h2>
 <table>
@@ -148,7 +167,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span c
 <td>Put the description in quotes or remove the colon</td>
 </tr>
 <tr>
-<td><code>skill install</code> says <code>SKILL.md</code> or the <code>name</code> is missing <code>[VERIFY IN LAB]</code> exact text</td>
+<td><code>skill install</code> doesn't show <code>✓ Validated SKILL.md</code> and complains about <code>SKILL.md</code> or the <code>name</code></td>
 <td>You passed the wrong folder or the frontmatter has no <code>name</code></td>
 <td>The path must point to the folder that <strong>contains</strong> <code>SKILL.md</code>, with YAML frontmatter and a <code>name</code></td>
 </tr>
@@ -173,9 +192,14 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span c
 <td><code>nemoclaw &lt;sandbox&gt; skill remove &lt;name&gt;</code> and reinstall</td>
 </tr>
 <tr>
-<td><code>ssh: Could not resolve hostname</code> on <code>brev copy</code></td>
-<td>The IP changed or Brev's <code>Include</code> is missing</td>
-<td><code>brev refresh</code> and try again</td>
+<td><code>skill install</code> says the path doesn't exist</td>
+<td>You didn't clone the course on the VM, or you cloned it into another folder</td>
+<td>Check with <code>ls ~/curso/skill-library</code>; if it's missing, run the <code>git clone</code> from step 9</td>
+</tr>
+<tr>
+<td>You type in the VM TERMINAL and nothing shows up</td>
+<td>The terminal doesn't have focus</td>
+<td>Click inside the black area</td>
 </tr>
 </tbody>
 </table>

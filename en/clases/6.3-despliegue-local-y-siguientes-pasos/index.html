@@ -2,8 +2,8 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>6.3 Next steps and local deployment · Securing Agents with OpenShell and NemoClaw</title>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=b692c8e2">
-<link rel="stylesheet" href="../../../assets/guia.css?v=b692c8e2">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8c0f4e58">
+<link rel="stylesheet" href="../../../assets/guia.css?v=8c0f4e58">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td><strong>Practice</strong></td>
-<td>Guided on this page + <a href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.html">optional local install cookbook (Spanish)</a></td>
+<td>Guided on this page + <a href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.html">optional local install cookbook (Spanish)</a> (on your own computer, outside Brev)</td>
 </tr>
 <tr>
 <td><strong>Skill</strong></td>
@@ -50,8 +50,8 @@
 <h2 id="before-you-start">Before you start</h2>
 <ul>
 <li>Your <strong>Soporte NemoClaw</strong> project with the work from classes 2.1 to 6.2 (notebooks, skills in <a href="../../../skill-library/index.html"><code>skill-library/</code> (Spanish)</a>, the security analysis from 5.x).</li>
-<li>Your Brev lab: today you'll leave it <strong>stopped or deleted</strong>.</li>
-<li>Optional, for a local install: a machine with Linux, macOS on Apple Silicon, or Windows with WSL2 (see the table in step 2).</li>
+<li>Your Brev lab should already be <strong>deleted</strong>: you closed it at the end of <a href="../6.1-clis-de-agentes/index.html">6.1</a> (or of <a href="../6.2-biblioteca-de-skills/index.html">6.2</a>, if you did its optional part). If not, step 7 shows you how.</li>
+<li>Optional, only if you want to install NemoClaw on your own machine: Linux, macOS on Apple Silicon, or Windows with WSL2 (see the table in step 2). You don't need Brev for this.</li>
 </ul>
 <h2 id="step-by-step">Step by step</h2>
 <h3 id="1-decide-where-your-agent-lives">1. Decide where your agent lives</h3>
@@ -66,10 +66,10 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Stay on Brev</strong> (NemoClaw launchable)</td>
+<td><strong>Stay on Brev</strong> (a new deployment of the NemoClaw launchable)</td>
 <td>You want the same environment as the course, with nothing to install</td>
-<td>Credits per hour while running; disk while it exists</td>
-<td>Stopping it when you're done</td>
+<td>≈USD 0.25/h while running; stopped, the disk keeps billing ≈USD 1.20 a day</td>
+<td>Deleting it (<strong>Delete</strong>) when you're done</td>
 </tr>
 <tr>
 <td><strong>Your machine</strong></td>
@@ -129,12 +129,13 @@ node<span class="w"> </span>--version<span class="w">                 </span><sp
 </code></pre></div>
 You should see: 4 or more CPUs, 8 GB or more of RAM, 20 GB or more free, <code>Docker OK</code> and Node 22.19+. If something's missing, the <a href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.html">cookbook (Spanish)</a> (Recipes 0 and 1) tells you how to fix it.</p>
 <h3 id="3-optional-install-nemoclaw-locally">3. (Optional) Install NemoClaw locally</h3>
-<p>Follow the <a href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.html">cookbook (Spanish)</a>. The short path:
+<p>Only if you want NemoClaw on your own machine. All of this happens on your computer, not on Brev. Follow the <a href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.html">cookbook (Spanish)</a>. The short path:
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">NEMOCLAW_INSTALL_REF</span><span class="o">=</span><span class="w"> </span><span class="nv">NEMOCLAW_INSTALL_TAG</span><span class="o">=</span>vX.Y.Z<span class="w"> </span>bash
 </code></pre></div>
 - The variables go <strong>on the <code>bash</code> side</strong> of the pipe.
 - During onboarding, the key is read from <code>NVIDIA_INFERENCE_API_KEY</code> (not from <code>NVIDIA_API_KEY</code>).
-- Providers: <strong>NVIDIA Endpoints</strong> (no GPU), local <strong>Ollama</strong>, local <strong>vLLM</strong>, local <strong>NIM</strong> (experimental, requires an NVIDIA GPU).</p>
+- Providers: <strong>NVIDIA Endpoints</strong> (no GPU), local <strong>Ollama</strong>, local <strong>vLLM</strong>, local <strong>NIM</strong> (experimental, requires an NVIDIA GPU).
+- Same as in the lab, the OpenClaw chat lives at <code>http://127.0.0.1:18789/</code> and the OpenShell gateway on port 18080. <code>openshell status</code> tells you whether it's <code>Connected</code>.</p>
 <p>Day 1 and day 2 in one table:</p>
 <table>
 <thead>
@@ -210,7 +211,7 @@ You should see: 4 or more CPUs, 8 GB or more of RAM, 20 GB or more free, <code>D
 <li>☐ <strong>Skills</strong> (6.2): 4 skills in <code>skill-library/</code>, validated, with a hit rate ≥ 90 % and the table in <code>docs/evaluacion-skills.md</code>.</li>
 <li>☐ <strong>Agent choice</strong> (6.1): <code>docs/eleccion-de-agente.md</code>.</li>
 <li>☐ <strong>Project README</strong>: what it does, how to run it, known limits, and a screenshot (with the token blurred).</li>
-<li>☐ <strong>Brev</strong>: instance stopped or deleted (<code>brev ls</code>).</li>
+<li>☐ <strong>Brev</strong>: instance deleted (it no longer shows up under <strong>Compute</strong>) and balance checked in <strong>Billing</strong>.</li>
 </ul>
 <h3 id="6-self-assess-with-the-rubric">6. Self-assess with the rubric</h3>
 <table>
@@ -256,18 +257,18 @@ You should see: 4 or more CPUs, 8 GB or more of RAM, 20 GB or more free, <code>D
 </tbody>
 </table>
 <p>Add up your points: <strong>5–8</strong> keep iterating · <strong>9–12</strong> ready to show · <strong>13–15</strong> publish it and share it.</p>
-<h3 id="7-shut-down-the-lab">7. Shut down the lab</h3>
-<p><div class="highlight"><pre><span></span><code>brev<span class="w"> </span>ls
-brev<span class="w"> </span>stop<span class="w"> </span>&lt;instance&gt;<span class="w">      </span><span class="c1"># or, if you won't use it again: brev delete &lt;instance&gt;</span>
-brev<span class="w"> </span>ls<span class="w">                   </span><span class="c1"># confirm STOPPED or that it's gone</span>
-</code></pre></div>
-Running = you pay for compute · stopped = disk only · deleted = nothing, but you lose the data. Copy anything you want to keep first: <code>brev copy &lt;instance&gt;:/path ./local</code>.</p>
+<h3 id="7-confirm-the-lab-is-deleted">7. Confirm the lab is deleted</h3>
+<p>Normally you already deleted your instance at the end of the last lab practice (<a href="../6.1-clis-de-agentes/index.html">6.1</a>, or <a href="../6.2-biblioteca-de-skills/index.html">6.2</a> if you did its optional part). Check it in the browser:
+1. In the Brev console (brev.nvidia.com), open <strong>Compute</strong>. Your instance (<code>nemoclaw-…</code>) should no longer show up.
+2. If it's still there, save what you want (print it in the <strong>VM TERMINAL</strong> and copy the text into your notes), then open the instance and click <strong>Delete</strong>. Confirm in the dialog that appears.
+3. Open <strong>Billing</strong> in the top menu and check your balance.</p>
+<p>Running, the instance costs ≈USD 0.25/h. Stopped (<strong>Stop</strong>), the disk keeps billing ≈USD 0.05/h, about USD 1.20 a day. Deleted (<strong>Delete</strong>), nothing is billed, but you lose what was inside. Details in <a href="../../../LABORATORIO.html">your Brev lab (Spanish)</a>.</p>
 <h2 id="check-that-it-worked">Check that it worked</h2>
 <ul>
 <li>☐ You know whether your machine meets the requirements (or what it's missing).</li>
 <li>☐ You wrote one line per production piece for your project.</li>
 <li>☐ You checked off the delivery checklist and have your rubric score.</li>
-<li>☐ Your Brev instance is stopped or deleted.</li>
+<li>☐ Your Brev instance is deleted and you checked your balance.</li>
 </ul>
 <h2 id="common-errors">Common errors</h2>
 <table>
@@ -310,9 +311,14 @@ Running = you pay for compute · stopped = disk only · deleted = nothing, but y
 <td>Don't use <code>openshell self-update</code>; reinstall the supported version</td>
 </tr>
 <tr>
-<td><code>brev stop</code> answers <code>does not support stop</code></td>
-<td>That instance type can't be stopped</td>
-<td>Save your work and use <code>brev delete &lt;instance&gt;</code></td>
+<td>Your Brev balance keeps dropping even though you no longer use the lab</td>
+<td>The instance is stopped (<strong>Stop</strong>), not deleted: the disk bills</td>
+<td>Brev console → <strong>Compute</strong> → your instance → <strong>Delete</strong></td>
+</tr>
+<tr>
+<td><code>Port 18080 is not available</code> during a local install</td>
+<td>Another process is using the OpenShell gateway port</td>
+<td>Close that process or see Recipe 5 of the cookbook</td>
 </tr>
 </tbody>
 </table>

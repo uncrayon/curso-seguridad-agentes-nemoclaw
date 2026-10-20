@@ -73,9 +73,11 @@ Está en la portada del curso (sección **"Cómo introducir tu clave de API"**) 
 
 ## Paso a paso
 
-### 1. Configura el panel del curso de NVIDIA
+### 1. (Opcional) Configura el panel del curso de NVIDIA
 
-1. Abre <https://nvdli.github.io/NemoClawDLI/es/nemoclaw/index.html> y baja a **"Cómo introducir tu clave de API"**.
+Este paso es opcional: el notebook del paso 2 hace la misma verificación. Sirve si también sigues el curso web de NVIDIA DLI «Securing Agents with OpenShell and NemoClaw», que tiene versión en español.
+
+1. En la portada en español de ese curso, baja a **"Cómo introducir tu clave de API"**.
 2. Deja la URL base y el modelo como están. Pega tu key en el campo de la clave.
 3. Abre **Ruta de embeddings** y confirma que el modelo sea `nvidia/nemotron-3-embed-1b`.
 4. Abre **Gestión de la solicitud**: deja la espera en 60 s y sube los reintentos a 2.
@@ -153,7 +155,7 @@ Más tiempo de espera o más reintentos **nunca** arreglan un 401 o un 403.
 
 ## Comprueba que funcionó
 
-- [ ] "Guardar y verificar" en la página de NVIDIA mostró "✓ Conectado.".
+- [ ] (Si usaste el panel opcional) "Guardar y verificar" en la página de NVIDIA mostró "✓ Conectado.".
 - [ ] El notebook terminó en **✅ entorno listo** (o sé exactamente qué me falta).
 - [ ] Vi la latencia y el bloque `usage` de una llamada.
 - [ ] Provoqué un 401, un 404 y un `finish_reason=length`, y entendí cada diagnóstico.

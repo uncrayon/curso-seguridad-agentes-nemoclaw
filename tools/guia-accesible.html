@@ -2,8 +2,8 @@
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Guía de estilo accesible (para quien escribe el curso) · Seguridad de agentes con OpenShell y NemoClaw</title>
-<link rel="stylesheet" href="../assets/sinapsis.css?v=b692c8e2">
-<link rel="stylesheet" href="../assets/guia.css?v=b692c8e2">
+<link rel="stylesheet" href="../assets/sinapsis.css?v=8c0f4e58">
+<link rel="stylesheet" href="../assets/guia.css?v=8c0f4e58">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../index.html"><img src="../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
@@ -17,14 +17,14 @@
 <li><strong>No toques la apertura ni el cierre generados.</strong> «La clase pasada aprendimos…» y «En la próxima clase vamos a aprender…» repiten los textos de <code>tools/course.py</code> (los de las diapositivas). Si cambias su contenido, se desincronizan.</li>
 <li><strong>La idea antes que la herramienta.</strong> Justo después de la apertura: la idea de la clase en una frase y una comparación cotidiana. Usa la comparación de <a href="../GLOSARIO.html"><code>GLOSARIO.md</code></a> para que todo el curso diga lo mismo.</li>
 <li><strong>Máximo 3 palabras nuevas por clase.</strong> Cada una se define la primera vez que se dice, en voz alta, con su comparación del glosario. Todo lo demás se dice con palabras comunes o se omite en el video (queda en la guía escrita).</li>
-<li><strong>Navegador antes que terminal.</strong> Si un paso se puede hacer en una página web (consola de Brev, lecciones de NVIDIA con botones ▶, dashboard del agente, Phoenix, Colab), se muestra primero ahí. La terminal aparece después, como «la forma de operador» o «si prefieres la terminal».</li>
+<li><strong>Navegador antes que terminal.</strong> Si un paso se puede hacer en una página web (consola de Brev, el tablero del laboratorio con su chat, Automations y OpenShell TUI, Phoenix, Colab), se muestra primero ahí. La terminal aparece después, como «la forma de operador»: en el laboratorio es la <strong>VM Terminal</strong> del tablero, con comandos para copiar y pegar.</li>
 <li><strong>Antes de cada comando, una frase de para qué sirve.</strong> No «ejecutamos <code>nemoclaw my-assistant status</code>», sino «le preguntamos al laboratorio si está sano: ese es el comando <code>nemoclaw my-assistant status</code>».</li>
 <li><strong>Cada clic se dice en voz alta.</strong> En las clases de laboratorio, los <code>[HACER]</code> nombran el botón como aparece en pantalla y dónde está: «el botón <strong>Deploy</strong>, arriba a la derecha».</li>
 <li><strong>Los errores se cuentan con calma.</strong> Un error en vivo es normal y tiene arreglo: «esto le va a pasar a mucha gente; mira qué dice y qué hacemos». Nunca «obviamente» ni «es trivial».</li>
-<li><strong>Crédito de Brev al final de cada laboratorio.</strong> Antes del cierre: «Si terminaste por hoy, detén tu instancia en la consola de Brev: <strong>Stop</strong>. Encendida gasta crédito».</li>
+<li><strong>Crédito de Brev al final de cada laboratorio.</strong> Antes del cierre: «Si paras por hoy, pulsa <strong>Stop</strong> en la consola de Brev y vuelve pronto: detenida, el disco sigue cobrando». Al final del laboratorio (después de la 6.1): «Ahora sí, <strong>Delete</strong>».</li>
 <li><strong>Misma duración.</strong> No agregues más de 30 segundos por clase. Para hacer espacio, mueve detalle técnico a «Notas de producción → Cortes posibles».</li>
 <li><strong>Lenguaje.</strong> Tuteo, español neutro, frases cortas. Nada de «simplemente», «obviamente», «trivial», «básicamente». Los nombres de producto (NemoClaw, OpenShell, Brev) se quedan; las siglas se explican o se evitan (di «la dirección del modelo», no «el endpoint»).</li>
-<li><strong>Conserva</strong> las marcas <code>[VERIFICAR EN LAB]</code>, las demos y el «error en vivo» de cada clase.</li>
+<li><strong>Conserva</strong> las demos y el «error en vivo» de cada clase. Ya no usamos marcas <code>[VERIFICAR EN LAB]</code>: si algo no está comprobado en el laboratorio, escríbelo sin prometer una salida exacta («deberías ver algo parecido a…», «si tu versión muestra otro texto, sigue con el siguiente paso») y anótalo en la lista privada de pendientes.</li>
 </ol>
 <h2 id="la-sección-lo-esencial-clasesreadmemd">La sección «Lo esencial» (<code>clases/&lt;slug&gt;/README.md</code>)</h2>
 <p>Va justo después de la tabla del encabezado, antes de «Lo que vas a lograr». Formato fijo:</p>
@@ -41,13 +41,13 @@
 <span class="gs">**Qué te llevas:**</span> una frase con lo que ahora puedes hacer o decidir.
 </code></pre></div>
 <p>En las clases de laboratorio (4.1 a 4.4, 5.2, 5.3, 6.1) agrega una línea más:</p>
-<div class="highlight"><pre><span></span><code><span class="gs">**Tu crédito:**</span> esta práctica usa ≈N min de instancia encendida. Al terminar, detén la instancia (ver [<span class="nt">LABORATORIO.md</span>](<span class="na">../../LABORATORIO.md</span>)).
+<div class="highlight"><pre><span></span><code><span class="gs">**Tu crédito:**</span> esta práctica usa ≈N min de la sesión única del laboratorio (ver [<span class="nt">LABORATORIO.md</span>](<span class="na">../../LABORATORIO.md</span>)). Si paras por hoy, pulsa <span class="gs">**Stop**</span> y vuelve pronto; al terminar el laboratorio, <span class="gs">**Delete**</span>.
 </code></pre></div>
 <p>Ideas de actividades sin programar, según el tipo de clase:</p>
 <ul>
 <li><strong>Conceptual:</strong> clasificar 5 ejemplos («¿esto es un agente o un chatbot?»), completar una tabla, decidir qué permitirías.</li>
 <li><strong>Notebook:</strong> abrirlo en Colab, presionar ▶ en orden y responder 3 preguntas sobre lo que ves. Sin leer el código.</li>
-<li><strong>Laboratorio:</strong> hacer los pasos de la página de NVIDIA (botones ▶) o del dashboard, y anotar lo que pasó.</li>
+<li><strong>Laboratorio:</strong> hacer los pasos con clics en el tablero del laboratorio (chat, Automations, OpenShell TUI) y anotar lo que pasó.</li>
 <li><strong>Escritura:</strong> redactar un <code>SOUL.md</code>, una skill o una regla de seguridad en español normal. Es configuración real, no un ejercicio de juguete.</li>
 </ul></div>
 

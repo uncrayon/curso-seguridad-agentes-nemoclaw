@@ -188,7 +188,7 @@ T = {
         "r3": "curl → la API de NVIDIA", "r3_sub": "integrate.api.nvidia.com",
         "r4": "Listar /var/lib/apt", "r4_sub": "una carpeta del sistema",
         "r5": "Cambiar SOUL.md", "r5_sub": "la personalidad del agente",
-        "v_pasa": "Pasa", "v_403": "403 del guardia", "v_prog": "Solo para openclaw", "v_candado": "Candado de archivos",
+        "v_pasa": "Pasa", "v_403": "403 del guardia", "v_prog": "Pasa: perfil de NVIDIA", "v_candado": "Candado de archivos",
         "v_sorpresa": "Permitido: ¡sorpresa!",
         # 5.3 · bloqueo
         "b_req": "curl → example.com", "b_req_sub": "no está en la lista",
@@ -331,7 +331,7 @@ T = {
         "r3": "curl → the NVIDIA API", "r3_sub": "integrate.api.nvidia.com",
         "r4": "List /var/lib/apt", "r4_sub": "a system folder",
         "r5": "Change SOUL.md", "r5_sub": "the agent's personality",
-        "v_pasa": "Goes through", "v_403": "403 from the guard", "v_prog": "Only for openclaw", "v_candado": "File lock",
+        "v_pasa": "Goes through", "v_403": "403 from the guard", "v_prog": "Goes through: NVIDIA profile", "v_candado": "File lock",
         "v_sorpresa": "Allowed: surprise!",
         "b_req": "curl → example.com", "b_req_sub": "not on the list",
         "b_guardia": "The guard", "b_guardia_sub": "cuts the connection",
@@ -640,7 +640,7 @@ def c53_predice(lang):
     t = T[lang]
     filas = [("terminal", t["r1"], t["r1_sub"], "ok", "check_circle", t["v_pasa"]),
              ("terminal", t["r2"], t["r2_sub"], "bad", "cancel", t["v_403"]),
-             ("terminal", t["r3"], t["r3_sub"], "bad", "cancel", t["v_prog"]),
+             ("terminal", t["r3"], t["r3_sub"], "warn", "warning", t["v_prog"]),
              ("folder_open", t["r4"], t["r4_sub"], "bad", "cancel", t["v_candado"]),
              ("edit", t["r5"], t["r5_sub"], "warn", "warning", t["v_sorpresa"])]
     return '<div class="dg m5">' + _pred(t, filas, t["cab_peticion"], t["cab_tu"], t["cab_sandbox"]) + "</div>"
@@ -679,7 +679,7 @@ def c53_preset_soporte(lang):
     t = T[lang]
     filas = [(1, "visibility", t["ps_leer"], t["ps_leer_sub"], "GET", "ok"),
              (2, "route", t["ps_ruta"], t["ps_ruta_sub"], "docs.nvidia.com/nemoclaw/**", "ok"),
-             (3, "assistant", t["ps_prog"], t["ps_prog_sub"], "openclaw", "ok")]
+             (3, "assistant", t["ps_prog"], t["ps_prog_sub"], "openclaw + node", "ok")]
     return ('<div class="dg m5"><div class="m5-book m5-page-sheet">'
             f'<span class="m5-staple dg-i">attach_file</span>'
             f'<div class="m5-book-h"><span class="dg-ico">description</span><div><b>{t["ps"]}</b>'

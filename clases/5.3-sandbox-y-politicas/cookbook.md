@@ -1,12 +1,13 @@
 # Cookbook 5.3 · Leer, probar y cambiar la política del sandbox
 
-Recetas de terminal para el laboratorio NemoClaw en Brev: leer la política real, predecir y probar bloqueos, diagnosticar una denegación y agregar o quitar permisos con los comandos reales de NemoClaw.
+Recetas para el laboratorio NemoClaw en Brev, todas desde el navegador: leer la política real, predecir y probar bloqueos, diagnosticar una negación y agregar o quitar permisos con los comandos reales de NemoClaw.
 
 **Convenciones**
 - `my-assistant` es el nombre del sandbox (compruébalo con `openshell sandbox list`).
-- Los comandos van en el **host** del lab (`brev shell <tu-instancia>`). `openshell sandbox exec` los corre dentro del sandbox. Si usas `|`, `&&` o `>`, envuélvelos en `sh -c '...'`.
+- Los comandos van en la **VM TERMINAL** del tablero de tu laboratorio (la terminal de operador, usuario `ubuntu`). Haz clic dentro del área negra antes de escribir. `openshell sandbox exec` los corre dentro del sandbox. Si usas `|`, `&&` o `>` dentro del sandbox, envuélvelos en `sh -c '...'`.
+- Todos los comandos `nemoclaw` imprimen `ExperimentalWarning: SQLite is an experimental feature`. Ignórala.
 - Las recetas 1 a 5 solo leen. Las 6 y 7 **cambian** la política: cada una dice cómo deshacerlo.
-- Lo marcado `[VERIFICAR EN LAB]` se confirma en la prueba previa.
+- Las salidas "esperadas" vienen de una prueba real del laboratorio. Donde una prueba no se repitió, la receta te dice qué buscar en lugar de prometer el texto exacto.
 
 ---
 
@@ -16,20 +17,23 @@ Recetas de terminal para el laboratorio NemoClaw en Brev: leer la política real
 openshell policy get my-assistant --full
 ```
 
-Deberías ver un encabezado de estado, una línea `---` y después el YAML con cuatro secciones: `filesystem_policy`, `landlock`, `process` y `network_policies`. Es el mismo comando que corre `helpers.policyGet()` en la página 04a.
+Deberías ver un encabezado de estado, una línea `---` y después el YAML con cuatro secciones: `filesystem_policy`, `landlock`, `process` y `network_policies`. Es largo: para leerlo con calma, guárdalo y ábrelo con `less` (sales con **q**).
+
+**Sin comandos:** en el tablero, **OPENSHELL TUI** → `my-assistant` → **Enter**. La vista del sandbox muestra las carpetas de solo lectura y de lectura y escritura, y las reglas de red.
 
 Guárdala para compararla después:
 
 ```bash
 openshell policy get my-assistant --full > ~/politica-antes.txt
+less ~/politica-antes.txt
 ```
 
 Otras vistas útiles:
 
 ```bash
-nemoclaw my-assistant policy list       # presets activos, con su origen: [from balanced tier], [user-added]…
+nemoclaw my-assistant policy list       # presets activos y disponibles, con su origen: [user-added], [from openclaw agent]…
 nemoclaw my-assistant policy explain    # resumen sin YAML, pensado para el agente
-nemoclaw my-assistant status            # incluye una sección Policy con la política activa
+nemoclaw my-assistant status            # estado del sandbox y de la inferencia
 ```
 
 Solo los nombres de los grupos de red:
@@ -38,10 +42,12 @@ Solo los nombres de los grupos de red:
 openshell policy get my-assistant --full | sed -n '/^network_policies:/,$p' | grep -E '^  [a-z0-9_-]+:$'
 ```
 
+En el laboratorio de prueba había 13 grupos (el tablero dice «13 network policies»): `_provider_nemoclaw_nvidia_prod_v1`, `brew-balanced`, `clawhub`, `huggingface`, `managed_inference`, `native_nvidia_inference`, `npm_registry`, `npm_yarn`, `nvidia`, `openclaw-pricing`, `openclaw_api`, `openclaw_docs` y `pypi`.
+
 **Si falla**
 - Error de sandbox no encontrado: copia el nombre exacto de `openshell sandbox list`.
-- En la página 04a: "Mantén el launchable abierto en otra pestaña, vuelve a ejecutar y comprueba el nombre con: openshell sandbox list". Reconéctate en 03a.
-- Ves grupos que no están en el YAML del notebook (por ejemplo `pypi`, `brave` o entradas con prefijo `_provider_`): vienen del tier del launchable o del proveedor de inferencia. Es normal. `[VERIFICAR EN LAB]` cuáles trae el launchable.
+- Ves grupos que no están en el YAML del notebook (por ejemplo `pypi`, `brew-balanced` o entradas con prefijo `_provider_`): vienen del tier, de los presets activos o del proveedor de inferencia. Es normal.
+- El comando de los nombres no imprime nada: tu versión formatea distinto el archivo. Busca `network_policies:` dentro de `less` escribiendo `/network_policies` y **Enter**.
 
 ## 2 · Recorre el YAML con esta lista
 
@@ -61,17 +67,20 @@ Busca y anota en tu hoja:
 Primero escribe tu predicción (ALLOW/DENY) para cada línea. Después ejecútalas:
 
 ```bash
-# 3a · Permitido para curl en la política base (grupo managed_inference)
+# 3a · La dirección interna del modelo (grupo managed_inference)
 openshell sandbox exec -n my-assistant -- curl -sS -m 8 -o /dev/null -w 'code=%{http_code}\n' https://inference.local/v1/models
 
-# 3b · Bloqueado: un host que no está en la política
-openshell sandbox exec -n my-assistant -- curl -sS -m 8 -o /dev/null -w 'code=%{http_code}\n' https://example.com
+# 3b · Un host que no está en la política
+openshell sandbox exec -n my-assistant -- curl -sS -m 8 -o /dev/null -w 'code=%{http_code}\n' https://example.com; echo "salida=$?"
 
-# 3c · Bloqueado siempre: la dirección de metadata de la nube
+# 3c · La dirección de metadata de la nube
 openshell sandbox exec -n my-assistant -- curl -sS -m 6 -o /dev/null -w 'code=%{http_code}\n' http://169.254.169.254/latest/meta-data/
 
-# 3d · Host permitido, binario equivocado (el grupo nvidia es para openclaw)
+# 3d · La API de modelos de NVIDIA, con curl
 openshell sandbox exec -n my-assistant -- curl -sS -m 8 -o /dev/null -w 'code=%{http_code}\n' https://integrate.api.nvidia.com/v1/models
+
+# 3e · El índice de PyPI (tier Balanced)
+openshell sandbox exec -n my-assistant -- curl -sS -m 8 -o /dev/null -w 'code=%{http_code}\n' https://pypi.org/simple/
 ```
 
 Cómo leer el resultado:
@@ -79,20 +88,25 @@ Cómo leer el resultado:
 | Ves | Significa |
 |---|---|
 | `code=200` (o cualquier código del servidor) | La política dejó pasar la conexión. Si el código es 4xx/5xx, lo respondió el **servidor**, no el sandbox |
-| `curl: (56) CONNECT tunnel failed, response 403` | El **proxy de OpenShell** negó la conexión |
+| `curl: (56) CONNECT tunnel failed, response 403` | El **proxy de OpenShell** negó la conexión (HTTPS) |
+| `code=403` en una dirección `http://` | En HTTP sin cifrar, el 403 del proxy llega como código. Revisa el registro para saber si fue el proxy |
 | Tiempo agotado | Puede ser un bloqueo o un host caído. Revisa la receta 5 |
 
-Esperado con la política base: 3a pasa; 3b, 3c y 3d se bloquean. `[VERIFICAR EN LAB]` 3a (qué código devuelve `inference.local` cuando el proveedor usa la ruta nativa) y 3d (el perfil nativo de NVIDIA podría permitir `curl` para su verificación).
+Lo que salió en el laboratorio de prueba:
 
-Si tu tier es **Balanced** (el predeterminado), también deberías poder bajar índices de PyPI con curl:
+| Línea | Resultado | Lectura |
+|---|---|---|
+| 3a `inference.local` | `code=503` | Pasa el proxy; la ruta interna responde 503 porque el lab usa la ruta nativa de NVIDIA |
+| 3b `example.com` | `curl: (56) CONNECT tunnel failed, response 403`, `code=000`, `salida=56` | Bloqueado por el proxy |
+| 3c `169.254.169.254` | `code=403` | Bloqueado (el 403 del proxy, visible porque es HTTP) |
+| 3d `integrate.api.nvidia.com` | `code=200` | **Permitido para curl**: el perfil nativo de inferencia de NVIDIA lo abre (grupos `native_nvidia_inference` y `_provider_nemoclaw_nvidia_prod_v1`) |
+| 3e `pypi.org` | `code=200` | Permitido por el tier Balanced (grupo `pypi`) |
 
-```bash
-openshell sandbox exec -n my-assistant -- curl -sS -m 8 -o /dev/null -w 'code=%{http_code}\n' https://pypi.org/simple/
-```
+3d es la sorpresa que vale la pena discutir. La política base publicada (y el notebook) dicen que el grupo `nvidia` es solo para `openclaw`; tu laboratorio tiene además el perfil del proveedor, que deja pasar a `curl`. No es una falla: es un canal de salida más que tienes que anotar en tu `trifecta.md`.
 
 **Si falla**
 - 3b responde `code=200`: tu sandbox tiene el tier **Personal** (`personal-open-internet`), que abre todo 80/443. Revísalo con `nemoclaw my-assistant policy list`.
-- Todo da 403, incluso 3a: el proxy no está sano. `nemoclaw my-assistant status` y, si hace falta, `nemoclaw my-assistant recover`.
+- Todo da 403, incluso 3e: el proxy no está sano. `nemoclaw my-assistant status` y, si hace falta, `nemoclaw my-assistant recover`.
 
 ## 4 · Predice, luego prueba: archivos
 
@@ -103,16 +117,17 @@ openshell sandbox exec -n my-assistant -- sh -c 'ls /var/lib/dpkg | head -3'
 # 4b · Bloqueado: /var/lib/apt no está en la política (aunque Linux lo deje leer a cualquiera)
 openshell sandbox exec -n my-assistant -- ls /var/lib/apt/lists
 
-# 4c · Bloqueado: /etc es solo lectura
+# 4c · Bloqueado: /usr y /etc son solo lectura
+openshell sandbox exec -n my-assistant -- touch /usr/prueba
 openshell sandbox exec -n my-assistant -- touch /etc/prueba-curso
 
 # 4d · Permitido: /tmp es lectura y escritura (y lo limpiamos)
 openshell sandbox exec -n my-assistant -- sh -c 'touch /tmp/prueba-curso && ls -l /tmp/prueba-curso && rm /tmp/prueba-curso'
 ```
 
-Esperado: 4a lista archivos, 4b y 4c dan `Permission denied`, 4d crea y borra el archivo. `[VERIFICAR EN LAB]` 4b: es la prueba que aísla a Landlock, porque los permisos normales de Linux sí dejarían leer esa carpeta.
+Esperado (así salió en el laboratorio de prueba): 4a lista `alternatives`, `arch-native` y `available`; 4b da `Permission denied`; 4c da `Permission denied` en los dos; 4d crea y borra el archivo. 4b es la prueba que aísla a Landlock: los permisos normales de Linux sí dejarían leer esa carpeta.
 
-Y pídeselo al agente:
+Y pídeselo al agente (su respuesta cambia de una vez a otra; compárala con lo que viste tú):
 
 ```bash
 nemoclaw my-assistant agent -m "Dime qué usuario eres y luego intenta crear el archivo /etc/prueba-agente. Cuéntame exactamente qué error recibiste."
@@ -125,76 +140,55 @@ nemoclaw my-assistant agent -m "Dime qué usuario eres y luego intenta crear el 
 ## 5 · Lee un bloqueo
 
 ```bash
-nemoclaw my-assistant logs --tail 50
+nemoclaw my-assistant logs --tail 300 | grep DENIED | tail -4
 ```
 
-Busca las denegaciones de las recetas 3 y 4. Una línea de denegación de red se ve parecida a esta (formato `[VERIFICAR EN LAB]`):
+Busca las negaciones de las recetas 3 y 4. Una línea de negación de red se ve así (ejemplo real de la clase 5.2, recortado):
 
 ```text
-DENIED /usr/bin/curl -> example.com:443 reason: …
+[sandbox] [OCSF ] [ocsf] NET:OPEN [MED] DENIED /usr/bin/curl(11932) -> docs.openclaw.ai:443 [policy:- engine:opa] [reason:binary '/usr/bin/curl' not allowed in policy 'openclaw_docs' (ancestors: [/usr/bin/bash -> /usr/local/bin/node -> /usr/bin/bash], cmdline: …
 ```
 
-Te dice **quién** (binario), **a dónde** (host:puerto) y **por qué** (sin endpoint, binario no permitido o regla L7).
-
-Equivalente directo de OpenShell (ojo: aquí `-n` es el número de líneas y `--tail` **sigue** el log en vivo):
-
-```bash
-openshell logs my-assistant -n 20
-```
+Te dice **quién** (programa y número de proceso), **quién lo lanzó** (`ancestors`), **a dónde** (host:puerto) y **por qué** (sin regla, programa no permitido o regla L7). Para `example.com` el motivo será otro, porque ningún grupo nombra ese host.
 
 **Si falla**
-- No aparecen denegaciones: NemoClaw avisa si no pudo activar los logs de auditoría de OpenShell. Usa la receta 6 (`openshell term`), que muestra cada bloqueo en vivo.
+- No aparecen negaciones: aumenta `--tail` o repite la receta 3b y vuelve a buscar. También puedes verlas en la OPENSHELL TUI (receta 6).
 
-## 6 · Aprueba o rechaza egress en vivo (`openshell term`)
+## 6 · Aprueba o rechaza en vivo (OPENSHELL TUI)
 
-Abre una **segunda** terminal en el host (`brev shell <tu-instancia>`) y lanza la TUI:
+1. En la VM TERMINAL, provoca un bloqueo: repite la receta 3b (`example.com`).
+2. Vuelve al tablero y haz clic en **OPENSHELL TUI**.
+3. Pantalla principal: con **j**/**k** elige `my-assistant` y presiona **Enter**. (**Tab** cambia de panel, **q** sale.)
+4. En la vista del sandbox, presiona **r** (Rules).
+5. Selecciona la petición pendiente (por ejemplo la de `example.com`, o la de `openclaw_docs` con `curl` de la clase 5.2).
+6. Presiona **x** (Reject) para **rechazarla**. **a** (Approve) la aprueba; **A** (Approve All) aprueba todas; **p** (Policy) muestra la política.
 
-```bash
-openshell term
-```
+En el curso practica con **x**. Una aprobación en la TUI es **temporal**: vale para este sandbox y no se guarda en la política base; si recreas el sandbox, desaparece. Para un permiso que dure, que puedas revisar y quitar, usa un preset (receta 7).
 
-1. Elige tu sandbox con `j`/`k` y pulsa `Enter`.
-2. En la primera terminal, provoca un bloqueo: repite la receta 3b (`example.com`).
-3. En la TUI, pulsa `r` para ir a **Network Rules**.
-4. Selecciona la solicitud pendiente con `j`/`k` y pulsa `Enter` para ver host, puerto y **binario**.
-5. Pulsa `x` para **rechazarla**. (`a` aprueba esa regla; `A` aprueba todas, con confirmación `y`).
-
-En el curso practica con `x`. Una aprobación queda en la política del sandbox hasta que lo destruyas y lo vuelvas a crear; no se guarda en la política base.
-
-En la TUI verás dos estados distintos:
+Según la documentación de NemoClaw, un bloqueo puede ser de dos tipos:
 - `policy_denied`: la política no coincidió. Decide si apruebas o no.
 - `upstream_unreachable`: la política **sí** coincidió, pero el host no respondió. Abrir más la política no lo arregla.
 
 **Si falla**
-- `openshell term` no dibuja bien: agranda la ventana de la terminal o usa la receta 5. `[VERIFICAR EN LAB]` que la TUI funcione dentro de `brev shell`.
-- Aprobaste algo por error: queda activo en esta instancia del sandbox. Anótalo y, si importa, recrea el sandbox (clase 4.1) o pide ayuda en el foro antes de tocar la política a mano.
+- El panel se ve cortado: agranda la ventana del navegador.
+- No presiones **d** en la vista del sandbox: borra el sandbox.
+- Aprobaste algo por error: queda activo en este sandbox. Anótalo y pide ayuda en el foro antes de tocar la política a mano.
 
-## 7 · Agrega y quita un preset (en caliente)
+## 7 · Presets: agrega y quita permisos (en caliente)
 
 Los cambios de **red** se aplican sin reiniciar el sandbox.
 
+### 7a · Qué presets hay
+
 ```bash
-# 7a · Qué hay y qué abriría GitHub
-nemoclaw my-assistant policy list
-nemoclaw my-assistant policy add github --dry-run
-
-# 7b · Aplícalo y pruébalo con el binario permitido (git)
-nemoclaw my-assistant policy add github --yes
-openshell sandbox exec -n my-assistant -- sh -c 'git ls-remote https://github.com/NVIDIA/NemoClaw | head -1'
-
-# 7c · El mismo host con curl sigue bloqueado: el preset solo lista /usr/bin/git
-openshell sandbox exec -n my-assistant -- curl -sS -m 8 -o /dev/null -w 'code=%{http_code}\n' https://github.com
-
-# 7d · Deshazlo
-nemoclaw my-assistant policy remove github --yes
 nemoclaw my-assistant policy list
 ```
 
-Esperado: después de 7b, `git ls-remote` imprime un hash y `HEAD`; 7c sigue con `CONNECT tunnel failed, response 403`; tras 7d, `github` ya no aparece.
+Esperado: los activos con `●` y su origen, y una lista larga de disponibles con `○`. En el laboratorio de prueba estaban activos `brew-balanced`, `huggingface`, `npm`, `pypi [user-added]` y `openclaw-pricing [from openclaw agent]`; entre los disponibles, `github`, `slack`, `telegram`, `discord`, `whatsapp`, `teams`, `tavily`, `observability-otlp-local`, `personal-open-internet` y más.
 
-### 7e · El preset propio del proyecto *Soporte NemoClaw*
+### 7b · El preset propio del proyecto *Soporte NemoClaw*
 
-Crea el archivo en el host (es el que generaste en el notebook):
+Crea el archivo en la VM TERMINAL (es el mismo que generas en el notebook):
 
 ```bash
 cat > ~/soporte-docs.yaml <<'EOF'
@@ -215,35 +209,68 @@ network_policies:
       - { path: /usr/local/bin/openclaw }
       - { path: /usr/local/bin/node }
 EOF
-
-nemoclaw my-assistant policy add --from-file ~/soporte-docs.yaml --dry-run
-nemoclaw my-assistant policy add --from-file ~/soporte-docs.yaml --yes
-nemoclaw my-assistant policy list            # aparece como [user-added]
-nemoclaw my-assistant agent -m "Usa la documentación en https://docs.nvidia.com/nemoclaw/latest/ para explicar en dos líneas qué es un preset de política."
 ```
 
-Para quitarlo:
+Lleva `node` porque el agente sale a la red con `node` (lo viste en el registro de la clase 5.2).
+
+Ensayo, sin aplicar:
+
+```bash
+nemoclaw my-assistant policy add --from-file ~/soporte-docs.yaml --dry-run
+```
+
+Esperado: imprime la política `soporte_docs` (host `docs.nvidia.com`, `allow GET /nemoclaw/**` y los dos programas), el aviso `Warning: custom preset targets are not vetted. Review hosts before applying.` y al final `--dry-run: 'soporte-docs' not applied.`
+
+Aplícalo y compruébalo:
+
+```bash
+nemoclaw my-assistant policy add --from-file ~/soporte-docs.yaml --yes
+nemoclaw my-assistant policy list
+nemoclaw my-assistant agent -m "Usa la documentación en https://docs.nvidia.com/nemoclaw/latest/ para explicar en dos líneas qué es un preset de política."
+nemoclaw my-assistant logs --tail 300 | grep DENIED | grep docs.nvidia.com
+```
+
+Esperado: `Applied preset: soporte-docs`; en la lista, `● soporte-docs [user-added] — custom OpenShell policy`; el agente responde en dos líneas; y el último comando no imprime nada (ninguna negación para `docs.nvidia.com`).
+
+Quítalo:
 
 ```bash
 nemoclaw my-assistant policy remove soporte-docs --yes
 ```
 
-Opcional: actualiza el resumen que el agente lee sobre su propia política (`/sandbox/.openclaw/workspace/POLICY.md`):
-
-```bash
-nemoclaw my-assistant policy explain --write
+Esperado:
+```text
+Endpoints that would be removed: docs.nvidia.com
+Narrowing sandbox egress — removing: docs.nvidia.com
+Removed preset: soporte-docs
 ```
+
+Opcional: `nemoclaw my-assistant policy explain --write` debería actualizar `/sandbox/.openclaw/workspace/POLICY.md`, el resumen que el agente lee sobre su propia política. Si tu versión no acepta esa opción, sáltalo.
 
 **Si falla**
 - `--dry-run` rechaza el preset: revisa que `preset.name` esté en minúsculas, que el host no sea `*` y que no uses `allowed_ips`. El notebook valida estas reglas con `validar_preset()`.
-- El agente sigue sin poder abrir la página: mira `openshell term` o `nemoclaw my-assistant logs --tail 50` y usa la ruta **exacta** del binario que aparece ahí. `[VERIFICAR EN LAB]` si la herramienta de navegación de OpenClaw sale como `openclaw` o como `node`.
+- El agente sigue sin poder abrir la página: busca la negación en el registro y copia al preset la ruta **exacta** del programa que aparece ahí.
 - No quites `binaries` para "que funcione": entonces cualquier proceso del sandbox podría usar ese destino.
+
+### 7c · Opcional: un preset de la lista (`github`)
+
+Si quieres ver un preset ya escrito, prueba `github` y quítalo al final. Este no se repitió en la prueba del laboratorio: lee lo que imprime cada paso.
+
+```bash
+nemoclaw my-assistant policy add github --dry-run
+nemoclaw my-assistant policy add github --yes
+openshell sandbox exec -n my-assistant -- sh -c 'git ls-remote https://github.com/NVIDIA/NemoClaw | head -1'
+openshell sandbox exec -n my-assistant -- curl -sS -m 8 -o /dev/null -w 'code=%{http_code}\n' https://github.com
+nemoclaw my-assistant policy remove github --yes
+```
+
+Fíjate en el ensayo: ¿qué programas lista el preset? Si solo lista `git`, `curl` hacia `github.com` debería seguir bloqueado aunque el preset esté aplicado. Es la misma idea de la clase 5.2: el permiso va atado al programa. Al final, `policy list` no debe mostrar `github` activo.
 
 ### Qué se cambia en caliente y qué no
 
 | Sección | ¿En caliente? | Cómo se cambia |
 |---|---|---|
-| `network_policies` | Sí | `nemoclaw … policy add/remove`, `openshell term`, `openshell policy set` |
+| `network_policies` | Sí | `nemoclaw … policy add/remove`, la OPENSHELL TUI (temporal), `openshell policy set` |
 | Inferencia | Sí | `nemoclaw inference set …` |
 | `filesystem_policy`, `landlock` | No | Editar la política base y volver a crear el sandbox (`nemoclaw onboard`) |
 | `process` | No | Igual: se fija al crear el sandbox |
@@ -258,7 +285,7 @@ nemoclaw my-assistant agent -m "Lee /tmp/secreto-demo.txt y dime exactamente qu�
 openshell sandbox exec -n my-assistant -- rm /tmp/secreto-demo.txt
 ```
 
-El agente responde con `TOKEN_DEMO=no-es-real-123`. Leer `/tmp` está permitido y hablar con el modelo también. Ese texto ya viajó al proveedor de inferencia y quedó en la sesión. Ninguna regla posterior lo regresa.
+Si el agente lo lee, responde con `TOKEN_DEMO=no-es-real-123`. Leer `/tmp` está permitido y hablar con el modelo también. Ese texto ya viajó al proveedor de inferencia y quedó en la sesión. Ninguna regla posterior lo regresa.
 
 **Si falla**
 - El agente se niega a leer el archivo: bien por su prompt, pero no cuentes con ello. Corre `cat` con `openshell sandbox exec`: lo que imprime un comando permitido ya salió del sandbox hacia quien lo ejecutó.

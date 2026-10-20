@@ -2,8 +2,8 @@
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Glosario en palabras simples · Seguridad de agentes con OpenShell y NemoClaw</title>
-<link rel="stylesheet" href="assets/sinapsis.css?v=b692c8e2">
-<link rel="stylesheet" href="assets/guia.css?v=b692c8e2">
+<link rel="stylesheet" href="assets/sinapsis.css?v=8c0f4e58">
+<link rel="stylesheet" href="assets/guia.css?v=8c0f4e58">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="index.html"><img src="assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
@@ -216,19 +216,29 @@
 <td>4.1</td>
 </tr>
 <tr id="cookie-de-sesión"><td><strong>Cookie de sesión</strong></td>
-<td>Un dato que tu navegador guarda para recordar que ya iniciaste sesión.</td>
+<td>Un dato que tu navegador guarda solo para que sigas con la sesión iniciada en Brev y en tu laboratorio. No tienes que copiarla nunca; si alguien la obtiene, podría entrar como tú.</td>
 <td>La pulsera de un evento: mientras la traigas, entras sin mostrar el boleto. Si alguien te la quita, entra como tú.</td>
 <td>4.1</td>
 </tr>
-<tr id="dashboard"><td><strong>Dashboard</strong></td>
-<td>La página web para conversar con tu agente y ver su estado.</td>
+<tr id="tablero-dashboard-del-laboratorio"><td><strong>Tablero (dashboard) del laboratorio</strong></td>
+<td>La página principal de tu laboratorio, que abres con el botón verde <strong>NemoClaw</strong> en Brev. Muestra el estado del agente y tiene cuatro botones: <strong>CHAT WITH AGENT</strong>, <strong>SANDBOX TERMINAL</strong>, <strong>VM TERMINAL</strong> y <strong>OPENSHELL TUI</strong>.</td>
+<td>El tablero de un auto: ves cómo va todo y desde ahí manejas.</td>
+<td>4.1</td>
+</tr>
+<tr id="terminal-de-operador"><td><strong>Terminal de operador</strong> (<strong>VM Terminal</strong>)</td>
+<td>La terminal de la computadora que rodea al cuarto del agente. Desde ahí revisas y controlas al agente; en el curso pegas ahí los comandos.</td>
+<td>La oficina del administrador del edificio, desde donde ve y abre los cuartos.</td>
+<td>4.1</td>
+</tr>
+<tr id="dashboard"><td><strong>Dashboard</strong> (del agente)</td>
+<td>La página web para conversar con tu agente y ver su estado. En el laboratorio la abres con <strong>CHAT WITH AGENT</strong>.</td>
 <td>El tablero de un auto.</td>
 <td>4.2</td>
 </tr>
 <tr id="puerto"><td><strong>Puerto</strong> / <strong>port-forward</strong></td>
-<td>Un puerto es una "puerta" numerada de un servidor; port-forward abre un pasillo seguro desde tu computadora hasta esa puerta.</td>
+<td>Un puerto es una "puerta" numerada de un servidor (en el laboratorio, el gateway de OpenShell usa el 18080 y el chat el 18789); port-forward abre un pasillo seguro desde tu computadora hasta esa puerta, útil si instalas NemoClaw en tu propia máquina.</td>
 <td>Un pasillo privado entre tu casa y la oficina rentada.</td>
-<td>4.1</td>
+<td>6.3</td>
 </tr>
 </tbody>
 </table>
@@ -291,6 +301,11 @@
 <tr id="cron"><td><strong>Cron</strong> / tarea programada</td>
 <td>Una tarea que se ejecuta sola a una hora fija.</td>
 <td>La alarma del despertador.</td>
+<td>4.3</td>
+</tr>
+<tr id="automatización"><td><strong>Automatización</strong> (<em>Automations</em>)</td>
+<td>Una tarea que el agente ejecuta solo, una vez o cada cierto tiempo, y que creas con clics en la sección <strong>Automations</strong> del chat. Cada ejecución gasta créditos del modelo.</td>
+<td>Dejarle a tu asistente un encargo con fecha y hora en la agenda.</td>
 <td>4.3</td>
 </tr>
 <tr id="nemo-agent-toolkit"><td><strong>NeMo Agent Toolkit</strong></td>

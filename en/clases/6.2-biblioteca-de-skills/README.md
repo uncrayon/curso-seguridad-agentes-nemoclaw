@@ -7,7 +7,7 @@ Write reusable skills, measure whether your agent finds them on its own, and bri
 | | |
 |---|---|
 | **Video length** | ≈9 min |
-| **Practice** | Notebook · [6.2-biblioteca-de-skills.ipynb (Spanish)](../../../clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb) (runs without a key, in MOCK mode) |
+| **Practice** | Notebook · [6.2-biblioteca-de-skills.ipynb (Spanish)](../../../clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb) (runs without a key, in MOCK mode) · optional last part in the Brev lab (VM TERMINAL) |
 | **Skill** | Create reusable agent skills |
 | **Materials** | [Slides](slides.html) · [Project library (Spanish)](../../../skill-library/README.md) · [FAQ (Spanish)](../../../FAQ.md) |
 
@@ -19,7 +19,8 @@ Write reusable skills, measure whether your agent finds them on its own, and bri
 ## Before you start
 - Python 3.10+ or Google Colab. The `nvapi-` key is optional: without a key, the notebook uses a simulated model.
 - You've done class [2.3](../2.3-funciones-a-herramientas/README.md) (loop with tools) and [4.3](../4.3-agentes-siempre-activos/README.md) (you installed your first skill in OpenClaw).
-- For the lab part: your Brev instance and the `brev` CLI, logged in.
+- For the lab part: your Brev instance **Running**, the NemoClaw dashboard open (green **NemoClaw** button) and the course cloned in `~/curso` (class 4.3).
+- **Your credit:** the notebook uses no Brev credit. The lab part is optional and takes ≈15 min of your single sitting, right after the 6.1 practice (see [your Brev lab (Spanish)](../../../LABORATORIO.md)). When you finish it, save what you want and **Delete** your instance.
 
 ## The idea in one minute
 Every session, your agent starts from scratch. A **skill** is how you say something once and keep it: a folder with a `SKILL.md`.
@@ -70,20 +71,40 @@ The idea comes from *Voyager* (2023): an agent that saved what worked as reusabl
 
 8. **Trigger the failures (section 8 · 🧯).** YAML broken by `: `, an invalid name, a skill that doesn't exist, and escape paths (`../.env`).
 
-9. **Export and bring the library to the lab (section 9).**
+9. **Bring the library to the lab (section 9).** This part is optional and follows the [6.1](../6.1-clis-de-agentes/README.md) practice, with the instance still running. If you already deleted your instance, skip it: the notebook is enough.
+
+   On the NemoClaw dashboard, click **VM TERMINAL** and click inside the black area. The library is already in the copy of the course you cloned in 4.3, under `~/curso/skill-library/`. If you don't have that folder, clone the course:
    ```bash
-   # on your computer, at the repo root
-   brev copy ./skill-library <instance>:/home/ubuntu/skill-library
-   brev shell <instance>
-   # now on the VM
-   nemoclaw my-assistant skill install ~/skill-library/diagnostico-api/
+   git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw ~/curso
+   ```
+   To install a skill, give NemoClaw the folder that contains its `SKILL.md`, then check the list:
+   ```bash
+   nemoclaw my-assistant skill install ~/curso/skill-library/diagnostico-api/
    nemoclaw my-assistant skill list
    ```
-   You should see `diagnostico-api` in the list. Repeat with the other three.
+   You should see `✓ Validated SKILL.md`, then `Installed diagnostico-api from path -> /sandbox/.openclaw/workspace/skills/diagnostico-api`, and `diagnostico-api` in the list. Repeat with `lector-seguro-archivos` and `resumen-diario`. Ignore the `ExperimentalWarning: SQLite…` line.
 
-10. **Try both selection modes in the agent's chat**, in a **new session**:
-    - Explicit: *"Read /sandbox/.openclaw/workspace/skills/diagnostico-api/SKILL.md and follow it: I'm getting a 401."*
-    - Automatic: *"I'm getting a 401 when I call the model, what do I do?"*
+   `soporte-nemoclaw` is already installed from 4.3. To swap it for the library version, remove the old one and install the new one:
+   ```bash
+   nemoclaw my-assistant skill remove soporte-nemoclaw
+   nemoclaw my-assistant skill install ~/curso/skill-library/soporte-nemoclaw/
+   ```
+   If you improved descriptions in the notebook, change them on the VM before installing. Open the file with `nano ~/curso/skill-library/diagnostico-api/SKILL.md`, paste your description, save with Ctrl+O and Enter, and exit with Ctrl+X.
+
+10. **Try both selection modes in a new session.** The safest way to start from scratch is a new session key in the VM TERMINAL. First, automatic (you don't name the skill):
+    ```bash
+    nemoclaw my-assistant agent --session-key prueba-62a -m 'Me sale 401 al llamar al modelo, ¿qué hago?'
+    ```
+    Then explicit (you give it the skill's path), in another session:
+    ```bash
+    nemoclaw my-assistant agent --session-key prueba-62b -m 'Lee /sandbox/.openclaw/workspace/skills/diagnostico-api/SKILL.md y síguela: me sale 401.'
+    ```
+    You can also try it in the browser with **CHAT WITH AGENT**, in a new conversation.
+
+11. **Close the lab: save and delete.** This is the course's last lab practice. When you delete the instance, everything on the VM is lost.
+    - **Save what you want.** The course files (`~/curso`) are already on GitHub. To keep something your agent wrote, print it in the VM TERMINAL (for example, `nemoclaw my-assistant exec -- cat /sandbox/.openclaw/workspace/SOUL.md`), select it with the mouse and paste it into your notes.
+    - **Delete the instance.** Close the terminal (**Shift+Escape**) and go to the Brev console: **Compute** → your instance (`nemoclaw-…`) → **Delete**. Confirm in the dialog that appears.
+    - **Check your balance.** In the top menu, open **Billing**. Confirm the instance no longer shows up under **Compute**. Stopped, the disk would keep billing ≈USD 1.20 a day; deleted, nothing is billed. Details in [your Brev lab (Spanish)](../../../LABORATORIO.md).
 
 ## Check that it worked
 - [ ] All 4 skills pass `validar_skill` (validate skill) with no ❌.
@@ -91,18 +112,20 @@ The idea comes from *Voyager* (2023): an agent that saved what worked as reusabl
 - [ ] Your hit rate in MOCK is ≥ 90 % after improving the descriptions.
 - [ ] The harness rejected `../.env` and `/etc/passwd`.
 - [ ] `nemoclaw <sandbox> skill list` shows your skills in the lab.
+- [ ] If you did the lab part, you deleted your instance with **Delete** and checked **Billing**.
 
 ## Common errors
 
 | Symptom | Cause | Fix |
 |---|---|---|
 | `YAML inválido en el frontmatter: mapping values are not allowed here` | The description has `: ` (colon and space) without quotes | Put the description in quotes or remove the colon |
-| `skill install` says `SKILL.md` or the `name` is missing `[VERIFY IN LAB]` exact text | You passed the wrong folder or the frontmatter has no `name` | The path must point to the folder that **contains** `SKILL.md`, with YAML frontmatter and a `name` |
+| `skill install` doesn't show `✓ Validated SKILL.md` and complains about `SKILL.md` or the `name` | You passed the wrong folder or the frontmatter has no `name` | The path must point to the folder that **contains** `SKILL.md`, with YAML frontmatter and a `name` |
 | Name rejected | `name` has spaces, accents or odd capitals | Only letters, numbers, `.`, `-` and `_`. Same as the folder name |
 | The skill is installed but the agent doesn't use it on its own | The description doesn't say **when** to use it, or doesn't use the user's words | Rewrite the description and evaluate again. Open a **new session** |
 | The agent uses the wrong skill | Two descriptions compete for the same words (e.g. "403") | Add to each one when **not** to use it, plus words that tell them apart |
 | `skill install` fails with a skill of the same name (Hermes or Deep Agents) | The fallback doesn't replace an existing skill | `nemoclaw <sandbox> skill remove <name>` and reinstall |
-| `ssh: Could not resolve hostname` on `brev copy` | The IP changed or Brev's `Include` is missing | `brev refresh` and try again |
+| `skill install` says the path doesn't exist | You didn't clone the course on the VM, or you cloned it into another folder | Check with `ls ~/curso/skill-library`; if it's missing, run the `git clone` from step 9 |
+| You type in the VM TERMINAL and nothing shows up | The terminal doesn't have focus | Click inside the black area |
 
 ## Challenge
 Create the fifth skill, **`estimar-costo-brev`** (Brev cost estimate), which uses the `estimar_costo_brev` tool from class 2.3.

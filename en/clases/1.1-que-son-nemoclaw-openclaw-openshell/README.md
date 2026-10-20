@@ -124,7 +124,7 @@ What you need at each stage:
 5. Read **"Proyecto del curso: «Soporte NemoClaw»"** (Course project): it shows how the agent grows from Module 2 to Module 6.
 6. Scroll down to **"Clase por clase"** (Class by class): 6 modules and 20 classes. Each card shows the length, what you'll learn and its links: **Guía** (the class guide, like this page), **Diapositivas** (slides) and, depending on the class, **Colab** (the notebook, which opens in your browser) or **Recetario** (the lab's command recipes). Compare it with the table above and find class 1.3: it's the first one with a Colab button.
 7. Read **"Los errores que más vas a ver"** (The errors you'll see most). It holds the golden rule: on a 401 or 403, check your key and your account; on a 404 or 410, check the model name; on a 429, wait a few seconds and retry.
-8. Find the support pages: the **Glosario** (glossary, button at the top), **Tu laboratorio en Brev** (your Brev lab: the «plan de 3 sesiones» link in the first section, covering credit, sessions and the cookie) and the **Preguntas frecuentes** (FAQ), with more than 50 solved cases. Bookmark the home page.
+8. Find the support pages: the **Glosario** (glossary, button at the top), **Tu laboratorio en Brev** (your Brev lab: the «plan del laboratorio» link in the first section, covering what it costs and how to make your credit last) and the **Preguntas frecuentes** (FAQ), with more than 50 solved cases. Bookmark the home page.
 
 You should see: at the top, the course title with the buttons "Empieza con la clase 1.1" (Start with class 1.1), "Consigue tu API key" (Get your API key), "Laboratorio en Brev" (Brev lab), "Preguntas frecuentes" and "Glosario", and the line "6 módulos · 20 clases".
 
