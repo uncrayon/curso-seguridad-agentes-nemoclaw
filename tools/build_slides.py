@@ -80,7 +80,7 @@ PAGE = """<!doctype html>
 </head><body>
 <span class="help">{help}</span>
 {slides}
-<div class="foot"><span><img src="{assets}brand/platzi-isotype-solid.svg" alt="">{foot}</span><span class="foot-r"><a class="guia" href="index.html">{guia}</a><span id="counter"></span></span></div>
+<div class="foot"><span><img src="{assets}brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">{guia}</a><span id="counter"></span></span></div>
 <div class="bar"></div>
 <script src="{assets}slides.js?v={ver}"></script>
 </body></html>
@@ -101,11 +101,6 @@ def li(items):
     return "<ul>" + "".join(f"<li>{inline(x)}</li>" for x in items) + "</ul>"
 
 
-def tag(c, lang="es"):
-    t = T[lang]
-    return f"{t['module']} {c['module']} · {t['class']} {c['id']}"
-
-
 def portada(c, lang="es", assets=""):
     t, l = T[lang], L(c, lang)
     chips = f'<span class="chip"><span class="icon">person</span>{html.escape(COURSE["instructor"])}</span>'
@@ -113,7 +108,6 @@ def portada(c, lang="es", assets=""):
         chips += f'<span class="chip primary"><span class="icon">bolt</span>{t["skill"]}: {html.escape(l["skill"])}</span>'
     return (f'<section class="slide portada">{deco(c, 3, assets)}'
             f'<img class="logo" src="{assets}brand/platzi-logo-new.svg" alt="Platzi">'
-            f'<span class="tag">{COURSE["partner"]} · {tag(c, lang)}</span>'
             f"<h1>{html.escape(l['title'])}</h1>"
             f'<p class="lead">{html.escape(l["module"])}</p>'
             f'<p class="meta">{chips}</p></section>')
@@ -127,8 +121,8 @@ def repaso(c, lang="es", assets=""):
     else:
         lp = L(prev, lang)
         body = (f"<h2>{t['prev']}</h2>"
-                f'<p class="lead">{t["class"]} {prev["id"]} · {html.escape(lp["title"])}</p>' + li(lp["aprendimos"]))
-    return f'<section class="slide repaso">{deco(c, 2, assets)}<span class="tag">{tag(c, lang)}</span>{body}</section>'
+                f'<p class="lead">{html.escape(lp["title"])}</p>' + li(lp["aprendimos"]))
+    return f'<section class="slide repaso">{deco(c, 2, assets)}{body}</section>'
 
 
 def siguiente(c, lang="es", assets=""):
@@ -139,8 +133,8 @@ def siguiente(c, lang="es", assets=""):
     else:
         ln = L(nxt, lang)
         body = (f"<h2>{t['next']}</h2>"
-                f'<p class="prox">{t["class"]} {nxt["id"]} · {html.escape(ln["title"])}</p>' + li(ln["promesa"]))
-    return f'<section class="slide siguiente">{deco(c, 2, assets)}<span class="tag">{tag(c, lang)}</span>{body}</section>'
+                f'<p class="prox">{html.escape(ln["title"])}</p>' + li(ln["promesa"]))
+    return f'<section class="slide siguiente">{deco(c, 2, assets)}{body}</section>'
 
 
 def authored(c, md_text, lang="es"):
@@ -169,7 +163,7 @@ def authored(c, md_text, lang="es"):
         for n, d in enumerate(diagramas):
             body = body.replace(f"<p>@@DIAGRAMA{n}@@</p>", d)
         notes = f'<aside class="notes">{render(parts[1])}</aside>' if len(parts) > 1 else ""
-        out.append(f'<section class="slide"><span class="tag">{tag(c, lang)}</span>{body}{notes}</section>')
+        out.append(f'<section class="slide">{body}{notes}</section>')
     return out
 
 
@@ -188,7 +182,6 @@ def build(c, lang="es"):
         modulos_css="".join(f'<link rel="stylesheet" href="{assets}diagramas-m{m}.css?v={VER}">\n' for m in range(1, 7)),
         title_txt=html.escape(f"{c['id']} {L(c, lang)['title']} · {title}"),
         slides="\n".join(slides),
-        foot=html.escape(f"{COURSE['partner']} · {title}"),
     )
     (folder / "slides.html").write_text(page, encoding="utf-8")
     print(f"  slides {lang} {c['id']}: {len(slides)}")
