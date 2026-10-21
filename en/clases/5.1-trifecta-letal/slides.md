@@ -3,7 +3,7 @@
 :::diagrama c51-dice-hace
 
 Notes:
-Click 1: the chatbot (text in, text out; the worst case is a wrong answer). Click 2: the agent, with files, programs, internet, memory and tasks that run on their own; the worst case is a wrong action with nobody watching. Click 3: the key detail, it takes any text it reads as an order. In Module 4 we left the agent working on its own: today, what's the worst it can do with the access it already has?
+Click 1: the chatbot (text in, text out; the worst case is a wrong answer). Click 2: the agent, with files, programs, internet, memory and tasks that run on their own; the worst case is a wrong action with nobody watching. Click 3: the key detail, it takes any text it reads as an order. Earlier we left the agent working on its own: today, what's the worst it can do with the access it already has?
 
 ---
 
@@ -48,7 +48,7 @@ From the inside out, one click per layer: the prompt (what does it want to do?; 
 :::diagrama c51-mecanismos
 
 Notes:
-One click per question, each with its technical name on the label: where does it connect? (isolated network namespace + CONNECT proxy + OPA); which files can it reach? (Landlock); which actions does it ask the system for? (seccomp: no ptrace, mount, setuid); what power does it start with? (sandbox user, no root). Click 5: user and seccomp in 5.2; network and files in 5.3. Don't read the technical names out loud.
+One click per question, each with its technical name on the label: where does it connect? (isolated network namespace + CONNECT proxy + OPA); which files can it reach? (Landlock); which actions does it ask the system for? (seccomp: no ptrace, mount, setuid); what power does it start with? (sandbox user, no root). Click 5: soon you test user and seccomp; then network and files. Don't read the technical names out loud.
 
 ---
 
@@ -65,7 +65,7 @@ Click 1: a reply goes to an allowed site; the guard checks the destination and l
 
 :::diagrama c51-hoja
 
-.lead Fill it in for your agent: it's the input for class 5.3.
+.lead Fill it in for your agent: you'll use it in a future class.
 
 Notes:
 The Soporte NemoClaw example, one click per leg: private data (MEMORY.md, cron summaries, the gateway token), untrusted (the FAQ, the questions), output (the model, clawhub.ai, the chat). Click 4: the leg we remove, don't store personal data. The full table and five practice cases are on the class page; ask them to save it as trifecta.md.
@@ -83,7 +83,7 @@ The Soporte NemoClaw example, one click per leg: private data (MEMORY.md, cron s
 :::
 
 :::bad
-"The sandbox protects me from everything" → we disprove it with data in 5.3.
+"The sandbox protects me from everything" → we disprove it with data later.
 :::
 
 Notes:

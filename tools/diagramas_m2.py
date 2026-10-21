@@ -140,7 +140,7 @@ T = {
         "costo": "Más costo", "costo_s": "pagas cada token, cada vez",
         "espera": "Más espera", "espera_s": "respuestas más lentas",
         "medio": "Atiende peor lo del medio", "medio_s": "se pierde entre tanto texto",
-        "m3": "En el Módulo 3: planear primero, buscar lo justo y repartir el trabajo",
+        "m3": "Más adelante: planear primero, buscar lo justo y repartir el trabajo",
         # 2.2 · Soporte v2
         "estudiante": "Estudiante", "estudiante_s": "«Soy de Bogotá, ¿qué hora es?»",
         "v2_s": "loop ReAct con tope", "hora_s": "ciudad: Bogotá",
@@ -293,7 +293,7 @@ T = {
         "costo": "More cost", "costo_s": "you pay every token, every time",
         "espera": "More waiting", "espera_s": "slower answers",
         "medio": "Worse attention to the middle", "medio_s": "it gets lost in all that text",
-        "m3": "In Module 3: plan first, fetch just enough and split the work",
+        "m3": "Coming up: plan first, fetch just enough and split the work",
         "estudiante": "Student", "estudiante_s": "“I'm in Bogotá, what time is it?”",
         "v2_s": "ReAct loop with a cap", "hora_s": "city: Bogotá",
         "resp_bog": "the time in Bogotá",

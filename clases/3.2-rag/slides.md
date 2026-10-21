@@ -60,7 +60,7 @@ Hit@1: qué parte de las 8 quedó primera. Hit@3: qué parte quedó entre las tr
 
 :::diagrama c32-herramienta
 
-.lead Es el loop de la clase 2.2 con una herramienta más: buscar en la FAQ.
+.lead Es el loop ReAct que ya conoces, con una herramienta más: buscar en la FAQ.
 
 Notas:
 RAG fijo busca siempre, hasta para "hola". Como herramienta, el agente decide si busca y con qué consulta. Clic 1: "hola", no busca. Clic 2: la duda del laboratorio, busca y cita. Clic 3: la capital de Perú, la herramienta devuelve SIN_EVIDENCIA y el agente dice "no sé".
@@ -101,4 +101,4 @@ Para quien programa: similitud coseno, top-K y MIN_SCORE en la clase Indice; SIS
 :::diagrama c32-avance
 
 Notas:
-Un clic por capacidad nueva de Soporte NemoClaw. Clic 4: lo que falta. "Me sale 401 después de reanudar Brev": la respuesta está repartida entre la key, la instancia y la cookie. Juntar piezas de varias fuentes: eso hacen los subagentes (clase 3.3).
+Un clic por capacidad nueva de Soporte NemoClaw. Clic 4: lo que falta. "Me sale 401 después de reanudar Brev": la respuesta está repartida entre la key, la instancia y la cookie. Juntar piezas de varias fuentes: eso hacen los subagentes, que vienen pronto.

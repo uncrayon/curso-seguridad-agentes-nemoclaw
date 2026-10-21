@@ -70,7 +70,7 @@ Click 1: turn 1. Click 2: in turn 2 everything is resent and it answers "Your na
 :::diagrama c21-soporte-v1
 
 Notes:
-Click 1: what it has (system prompt with role and rules, history, never asks for or repeats an API key, max_turnos per session). Clicks 2 and 3: the max_mensajes window; with 4 it forgets the name, with 20 it remembers. Click 4: memory versus cost. In 2.2 we give it ReAct and a tool.
+Click 1: what it has (system prompt with role and rules, history, never asks for or repeats an API key, max_turnos per session). Clicks 2 and 3: the max_mensajes window; with 4 it forgets the name, with 20 it remembers. Click 4: memory versus cost. Soon we give it ReAct and a tool.
 
 ---
 

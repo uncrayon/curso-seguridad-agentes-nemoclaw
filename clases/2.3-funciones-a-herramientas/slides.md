@@ -57,7 +57,7 @@ Una herramienta es una puerta entre el texto del modelo y tu computadora. Clic 1
 :::diagrama c23-otra-busqueda
 
 Notas:
-Adelanto de RAG (clase 3.2). Clic 1: el modelo y la ficha de buscar_faq. Clic 2: antes buscaba por palabras clave. Clic 3: ahora por significado, con embeddings (nemotron-3-embed-1b): REGISTRO["buscar_faq"] = buscar_faq_semantica, y el modelo no se entera. Clic 4: si el backend nuevo es peor, el esquema no te avisa.
+Adelanto de RAG, que veremos más adelante. Clic 1: el modelo y la ficha de buscar_faq. Clic 2: antes buscaba por palabras clave. Clic 3: ahora por significado, con embeddings (nemotron-3-embed-1b): REGISTRO["buscar_faq"] = buscar_faq_semantica, y el modelo no se entera. Clic 4: si el backend nuevo es peor, el esquema no te avisa.
 
 ---
 
@@ -66,7 +66,7 @@ Adelanto de RAG (clase 3.2). Clic 1: el modelo y la ficha de buscar_faq. Clic 2:
 :::diagrama c23-subagente
 
 Notas:
-Clic 1: el principal solo ve consultar_experto_brev(pregunta). Clic 2: el subagente tiene su propio prompt y solo estimar_costo_brev. Clic 3: regresa solo la respuesta; sus pasos no ensucian el historial principal (separa contexto). Clic 4: no es control de acceso. Lo escalamos en la clase 3.3 con un planificador.
+Clic 1: el principal solo ve consultar_experto_brev(pregunta). Clic 2: el subagente tiene su propio prompt y solo estimar_costo_brev. Clic 3: regresa solo la respuesta; sus pasos no ensucian el historial principal (separa contexto). Clic 4: no es control de acceso. Más adelante lo escalamos con un planificador.
 
 ---
 
@@ -75,7 +75,7 @@ Clic 1: el principal solo ve consultar_experto_brev(pregunta). Clic 2: el subage
 :::diagrama c23-mcp
 
 Notas:
-tools/list → nombres, descripciones y esquemas; tools/call → resultado. Clic 1: la lista que da el servidor (simulado en el notebook). Clic 2: la descripción sospechosa de sincronizar_notas. Clic 3: tu lista blanca (PERMITIDAS_MCP). Clic 4: faq_curso entra, sincronizar_notas se rechaza. Clic 5: tools/list es una entrada no confiable; mínimo alcance. Antes de un MCP remoto: verifica identidad, alcance, a qué servidor van las credenciales y a qué destinos de red sale. Módulo 5.
+tools/list → nombres, descripciones y esquemas; tools/call → resultado. Clic 1: la lista que da el servidor (simulado en el notebook). Clic 2: la descripción sospechosa de sincronizar_notas. Clic 3: tu lista blanca (PERMITIDAS_MCP). Clic 4: faq_curso entra, sincronizar_notas se rechaza. Clic 5: tools/list es una entrada no confiable; mínimo alcance. Antes de un MCP remoto: verifica identidad, alcance, a qué servidor van las credenciales y a qué destinos de red sale. Lo vemos a fondo cuando hablemos de seguridad.
 
 ---
 
@@ -84,7 +84,7 @@ tools/list → nombres, descripciones y esquemas; tools/call → resultado. Clic
 :::diagrama c23-soporte-v3
 
 Notas:
-Clic 1: buscar_faq (responde con la FAQ y cita tema y pregunta) y estimar_costo_brev (horas × tarifa). Clic 2: Soporte NemoClaw v3. Clic 3: el harness (argumentos validados, errores que se corrigen solos, solo ve las herramientas que necesita). Clic 4: reto, tarifa_instancia(tipo) con enum → dos llamadas en orden y el costo correcto. En 3.1: router de triage con instalacion | api_key | brev | seguridad | otro.
+Clic 1: buscar_faq (responde con la FAQ y cita tema y pregunta) y estimar_costo_brev (horas × tarifa). Clic 2: Soporte NemoClaw v3. Clic 3: el harness (argumentos validados, errores que se corrigen solos, solo ve las herramientas que necesita). Clic 4: reto, tarifa_instancia(tipo) con enum → dos llamadas en orden y el costo correcto. Lo que sigue: un router de triage con instalacion | api_key | brev | seguridad | otro.
 
 ---
 

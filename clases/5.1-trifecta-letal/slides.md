@@ -3,7 +3,7 @@
 :::diagrama c51-dice-hace
 
 Notas:
-Clic 1: el chatbot (texto entra, texto sale; el peor caso es una respuesta equivocada). Clic 2: el agente, con archivos, programas, internet, memoria y tareas que corren solas; el peor caso es una acción equivocada sin nadie mirando. Clic 3: el detalle clave, toma como orden cualquier texto que lee. En el Módulo 4 dejamos al agente trabajando solo: hoy, ¿qué es lo peor que puede hacer con el acceso que ya tiene?
+Clic 1: el chatbot (texto entra, texto sale; el peor caso es una respuesta equivocada). Clic 2: el agente, con archivos, programas, internet, memoria y tareas que corren solas; el peor caso es una acción equivocada sin nadie mirando. Clic 3: el detalle clave, toma como orden cualquier texto que lee. Antes dejamos al agente trabajando solo: hoy, ¿qué es lo peor que puede hacer con el acceso que ya tiene?
 
 ---
 
@@ -48,7 +48,7 @@ De adentro hacia afuera, un clic por capa: el prompt (¿qué quiere hacer?; al m
 :::diagrama c51-mecanismos
 
 Notas:
-Un clic por pregunta, cada una con su nombre técnico en la etiqueta: ¿a dónde se conecta? (espacio de red aislado + proxy CONNECT + OPA); ¿qué archivos alcanza? (Landlock); ¿qué acciones pide al sistema? (seccomp: sin ptrace, mount, setuid); ¿con qué poder empieza? (usuario sandbox, sin root). Clic 5: usuario y seccomp en 5.2; red y archivos en 5.3. No leas los nombres técnicos en voz alta.
+Un clic por pregunta, cada una con su nombre técnico en la etiqueta: ¿a dónde se conecta? (espacio de red aislado + proxy CONNECT + OPA); ¿qué archivos alcanza? (Landlock); ¿qué acciones pide al sistema? (seccomp: sin ptrace, mount, setuid); ¿con qué poder empieza? (usuario sandbox, sin root). Clic 5: pronto pruebas usuario y seccomp; después, red y archivos. No leas los nombres técnicos en voz alta.
 
 ---
 
@@ -65,7 +65,7 @@ Clic 1: una respuesta sale hacia un sitio permitido; el guardia revisa el destin
 
 :::diagrama c51-hoja
 
-.lead Llénala para tu agente: es la entrada de la clase 5.3.
+.lead Llénala para tu agente: la vas a usar en una clase futura.
 
 Notas:
 El ejemplo de Soporte NemoClaw, un clic por pata: datos privados (MEMORY.md, resúmenes del cron, el token del gateway), no confiable (la FAQ, las preguntas), salida (el modelo, clawhub.ai, el chat). Clic 4: la pata que quitamos, no guardar datos personales. La tabla completa y cinco casos para practicar están en la página de la clase; pide que la guarden como trifecta.md.
@@ -83,7 +83,7 @@ El ejemplo de Soporte NemoClaw, un clic por pata: datos privados (MEMORY.md, res
 :::
 
 :::bad
-"El sandbox me protege de todo" → lo desmentimos con datos en la 5.3.
+"El sandbox me protege de todo" → lo desmentimos con datos más adelante.
 :::
 
 Notas:

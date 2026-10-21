@@ -3,7 +3,7 @@
 :::diagrama c61-cinco-piezas
 
 Notes:
-Open with the strong idea: we're not going to memorize products, we're going to learn to compare them. Five clicks, one piece each: working folder, tools (terminal, editing, search, MCP), memory, unattended tasks (cron, long tasks, queues) and network. Click 6: what changes is what comes open by default. The loop is the one from class 2.1.
+Open with the strong idea: we're not going to memorize products, we're going to learn to compare them. Five clicks, one piece each: working folder, tools (terminal, editing, search, MCP), memory, unattended tasks (cron, long tasks, queues) and network. Click 6: what changes is what comes open by default. The loop is the one you already know.
 
 ---
 
@@ -41,7 +41,7 @@ Click 1: OpenClaw (`nemoclaw`), the usual one, with gateway and dashboard; Landl
 :::diagrama c61-dos-planos
 
 Notes:
-Click 1: the application plane (CLAUDE.md, AGENTS.md, approvals, modes): the agent or a prompt can change it. Click 2: the system plane (Landlock, seccomp, netns, network proxy): only the operator changes it. Click 3: an approval isn't a kernel boundary. NVIDIA also documents OpenShell for Codex, Cursor and OpenCode. Tie it back to Module 5: prompt, harness, sandbox.
+Click 1: the application plane (CLAUDE.md, AGENTS.md, approvals, modes): the agent or a prompt can change it. Click 2: the system plane (Landlock, seccomp, netns, network proxy): only the operator changes it. Click 3: an approval isn't a kernel boundary. NVIDIA also documents OpenShell for Codex, Cursor and OpenCode. Tie it back to what you saw about security: prompt, harness, sandbox.
 
 ---
 
@@ -87,4 +87,4 @@ One click per task, from less to more risk. Click 1: coding with you alongside: 
 :::diagrama c61-ficha
 
 Notes:
-It's the class challenge. Have them do it with the agent they use at work, reading its official docs in the browser, with one link per row. Click 1: the empty card. Click 2: if it isn't documented, that's the finding. Close with the reminder: if they'll do 6.2's optional lab part, they leave the instance running and keep going; if not, they save what they want and delete the instance in the Brev console with Delete (stopped, the disk keeps billing ≈USD 1.20 a day). Then check Billing.
+It's the class challenge. Have them do it with the agent they use at work, reading its official docs in the browser, with one link per row. Click 1: the empty card. Click 2: if it isn't documented, that's the finding. Close with the reminder: if they'll do the optional lab part about the skill library, they leave the instance running and keep going; if not, they save what they want and delete the instance in the Brev console with Delete (stopped, the disk keeps billing ≈USD 1.20 a day). Then check Billing.

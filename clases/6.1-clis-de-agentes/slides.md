@@ -3,7 +3,7 @@
 :::diagrama c61-cinco-piezas
 
 Notas:
-Abre con la idea fuerte: no vamos a memorizar productos, vamos a aprender a compararlos. Cinco clics, una pieza cada uno: carpeta de trabajo, herramientas (terminal, edición, búsqueda, MCP), memoria, tareas sin nadie (cron, tareas largas, colas) y red. Clic 6: lo que cambia es qué viene abierto por defecto. El loop es el de la clase 2.1.
+Abre con la idea fuerte: no vamos a memorizar productos, vamos a aprender a compararlos. Cinco clics, una pieza cada uno: carpeta de trabajo, herramientas (terminal, edición, búsqueda, MCP), memoria, tareas sin nadie (cron, tareas largas, colas) y red. Clic 6: lo que cambia es qué viene abierto por defecto. El loop es el que ya conoces.
 
 ---
 
@@ -41,7 +41,7 @@ Clic 1: OpenClaw (`nemoclaw`), el de siempre, con gateway y dashboard; Landlock 
 :::diagrama c61-dos-planos
 
 Notas:
-Clic 1: el plano de la app (CLAUDE.md, AGENTS.md, aprobaciones, modos): lo puede cambiar el agente o un prompt. Clic 2: el plano del sistema (Landlock, seccomp, netns, proxy de red): solo lo cambia el operador. Clic 3: una aprobación no es un límite del kernel. NVIDIA documenta OpenShell también para Codex, Cursor y OpenCode. Conecta con el Módulo 5: prompt, harness, sandbox.
+Clic 1: el plano de la app (CLAUDE.md, AGENTS.md, aprobaciones, modos): lo puede cambiar el agente o un prompt. Clic 2: el plano del sistema (Landlock, seccomp, netns, proxy de red): solo lo cambia el operador. Clic 3: una aprobación no es un límite del kernel. NVIDIA documenta OpenShell también para Codex, Cursor y OpenCode. Conecta con lo que viste de seguridad: prompt, harness, sandbox.
 
 ---
 
@@ -87,4 +87,4 @@ Un clic por tarea, de menos a más riesgo. Clic 1: programar contigo al lado: Cl
 :::diagrama c61-ficha
 
 Notas:
-Es el reto de la clase. Que lo hagan con el agente que usan en su trabajo, leyendo su documentación oficial en el navegador, con un enlace por fila. Clic 1: la ficha vacía. Clic 2: si no está documentado, ese es el hallazgo. Cierra con el recordatorio: si van a hacer la parte opcional de laboratorio de la 6.2, dejan la instancia encendida y siguen; si no, guardan lo que quieran y borran la instancia en la consola de Brev con Delete (detenida, el disco sigue cobrando ≈USD 1.20 al día). Luego, revisa Billing.
+Es el reto de la clase. Que lo hagan con el agente que usan en su trabajo, leyendo su documentación oficial en el navegador, con un enlace por fila. Clic 1: la ficha vacía. Clic 2: si no está documentado, ese es el hallazgo. Cierra con el recordatorio: si van a hacer la parte opcional de laboratorio sobre la biblioteca de skills, dejan la instancia encendida y siguen; si no, guardan lo que quieran y borran la instancia en la consola de Brev con Delete (detenida, el disco sigue cobrando ≈USD 1.20 al día). Luego, revisa Billing.

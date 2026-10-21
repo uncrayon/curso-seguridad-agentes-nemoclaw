@@ -65,7 +65,7 @@ One click per bar: vague descriptions 13 %, project descriptions 80 %, after ✏
 .lead Without a terminal, your library already works in the notebook. This is the operator path.
 
 Notes:
-Click 1: the skill-library folder, which already ships in the course repo. Click 2: in the dashboard's VM TERMINAL, the course is already cloned in `~/curso` since 4.3 (if not, `git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw ~/curso`). Click 3: `nemoclaw my-assistant skill install ~/curso/skill-library/diagnostico-api/`; it answers `✓ Validated SKILL.md` and `Installed diagnostico-api from path -> …`; confirm with `nemoclaw my-assistant skill list`. Click 4: new session and try both selection modes: `nemoclaw my-assistant agent --session-key prueba-62a -m '…'` or the CHAT WITH AGENT button. It's optional and comes right after the 6.1 practice. When done, close the lab: save what you want, Delete in the Brev console and check Billing. OpenClaw puts it in /sandbox/.openclaw/workspace/skills/<name>. Hermes in /sandbox/.hermes/skills; Deep Agents in /sandbox/.deepagents/agent/skills.
+Click 1: the skill-library folder, which already ships in the course repo. Click 2: in the dashboard's VM TERMINAL, the course is already cloned in `~/curso` from earlier (if not, `git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw ~/curso`). Click 3: `nemoclaw my-assistant skill install ~/curso/skill-library/diagnostico-api/`; it answers `✓ Validated SKILL.md` and `Installed diagnostico-api from path -> …`; confirm with `nemoclaw my-assistant skill list`. Click 4: new session and try both selection modes: `nemoclaw my-assistant agent --session-key prueba-62a -m '…'` or the CHAT WITH AGENT button. It's optional and comes at the end of the lab practices. When done, close the lab: save what you want, Delete in the Brev console and check Billing. OpenClaw puts it in /sandbox/.openclaw/workspace/skills/<name>. Hermes in /sandbox/.hermes/skills; Deep Agents in /sandbox/.deepagents/agent/skills.
 
 ---
 
@@ -83,4 +83,4 @@ One click per error. 1: `mapping values are not allowed here` = there's a `: ` i
 :::diagrama c62-persistencia
 
 Notes:
-Click 1: your library, with a poisoned skill hidden in it. Click 2: a poisoned skill is a poisoned directive that survives across sessions. Clicks 3 to 5: review them like code (diff, owner, pull request); the text asks, the tool and the sandbox enforce; decide who can write to `skills/`. Tie it back to 5.1: persistence makes an injection outlast a conversation.
+Click 1: your library, with a poisoned skill hidden in it. Click 2: a poisoned skill is a poisoned directive that survives across sessions. Clicks 3 to 5: review them like code (diff, owner, pull request); the text asks, the tool and the sandbox enforce; decide who can write to `skills/`. Tie it back to the lethal trifecta: persistence makes an injection outlast a conversation.

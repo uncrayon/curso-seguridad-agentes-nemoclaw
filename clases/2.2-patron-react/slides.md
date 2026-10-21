@@ -14,7 +14,7 @@ Patrón de Yao et al., 2022; está detrás de LangChain, OpenClaw y casi todos l
 :::diagrama c22-pide
 
 Notas:
-Clic 1: el modelo solo ve la ficha de la herramienta (nombre, descripción, datos que pide = el esquema). Clic 2: manda un pedido (tool_call) y tu código lo revisa. Clic 3: tu código ejecuta la herramienta. Clic 4: el resultado vuelve como texto. Clic 5: el modelo no ejecuta nada. Insistir: quien ejecuta es el harness. Eso será clave para la seguridad en el Módulo 5.
+Clic 1: el modelo solo ve la ficha de la herramienta (nombre, descripción, datos que pide = el esquema). Clic 2: manda un pedido (tool_call) y tu código lo revisa. Clic 3: tu código ejecuta la herramienta. Clic 4: el resultado vuelve como texto. Clic 5: el modelo no ejecuta nada. Insistir: quien ejecuta es el harness. Eso será clave para la seguridad, más adelante.
 
 ---
 
@@ -61,7 +61,7 @@ Error en vivo: SISTEMA_TERCO llega al tope de 4 pasos. Clic 1: el agente terco; 
 .lead *Context rot*: una conversación que se echa a perder de tan larga.
 
 Notas:
-Mostrar la celda de tokens_aprox: de cientos a miles de tokens por llamada. Clic 1: cada paso reenvía todo, la libreta crece. Clics 2 a 4: más costo, más espera y el modelo atiende peor lo que queda en medio (Liu et al., 2023). Clic 5: mitigaciones del Módulo 3 (planear primero, recuperar lo justo, delegar a subagentes).
+Mostrar la celda de tokens_aprox: de cientos a miles de tokens por llamada. Clic 1: cada paso reenvía todo, la libreta crece. Clics 2 a 4: más costo, más espera y el modelo atiende peor lo que queda en medio (Liu et al., 2023). Clic 5: mitigaciones que veremos más adelante (planear primero, recuperar lo justo, delegar a subagentes).
 
 ---
 
@@ -70,7 +70,7 @@ Mostrar la celda de tokens_aprox: de cientos a miles de tokens por llamada. Clic
 :::diagrama c22-soporte-v2
 
 Notas:
-Pregunta de demo: "Soy de Bogotá. ¿Qué hora es allá?". Un clic por pieza: el estudiante, Soporte NemoClaw v2 (loop ReAct con tope y validación de cada tool_call), la herramienta hora_local(ciudad) y la respuesta. Clic 5: la función react no cambió; solo agregas el esquema a TOOLS y la función al REGISTRO. En 2.3: buscar_faq y estimar_costo_brev.
+Pregunta de demo: "Soy de Bogotá. ¿Qué hora es allá?". Un clic por pieza: el estudiante, Soporte NemoClaw v2 (loop ReAct con tope y validación de cada tool_call), la herramienta hora_local(ciudad) y la respuesta. Clic 5: la función react no cambió; solo agregas el esquema a TOOLS y la función al REGISTRO. Lo que sigue: buscar_faq y estimar_costo_brev.
 
 ---
 

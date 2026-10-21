@@ -95,7 +95,7 @@ T = {
         "m_arch": "¿Qué archivos alcanza?", "m_arch_sub": "una cerradura de archivos", "m_arch_t": "Landlock",
         "m_acc": "¿Qué acciones pide?", "m_acc_sub": "una lista de prohibidas", "m_acc_t": "seccomp",
         "m_usr": "¿Con qué poder empieza?", "m_usr_sub": "sin ser administrador", "m_usr_t": "usuario sandbox",
-        "lo_pruebas": "Los pruebas tú: usuario y acciones en la 5.2, red y archivos en la 5.3",
+        "lo_pruebas": "Los pruebas tú más adelante: primero usuario y acciones; luego red y archivos",
         # 5.1 · lo que no ve
         "respuesta": "Una respuesta", "respuesta_sub": "lo que esperabas",
         "secreto": "Tu contraseña", "secreto_sub": "escondida en el mensaje",
@@ -253,7 +253,7 @@ T = {
         "m_arch": "Which files can it reach?", "m_arch_sub": "a lock on the files", "m_arch_t": "Landlock",
         "m_acc": "Which actions does it request?", "m_acc_sub": "a list of forbidden ones", "m_acc_t": "seccomp",
         "m_usr": "What power does it start with?", "m_usr_sub": "not an administrator", "m_usr_t": "sandbox user",
-        "lo_pruebas": "You test them yourself: user and actions in 5.2, network and files in 5.3",
+        "lo_pruebas": "You test them yourself later: first user and actions, then network and files",
         "respuesta": "A reply", "respuesta_sub": "what you expected",
         "secreto": "Your password", "secreto_sub": "hidden in the message",
         "guardia": "Guard", "guardia_sub": "destination on the list? Yes",

@@ -12,7 +12,7 @@ The two new words. Click 1: the skill, a recipe card the agent reads when it nee
 :::diagrama c43-controles
 
 Notes:
-One click per question: session (what conversation does it remember?), directive (what instructions does it follow?), trigger (what makes it start?). Click 4: together they describe an always-on agent. Click 5: they work for any automation, from OpenClaw or any other tool. In Module 6 we use them to compare CLIs.
+One click per question: session (what conversation does it remember?), directive (what instructions does it follow?), trigger (what makes it start?). Click 4: together they describe an always-on agent. Click 5: they work for any automation, from OpenClaw or any other tool. Later we use them to compare CLIs.
 
 ---
 
@@ -97,7 +97,7 @@ Click 1: an OK in Run history isn't enough. Click 2: you read it, as the operato
 :::diagrama c43-nadie-mira
 
 Notes:
-Click 1: "Send the daily report" fires even when you're away. Click 2: each fire is an isolated session, but the workspace is shared and affects what comes next. Click 3: each fire spends model credits: our task used ≈112k tokens. Never leave an Interval of a few minutes running. Click 4: name your tasks, review Automations, and pause or delete from the ⋯ menu what you don't recognize. Bridge to Module 5: an agent with data, tools and autonomous jobs is the lethal trifecta scenario.
+Click 1: "Send the daily report" fires even when you're away. Click 2: each fire is an isolated session, but the workspace is shared and affects what comes next. Click 3: each fire spends model credits: our task used ≈112k tokens. Never leave an Interval of a few minutes running. Click 4: name your tasks, review Automations, and pause or delete from the ⋯ menu what you don't recognize. Bridge to what's next: an agent with data, tools and autonomous jobs is the lethal trifecta scenario.
 
 ---
 
@@ -123,9 +123,9 @@ The file's time is in UTC (Mexico City is 6 hours behind). heartbeat-main in Ski
 
 - The `soporte-nemoclaw` skill and the FAQ on its desk
 - A task in Automations that left a summary of the FAQ
-- Repeat the 401 question and compare it with the one from class 4.1
+- Repeat the 401 question and compare it with the first one you asked
 
-What risks did we open? We'll see in Module 5.
+What risks did we open? We'll see later.
 
 Notes:
 Save the new answer below the previous one in proyecto/linea-base-4.1.md. If you stop for today: Stop in the Brev console and come back soon.

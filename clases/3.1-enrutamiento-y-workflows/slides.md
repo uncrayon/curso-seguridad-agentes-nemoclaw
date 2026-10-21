@@ -3,7 +3,7 @@
 :::diagrama c31-loop-vs-flujo
 
 Notas:
-Clic 1: el ticket del proyecto. Clic 2: el loop de la clase 2.2, donde el modelo descubre qué revisar un paso a la vez. Clic 3: el flujo de trabajo, donde tu código ya sabe que toca revisar key, instancia y sesión. La pregunta de la clase: ¿quién decide la forma del trabajo, el modelo o tu código?
+Clic 1: el ticket del proyecto. Clic 2: el loop ReAct que construiste antes, donde el modelo descubre qué revisar un paso a la vez. Clic 3: el flujo de trabajo, donde tu código ya sabe que toca revisar key, instancia y sesión. La pregunta de la clase: ¿quién decide la forma del trabajo, el modelo o tu código?
 
 ---
 
@@ -12,7 +12,7 @@ Clic 1: el ticket del proyecto. Clic 2: el loop de la clase 2.2, donde el modelo
 :::diagrama c31-patrones
 
 Notas:
-Un clic por patrón: ReAct (ya lo conoces, clase 2.2), router, ReWOO y fan-out. Clic 5: hoy construimos los tres de la derecha, aplicados a Soporte NemoClaw.
+Un clic por patrón: ReAct (ya lo conoces), router, ReWOO y fan-out. Clic 5: hoy construimos los tres de la derecha, aplicados a Soporte NemoClaw.
 
 ---
 
@@ -108,4 +108,4 @@ Para quien programa. response_format con json_schema y enum; temperatura 0. En e
 :::diagrama c31-avance
 
 Notas:
-Un clic por capacidad nueva de Soporte NemoClaw y, al final, el reto. Siguiente paso: que los especialistas dejen de responder de memoria (clase 3.2).
+Un clic por capacidad nueva de Soporte NemoClaw y, al final, el reto. Siguiente paso, muy pronto: que los especialistas dejen de responder de memoria.

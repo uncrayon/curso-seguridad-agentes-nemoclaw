@@ -76,14 +76,14 @@ T = {
         "nv": "Modelo de NVIDIA", "nv_sub": "build.nvidia.com · la key se agrega afuera",
         "net": "Internet", "net_sub": "bloqueado, salvo la lista permitida",
         # proyecto
-        "m": "Módulo", "p2": "Conversa, usa herramientas y busca en la FAQ",
+        "m": "Paso", "p2": "Conversa, usa herramientas y busca en la FAQ",
         "p3": "Clasifica, cita sus fuentes y reparte trabajo",
         "p4": "Vive en un laboratorio real y trabaja solo",
         "p5": "Lo revisas y lo encierras con reglas", "p6": "Le das recetas nuevas y lo llevas a tu casa",
         "proy": "Soporte NemoClaw: un agente que responde dudas del curso",
         # mapa
-        "m13": "Módulos 1 a 3", "m13_sub": "Navegador y Colab · solo una API key gratis",
-        "m46": "Módulos 4 a 6", "m46_sub": "Un laboratorio en la nube · cupón de 1 USD",
+        "m13": "Primero: en el navegador", "m13_sub": "Navegador y Colab · solo una API key gratis",
+        "m46": "Después: en el laboratorio", "m46_sub": "Un laboratorio en la nube · cupón de 1 USD",
         "nada": "No instalas nada en tu computadora",
         "navegador": "Navegador", "agente_corto": "Agente",
         # dónde está todo
@@ -138,13 +138,13 @@ T = {
         "oc_sub": "the agent works in here",
         "nv": "NVIDIA model", "nv_sub": "build.nvidia.com · key added outside",
         "net": "Internet", "net_sub": "blocked, except the allow list",
-        "m": "Module", "p2": "Talks, uses tools and searches the FAQ",
+        "m": "Step", "p2": "Talks, uses tools and searches the FAQ",
         "p3": "Classifies, cites sources and splits work",
         "p4": "Lives in a real lab and works on its own",
         "p5": "You review it and lock it in with rules", "p6": "New recipes, and you take it home",
         "proy": "Soporte NemoClaw: an agent that answers course questions",
-        "m13": "Modules 1 to 3", "m13_sub": "Browser and Colab · just a free API key",
-        "m46": "Modules 4 to 6", "m46_sub": "A lab in the cloud · 1 USD coupon",
+        "m13": "First: in the browser", "m13_sub": "Browser and Colab · just a free API key",
+        "m46": "Then: in the lab", "m46_sub": "A lab in the cloud · 1 USD coupon",
         "nada": "You don't install anything on your computer",
         "navegador": "Browser", "agente_corto": "Agent",
         "platzi": "Your Platzi class", "platzi_sub": "the video",
@@ -249,8 +249,8 @@ def proyecto_crece(lang):
     t = T[lang]
     etapas = [(2, "chat", t["p2"]), (3, "route", t["p3"]), (4, "computer", t["p4"]), (5, "lock", t["p5"]), (6, "menu_book", t["p6"])]
     pasos = "".join(f'<div class="dg-stage" data-paso="{i + 1}"><span class="dg-ico">{ic}</span>'
-                    f'<span class="dg-stage-m">{t["m"]} {m}</span><b>{tx}</b></div>'
-                    for i, (m, ic, tx) in enumerate(etapas))
+                    f'<span class="dg-stage-m">{t["m"]} {i + 1}</span><b>{tx}</b></div>'
+                    for i, (_, ic, tx) in enumerate(etapas))
     return f'<div class="dg dg-timeline"><div class="dg-track"></div>{pasos}</div>' + pie(t["proy"], icono="forum")
 
 

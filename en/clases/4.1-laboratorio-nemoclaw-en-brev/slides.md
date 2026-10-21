@@ -66,7 +66,7 @@ It may say it's `gateway-owner`
 .lead What the agent says about itself is not evidence. The system is.
 
 Notes:
-In the chat: "Who are you and which folder do you work in?". In the VM TERMINAL: nemoclaw list, nemoclaw my-assistant status (inference healthy, phase Ready) and exec -- whoami / pwd (sandbox, /sandbox). This idea comes back in 4.2 and in Module 5.
+In the chat: "Who are you and which folder do you work in?". In the VM TERMINAL: nemoclaw list, nemoclaw my-assistant status (inference healthy, phase Ready) and exec -- whoami / pwd (sandbox, /sandbox). This idea comes back in the next classes, especially when we cover security.
 
 ---
 
@@ -89,7 +89,7 @@ Same session
 .lead The front desk (the gateway) keeps the conversation, not the model.
 
 Notes:
-The four commands are in Part D of the README and in cookbook recipe 7. The chat behaves the same: under Sessions, a new conversation doesn't know the code. Workspace files survive the reset: that's class 4.2.
+The four commands are in Part D of the README and in cookbook recipe 7. The chat behaves the same: under Sessions, a new conversation doesn't know the code. Workspace files survive the reset: we'll see that soon.
 
 ---
 
@@ -105,7 +105,7 @@ git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw
 .lead You paste them in the dashboard's VM TERMINAL. You don't install anything on your computer.
 
 Notes:
-The git clone puts the course files in ~/curso; class 4.3 uses them (FAQ and skill). The OpenShell gateway listens on 18080 (openshell gateway info); the OpenClaw chat, on 18789.
+The git clone puts the course files in ~/curso; a later class uses them (FAQ and skill). The OpenShell gateway listens on 18080 (openshell gateway info); the OpenClaw chat, on 18789.
 
 ---
 
@@ -114,7 +114,7 @@ The git clone puts the course files in ~/curso; class 4.3 uses them (FAQ and ski
 :::diagrama estados-instancia
 
 :::tip
-Do the whole lab in a single sitting. If you stop, **Stop** and come back soon. When you finish class 6.1, **Delete**.
+Do the whole lab in a single sitting. If you stop, **Stop** and come back soon. When you finish the lab practices, **Delete**.
 :::
 
 Notes:
@@ -143,7 +143,7 @@ nemoclaw deploy no longer exists (removed in v0.0.117). The SQLite ExperimentalW
 
 - Ask it: *"A student says: 'My notebook returns HTTP 401'. What do you tell them?"*
 - Copy the answer into your project notes
-- In class 4.3 you give it the FAQ and compare
+- Later you give it the FAQ and compare
 
 Notes:
 You can ask in the chat or with nemoclaw my-assistant agent --session-key linea-base -m '…'. The no-skill baseline is what we'll improve with the course FAQ.

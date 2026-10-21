@@ -36,7 +36,7 @@
 </div><div class="col">
 <p><strong>Lo que muestra el sistema</strong><br><code>nemoclaw my-assistant exec -- whoami</code><br>→ <code>sandbox</code></p>
 </div></div>
-<p class="lead">Lo que el agente dice de sí mismo no es evidencia. El sistema sí.</p><aside class="notes"><p>En el chat: «¿Quién eres y en qué carpeta trabajas?». En la VM TERMINAL: nemoclaw list, nemoclaw my-assistant status (inferencia healthy, fase Ready) y exec -- whoami / pwd (sandbox, /sandbox). Esta idea vuelve en 4.2 y en el Módulo 5.</p></aside></section>
+<p class="lead">Lo que el agente dice de sí mismo no es evidencia. El sistema sí.</p><aside class="notes"><p>En el chat: «¿Quién eres y en qué carpeta trabajas?». En la VM TERMINAL: nemoclaw list, nemoclaw my-assistant status (inferencia healthy, fase Ready) y exec -- whoami / pwd (sandbox, /sandbox). Esta idea vuelve en las próximas clases, sobre todo cuando hablemos de seguridad.</p></aside></section>
 <section class="slide"><h2>La memoria vive en la sesión</h2>
 <div class="cols"><div class="col">
 <p><strong>1 · Planta un dato</strong><br>Sesión <code>memo-41</code><br>«Recuerda CODE-7Q4» → OK</p>
@@ -45,23 +45,23 @@
 </div><div class="col">
 <p><strong>3 · Reinicia y pregunta</strong><br><code>sessions reset memo-41</code><br>→ «no lo se»</p>
 </div></div>
-<p class="lead">La conversación la guarda la recepción (el gateway), no el modelo.</p><aside class="notes"><p>Los cuatro comandos están en la Parte D del README y en la receta 7. En el chat se ve igual: en Sessions, una conversación nueva no conoce el código. Los archivos del workspace sobreviven al reinicio: eso es la clase 4.2.</p></aside></section>
+<p class="lead">La conversación la guarda la recepción (el gateway), no el modelo.</p><aside class="notes"><p>Los cuatro comandos están en la Parte D del README y en la receta 7. En el chat se ve igual: en Sessions, una conversación nueva no conoce el código. Los archivos del workspace sobreviven al reinicio: eso lo vemos pronto.</p></aside></section>
 <section class="slide"><h2>Comandos de operador</h2>
 <pre><code class="lang-bash">nemoclaw list                         # el sandbox de tu agente
 nemoclaw my-assistant status          # ¿el agente está sano?
 nemoclaw my-assistant exec -- whoami  # ¿quién es, de verdad?
 git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw ~/curso</code></pre>
-<p class="lead">Se pegan en la VM TERMINAL del tablero. No instalas nada en tu computadora.</p><aside class="notes"><p>El git clone deja los archivos del curso en ~/curso; la clase 4.3 los usa (FAQ y skill). El gateway de OpenShell escucha en 18080 (openshell gateway info); el chat de OpenClaw, en 18789.</p></aside></section>
+<p class="lead">Se pegan en la VM TERMINAL del tablero. No instalas nada en tu computadora.</p><aside class="notes"><p>El git clone deja los archivos del curso en ~/curso; una clase futura los usa (FAQ y skill). El gateway de OpenShell escucha en 18080 (openshell gateway info); el chat de OpenClaw, en 18789.</p></aside></section>
 <section class="slide"><h2>Cuánto cuesta cada estado</h2>
 <div class="dg dg-row states"><div class="dg-node ok" data-paso="1"><span class="dg-ico">play_arrow</span><b>Encendida</b><small>cobra la máquina y el disco</small></div><div class="dg-arrow h " data-paso="2" style="width:3.0em"><span class="dg-lab">Stop</span></div><div class="dg-node warn" data-paso="2"><span class="dg-ico">pause</span><b>Detenida</b><small>cobra el disco: ≈ USD 1.20 al día</small></div><div class="dg-arrow h " data-paso="3" style="width:3.9em"><span class="dg-lab">Delete</span></div><div class="dg-node bad" data-paso="3"><span class="dg-ico">delete</span><b>Borrada</b><small>no cobra · se pierde todo</small></div></div><p class="dg-note" data-paso="4"><span class="dg-i">paid</span>≈ USD 0.25 por hora encendida · 1 USD ≈ 4 horas · detenida ≈ USD 1.20 al día</p>
 <div class="call tip">
-<p>Haz todo el laboratorio en una sola sentada. Si paras, <strong>Stop</strong> y vuelve pronto. Al terminar la clase 6.1, <strong>Delete</strong>.</p>
+<p>Haz todo el laboratorio en una sola sentada. Si paras, <strong>Stop</strong> y vuelve pronto. Cuando termines las prácticas del laboratorio, <strong>Delete</strong>.</p>
 </div><aside class="notes"><p>Encendida ≈USD 0.25/h (la página muestra $0.26/hr). Detenida, el disco cobra ≈USD 0.05/h, ≈USD 1.20 al día: más que el cupón. Las preguntas al modelo se pagan con los créditos de build.nvidia.com, no con Brev.</p></aside></section>
 <section class="slide"><h2>Si algo sale mal</h2>
 <table><thead><tr><th>Ves</th><th>Haz esto</th></tr></thead><tbody><tr><td>Te pide iniciar sesión otra vez</td><td>Normal: entra con la misma cuenta</td></tr><tr><td>Tarjeta roja <strong>RETRY</strong></td><td>No la toques: mira si el registro avanza</td></tr><tr><td>"out of credits" con saldo</td><td>Cambia a la organización correcta en Brev</td></tr><tr><td>Escribes y la terminal no reacciona</td><td>Haz clic dentro del área negra</td></tr><tr><td><code>503 … no_healthy_upstream</code></td><td>Espera un par de minutos y recarga</td></tr></tbody></table><aside class="notes"><p>nemoclaw deploy ya no existe (eliminado en v0.0.117). La línea ExperimentalWarning de SQLite no es un error. Shift+Esc cierra la terminal.</p></aside></section>
 <section class="slide"><h2>Avance del proyecto</h2>
 <p class="lead">Soporte NemoClaw ya tiene casa. Mide cómo responde hoy.</p>
-<ul><li>Pregúntale: <em>"Un estudiante dice: 'Mi notebook responde HTTP 401'. ¿Qué le respondes?"</em></li><li>Copia la respuesta en tus notas del proyecto</li><li>En la clase 4.3 le das la FAQ y comparas</li></ul><aside class="notes"><p>Se puede preguntar en el chat o con nemoclaw my-assistant agent --session-key linea-base -m '…'. La línea base sin skill es la que vamos a mejorar con la FAQ del curso.</p></aside></section>
+<ul><li>Pregúntale: <em>"Un estudiante dice: 'Mi notebook responde HTTP 401'. ¿Qué le respondes?"</em></li><li>Copia la respuesta en tus notas del proyecto</li><li>Más adelante le das la FAQ y comparas</li></ul><aside class="notes"><p>Se puede preguntar en el chat o con nemoclaw my-assistant agent --session-key linea-base -m '…'. La línea base sin skill es la que vamos a mejorar con la FAQ del curso.</p></aside></section>
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""></div><h2>En la próxima clase aprenderemos</h2><p class="prox">Explora el gateway y el workspace de OpenClaw</p><ul><li>Las piezas de OpenClaw: gateway, sesiones y workspace</li><li>Los archivos que definen al agente: SOUL.md, AGENTS.md, MEMORY.md</li><li>Verificar como operador lo que el agente dice que hizo</li></ul></section>
 <div class="foot"><span><img src="../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Guía de la clase</a><span id="counter"></span></span></div>
 <div class="bar"></div>

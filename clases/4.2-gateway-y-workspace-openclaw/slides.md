@@ -12,7 +12,7 @@ El edificio de oficinas. Clic 1: tú escribes. Clic 2: la recepción (gateway) r
 :::diagrama c42-escritorio
 
 Notas:
-Clic 1: SOUL.md, el reglamento y la descripción del puesto. Clic 2: AGENTS.md, USER.md y TOOLS.md. Clic 3: HEARTBEAT.md y la carpeta skills (clase 4.3). Clic 4: la memoria en dos niveles, memory/ y MEMORY.md. Clic 5: lo relee al empezar cada conversación. También están IDENTITY.md (nombre, emoji) y POLICY.md (resumen de la política, lo escribe NemoClaw). En un laboratorio nuevo todavía no existen MEMORY.md, memory/ ni skills/: aparecen cuando hacen falta.
+Clic 1: SOUL.md, el reglamento y la descripción del puesto. Clic 2: AGENTS.md, USER.md y TOOLS.md. Clic 3: HEARTBEAT.md y la carpeta skills (las usas pronto). Clic 4: la memoria en dos niveles, memory/ y MEMORY.md. Clic 5: lo relee al empezar cada conversación. También están IDENTITY.md (nombre, emoji) y POLICY.md (resumen de la política, lo escribe NemoClaw). En un laboratorio nuevo todavía no existen MEMORY.md, memory/ ni skills/: aparecen cuando hacen falta.
 
 ---
 
@@ -30,7 +30,7 @@ Clic 1: la conversación vive en la recepción y se pierde al reiniciar la sesi�
 :::diagrama c42-planos
 
 Notas:
-Clic 1: el cuarto, con el agente adentro (usuario sandbox, política más estrecha); solo puede contar lo que hizo. Clic 2: el operador, afuera, con la VM TERMINAL del tablero. Clic 3: el operador lee los archivos directamente (nemoclaw my-assistant exec -- ls / cat). Clic 4: la regla. Esta separación es la base del Módulo 5: un agente que reescribe su propio workspace puede influir en sus ejecuciones futuras.
+Clic 1: el cuarto, con el agente adentro (usuario sandbox, política más estrecha); solo puede contar lo que hizo. Clic 2: el operador, afuera, con la VM TERMINAL del tablero. Clic 3: el operador lee los archivos directamente (nemoclaw my-assistant exec -- ls / cat). Clic 4: la regla. Esta separación es la base de lo que veremos sobre seguridad: un agente que reescribe su propio workspace puede influir en sus ejecuciones futuras.
 
 ---
 
@@ -112,9 +112,9 @@ El chat del laboratorio ya viene emparejado: si apareciera "Pairing required", c
 
 - En `SOUL.md`: a quién ayuda, en qué idioma responde y qué nunca hace
 - En `MEMORY.md`: una preferencia, comprobada en el archivo
-- Repite la pregunta del 401 de la clase 4.1 y anota qué cambió
+- Repite la pregunta del 401 que hiciste antes y anota qué cambió
 
-Le falta conocimiento: en la clase 4.3 llega la skill con la FAQ.
+Le falta conocimiento: pronto llega la skill con la FAQ.
 
 Notas:
 Copiar la sección de SOUL.md en las notas del proyecto. La preferencia de memoria del proyecto es soporte-pref-01: citar el archivo de la FAQ. La pregunta del 401 se repite con una sesión nueva (linea-base-42).

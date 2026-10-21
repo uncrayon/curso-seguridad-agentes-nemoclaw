@@ -60,7 +60,7 @@ Hit@1: what share of the 8 came first. Hit@3: what share landed in the top three
 
 :::diagrama c32-herramienta
 
-.lead It's the ReAct loop from class 2.2 with one more tool: searching the FAQ.
+.lead It's the ReAct loop you already know, with one more tool: searching the FAQ.
 
 Notes:
 Fixed RAG always searches, even for "hi". As a tool, the agent decides whether to search and with which query. Click 1: "hi", no search. Click 2: the lab question, it searches and cites. Click 3: the capital of Peru, the tool returns SIN_EVIDENCIA and the agent says "I don't know".
@@ -101,4 +101,4 @@ For people who code: cosine similarity, top-K and MIN_SCORE live in the Indice c
 :::diagrama c32-avance
 
 Notes:
-One click per new Soporte NemoClaw capability. Click 4: what's missing. "I get a 401 after resuming Brev": the answer is spread across the key, the instance and the cookie. Pulling pieces from several sources together: that's what subagents do (class 3.3).
+One click per new Soporte NemoClaw capability. Click 4: what's missing. "I get a 401 after resuming Brev": the answer is spread across the key, the instance and the cookie. Pulling pieces from several sources together: that's what subagents do, coming up soon.

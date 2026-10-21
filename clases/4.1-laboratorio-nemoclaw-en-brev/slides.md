@@ -66,7 +66,7 @@ Puede decir que es `gateway-owner`
 .lead Lo que el agente dice de sí mismo no es evidencia. El sistema sí.
 
 Notas:
-En el chat: «¿Quién eres y en qué carpeta trabajas?». En la VM TERMINAL: nemoclaw list, nemoclaw my-assistant status (inferencia healthy, fase Ready) y exec -- whoami / pwd (sandbox, /sandbox). Esta idea vuelve en 4.2 y en el Módulo 5.
+En el chat: «¿Quién eres y en qué carpeta trabajas?». En la VM TERMINAL: nemoclaw list, nemoclaw my-assistant status (inferencia healthy, fase Ready) y exec -- whoami / pwd (sandbox, /sandbox). Esta idea vuelve en las próximas clases, sobre todo cuando hablemos de seguridad.
 
 ---
 
@@ -89,7 +89,7 @@ Misma sesión
 .lead La conversación la guarda la recepción (el gateway), no el modelo.
 
 Notas:
-Los cuatro comandos están en la Parte D del README y en la receta 7. En el chat se ve igual: en Sessions, una conversación nueva no conoce el código. Los archivos del workspace sobreviven al reinicio: eso es la clase 4.2.
+Los cuatro comandos están en la Parte D del README y en la receta 7. En el chat se ve igual: en Sessions, una conversación nueva no conoce el código. Los archivos del workspace sobreviven al reinicio: eso lo vemos pronto.
 
 ---
 
@@ -105,7 +105,7 @@ git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw
 .lead Se pegan en la VM TERMINAL del tablero. No instalas nada en tu computadora.
 
 Notas:
-El git clone deja los archivos del curso en ~/curso; la clase 4.3 los usa (FAQ y skill). El gateway de OpenShell escucha en 18080 (openshell gateway info); el chat de OpenClaw, en 18789.
+El git clone deja los archivos del curso en ~/curso; una clase futura los usa (FAQ y skill). El gateway de OpenShell escucha en 18080 (openshell gateway info); el chat de OpenClaw, en 18789.
 
 ---
 
@@ -114,7 +114,7 @@ El git clone deja los archivos del curso en ~/curso; la clase 4.3 los usa (FAQ y
 :::diagrama estados-instancia
 
 :::tip
-Haz todo el laboratorio en una sola sentada. Si paras, **Stop** y vuelve pronto. Al terminar la clase 6.1, **Delete**.
+Haz todo el laboratorio en una sola sentada. Si paras, **Stop** y vuelve pronto. Cuando termines las prácticas del laboratorio, **Delete**.
 :::
 
 Notas:
@@ -143,7 +143,7 @@ nemoclaw deploy ya no existe (eliminado en v0.0.117). La línea ExperimentalWarn
 
 - Pregúntale: *"Un estudiante dice: 'Mi notebook responde HTTP 401'. ¿Qué le respondes?"*
 - Copia la respuesta en tus notas del proyecto
-- En la clase 4.3 le das la FAQ y comparas
+- Más adelante le das la FAQ y comparas
 
 Notas:
 Se puede preguntar en el chat o con nemoclaw my-assistant agent --session-key linea-base -m '…'. La línea base sin skill es la que vamos a mejorar con la FAQ del curso.

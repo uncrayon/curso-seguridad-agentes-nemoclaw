@@ -23,7 +23,7 @@ On the dashboard: OPENSHELL TUI → my-assistant → Enter (folders and network 
 :::diagrama c53-grupo
 
 Notes:
-Click 1: a request from openclaw arrives. Click 2: the openclaw_docs group and its five details (host docs.openclaw.ai, port 443, method GET, path /**, binaries /usr/local/bin/openclaw). Click 3: they all match, it goes through. Click 4: if one is missing, it's denied. protocol: rest turns on L7 inspection: the proxy checks every request, not just the host. Recall 5.2: in the lab, when the agent asked for docs.openclaw.ai it went out through curl and through node, and this group denied both.
+Click 1: a request from openclaw arrives. Click 2: the openclaw_docs group and its five details (host docs.openclaw.ai, port 443, method GET, path /**, binaries /usr/local/bin/openclaw). Click 3: they all match, it goes through. Click 4: if one is missing, it's denied. protocol: rest turns on L7 inspection: the proxy checks every request, not just the host. Recall what you saw earlier: in the lab, when the agent asked for docs.openclaw.ai it went out through curl and through node, and this group denied both.
 
 ---
 
@@ -77,7 +77,7 @@ One click per rule: method GET; host docs.nvidia.com, port 443, protocol rest, p
 :::diagrama c53-una-capa
 
 Notes:
-Click 1: the 5.1 attack steps against this policy, each with its "?". Clicks 2 to 5: reading the poisoned FAQ, allowed; reading MEMORY.md, allowed; curl to the attacker's host, blocked; node → clawhub.ai with POST, allowed. Click 6: a secret printed by an allowed command has already escaped. And another real channel from the lab: curl reaches integrate.api.nvidia.com. An allow list approves the destination, not the meaning of the bytes. Above: provenance, human approval, secrets outside the sandbox.
+Click 1: the attack steps you already know against this policy, each with its "?". Clicks 2 to 5: reading the poisoned FAQ, allowed; reading MEMORY.md, allowed; curl to the attacker's host, blocked; node → clawhub.ai with POST, allowed. Click 6: a secret printed by an allowed command has already escaped. And another real channel from the lab: curl reaches integrate.api.nvidia.com. An allow list approves the destination, not the meaning of the bytes. Above: provenance, human approval, secrets outside the sandbox.
 
 ---
 

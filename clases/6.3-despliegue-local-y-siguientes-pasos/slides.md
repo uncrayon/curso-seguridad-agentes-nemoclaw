@@ -78,7 +78,7 @@ Todos tienen receta en el cookbook opcional de la clase.
 :::diagrama c63-piezas
 
 Notas:
-El sandbox queda en el centro. Clic 1: NIM, el modelo empaquetado con un servidor compatible con OpenAI en tu infraestructura; verifica tool calls y salida estructurada antes de cambiar. Clic 2: NeMo Retriever, búsqueda híbrida, reranker y chunking: la versión de producción del RAG en memoria de la 3.2. Clic 3: NeMo Guardrails, filtros de entrada y salida en la app. Clic 4: DGX Spark, agente 24/7 con inferencia local. Clic 5: Guardrails complementa al sandbox; quieres los dos.
+El sandbox queda en el centro. Clic 1: NIM, el modelo empaquetado con un servidor compatible con OpenAI en tu infraestructura; verifica tool calls y salida estructurada antes de cambiar. Clic 2: NeMo Retriever, búsqueda híbrida, reranker y chunking: la versión de producción del RAG en memoria que construiste antes. Clic 3: NeMo Guardrails, filtros de entrada y salida en la app. Clic 4: DGX Spark, agente 24/7 con inferencia local. Clic 5: Guardrails complementa al sandbox; quieres los dos.
 
 ---
 
@@ -98,7 +98,7 @@ Un clic por criterio, con su nivel "Destacado": funciona, herramientas y skills 
 :::diagrama c63-guarda-borra
 
 Notas:
-Lo normal es que ya la hayan borrado al final de la 6.1 (o de la 6.2, si hicieron su parte opcional); si no, hoy. Clic 1: guarda tus skills, tu SOUL.md y tus notas en tu computadora o en GitHub (en la VM TERMINAL, muéstralos con `cat` y copia el texto). Clic 2: consola de Brev → Compute → tu instancia → Delete; luego revisa el saldo en Billing. No borres en cámara la instancia de grabación. Clic 3: borrada ya no cobra. Clic 4: detenida sigue cobrando el disco; borrada, lo de adentro se pierde.
+Lo normal es que ya la hayan borrado al terminar las prácticas del laboratorio (incluida la parte opcional, si la hicieron); si no, hoy. Clic 1: guarda tus skills, tu SOUL.md y tus notas en tu computadora o en GitHub (en la VM TERMINAL, muéstralos con `cat` y copia el texto). Clic 2: consola de Brev → Compute → tu instancia → Delete; luego revisa el saldo en Billing. No borres en cámara la instancia de grabación. Clic 3: borrada ya no cobra. Clic 4: detenida sigue cobrando el disco; borrada, lo de adentro se pierde.
 
 ---
 

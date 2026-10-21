@@ -57,7 +57,7 @@ A tool is a door between the model's text and your computer. Click 1: the model 
 :::diagrama c23-otra-busqueda
 
 Notes:
-A preview of RAG (class 3.2). Click 1: the model and buscar_faq's card. Click 2: before, it searched by keywords. Click 3: now by meaning, with embeddings (nemotron-3-embed-1b): REGISTRO["buscar_faq"] = buscar_faq_semantica, and the model doesn't notice. Click 4: if the new backend is worse, the schema won't warn you.
+A preview of RAG, which comes later. Click 1: the model and buscar_faq's card. Click 2: before, it searched by keywords. Click 3: now by meaning, with embeddings (nemotron-3-embed-1b): REGISTRO["buscar_faq"] = buscar_faq_semantica, and the model doesn't notice. Click 4: if the new backend is worse, the schema won't warn you.
 
 ---
 
@@ -66,7 +66,7 @@ A preview of RAG (class 3.2). Click 1: the model and buscar_faq's card. Click 2:
 :::diagrama c23-subagente
 
 Notes:
-Click 1: the main agent only sees consultar_experto_brev(pregunta). Click 2: the subagent has its own prompt and only estimar_costo_brev. Click 3: only the answer comes back; its steps don't clutter the main history (it separates context). Click 4: it's not access control. We scale it up in class 3.3 with a planner.
+Click 1: the main agent only sees consultar_experto_brev(pregunta). Click 2: the subagent has its own prompt and only estimar_costo_brev. Click 3: only the answer comes back; its steps don't clutter the main history (it separates context). Click 4: it's not access control. Later we scale it up with a planner.
 
 ---
 
@@ -75,7 +75,7 @@ Click 1: the main agent only sees consultar_experto_brev(pregunta). Click 2: the
 :::diagrama c23-mcp
 
 Notes:
-tools/list → names, descriptions and schemas; tools/call → result. Click 1: the list the server hands over (simulated in the notebook). Click 2: sincronizar_notas' suspicious description. Click 3: your allow list (PERMITIDAS_MCP). Click 4: faq_curso gets in, sincronizar_notas is rejected. Click 5: tools/list is untrusted input; minimum scope. Before a remote MCP: verify identity, scope, which server the credentials go to and which network destinations it reaches. Module 5.
+tools/list → names, descriptions and schemas; tools/call → result. Click 1: the list the server hands over (simulated in the notebook). Click 2: sincronizar_notas' suspicious description. Click 3: your allow list (PERMITIDAS_MCP). Click 4: faq_curso gets in, sincronizar_notas is rejected. Click 5: tools/list is untrusted input; minimum scope. Before a remote MCP: verify identity, scope, which server the credentials go to and which network destinations it reaches. We dig into this later, when we cover security.
 
 ---
 
@@ -84,7 +84,7 @@ tools/list → names, descriptions and schemas; tools/call → result. Click 1: 
 :::diagrama c23-soporte-v3
 
 Notes:
-Click 1: buscar_faq (answers from the FAQ and cites topic and question) and estimar_costo_brev (hours × rate). Click 2: Soporte NemoClaw v3. Click 3: the harness (validated arguments, errors it fixes on its own, it only sees the tools it needs). Click 4: challenge, tarifa_instancia(tipo) with an enum → two calls in order and the right cost. In 3.1: a triage router with instalacion | api_key | brev | seguridad | otro.
+Click 1: buscar_faq (answers from the FAQ and cites topic and question) and estimar_costo_brev (hours × rate). Click 2: Soporte NemoClaw v3. Click 3: the harness (validated arguments, errors it fixes on its own, it only sees the tools it needs). Click 4: challenge, tarifa_instancia(tipo) with an enum → two calls in order and the right cost. Coming up: a triage router with instalacion | api_key | brev | seguridad | otro.
 
 ---
 

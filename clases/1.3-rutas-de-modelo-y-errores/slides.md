@@ -3,7 +3,7 @@
 :::diagrama c13-causas
 
 Notas:
-Clics 1 a 3: las tres causas de casi todo (key mal copiada, ID de modelo con un error, límite de uso). Clic 4: NVIDIA responde con un aviso con número, como un cajero automático. Clic 5: hoy los provocamos a propósito y dejamos el entorno verificado antes del Módulo 2. El objetivo es que nadie vuelva a entrar en pánico con un 401.
+Clics 1 a 3: las tres causas de casi todo (key mal copiada, ID de modelo con un error, límite de uso). Clic 4: NVIDIA responde con un aviso con número, como un cajero automático. Clic 5: hoy los provocamos a propósito y dejamos el entorno verificado antes de seguir. El objetivo es que nadie vuelva a entrar en pánico con un 401.
 
 ---
 
@@ -82,4 +82,4 @@ Si trabajas en tu máquina y sale MOCK con .env creado: el .env va en la raíz d
 .lead Soporte NemoClaw gana su primera pieza: `reporte_entorno()`
 
 Notas:
-Clic 1: el doctor. Clic 2: el reporte sin secretos (Python, modo, rutas, pruebas, latencia). Clic 3: el estudiante lo pega al pedir ayuda; en la 3.3 los subagentes lo leen para diagnosticar. Clic 4: el assert del notebook garantiza que la key nunca aparece en el reporte.
+Clic 1: el doctor. Clic 2: el reporte sin secretos (Python, modo, rutas, pruebas, latencia). Clic 3: el estudiante lo pega al pedir ayuda; más adelante, los subagentes lo leen para diagnosticar. Clic 4: el assert del notebook garantiza que la key nunca aparece en el reporte.

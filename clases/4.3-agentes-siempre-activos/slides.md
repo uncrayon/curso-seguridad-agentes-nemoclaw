@@ -12,7 +12,7 @@ Las dos palabras nuevas. Clic 1: la skill, una tarjeta de receta que el agente l
 :::diagrama c43-controles
 
 Notas:
-Un clic por pregunta: sesión (¿qué conversación recuerda?), directiva (¿qué instrucciones sigue?), disparador (¿qué la hace empezar?). Clic 4: juntas describen un agente siempre activo. Clic 5: sirven para cualquier automatización, de OpenClaw o de otra herramienta. En el Módulo 6 se usan para comparar CLIs.
+Un clic por pregunta: sesión (¿qué conversación recuerda?), directiva (¿qué instrucciones sigue?), disparador (¿qué la hace empezar?). Clic 4: juntas describen un agente siempre activo. Clic 5: sirven para cualquier automatización, de OpenClaw o de otra herramienta. Más adelante se usan para comparar CLIs.
 
 ---
 
@@ -97,7 +97,7 @@ Clic 1: un OK en Run history no basta. Clic 2: lo lees tú, como operador, en la
 :::diagrama c43-nadie-mira
 
 Notas:
-Clic 1: "Envía el reporte diario" se dispara aunque no estés. Clic 2: cada disparo es una sesión aislada, pero el workspace se comparte y afecta lo que viene. Clic 3: cada disparo consume créditos del modelo: nuestra tarea usó ≈112 mil tokens. Nunca dejes un Interval de pocos minutos encendido. Clic 4: nombra tus tareas, revisa Automations y pausa o borra con el menú ⋯ lo que no reconozcas. Puente al Módulo 5: un agente con datos, herramientas y tareas autónomas es el escenario de la trifecta letal.
+Clic 1: "Envía el reporte diario" se dispara aunque no estés. Clic 2: cada disparo es una sesión aislada, pero el workspace se comparte y afecta lo que viene. Clic 3: cada disparo consume créditos del modelo: nuestra tarea usó ≈112 mil tokens. Nunca dejes un Interval de pocos minutos encendido. Clic 4: nombra tus tareas, revisa Automations y pausa o borra con el menú ⋯ lo que no reconozcas. Puente a lo que sigue: un agente con datos, herramientas y tareas autónomas es el escenario de la trifecta letal.
 
 ---
 
@@ -123,9 +123,9 @@ La hora del archivo va en UTC (la Ciudad de México está 6 horas atrás). heart
 
 - La skill `soporte-nemoclaw` y la FAQ en su escritorio
 - Una tarea en Automations que dejó un resumen de la FAQ
-- Repite la pregunta del 401 y compárala con la de la clase 4.1
+- Repite la pregunta del 401 y compárala con la primera que hiciste
 
-¿Qué riesgos abrimos? Lo vemos en el Módulo 5.
+¿Qué riesgos abrimos? Lo vemos más adelante.
 
 Notas:
 Guardar la respuesta nueva debajo de la anterior en proyecto/linea-base-4.1.md. Si paras por hoy: Stop en la consola de Brev y vuelve pronto.

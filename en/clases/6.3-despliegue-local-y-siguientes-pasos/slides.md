@@ -78,7 +78,7 @@ Each one has a recipe in the class's optional cookbook.
 :::diagrama c63-piezas
 
 Notes:
-The sandbox stays in the middle. Click 1: NIM, the model packaged with an OpenAI-compatible server on your infrastructure; check tool calls and structured output before you switch. Click 2: NeMo Retriever, hybrid search, reranker and chunking: the production version of the in-memory RAG from 3.2. Click 3: NeMo Guardrails, input and output filters in the app. Click 4: DGX Spark, a 24/7 agent with local inference. Click 5: Guardrails complements the sandbox; you want both.
+The sandbox stays in the middle. Click 1: NIM, the model packaged with an OpenAI-compatible server on your infrastructure; check tool calls and structured output before you switch. Click 2: NeMo Retriever, hybrid search, reranker and chunking: the production version of the in-memory RAG you built earlier. Click 3: NeMo Guardrails, input and output filters in the app. Click 4: DGX Spark, a 24/7 agent with local inference. Click 5: Guardrails complements the sandbox; you want both.
 
 ---
 
@@ -98,7 +98,7 @@ One click per criterion, with its "Outstanding" level: works, tools and skills (
 :::diagrama c63-guarda-borra
 
 Notes:
-Normally they already deleted it at the end of 6.1 (or 6.2, if they did its optional part); if not, today. Click 1: save your skills, your SOUL.md and your notes to your computer or GitHub (in the VM TERMINAL, print them with `cat` and copy the text). Click 2: Brev console → Compute → your instance → Delete; then check the balance in Billing. Don't delete the recording instance on camera. Click 3: once deleted, nothing is billed. Click 4: stopped, the disk keeps billing; deleted, what's inside is lost.
+Normally they already deleted it when they finished the lab practices (including the optional part, if they did it); if not, today. Click 1: save your skills, your SOUL.md and your notes to your computer or GitHub (in the VM TERMINAL, print them with `cat` and copy the text). Click 2: Brev console → Compute → your instance → Delete; then check the balance in Billing. Don't delete the recording instance on camera. Click 3: once deleted, nothing is billed. Click 4: stopped, the disk keeps billing; deleted, what's inside is lost.
 
 ---
 

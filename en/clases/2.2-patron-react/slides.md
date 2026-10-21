@@ -14,7 +14,7 @@ Pattern from Yao et al., 2022; it's behind LangChain, OpenClaw and almost every 
 :::diagrama c22-pide
 
 Notes:
-Click 1: the model only sees the tool's card (name, description, inputs = the schema). Click 2: it sends a request (tool_call) and your code checks it. Click 3: your code runs the tool. Click 4: the result comes back as text. Click 5: the model runs nothing. Stress it: the harness is what executes. That will be key for security in Module 5.
+Click 1: the model only sees the tool's card (name, description, inputs = the schema). Click 2: it sends a request (tool_call) and your code checks it. Click 3: your code runs the tool. Click 4: the result comes back as text. Click 5: the model runs nothing. Stress it: the harness is what executes. That will be key for security later on.
 
 ---
 
@@ -61,7 +61,7 @@ Live error: SISTEMA_TERCO hits the 4-step cap. Click 1: the stubborn agent; with
 .lead *Context rot*: a conversation that goes bad from being too long.
 
 Notes:
-Show the tokens_aprox cell: from hundreds to thousands of tokens per call. Click 1: every step resends everything, the notebook grows. Clicks 2 to 4: more cost, more waiting, and the model pays less attention to what's in the middle (Liu et al., 2023). Click 5: Module 3 mitigations (plan first, retrieve just enough, delegate to subagents).
+Show the tokens_aprox cell: from hundreds to thousands of tokens per call. Click 1: every step resends everything, the notebook grows. Clicks 2 to 4: more cost, more waiting, and the model pays less attention to what's in the middle (Liu et al., 2023). Click 5: mitigations coming up later (plan first, retrieve just enough, delegate to subagents).
 
 ---
 
@@ -70,7 +70,7 @@ Show the tokens_aprox cell: from hundreds to thousands of tokens per call. Click
 :::diagrama c22-soporte-v2
 
 Notes:
-Demo question: "Soy de Bogotá. ¿Qué hora es allá?" (I'm in Bogotá, what time is it there?). One click per piece: the student, Soporte NemoClaw v2 (ReAct loop with a cap and validation of every tool_call), the hora_local(ciudad) tool and the answer. Click 5: the react function didn't change; you only add the schema to TOOLS and the function to REGISTRO. In 2.3: buscar_faq and estimar_costo_brev.
+Demo question: "Soy de Bogotá. ¿Qué hora es allá?" (I'm in Bogotá, what time is it there?). One click per piece: the student, Soporte NemoClaw v2 (ReAct loop with a cap and validation of every tool_call), the hora_local(ciudad) tool and the answer. Click 5: the react function didn't change; you only add the schema to TOOLS and the function to REGISTRO. Coming up: buscar_faq and estimar_costo_brev.
 
 ---
 

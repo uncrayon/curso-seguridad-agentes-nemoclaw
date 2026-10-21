@@ -3,7 +3,7 @@
 :::diagrama c12-tarjeta
 
 Notes:
-The API key is a building's access card. Click 1: you, with your free account. Click 2: the key (starts with nvapi-). Click 3: build.nvidia.com, the catalog of NVIDIA-hosted models (OpenAI-compatible API, address https://integrate.api.nvidia.com/v1). Click 4: Nemotron, the course model. Click 5: treat it like a password. Modules 1 to 3 use this address; you don't need your own GPU.
+The API key is a building's access card. Click 1: you, with your free account. Click 2: the key (starts with nvapi-). Click 3: build.nvidia.com, the catalog of NVIDIA-hosted models (OpenAI-compatible API, address https://integrate.api.nvidia.com/v1). Click 4: Nemotron, the course model. Click 5: treat it like a password. The first part of the course uses this address; you don't need your own GPU.
 
 ---
 
@@ -21,7 +21,7 @@ One click per step: sign in, confirm your email, generate the key in API Keys, c
 :::diagrama c12-donde-guardar
 
 Notes:
-Click 1: safe places (password manager, Colab Secrets named NVIDIA_API_KEY, a .env file, NVIDIA's course panel, which keeps it in sessionStorage and clears it when the tab closes). Click 2: where never. Click 3: the Colab steps. Local NemoClaw (6.3) uses a different variable name: NVIDIA_INFERENCE_API_KEY. Same key.
+Click 1: safe places (password manager, Colab Secrets named NVIDIA_API_KEY, a .env file, NVIDIA's course panel, which keeps it in sessionStorage and clears it when the tab closes). Click 2: where never. Click 3: the Colab steps. Later, local NemoClaw uses a different variable name: NVIDIA_INFERENCE_API_KEY. Same key.
 
 ---
 

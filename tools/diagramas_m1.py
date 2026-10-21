@@ -68,7 +68,7 @@ T = {
         "dest": "Destinatario", "dest_sub": "el modelo exacto",
         "firma": "Tu firma", "firma_sub": "tu key",
         "r_chat": "Ruta de chat", "r_chat_sub": "conversar y usar herramientas",
-        "r_emb": "Ruta de embeddings", "r_emb_sub": "textos parecidos · clase 3.2",
+        "r_emb": "Ruta de embeddings", "r_emb_sub": "textos parecidos · para el RAG, más adelante",
         "regresa": "Si un dato está mal escrito, la carta regresa… con un número de error",
         # 1.3 · panel del curso de NVIDIA
         "f_url": "URL base de la API de chat", "f_url_v": "ya viene llena",
@@ -117,7 +117,7 @@ T = {
         "reporte": "Reporte del entorno", "reporte_sub": "sin secretos",
         "rep_chips": ["Python", "Modo", "Rutas", "Pruebas", "Tiempo"],
         "pegas": "lo pegas al pedir ayuda",
-        "soporte_sub": "en la 3.3 lo lee para diagnosticar",
+        "soporte_sub": "más adelante, lo lee para diagnosticar",
         "sin_key": "Tu key nunca aparece en el reporte: el notebook lo comprueba",
     },
     "en": {
@@ -173,7 +173,7 @@ T = {
         "dest": "Addressee", "dest_sub": "the exact model",
         "firma": "Your signature", "firma_sub": "your key",
         "r_chat": "Chat route", "r_chat_sub": "talk and use tools",
-        "r_emb": "Embedding route", "r_emb_sub": "similar texts · class 3.2",
+        "r_emb": "Embedding route", "r_emb_sub": "similar texts · for RAG, later on",
         "regresa": "If one detail is misspelled, the letter comes back… with an error number",
         "f_url": "Chat API base URL", "f_url_v": "already filled in",
         "f_modelo": "Chat model ID", "f_modelo_v": "already filled in",
@@ -216,7 +216,7 @@ T = {
         "reporte": "Environment report", "reporte_sub": "no secrets",
         "rep_chips": ["Python", "Mode", "Routes", "Checks", "Timing"],
         "pegas": "paste it to ask for help",
-        "soporte_sub": "in 3.3 it reads it to diagnose",
+        "soporte_sub": "later, it reads it to diagnose",
         "sin_key": "Your key never shows up in the report: the notebook checks it",
     },
 }

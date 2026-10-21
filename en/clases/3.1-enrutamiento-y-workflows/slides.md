@@ -3,7 +3,7 @@
 :::diagrama c31-loop-vs-flujo
 
 Notes:
-Click 1: the project ticket. Click 2: the loop from class 2.2, where the model figures out what to check one step at a time. Click 3: the workflow, where your code already knows to check key, instance and session. The question for this class: who decides the shape of the work, the model or your code?
+Click 1: the project ticket. Click 2: the ReAct loop you built earlier, where the model figures out what to check one step at a time. Click 3: the workflow, where your code already knows to check key, instance and session. The question for this class: who decides the shape of the work, the model or your code?
 
 ---
 
@@ -12,7 +12,7 @@ Click 1: the project ticket. Click 2: the loop from class 2.2, where the model f
 :::diagrama c31-patrones
 
 Notes:
-One click per pattern: ReAct (you know it, class 2.2), router, ReWOO and fan-out. Click 5: today we build the three on the right, applied to Soporte NemoClaw.
+One click per pattern: ReAct (you already know it), router, ReWOO and fan-out. Click 5: today we build the three on the right, applied to Soporte NemoClaw.
 
 ---
 
@@ -108,4 +108,4 @@ For people who code. response_format with json_schema and enum; temperature 0. I
 :::diagrama c31-avance
 
 Notes:
-One click per new Soporte NemoClaw capability and, at the end, the challenge. Next step: stop the specialists from answering from memory (class 3.2).
+One click per new Soporte NemoClaw capability and, at the end, the challenge. Next step, coming up soon: stop the specialists from answering from memory.

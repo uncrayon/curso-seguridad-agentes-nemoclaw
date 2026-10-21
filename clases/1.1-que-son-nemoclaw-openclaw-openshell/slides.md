@@ -12,7 +12,7 @@ Para quien nunca usó GitHub: todo vive en la página de la clase, enlazada deba
 :::diagrama modelo-vs-agente
 
 Notas:
-Primer clic: el modelo (texto entra, texto sale). Segundo clic: el agente, el mismo modelo dentro de un ciclo que se repite. El ciclo se ilumina solo, paso por paso. En el Módulo 2 escriben ese ciclo desde cero.
+Primer clic: el modelo (texto entra, texto sale). Segundo clic: el agente, el mismo modelo dentro de un ciclo que se repite. El ciclo se ilumina solo, paso por paso. Pronto escriben ese ciclo desde cero.
 
 ---
 
@@ -21,7 +21,7 @@ Primer clic: el modelo (texto entra, texto sale). Segundo clic: el agente, el mi
 :::diagrama agente-sin-cerradura
 
 Notas:
-Clic 1: archivos y programas. Clic 2: internet. Clic 3: el documento con una instrucción escondida (adelanto de la trifecta letal, Módulo 5). Clic 4: la pregunta del curso.
+Clic 1: archivos y programas. Clic 2: internet. Clic 3: el documento con una instrucción escondida (adelanto de la trifecta letal, que veremos más adelante). Clic 4: la pregunta del curso.
 
 ---
 
@@ -77,7 +77,7 @@ Un clic por módulo. Cada clase termina con un "Avance del proyecto".
 :::diagrama mapa-curso
 
 Notas:
-Nuestro Módulo 4 es el Módulo 3 del curso de NVIDIA. El laboratorio es una computadora en la nube sin tarjeta gráfica: los modelos corren en la nube de NVIDIA.
+El laboratorio es el mismo que NVIDIA usa en su propio curso. Es una computadora en la nube sin tarjeta gráfica: los modelos corren en la nube de NVIDIA.
 
 ---
 

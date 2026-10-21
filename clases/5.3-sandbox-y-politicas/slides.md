@@ -23,7 +23,7 @@ En el tablero: OPENSHELL TUI → my-assistant → Enter (carpetas y reglas de re
 :::diagrama c53-grupo
 
 Notas:
-Clic 1: llega una petición de openclaw. Clic 2: el grupo openclaw_docs y sus cinco datos (host docs.openclaw.ai, port 443, method GET, path /**, binaries /usr/local/bin/openclaw). Clic 3: coinciden todos, pasa. Clic 4: si falta uno, se niega. protocol: rest activa la inspección L7: el proxy revisa cada petición, no solo el host. Recordar la 5.2: en el lab, cuando el agente pidió docs.openclaw.ai salió por curl y por node, y este grupo negó a los dos.
+Clic 1: llega una petición de openclaw. Clic 2: el grupo openclaw_docs y sus cinco datos (host docs.openclaw.ai, port 443, method GET, path /**, binaries /usr/local/bin/openclaw). Clic 3: coinciden todos, pasa. Clic 4: si falta uno, se niega. protocol: rest activa la inspección L7: el proxy revisa cada petición, no solo el host. Recordar lo que ya viste: en el lab, cuando el agente pidió docs.openclaw.ai salió por curl y por node, y este grupo negó a los dos.
 
 ---
 
@@ -77,7 +77,7 @@ Un clic por regla: method GET; host docs.nvidia.com, port 443, protocol rest, pa
 :::diagrama c53-una-capa
 
 Notas:
-Clic 1: los pasos del ataque de la 5.1 contra esta política, con su "?". Clics 2 a 5: leer la FAQ envenenada, permitido; leer MEMORY.md, permitido; curl al host del atacante, bloqueado; node → clawhub.ai con POST, permitido. Clic 6: un secreto impreso por un comando permitido ya se escapó. Y otro canal real del lab: curl llega a integrate.api.nvidia.com. Una allowlist aprueba el destino, no el significado de los bytes. Arriba: procedencia, aprobación humana, secretos fuera del sandbox.
+Clic 1: los pasos del ataque que ya conoces contra esta política, con su "?". Clics 2 a 5: leer la FAQ envenenada, permitido; leer MEMORY.md, permitido; curl al host del atacante, bloqueado; node → clawhub.ai con POST, permitido. Clic 6: un secreto impreso por un comando permitido ya se escapó. Y otro canal real del lab: curl llega a integrate.api.nvidia.com. Una allowlist aprueba el destino, no el significado de los bytes. Arriba: procedencia, aprobación humana, secretos fuera del sandbox.
 
 ---
 

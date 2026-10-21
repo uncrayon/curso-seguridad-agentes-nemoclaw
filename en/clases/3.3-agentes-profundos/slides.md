@@ -23,7 +23,7 @@ The project lead. Click 1: plan; the planner splits the report into 2 to 4 parts
 :::diagrama c33-escritorios
 
 Notes:
-One click per subagent. Each starts with an empty desk: its instructions, the report and its part; nothing from its siblings' history. Tools: buscar_faq (the RAG from 3.2) and escribir_archivo. The harness permission only lets it write to /borradores/<its id>.md. Click 4: don't assume it, check it: the "Comprueba el aislamiento" cell.
+One click per subagent. Each starts with an empty desk: its instructions, the report and its part; nothing from its siblings' history. Tools: buscar_faq (the RAG you built earlier) and escribir_archivo. The harness permission only lets it write to /borradores/<its id>.md. Click 4: don't assume it, check it: the "Comprueba el aislamiento" cell.
 
 ---
 
@@ -50,7 +50,7 @@ One click per risk and its protection: MAX_SUBAGENTES = 4; max_pasos = 5; "permi
 :::diagrama c33-no-es-sandbox
 
 Notes:
-Click 1: today's separate desks; they separate what the agent thinks and your code enforces them. Click 2: but they run in your program: they see your NVIDIA_API_KEY and your disk (the os.environ cell). Click 3: the locked room from class 1.1; it limits what the agent touches and the operating system plus policy enforce it. Click 4: you need both.
+Click 1: today's separate desks; they separate what the agent thinks and your code enforces them. Click 2: but they run in your program: they see your NVIDIA_API_KEY and your disk (the os.environ cell). Click 3: the locked room you already know; it limits what the agent touches and the operating system plus policy enforce it. Click 4: you need both.
 
 ---
 
@@ -61,7 +61,7 @@ Click 1: today's separate desks; they separate what the agent thinks and your co
 .lead Use it only when the problem doesn't fit in one conversation or you need several independent investigations.
 
 Notes:
-Each circle is one model call. Click 1: the search agent from class 3.2, 2 to 3 calls. Click 2: the deep agent with 3 subagents, about 11.
+Each circle is one model call. Click 1: the search agent you made earlier, 2 to 3 calls. Click 2: the deep agent with 3 subagents, about 11.
 
 ---
 
@@ -100,4 +100,4 @@ For people who code: ejecutar_subagente builds this list from scratch for each s
 :::diagrama c33-avance
 
 Notes:
-One click per new Soporte NemoClaw capability. Click 5: Module 4, where you take it to NemoClaw on Brev; the FAQ goes in the workspace and the soporte-nemoclaw skill runs in a sandbox. Your agent routes, grounds itself and plans; now it needs a safe place to live.
+One click per new Soporte NemoClaw capability. Click 5: what comes next, where you take it to NemoClaw on Brev; the FAQ goes in the workspace and the soporte-nemoclaw skill runs in a sandbox. Your agent routes, grounds itself and plans; now it needs a safe place to live.

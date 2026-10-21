@@ -3,7 +3,7 @@
 :::diagrama c44-mismo-cuarto
 
 Notes:
-Same locked room, different assistant. Click 1: OpenClaw, the one from classes 4.1 to 4.3. Click 2: you swap it for Hermes (Nous Research, MIT license). Click 3: what stays the same: the OpenShell sandbox, the network policies, managed inference with the key on the host. Click 4: what's new, Hermes keeps memory across sessions and creates its own skills. NemoClaw ≠ OpenClaw: it's the question from class 1.1, now proven in the lab. It can also carry LangChain Deep Agents.
+Same locked room, different assistant. Click 1: OpenClaw, the one you already used. Click 2: you swap it for Hermes (Nous Research, MIT license). Click 3: what stays the same: the OpenShell sandbox, the network policies, managed inference with the key on the host. Click 4: what's new, Hermes keeps memory across sessions and creates its own skills. NemoClaw ≠ OpenClaw: it's a question you already know, now proven in the lab. It can also carry LangChain Deep Agents.
 
 ---
 
@@ -50,7 +50,7 @@ Where each thing lives. One click per row: personality, memory (the diary, with 
 .lead SKILL.md is an open format: both agents understand it.
 
 Notes:
-Click 1: the soporte-nemoclaw skill from class 4.3. Click 2: in OpenClaw it lives in skills/ on the desk. Click 3: in Hermes only two paths change (the FAQ in /sandbox/faq). Click 4: the result, without giving it the path. Commands: nemohermes mi-hermes skill install ~/curso/clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/, nemohermes mi-hermes upload ~/curso/datos/faq/ /sandbox/ (the target is the parent folder, as in 4.3), nemohermes launch mi-hermes. Every skill is also a chat command: /soporte-nemoclaw. Standard: agentskills.io.
+Click 1: the soporte-nemoclaw skill you installed earlier. Click 2: in OpenClaw it lives in skills/ on the desk. Click 3: in Hermes only two paths change (the FAQ in /sandbox/faq). Click 4: the result, without giving it the path. Commands: nemohermes mi-hermes skill install ~/curso/clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/, nemohermes mi-hermes upload ~/curso/datos/faq/ /sandbox/ (the target is the parent folder, as with OpenClaw), nemohermes launch mi-hermes. Every skill is also a chat command: /soporte-nemoclaw. Standard: agentskills.io.
 
 ---
 
@@ -95,4 +95,4 @@ The token: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)". Never show the
 .lead Shut down the Hermes room and turn my-assistant back on.
 
 Notes:
-Click 1: Soporte NemoClaw runs on two agents, with the same skill and the same personality, inside the same kind of room, plus a Python client that talks to it through its API. Click 2: what we opened for Module 5: memory that writes itself, skills the agent creates and an API with a token. To shut down: nemohermes mi-hermes stop, and turn OpenClaw back on with nemoclaw my-assistant start (Modules 5 and 6 use it). If you stop for today: Stop in the Brev console and come back soon.
+Click 1: Soporte NemoClaw runs on two agents, with the same skill and the same personality, inside the same kind of room, plus a Python client that talks to it through its API. Click 2: what we opened to review later: memory that writes itself, skills the agent creates and an API with a token. To shut down: nemohermes mi-hermes stop, and turn OpenClaw back on with nemoclaw my-assistant start (the classes that follow use it). If you stop for today: Stop in the Brev console and come back soon.

@@ -3,7 +3,7 @@
 :::diagrama c13-causas
 
 Notes:
-Clicks 1 to 3: the three causes of almost everything (badly copied key, a typo in the model ID, a usage limit). Click 4: NVIDIA answers with a numbered message, like an ATM. Click 5: today we trigger them on purpose and leave the environment verified before Module 2. The goal is that nobody panics over a 401 again.
+Clicks 1 to 3: the three causes of almost everything (badly copied key, a typo in the model ID, a usage limit). Click 4: NVIDIA answers with a numbered message, like an ATM. Click 5: today we trigger them on purpose and leave the environment verified before moving on. The goal is that nobody panics over a 401 again.
 
 ---
 
@@ -82,4 +82,4 @@ If you work on your own machine and get MOCK with .env created: the .env goes at
 .lead Soporte NemoClaw gets its first piece: `reporte_entorno()`
 
 Notes:
-Click 1: the doctor. Click 2: the secret-free report (Python, mode, routes, checks, latency). Click 3: students paste it when asking for help; in 3.3 the subagents read it to diagnose. Click 4: the notebook's assert guarantees the key never shows up in the report.
+Click 1: the doctor. Click 2: the secret-free report (Python, mode, routes, checks, latency). Click 3: students paste it when asking for help; later, the subagents read it to diagnose. Click 4: the notebook's assert guarantees the key never shows up in the report.

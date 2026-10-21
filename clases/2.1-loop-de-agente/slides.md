@@ -70,7 +70,7 @@ Clic 1: turno 1. Clic 2: en el turno 2 se reenvía todo y responde "Te llamas Ad
 :::diagrama c21-soporte-v1
 
 Notas:
-Clic 1: lo que tiene (system prompt con rol y reglas, historial, nunca pide ni repite una API key, max_turnos por sesión). Clics 2 y 3: la ventana max_mensajes; con 4 olvida el nombre, con 20 lo recuerda. Clic 4: memoria contra costo. En 2.2 le damos ReAct y una herramienta.
+Clic 1: lo que tiene (system prompt con rol y reglas, historial, nunca pide ni repite una API key, max_turnos por sesión). Clics 2 y 3: la ventana max_mensajes; con 4 olvida el nombre, con 20 lo recuerda. Clic 4: memoria contra costo. Pronto le damos ReAct y una herramienta.
 
 ---
 

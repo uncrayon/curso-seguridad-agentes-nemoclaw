@@ -3,7 +3,7 @@
 :::diagrama c44-mismo-cuarto
 
 Notas:
-Mismo cuarto con cerradura, otro asistente. Clic 1: OpenClaw, el de las clases 4.1 a 4.3. Clic 2: lo cambias por Hermes (Nous Research, licencia MIT). Clic 3: lo que se queda igual: el sandbox de OpenShell, las políticas de red, la inferencia administrada con la key en el host. Clic 4: lo nuevo, Hermes guarda memoria entre sesiones y crea sus propias skills. NemoClaw ≠ OpenClaw: es la pregunta de la clase 1.1, ahora comprobada en el laboratorio. También puede llevar LangChain Deep Agents.
+Mismo cuarto con cerradura, otro asistente. Clic 1: OpenClaw, el que ya usaste. Clic 2: lo cambias por Hermes (Nous Research, licencia MIT). Clic 3: lo que se queda igual: el sandbox de OpenShell, las políticas de red, la inferencia administrada con la key en el host. Clic 4: lo nuevo, Hermes guarda memoria entre sesiones y crea sus propias skills. NemoClaw ≠ OpenClaw: es una pregunta que ya conoces, ahora comprobada en el laboratorio. También puede llevar LangChain Deep Agents.
 
 ---
 
@@ -50,7 +50,7 @@ Dónde guarda cada cosa. Un clic por fila: personalidad, memoria (el diario, con
 .lead SKILL.md es un formato abierto: lo entienden los dos agentes.
 
 Notas:
-Clic 1: la skill soporte-nemoclaw de la clase 4.3. Clic 2: en OpenClaw vive en skills/ del escritorio. Clic 3: en Hermes solo cambian dos rutas (la FAQ en /sandbox/faq). Clic 4: el resultado, sin darle la ruta. Comandos: nemohermes mi-hermes skill install ~/curso/clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/, nemohermes mi-hermes upload ~/curso/datos/faq/ /sandbox/ (el destino es la carpeta padre, como en la 4.3), nemohermes launch mi-hermes. Cada skill también es un comando del chat: /soporte-nemoclaw. Estándar: agentskills.io.
+Clic 1: la skill soporte-nemoclaw que instalaste antes. Clic 2: en OpenClaw vive en skills/ del escritorio. Clic 3: en Hermes solo cambian dos rutas (la FAQ en /sandbox/faq). Clic 4: el resultado, sin darle la ruta. Comandos: nemohermes mi-hermes skill install ~/curso/clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/, nemohermes mi-hermes upload ~/curso/datos/faq/ /sandbox/ (el destino es la carpeta padre, como con OpenClaw), nemohermes launch mi-hermes. Cada skill también es un comando del chat: /soporte-nemoclaw. Estándar: agentskills.io.
 
 ---
 
@@ -95,4 +95,4 @@ El token: TOKEN="$(nemohermes mi-hermes gateway-token --quiet)". Nunca muestres 
 .lead Apaga el cuarto de Hermes y vuelve a encender my-assistant.
 
 Notas:
-Clic 1: Soporte NemoClaw corre en dos agentes, con la misma skill y la misma personalidad, dentro del mismo tipo de cuarto, y un cliente en Python que le habla por su API. Clic 2: lo que abrimos para el Módulo 5: memoria que se escribe sola, skills que el agente crea y una API con token. Para apagar: nemohermes mi-hermes stop, y volver a encender OpenClaw con nemoclaw my-assistant start (los módulos 5 y 6 lo usan). Si paras por hoy: Stop en la consola de Brev y vuelve pronto.
+Clic 1: Soporte NemoClaw corre en dos agentes, con la misma skill y la misma personalidad, dentro del mismo tipo de cuarto, y un cliente en Python que le habla por su API. Clic 2: lo que abrimos para revisar más adelante: memoria que se escribe sola, skills que el agente crea y una API con token. Para apagar: nemohermes mi-hermes stop, y volver a encender OpenClaw con nemoclaw my-assistant start (las clases que siguen lo usan). Si paras por hoy: Stop en la consola de Brev y vuelve pronto.

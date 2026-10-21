@@ -153,14 +153,14 @@ T = {
         "c33_toca": "Limita lo que el agente <b>toca</b>",
         "c33_dos": "Necesitas las dos. El «permiso denegado» de hoy lo puso tu código; el cuarto lo pone OpenShell.",
         # 3.3 · costo
-        "c33_rag": "Agente con búsqueda (3.2)", "c33_rag_n": "2 a 3 llamadas",
+        "c33_rag": "Agente con búsqueda (RAG)", "c33_rag_n": "2 a 3 llamadas",
         "c33_prof": "Agente con 3 subagentes", "c33_prof_n": "≈ 11 llamadas",
         # 3.3 · avance
         "c33_a1": "Planea", "c33_a1s": "divide el reporte en partes",
         "c33_a2": "Reparte", "c33_a2s": "subagentes con escritorio propio",
         "c33_a3": "Guarda notas", "c33_a3s": "un borrador por subagente",
         "c33_a4": "Revisa citas", "c33_a4s": "reporte de diagnóstico confiable",
-        "c33_mod4": "<strong>Módulo 4:</strong> lo llevas a NemoClaw en Brev, con la FAQ en su carpeta de trabajo y dentro de un sandbox.",
+        "c33_mod4": "<strong>Lo que sigue:</strong> lo llevas a NemoClaw en Brev, con la FAQ en su carpeta de trabajo y dentro de un sandbox.",
     },
     "en": {
         "modelo": "Model", "llamada": "1 call", "avance": "Soporte NemoClaw",
@@ -280,13 +280,13 @@ T = {
         "c33_archivos": "files", "c33_internet": "internet", "c33_programas": "programs",
         "c33_toca": "Limits what the agent <b>touches</b>",
         "c33_dos": "You need both. Today's “permission denied” came from your code; OpenShell provides the room.",
-        "c33_rag": "Agent with search (3.2)", "c33_rag_n": "2 to 3 calls",
+        "c33_rag": "Agent with search (RAG)", "c33_rag_n": "2 to 3 calls",
         "c33_prof": "Agent with 3 subagents", "c33_prof_n": "≈ 11 calls",
         "c33_a1": "Plans", "c33_a1s": "splits the report into parts",
         "c33_a2": "Delegates", "c33_a2s": "subagents with their own desk",
         "c33_a3": "Keeps notes", "c33_a3s": "one draft per subagent",
         "c33_a4": "Checks citations", "c33_a4s": "a trustworthy diagnostic report",
-        "c33_mod4": "<strong>Module 4:</strong> you take it to NemoClaw on Brev, with the FAQ in its working folder and inside a sandbox.",
+        "c33_mod4": "<strong>Coming up:</strong> you take it to NemoClaw on Brev, with the FAQ in its working folder and inside a sandbox.",
     },
 }
 

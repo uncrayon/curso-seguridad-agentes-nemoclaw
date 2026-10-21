@@ -12,7 +12,7 @@ For anyone who has never used GitHub: everything lives on the class page, linked
 :::diagrama modelo-vs-agente
 
 Notes:
-First click: the model (text in, text out). Second click: the agent, the same model inside a loop that repeats. The loop lights up on its own, step by step. In Module 2 you write that loop from scratch.
+First click: the model (text in, text out). Second click: the agent, the same model inside a loop that repeats. The loop lights up on its own, step by step. Soon you'll write that loop from scratch.
 
 ---
 
@@ -21,7 +21,7 @@ First click: the model (text in, text out). Second click: the agent, the same mo
 :::diagrama agente-sin-cerradura
 
 Notes:
-Click 1: files and programs. Click 2: the internet. Click 3: the document with a hidden instruction (a preview of the lethal trifecta, Module 5). Click 4: the course question.
+Click 1: files and programs. Click 2: the internet. Click 3: the document with a hidden instruction (a preview of the lethal trifecta, coming up later). Click 4: the course question.
 
 ---
 
@@ -77,7 +77,7 @@ One click per module. Every class ends with a "Project milestone".
 :::diagrama mapa-curso
 
 Notes:
-Our Module 4 is NVIDIA's Module 3. The lab is a cloud computer with no graphics card: the models run in NVIDIA's cloud.
+The lab is the same one NVIDIA uses in its own course. It's a cloud computer with no graphics card: the models run in NVIDIA's cloud.
 
 ---
 
