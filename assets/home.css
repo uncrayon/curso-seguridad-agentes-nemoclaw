@@ -75,7 +75,7 @@ p{margin:.5em 0}
 
 /* Módulos y clases */
 .modulo{margin:28px 0 40px}
-.modulo header{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:baseline;margin-bottom:16px}
+.modulo header{display:grid;grid-template-columns:1fr;gap:4px 16px;align-items:baseline;margin-bottom:16px}
 .mnum{grid-row:span 3;display:grid;place-items:center;width:58px;height:58px;border-radius:18px;background:var(--sin-primary-container);color:var(--sin-primary);
   font-family:var(--sin-font-display);font-weight:800;font-size:13px;text-align:center;line-height:1.1;padding:4px}
 .modulo header h3{font-size:24px;margin:0}

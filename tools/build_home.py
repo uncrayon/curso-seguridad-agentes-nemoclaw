@@ -78,10 +78,10 @@ def class_card(c, lang="es"):
     else:
         mats = f'<p class="mats">{t["mats"]}: {", ".join(names)}</p>'
     skill = f'<p class="skill">{t["skill"]}: {E(skill_txt)}</p>' if skill_txt else ""
-    return (f'<article class="clase"><div class="clase-top"><span class="num">{c["id"]}</span>'
+    return (f'<article class="clase"><div class="clase-top">'
             f'<span class="badge b-{c["practica"]}">{practica[c["practica"]]}</span>'
             + (f'<span class="badge b-opt">{"Opcional" if lang == "es" else "Optional"}</span>' if c.get("opcional") else "")
-            + f'<span class="min">{c["minutes"]} min</span></div>'
+            + '</div>'
             f'<h4>{E(title)}</h4>'
             f'<ul class="promesa">{"".join(f"<li>{E(p)}</li>" for p in promesa)}</ul>'
             f'{skill}{mats}<nav>{"".join(links)}</nav></article>')
@@ -96,7 +96,7 @@ def modules_html(lang="es"):
         opt = (f' <span class="badge b-opt">{"Opcional" if lang == "es" else "Optional"}</span>'
                if all(c.get("opcional") for c in cls) else "")
         title, outcome, where = (m["title"], m["outcome"], m["where"]) if lang == "es" else MODULES_EN[m["n"]]
-        out.append(f'<section class="modulo" id="modulo-{m["n"]}"><header><span class="mnum">{t["module"]} {m["n"]}</span>'
+        out.append(f'<section class="modulo" id="modulo-{m["n"]}"><header>'
                    f'<h3>{E(title)}</h3><p>{E(outcome)}</p>'
                    f'<p class="meta">{len(cls)} {t["classes"]} · ≈{mins} min · {E(where)}{opt}</p></header>'
                    f'<div class="clases">{"".join(class_card(c, lang) for c in cls)}</div></section>')
