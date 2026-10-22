@@ -11,6 +11,8 @@ Write reusable skills, measure whether your agent finds them on its own, and bri
 | **Skill** | Create reusable agent skills |
 | **Materials** | [Slides](slides.html) · [Project library (Spanish)](../../../skill-library/README.md) · [FAQ (Spanish)](../../../FAQ.md) |
 
+> **Module 6 is optional**, and so is this class's last part in the lab. If you do it, do it in the same sitting, after 6.1 (or after 5.3, if you skipped 6.1) and before you delete the instance (≈15 min, ≈USD 0.06). If you already deleted it when you finished 5.3, skip it: the notebook doesn't need the lab.
+
 ## What you'll achieve
 - Write a correct `SKILL.md`: frontmatter (`name`, `description`) and a runbook an agent can follow.
 - Build a mini harness that discovers skills, builds the menu (*progressive disclosure*) and runs them with **explicit** or **automatic** selection.
@@ -20,7 +22,7 @@ Write reusable skills, measure whether your agent finds them on its own, and bri
 - Python 3.10+ or Google Colab. The `nvapi-` key is optional: without a key, the notebook uses a simulated model.
 - You've done class [2.3](../2.3-funciones-a-herramientas/README.md) (loop with tools) and [4.3](../4.3-agentes-siempre-activos/README.md) (you installed your first skill in OpenClaw).
 - For the lab part: your Brev instance **Running**, the NemoClaw dashboard open (green **NemoClaw** button) and the course cloned in `~/curso` (class 4.3).
-- **Your credit:** the notebook uses no Brev credit. The lab part is optional and takes ≈15 min of your single sitting, right after the 6.1 practice (see [your Brev lab (Spanish)](../../../LABORATORIO.md)). When you finish it, save what you want and **Delete** your instance.
+- **Your credit:** the notebook uses no Brev credit. The lab part is optional and takes ≈15 min of your single sitting, right after the 6.1 practice, or after 5.3 if you skipped 6.1 (see [your Brev lab (Spanish)](../../../LABORATORIO.md)). When you finish it, save what you want and **Delete** your instance.
 
 ## The idea in one minute
 Every session, your agent starts from scratch. A **skill** is how you say something once and keep it: a folder with a `SKILL.md`.
@@ -71,7 +73,7 @@ The idea comes from *Voyager* (2023): an agent that saved what worked as reusabl
 
 8. **Trigger the failures (section 8 · 🧯).** YAML broken by `: `, an invalid name, a skill that doesn't exist, and escape paths (`../.env`).
 
-9. **Bring the library to the lab (section 9).** This part is optional and follows the [6.1](../6.1-clis-de-agentes/README.md) practice, with the instance still running. If you already deleted your instance, skip it: the notebook is enough.
+9. **Bring the library to the lab (section 9).** This part is optional and follows the [6.1](../6.1-clis-de-agentes/README.md) practice (or the [5.3](../5.3-sandbox-y-politicas/README.md) one, if you skipped 6.1), with the instance still running. If you already deleted your instance, skip it: the notebook is enough.
 
    On the NemoClaw dashboard, click **VM TERMINAL** and click inside the black area. The library is already in the copy of the course you cloned in 4.3, under `~/curso/skill-library/`. If you don't have that folder, clone the course:
    ```bash

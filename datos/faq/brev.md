@@ -5,14 +5,14 @@ El launchable de NemoClaw usa una instancia solo CPU de 4 CPU y 16 GiB.
 Encendida cuesta unos USD 0.25 por hora (0.20 de cómputo y 0.05 de disco); la página de la instancia muestra un precio parecido, por ejemplo $0.26/hr.
 Con el cupón de 1 USD te alcanza para unas 4 horas encendida.
 Las llamadas al modelo no gastan crédito de Brev: gastan los créditos de tu cuenta de build.nvidia.com.
-El plan del curso: ve primero los videos de los Módulos 4 a 6, haz todas las prácticas en una sola sesión de 2.5 a 3 horas y borra la instancia al terminar.
+El plan del curso: ve primero los videos de los Módulos 4 a 6, haz las prácticas en una sola sesión (unas 2 horas las obligatorias, unas 3 con las opcionales) y borra la instancia al terminar.
 
 ## P: ¿Me cobran si detengo la instancia? ¿Y si la borro?
 Encendida (Running), Brev cobra cómputo y disco: unos USD 0.25 por hora.
 Detenida (Stopped), no cobra cómputo, pero el disco sigue cobrando unos USD 0.05 por hora, unos USD 1.20 al día: más que tu cupón en un solo día.
 Borrada (Deleted), no cobra nada, pero los datos se pierden para siempre.
 Si tienes que pausar, pulsa Stop y vuelve el mismo día o al siguiente; nunca la dejes detenida varios días.
-Al terminar el laboratorio (después de la clase 6.1), pulsa Delete.
+Al terminar el laboratorio (después de la clase 5.3, o de la última práctica opcional que hagas), pulsa Delete.
 
 ## P: ¿Cómo detengo o borro mi instancia de Brev?
 En la consola de brev.nvidia.com entra a Compute y abre tu instancia (se llama algo como nemoclaw-xxxxxx).

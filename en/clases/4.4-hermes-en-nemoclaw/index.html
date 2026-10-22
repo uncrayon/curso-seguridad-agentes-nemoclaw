@@ -2,15 +2,15 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>4.4 Swap OpenClaw for Hermes in NemoClaw · Securing Agents with OpenShell and NemoClaw</title>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8c0f4e58">
-<link rel="stylesheet" href="../../../assets/guia.css?v=8c0f4e58">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=70d0b71a">
+<link rel="stylesheet" href="../../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
   <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Module 4 · Take your agent to NemoClaw</span><h1><span class="num">4.4</span>Swap OpenClaw for Hermes in NemoClaw</h1><p class="chips"><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">computer</span>Lab on Brev</span><span class="chip primary"><span class="icon">bolt</span>Skill: Deploy and operate Hermes Agent in NemoClaw</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/4.4-hermes-en-nemoclaw/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
+<section class="hero"><span class="tag">Module 4 · Take your agent to NemoClaw</span><h1><span class="num">4.4</span>Swap OpenClaw for Hermes in NemoClaw</h1><p class="chips"><span class="chip opt"><span class="icon">flag</span>Optional</span><span class="chip"><span class="icon">schedule</span>≈9 min</span><span class="chip"><span class="icon">computer</span>Lab on Brev</span><span class="chip primary"><span class="icon">bolt</span>Skill: Deploy and operate Hermes Agent in NemoClaw</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/4.4-hermes-en-nemoclaw/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
 <section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
 <p>🇪🇸 Original Spanish guide: <a href="../../../clases/4.4-hermes-en-nemoclaw/index.html"><code>clases/4.4-hermes-en-nemoclaw/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
 </blockquote>
@@ -42,6 +42,9 @@
 </tbody>
 </table>
 <p>Materials: <a href="slides.html">slides</a> · <a href="../../../clases/4.4-hermes-en-nemoclaw/cookbook.html">terminal cookbook (Spanish)</a> · <a href="../../../clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/SKILL.html">soporte-nemoclaw skill for Hermes (Spanish)</a> · <a href="../../../clases/4.4-hermes-en-nemoclaw/hermes_api.py">API script (Spanish)</a> · <a href="../../../FAQ.html#hermes">FAQ (Spanish)</a></p>
+<blockquote>
+<p><strong>This class is optional.</strong> The rest of the course doesn't depend on it. If you do it, it adds ≈30 min (≈USD 0.13) to your lab sitting, between 4.3 and 5.2. When you finish, turn OpenClaw (<code>my-assistant</code>) back on before you continue: step 14 shows you how.</p>
+</blockquote>
 <h2 id="the-idea-in-one-sentence">The idea in one sentence</h2>
 <p>NemoClaw isn't OpenClaw: it's the <strong>sandbox, the policies, and the managed inference</strong> around an agent. Today you swap the agent, and everything security-related stays the same.</p>
 <table>
@@ -121,7 +124,7 @@
 </code></pre></div></li>
 <li>Your <code>nvapi-</code> key from class 1.2 at hand. NemoClaw stores it on the host; the sandbox only gets a placeholder.</li>
 <li>Everything happens in the NemoClaw dashboard's <strong>VM TERMINAL</strong>: that's where <code>nemohermes</code> lives. The <strong>SANDBOX TERMINAL</strong> is inside the <code>my-assistant</code> room and doesn't have it. Click inside the black area before typing, and <strong>don't</strong> press <strong>Shift+Escape</strong> while the room is being created: it closes the terminal and its processes.</li>
-<li>Your credit: this practice uses ≈30 min of your single lab sitting (see <a href="../../../LABORATORIO.html">LABORATORIO.md (Spanish)</a>). Creating the Hermes room takes several minutes. Questions to Hermes spend model credits on build.nvidia.com, not Brev credit. If you're short on time or credit, this is the practice you can just watch on video. When you finish, turn <code>my-assistant</code> back on: Modules 5 and 6 use it. If you stop for today, click <strong>Stop</strong> and come back soon; at the very end of the lab (after 6.1), <strong>Delete</strong>.</li>
+<li>Your credit: this practice uses ≈30 min of your single lab sitting (see <a href="../../../LABORATORIO.html">LABORATORIO.md (Spanish)</a>). Creating the Hermes room takes several minutes. Questions to Hermes spend model credits on build.nvidia.com, not Brev credit. If you're short on time or credit, this is the practice you can just watch on video. When you finish, turn <code>my-assistant</code> back on: Modules 5 and 6 use it. If you stop for today, click <strong>Stop</strong> and come back soon; at the very end of the lab (after 5.3, or after the last optional practice you do), <strong>Delete</strong>.</li>
 </ul>
 <p><img alt="NemoClaw dashboard with the MY-ASSISTANT card and its four buttons: CHAT WITH AGENT, SANDBOX TERMINAL, VM TERMINAL, and OPENSHELL TUI" src="../../../assets/lab/13-panel-nemoclaw.jpg" /></p>
 <p>Another way to try Hermes: in a fresh lab, in the browser setup (<strong>Connect to AI</strong>), you can pick <strong>Hermes</strong> as the agent instead of OpenClaw. This course creates it as a second room so you keep <code>my-assistant</code>.</p>

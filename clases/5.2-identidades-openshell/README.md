@@ -24,7 +24,7 @@ Material: [diapositivas](slides.html) · [cookbook del lab](cookbook.md) · [FAQ
 
 **Qué te llevas:** Puedes comprobar por ti mismo, sin creerle al agente, qué tan poco poder tiene y que tu key no está a su alcance.
 
-**Tu crédito:** esta práctica usa ≈20 min de tu sesión única de laboratorio (≈USD 0.08). Si paras por hoy, haz **Stop** en la consola de Brev y vuelve pronto; al terminar la 6.1, **Delete** (ver [LABORATORIO.md](../../LABORATORIO.md)).
+**Tu crédito:** esta práctica usa ≈20 min de tu sesión única de laboratorio (≈USD 0.08). Si paras por hoy, haz **Stop** en la consola de Brev y vuelve pronto; al terminar tu última práctica (la 5.3, o la última opcional que hagas), **Delete** (ver [LABORATORIO.md](../../LABORATORIO.md)).
 
 ## Lo que vas a lograr
 

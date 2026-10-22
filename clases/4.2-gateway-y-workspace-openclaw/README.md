@@ -24,7 +24,7 @@ Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) ·
 
 **Qué te llevas:** puedes definir por escrito la personalidad y los límites de un agente, y sabes que lo que el agente dice se comprueba en el archivo.
 
-**Tu crédito:** esta práctica usa ≈20 min de instancia encendida, dentro de tu sentada única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Si paras por hoy, haz **Stop** y vuelve pronto. Al final del laboratorio (después de la clase 6.1), haz **Delete**.
+**Tu crédito:** esta práctica usa ≈20 min de instancia encendida, dentro de tu sentada única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Si paras por hoy, haz **Stop** y vuelve pronto. Al final del laboratorio (después de la 5.3, o de la última práctica opcional que hagas), haz **Delete**.
 
 ## Lo que vas a lograr
 

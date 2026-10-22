@@ -136,3 +136,6 @@ html[lang="en"] .notes::before{content:"Notes"}
 .dg-node[data-paso].actual{box-shadow:0 0 0 3px color-mix(in srgb,var(--sin-primary) 35%,transparent),var(--shadow-raised)}
 @media (prefers-reduced-motion:reduce){.slide [data-paso]{transition:none}}
 @media print{.slide [data-paso]{opacity:1!important;transform:none!important}}
+.chip.opt{background:color-mix(in srgb,var(--sin-tertiary) 20%,transparent);color:var(--sin-tertiary);border-color:transparent}
+.prox .chip.opt{font-size:.5em;margin-left:.7em;vertical-align:middle}
+.chip.opt .icon{color:inherit}

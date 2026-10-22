@@ -9,6 +9,8 @@ Escribe skills reutilizables, mide si tu agente las encuentra solo y llévalas a
 | **Habilidad** | Crear skills de agente reutilizables |
 | **Material** | [Diapositivas](slides.html) · [Biblioteca del proyecto](../../skill-library/README.md) · [FAQ del curso](../../FAQ.md) |
 
+> **El Módulo 6 es opcional**, y la parte final de esta clase en el laboratorio también. Si la haces, hazla en la misma sentada, después de la 6.1 (o de la 5.3, si te saltaste la 6.1) y antes de borrar la instancia (≈15 min, ≈USD 0.06). Si ya la borraste al terminar la 5.3, sáltala: el notebook no necesita el laboratorio.
+
 ## Lo esencial (sin tecnicismos)
 
 **La idea:** Una skill es un archivo de texto con instrucciones paso a paso para una tarea, escrito en español normal. El agente ve solo una lista con el nombre y la descripción de cada skill, y abre la completa cuando tu pedido coincide. Por eso la descripción es la línea más importante: decide si el agente encuentra la skill solo.
@@ -21,7 +23,7 @@ Escribe skills reutilizables, mide si tu agente las encuentra solo y llévalas a
 
 **Qué te llevas:** Puedes convertir una tarea repetitiva de tu trabajo en instrucciones que un agente sabe encontrar y seguir, y juzgar si una descripción está bien escrita.
 
-**Tu crédito:** el notebook no usa crédito de Brev. La parte final en el laboratorio es opcional y usa ≈15 min de tu sesión única, justo después de la práctica de la 6.1 (ver [LABORATORIO.md](../../LABORATORIO.md)). Al terminarla, guarda lo que quieras y **Delete** tu instancia.
+**Tu crédito:** el notebook no usa crédito de Brev. La parte final en el laboratorio es opcional y usa ≈15 min de tu sesión única, justo después de la práctica de la 6.1, o de la 5.3 si te saltaste la 6.1 (ver [LABORATORIO.md](../../LABORATORIO.md)). Al terminarla, guarda lo que quieras y **Delete** tu instancia.
 
 ## Lo que vas a lograr
 - Escribir un `SKILL.md` correcto: frontmatter (`name`, `description`) y un runbook que un agente puede seguir.
@@ -80,7 +82,7 @@ La idea viene de *Voyager* (2023): un agente que guardaba lo que le funcionaba c
 
 8. **Provoca las fallas (sección 8 · 🧯).** YAML roto por `: `, nombre inválido, skill inexistente y rutas de escape (`../.env`).
 
-9. **Lleva la biblioteca al laboratorio (sección 9).** Esta parte es opcional y sigue a la práctica de la [6.1](../6.1-clis-de-agentes/README.md), con la instancia todavía encendida. Si ya borraste tu instancia, sáltala: el notebook basta.
+9. **Lleva la biblioteca al laboratorio (sección 9).** Esta parte es opcional y sigue a la práctica de la [6.1](../6.1-clis-de-agentes/README.md) (o a la de la [5.3](../5.3-sandbox-y-politicas/README.md), si te saltaste la 6.1), con la instancia todavía encendida. Si ya borraste tu instancia, sáltala: el notebook basta.
 
    En el tablero de NemoClaw, presiona **VM TERMINAL** y haz clic dentro del área negra. La biblioteca ya está en la copia del curso que clonaste en la 4.3, en `~/curso/skill-library/`. Si no tienes esa carpeta, clona el curso:
    ```bash

@@ -24,7 +24,7 @@ Material: [diapositivas](slides.html) · [cookbook del lab](cookbook.md) · [not
 
 **Qué te llevas:** Puedes leer las reglas de un agente y decir, antes de probarlo, qué puede y qué no puede hacer, y qué riesgo queda aunque las reglas estén bien.
 
-**Tu crédito:** esta práctica usa ≈25 min de tu sesión única de laboratorio (≈USD 0.10). Si paras por hoy, haz **Stop** en la consola de Brev y vuelve pronto; al terminar la 6.1, **Delete** (ver [LABORATORIO.md](../../LABORATORIO.md)).
+**Tu crédito:** esta práctica usa ≈25 min de tu sesión única de laboratorio (≈USD 0.10). Es la última práctica obligatoria del laboratorio. Si paras por hoy, haz **Stop** en la consola de Brev y vuelve pronto. Al terminar: si vas a hacer las prácticas opcionales del Módulo 6, deja la instancia encendida y sigue; si no, guarda lo que quieras y **Delete** (ver [LABORATORIO.md](../../LABORATORIO.md)).
 
 ## Lo que vas a lograr
 
@@ -224,6 +224,18 @@ La red y la inferencia cambian en caliente. Las carpetas y el usuario se fijan a
 
 En el notebook (sección 9) la FAQ envenenada de la 5.1 ataca a *Soporte NemoClaw* con la política base: el `curl` al host del atacante se bloquea, pero el envío desde el programa del agente a `clawhub.ai` (un host permitido que acepta `POST`) **pasa**. La receta 8 del cookbook lo muestra en vivo con un secreto falso: un secreto que el agente lee con permiso ya viajó al modelo. Y la Parte 3 te dio otro ejemplo: `curl` llega a la API de NVIDIA. Una lista de permitidos aprueba destinos, no el significado de lo que viaja.
 
+### Parte 7 · Cierra el laboratorio: guarda y borra
+Esta es la última práctica obligatoria de laboratorio. Si vas a hacer las prácticas opcionales del Módulo 6 (la [6.1](../6.1-clis-de-agentes/README.md) y la parte de laboratorio de la [6.2](../6.2-biblioteca-de-skills/README.md)), deja la instancia encendida y sigue con ellas: allí cierras el laboratorio. Si no, guarda lo que quieras y **Delete**. Si vas a probar el [Reto](#reto) en el laboratorio, hazlo antes de borrar. Al borrar la instancia, todo lo que hay en la VM se pierde.
+1. **Guarda lo que quieras.** Los archivos del curso (`~/curso`) ya están en GitHub. Para conservar algo que escribió tu agente, muéstralo en la VM TERMINAL, selecciónalo con el mouse y pégalo en tus notas. Por ejemplo, el reporte de la 4.3:
+   ```bash
+   nemoclaw my-assistant exec -- cat /sandbox/.openclaw/workspace/reportes/resumen-faq.md
+   ```
+2. **Borra la instancia.** Cierra la terminal (**Shift+Escape**) y ve a la consola de Brev: **Compute** → tu instancia (`nemoclaw-…`) → **Delete**. Confirma en el aviso que aparece.
+
+   ![La página de la instancia en la consola de Brev con los botones Stop, Delete y NemoClaw; el número marca Delete](../../assets/lab/05-instancia-lista.jpg)
+
+3. **Revisa tu saldo.** En el menú de arriba, abre **Billing** (o mira el saldo en la barra superior). Confirma que la instancia ya no aparece en **Compute**. Si algo no cuadra, revisa [LABORATORIO.md](../../LABORATORIO.md).
+
 ## Comprueba que funcionó
 
 - [ ] Guardaste tu política en `~/politica-antes.txt` y viste las reglas en la OPENSHELL TUI.
@@ -232,6 +244,7 @@ En el notebook (sección 9) la FAQ envenenada de la 5.1 ataca a *Soporte NemoCla
 - [ ] Viste en vivo un `CONNECT tunnel failed, response 403`, un `code=200` inesperado y un `Permission denied`, y sabes explicar cada uno.
 - [ ] Rechazaste una petición pendiente con **x** en la OPENSHELL TUI.
 - [ ] Agregaste y quitaste el preset `soporte-docs` sin reiniciar nada.
+- [ ] Borraste tu instancia con **Delete** y ya no aparece en **Compute** (o la dejaste encendida para seguir con las prácticas opcionales del Módulo 6).
 
 ## Errores comunes
 
@@ -260,7 +273,7 @@ Cierra el módulo con la política de *Soporte NemoClaw*:
 2. Agrega a tu `trifecta.md` una sección **"Política (clase 5.3)"**: qué grupos usa el proyecto, qué preset propio agregaste y qué canales de salida **siguen abiertos** (el proveedor de inferencia, `integrate.api.nvidia.com` también para `curl`, y `clawhub.ai`).
 3. Opcional: `nemoclaw my-assistant policy explain --write` debería actualizar `POLICY.md`, el resumen que el agente lee sobre su propia política. Si tu versión no acepta esa opción, sáltalo.
 
-En la clase 6.2 vas a empaquetar esto como parte de tu biblioteca de skills.
+En la clase 6.2 (opcional) vas a empaquetar esto como parte de tu biblioteca de skills.
 
 ## Recursos
 

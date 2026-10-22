@@ -99,13 +99,13 @@ Throughout the course you build **Soporte NemoClaw** (NemoClaw Support), an agen
 | **4 · Take your agent to NemoClaw** | 4.1 Launch the NemoClaw lab on Brev | Lab |
 | | 4.2 Explore the OpenClaw gateway and workspace | Lab |
 | | 4.3 Agents in continuous and scheduled operation | Lab |
-| | 4.4 Swap OpenClaw for Hermes in NemoClaw | Lab |
+| | 4.4 Swap OpenClaw for Hermes in NemoClaw *(optional)* | Lab |
 | **5 · Secure the agent with OpenShell** | 5.1 The lethal trifecta and the risk surface | Slides |
 | | 5.2 Identities and limits with OpenShell | Lab |
 | | 5.3 Restrict tools, files and network | Lab |
-| **6 · Extend your practice** | 6.1 Compare modern agent CLIs | Lab |
-| | 6.2 Build your skill library | Notebook |
-| | 6.3 Next steps and local deployment | Slides |
+| **6 · Extend your practice** *(optional)* | 6.1 Compare modern agent CLIs *(optional)* | Lab |
+| | 6.2 Build your skill library *(optional)* | Notebook |
+| | 6.3 Next steps and local deployment *(optional)* | Slides |
 
 What you need at each stage:
 

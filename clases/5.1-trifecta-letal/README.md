@@ -30,7 +30,7 @@ Material: [diapositivas](slides.html) · [notebook opcional](5.1-trifecta-letal.
 
 ## Antes de empezar
 
-- Terminaste el Módulo 4: tu agente *Soporte NemoClaw* corre en OpenClaw con la skill `soporte-nemoclaw`, la FAQ en el workspace y una tarea programada (clase 4.3), y la misma skill en Hermes (clase 4.4).
+- Terminaste las clases 4.1 a 4.3: tu agente *Soporte NemoClaw* corre en OpenClaw con la skill `soporte-nemoclaw`, la FAQ en el workspace y una tarea programada (clase 4.3).
 - No necesitas el laboratorio de Brev encendido. Esta clase es de análisis.
 - Para el notebook opcional: Python 3.10+ o Google Colab. La API key es opcional (sin key corre en modo simulado).
 

@@ -13,6 +13,8 @@ Learn to compare any CLI agent with five questions, check the answers in your la
 
 > Based on lesson 04b of the NVIDIA DLI course "NemoClaw" (Apache-2.0) and on the NVIDIA/NemoClaw repo.
 
+> **Module 6 is optional**, and so is this class's lab practice. If you do it, do it in the same sitting, after 5.3 and before you delete the instance (≈20 min, ≈USD 0.08). If you already deleted it when you finished 5.3, skip it: you can read this guide and watch the video without the lab.
+
 ## What you'll achieve
 - Explain why Claude Code, Codex, Cursor, Hermes, Deep Agents and OpenClaw are **the same loop with different defaults**.
 - Compare agents on five axes: **files, network, identity, persistence and default sandbox**.

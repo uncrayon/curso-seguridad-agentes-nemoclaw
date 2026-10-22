@@ -2,8 +2,8 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>5.3 Restrict tools, files and network · Securing Agents with OpenShell and NemoClaw</title>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8c0f4e58">
-<link rel="stylesheet" href="../../../assets/guia.css?v=8c0f4e58">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=70d0b71a">
+<link rel="stylesheet" href="../../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
@@ -48,7 +48,7 @@
 <li>Approve or reject a blocked request and explain why that lasts less than a preset.</li>
 <li>Add and remove the <em>Soporte NemoClaw</em> (NemoClaw Support) preset and explain why the sandbox is only one layer.</li>
 </ul>
-<p><strong>Your credit:</strong> this practice uses ≈25 min of running instance, inside your single lab sitting (see <a href="../../../LABORATORIO.html">the lab guide (Spanish)</a>). If you stop for today, use <strong>Stop</strong> and come back soon. At the very end of the lab (after class 6.1), use <strong>Delete</strong>.</p>
+<p><strong>Your credit:</strong> this practice uses ≈25 min of running instance, inside your single lab sitting (see <a href="../../../LABORATORIO.html">the lab guide (Spanish)</a>). It's the last required lab practice. If you stop for today, use <strong>Stop</strong> and come back soon. When you finish: if you'll do the optional Module 6 practices, leave the instance running and keep going; if not, save what you want and <strong>Delete</strong>.</p>
 <h2 id="before-you-start">Before you start</h2>
 <ul>
 <li>Brev lab running, with the dashboard open (<code>https://nemoclaw-&lt;your-id&gt;.gobrev.dev/dashboard</code>) and <code>nemoclaw my-assistant status</code> green.</li>
@@ -209,6 +209,16 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>policy<span 
 <p>Network and inference change on the fly. Folders and user are set when the sandbox is created: to change them you edit the base policy and recreate it.</p>
 <h3 id="part-6--the-wrap-up-the-sandbox-is-one-layer">Part 6 · The wrap-up: the sandbox is one layer</h3>
 <p>In the notebook (section 9), the poisoned FAQ from 5.1 attacks <em>Soporte NemoClaw</em> with the base policy: the <code>curl</code> to the attacker's host is blocked, but the send from the agent's program to <code>clawhub.ai</code> (an allowed host that accepts <code>POST</code>) <strong>gets through</strong>. Recipe 8 in the cookbook shows it live with a fake secret: a secret the agent reads with permission has already traveled to the model. And Part 3 gave you another example: <code>curl</code> reaches the NVIDIA API. An allow list approves destinations, not the meaning of what travels.</p>
+<h3 id="part-7--close-the-lab-save-and-delete">Part 7 · Close the lab: save and delete</h3>
+<p>This is the last required lab practice. If you'll do the optional Module 6 practices (<a href="../6.1-clis-de-agentes/index.html">6.1</a> and the lab part of <a href="../6.2-biblioteca-de-skills/index.html">6.2</a>), leave the instance running and move on to them: you close the lab there. If not, save what you want and <strong>Delete</strong>. If you'll try the <a href="#challenge">Challenge</a> in the lab, do it before you delete. When you delete the instance, everything on the VM is lost.
+1. <strong>Save what you want.</strong> The course files (<code>~/curso</code>) are already on GitHub. To keep something your agent wrote, print it in the VM TERMINAL, select it with the mouse and paste it into your notes. For example, the report from 4.3:
+   <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/sandbox/.openclaw/workspace/reportes/resumen-faq.md
+</code></pre></div>
+2. <strong>Delete the instance.</strong> Close the terminal (<strong>Shift+Escape</strong>) and go to the Brev console: <strong>Compute</strong> → your instance (<code>nemoclaw-…</code>) → <strong>Delete</strong>. Confirm in the dialog that appears.</p>
+<p><img alt="The instance page in the Brev console with the Stop, Delete and NemoClaw buttons; the number marks Delete" src="../../../assets/lab/05-instancia-lista.jpg" /></p>
+<ol start="3">
+<li><strong>Check your balance.</strong> In the top menu, open <strong>Billing</strong> (or look at the balance in the top bar). Confirm the instance no longer shows up under <strong>Compute</strong>. If something doesn't add up, see <a href="../../../LABORATORIO.html">the lab guide (Spanish)</a>.</li>
+</ol>
 <h2 id="check-that-it-worked">Check that it worked</h2>
 <ul>
 <li>☐ You saved your policy in <code>~/politica-antes.txt</code> and saw the rules in the OPENSHELL TUI.</li>
@@ -217,6 +227,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>policy<span 
 <li>☐ You saw a live <code>CONNECT tunnel failed, response 403</code>, an unexpected <code>code=200</code> and a <code>Permission denied</code>, and you can explain each one.</li>
 <li>☐ You rejected a pending request with <strong>x</strong> in the OPENSHELL TUI.</li>
 <li>☐ You added and removed the <code>soporte-docs</code> preset without restarting anything.</li>
+<li>☐ You deleted your instance with <strong>Delete</strong> and it no longer shows up under <strong>Compute</strong> (or you left it running to continue with the optional Module 6 practices).</li>
 </ul>
 <h2 id="common-errors">Common errors</h2>
 <table>
@@ -289,7 +300,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>policy<span 
 <li>Add a <strong>"Policy (class 5.3)"</strong> section to your <code>trifecta.md</code>: which groups the project uses, which preset of your own you added, and which exit channels <strong>are still open</strong> (the inference provider, <code>integrate.api.nvidia.com</code> also for <code>curl</code>, and <code>clawhub.ai</code>).</li>
 <li>Optional: <code>nemoclaw my-assistant policy explain --write</code> should update <code>POLICY.md</code>, the summary the agent reads about its own policy. If your version doesn't accept that option, skip it.</li>
 </ol>
-<p>In class 6.2 you'll package this as part of your skill library.</p>
+<p>In class 6.2 (optional) you'll package this as part of your skill library.</p>
 <h2 id="resources">Resources</h2>
 <ul>
 <li>NVIDIA DLI · lesson 04a "The OpenShell Sandbox" of the "NemoClaw" course (Apache-2.0).</li>

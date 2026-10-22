@@ -2,6 +2,8 @@
 
 Recetas para crear, operar, observar y apagar un sandbox de Hermes con NemoClaw. Funcionan en el laboratorio del curso y en cualquier instalación de NemoClaw (Linux, macOS con Apple Silicon o WSL2).
 
+> **La clase 4.4 es opcional.** El resto del curso no depende de ella. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio. Al terminar, vuelve a encender OpenClaw (`my-assistant`) antes de seguir: la receta 14 te dice cómo.
+
 Convenciones:
 - Todos los comandos van en la **VM TERMINAL** del tablero de NemoClaw (la terminal de operador, usuario `ubuntu`). Ahí está `nemohermes`; la **SANDBOX TERMINAL** no lo tiene. Haz clic dentro del área negra antes de escribir y no presiones **Shift+Escape** mientras corre un comando largo: cierra la terminal y sus procesos.
 - Los archivos del curso están en `~/curso` (clase 4.1). Si no, clónalos: `git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw ~/curso`.
@@ -315,4 +317,4 @@ nemohermes mi-hermes destroy
 
 `destroy` no se puede deshacer. Exporta antes las sesiones que quieras conservar (receta 10).
 
-Si paras por hoy, detén la instancia en la consola de Brev con **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 6.1), **Delete** (ver [LABORATORIO.md](../../LABORATORIO.md)).
+Si paras por hoy, detén la instancia en la consola de Brev con **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica opcional que hagas), **Delete** (ver [LABORATORIO.md](../../LABORATORIO.md)).

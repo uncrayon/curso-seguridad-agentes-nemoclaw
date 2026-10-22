@@ -24,7 +24,7 @@ Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) ·
 
 **Qué te llevas:** sabes escribir la descripción que hace que un agente encuentre su receta, y describir cualquier automatización con tres preguntas: qué recuerda, qué instrucciones sigue y qué la hace empezar.
 
-**Tu crédito:** esta práctica usa ≈25 min de tu sesión única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). La tarea programada también gasta créditos del modelo en build.nvidia.com, no de Brev: una sola ejecución usó ≈112 mil tokens. Si paras por hoy, haz **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 6.1), **Delete**.
+**Tu crédito:** esta práctica usa ≈25 min de tu sesión única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). La tarea programada también gasta créditos del modelo en build.nvidia.com, no de Brev: una sola ejecución usó ≈112 mil tokens. Si paras por hoy, haz **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica opcional que hagas), **Delete**.
 
 ## Lo que vas a lograr
 

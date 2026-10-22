@@ -29,6 +29,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from course import CLASSES, COURSE, by_id, module, neighbors  # noqa: E402
 from course_en import CLASSES_EN, COURSE_EN, MODULES_EN  # noqa: E402
 
+OPCIONAL = {"es": "Opcional", "en": "Optional"}
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 E = html.escape
 VER = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("sinapsis.css", "guia.css"))).hexdigest()[:8]
@@ -226,6 +227,8 @@ def pagina_clase(c, lang):
         acciones.append(f'<a class="btn" href="{rel}"><span class="icon">terminal</span>{u["cb"]}</a>')
     chips = [f'<span class="chip"><span class="icon">schedule</span>≈{c["minutes"]} min</span>',
              f'<span class="chip"><span class="icon">{"computer" if c["practica"] == "lab" else "play_arrow"}</span>{PRACTICA[lang][c["practica"]]}</span>']
+    if c.get("opcional"):
+        chips.insert(0, f'<span class="chip opt"><span class="icon">flag</span>{OPCIONAL[lang]}</span>')
     if skill:
         chips.append(f'<span class="chip primary"><span class="icon">bolt</span>{u["skill"]}: {E(skill)}</span>')
     hero = (f'<section class="hero"><span class="tag">{u["module"]} {c["module"]} · {E(mod)}</span>'

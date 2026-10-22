@@ -110,3 +110,5 @@ a.glos:hover::after,a.glos:focus::after{content:attr(data-def);position:absolute
 
 @media (max-width:700px){.esencial{padding:18px}.esencial-grid{grid-template-columns:1fr}.prevnext{grid-template-columns:1fr}.pn.next{text-align:left}}
 @media print{.topbar,.copy,.prevnext{display:none}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.chip.opt{background:color-mix(in srgb,var(--sin-tertiary) 20%,transparent);color:var(--sin-tertiary);border-color:transparent}
+.chip.opt .icon{color:inherit}

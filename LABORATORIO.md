@@ -30,28 +30,33 @@ No necesitas instalar nada en tu computadora. Todo se hace desde el navegador.
 
 ### El plan: una sola sentada
 
-Primero mira los videos de los Módulos 4, 5 y 6. Después enciende la instancia y haz **todas las prácticas de laboratorio seguidas**, en una sola sentada. Al terminar, **bórrala**.
+Primero mira los videos de los Módulos 4, 5 y 6. Después enciende la instancia y haz **las prácticas de laboratorio seguidas**, en una sola sentada. Al terminar, **bórrala**.
+
+Las prácticas obligatorias son 4.1, 4.2, 4.3, 5.2 y 5.3. Las marcadas *(opcional)* puedes saltarlas: el resto del curso no depende de ellas.
 
 | Clase | Práctica | Tiempo encendida (aprox.) |
 |---|---|---|
 | [4.1](clases/4.1-laboratorio-nemoclaw-en-brev/README.md) | Crear el laboratorio y conocer el tablero | ≈30 min |
 | [4.2](clases/4.2-gateway-y-workspace-openclaw/README.md) | Gateway, workspace y memoria de la conversación | ≈20 min |
 | [4.3](clases/4.3-agentes-siempre-activos/README.md) | Una skill y una automatización | ≈25 min |
-| [4.4](clases/4.4-hermes-en-nemoclaw/README.md) | Hermes en un segundo sandbox | ≈30 min |
+| [4.4](clases/4.4-hermes-en-nemoclaw/README.md) (opcional) | Hermes en un segundo sandbox | ≈30 min |
 | [5.2](clases/5.2-identidades-openshell/README.md) | Quién es quién: operador y sandbox | ≈20 min |
 | [5.3](clases/5.3-sandbox-y-politicas/README.md) | Políticas de red y archivos | ≈25 min |
-| [6.1](clases/6.1-clis-de-agentes/README.md) | Comparar CLIs de agentes | ≈20 min |
+| [6.1](clases/6.1-clis-de-agentes/README.md) (opcional) | Comparar CLIs de agentes | ≈20 min |
 | [6.2](clases/6.2-biblioteca-de-skills/README.md) (opcional) | Instalar la biblioteca de skills | ≈15 min |
-| **Total** | | **≈2 h 50 min ≈ USD 0.71** (≈3 h 05 min ≈ USD 0.77 con la 6.2) |
+| **Total obligatorio** (4.1, 4.2, 4.3, 5.2 y 5.3) | | **≈2 h 00 min ≈ USD 0.50** |
+| **Total con todas las opcionales** | | **≈3 h 05 min ≈ USD 0.77** |
 
-Te sobran unos USD 0.25 por si algo tarda más de lo previsto. Si vas rápido, puedes terminar en ≈2 h 30 min (≈USD 0.65).
+La 4.4 va entre la 4.3 y la 5.2: si te la saltas, pasa directo de la 4.3 a la 5.2. La 6.1 y la 6.2 van al final, después de la 5.3.
+
+Con solo las obligatorias te sobran unos USD 0.50 por si algo tarda más de lo previsto. Si vas rápido, puedes terminar en ≈1 h 45 min (≈USD 0.44). Con todas las opcionales te sobran unos USD 0.23. Para otra combinación, suma los minutos: cada hora encendida cuesta ≈USD 0.25.
 
 Cinco reglas para que te alcance:
 
 1. **Mira primero los videos.** Así, cuando enciendas la instancia, ya sabes qué vas a hacer en cada clase.
 2. **Haz todo en una sola sentada.** Ten a la mano tu API key y estas guías abiertas en otra pestaña.
 3. **Usa Stop solo para pausas cortas.** Si tienes que parar, detén la instancia (**Stop**) y vuelve el mismo día o el siguiente. Nunca la dejes detenida varios días.
-4. **Al terminar la última práctica (6.1, o 6.2 si haces su parte opcional), guarda tu trabajo y borra la instancia: Delete.** Es la única forma de que deje de cobrar del todo (ver [5 · Al terminar](#5--al-terminar)).
+4. **Al terminar tu última práctica, guarda tu trabajo y borra la instancia: Delete.** Si no haces las opcionales, es la 5.3; si haces alguna, es la última opcional que hagas. Es la única forma de que deje de cobrar del todo (ver [5 · Al terminar](#5--al-terminar)).
 5. **No actives la recarga automática** (*auto-recharge*) en **Billing**.
 
 ### Cómo canjear el cupón y revisar tu saldo
@@ -137,7 +142,7 @@ Si el agente no responde justo después de encender la instancia, espera un par 
 
 ## 5 · Al terminar
 
-Cuando termines la última práctica (6.1, o 6.2 si haces su parte opcional):
+Cuando termines tu última práctica (la 5.3 si no haces las opcionales; si haces alguna, la última que hagas):
 
 1. **Guarda lo que quieras conservar.** Este comando, en la **VM TERMINAL**, muestra en pantalla tu `SOUL.md` y los reportes que escribió tu agente:
 

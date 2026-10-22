@@ -29,7 +29,7 @@ Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clase
   ```
   That brings the skill (`~/curso/clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/`) and the course FAQ (`~/curso/datos/faq/`).
 - Every `nemoclaw` command prints an `ExperimentalWarning: SQLite is an experimental feature` line. It's harmless: ignore it.
-- Your credit: this practice uses ≈25 min of your single lab sitting (see [LABORATORIO.md (Spanish)](../../../LABORATORIO.md)). The scheduled task also spends model credits on build.nvidia.com, not Brev credit: one run used ≈112k tokens. If you stop for today, click **Stop** and come back soon; at the very end of the lab (after 6.1), **Delete**.
+- Your credit: this practice uses ≈25 min of your single lab sitting (see [LABORATORIO.md (Spanish)](../../../LABORATORIO.md)). The scheduled task also spends model credits on build.nvidia.com, not Brev credit: one run used ≈112k tokens. If you stop for today, click **Stop** and come back soon; at the very end of the lab (after 5.3, or after the last optional practice you do), **Delete**.
 
 ## The 3 controls
 

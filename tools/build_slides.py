@@ -63,6 +63,7 @@ def L(c, lang):
     return {"title": title, "promesa": promesa, "aprendimos": LEARNED_EN[c["id"]], "skill": skill,
             "module": MODULES_EN[c["module"]][0]}
 
+OPCIONAL = {"es": "Opcional", "en": "Optional"}
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 # Versión de los assets: cambia cuando cambian el CSS o el JS, para que el navegador no use una copia vieja
 import hashlib  # noqa: E402
@@ -101,9 +102,23 @@ def li(items):
     return "<ul>" + "".join(f"<li>{inline(x)}</li>" for x in items) + "</ul>"
 
 
+def opcional(lang):
+    return f'<span class="chip opt"><span class="icon">flag</span>{OPCIONAL[lang]}</span>'
+
+
+def anterior(c):
+    """La clase anterior para el repaso. Una clase obligatoria repasa la última obligatoria, no una opcional."""
+    prev, _ = neighbors(c["id"])
+    while prev is not None and prev.get("opcional") and not c.get("opcional"):
+        prev, _ = neighbors(prev["id"])
+    return prev
+
+
 def portada(c, lang="es", assets=""):
     t, l = T[lang], L(c, lang)
     chips = f'<span class="chip"><span class="icon">person</span>{html.escape(COURSE["instructor"])}</span>'
+    if c.get("opcional"):
+        chips = opcional(lang) + chips
     if l["skill"]:
         chips += f'<span class="chip primary"><span class="icon">bolt</span>{t["skill"]}: {html.escape(l["skill"])}</span>'
     return (f'<section class="slide portada">{deco(c, 3, assets)}'
@@ -115,7 +130,7 @@ def portada(c, lang="es", assets=""):
 
 def repaso(c, lang="es", assets=""):
     t = T[lang]
-    prev, _ = neighbors(c["id"])
+    prev = anterior(c)
     if prev is None:
         body = f"<h2>{t['first_h']}</h2>" + li(t["first"])
     else:
@@ -133,7 +148,7 @@ def siguiente(c, lang="es", assets=""):
     else:
         ln = L(nxt, lang)
         body = (f"<h2>{t['next']}</h2>"
-                f'<p class="prox">{html.escape(ln["title"])}</p>' + li(ln["promesa"]))
+                f'<p class="prox">{html.escape(ln["title"])}{opcional(lang) if nxt.get("opcional") else ""}</p>' + li(ln["promesa"]))
     return f'<section class="slide siguiente">{deco(c, 2, assets)}{body}</section>'
 
 

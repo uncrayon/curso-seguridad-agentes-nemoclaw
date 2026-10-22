@@ -20,7 +20,7 @@ Materials: [slides](slides.html) · [optional notebook (Spanish)](../../../clase
 
 ## Before you start
 
-- You finished Module 4: your *Soporte NemoClaw* (NemoClaw Support) agent runs in OpenClaw with the `soporte-nemoclaw` skill, the FAQ in the workspace, and a scheduled task (class 4.3).
+- You finished classes 4.1 to 4.3: your *Soporte NemoClaw* (NemoClaw Support) agent runs in OpenClaw with the `soporte-nemoclaw` skill, the FAQ in the workspace, and a scheduled task (class 4.3).
 - You don't need the Brev lab running. This class is analysis only.
 - For the optional notebook: Python 3.10+ or Google Colab. The API key is optional (without a key, it runs in mock mode).
 

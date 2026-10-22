@@ -3,20 +3,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>5.1 La trifecta letal y la superficie de riesgo · Seguridad de agentes con OpenShell y NemoClaw</title>
 <link rel="preload" href="../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=3d14d45e">
-<link rel="stylesheet" href="../../assets/diagramas.css?v=3d14d45e">
-<link rel="stylesheet" href="../../assets/slides.css?v=3d14d45e">
-<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=3d14d45e">
-<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=3d14d45e">
-<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=3d14d45e">
-<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=3d14d45e">
-<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=3d14d45e">
-<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=3d14d45e">
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=1d999028">
+<link rel="stylesheet" href="../../assets/diagramas.css?v=1d999028">
+<link rel="stylesheet" href="../../assets/slides.css?v=1d999028">
+<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=1d999028">
+<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=1d999028">
+<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=1d999028">
+<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=1d999028">
+<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=1d999028">
+<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=1d999028">
 
 </head><body>
 <span class="help">← → navegar · N notas · F pantalla completa</span>
 <section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>La trifecta letal y la superficie de riesgo</h1><p class="lead">Asegura el agente con OpenShell</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span></p></section>
-<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""></div><h2>La clase pasada aprendimos</h2><p class="lead">Cambia OpenClaw por Hermes en NemoClaw</p><ul><li>NemoClaw es el mismo sandbox para OpenClaw o Hermes: cambia el agente, no la seguridad</li><li>Hermes guarda todo en /sandbox/.hermes: config, memoria, skills y sesiones en state.db</li><li>Tu skill funciona en los dos agentes y llamas a Hermes desde un programa con su API compatible con OpenAI</li></ul></section>
+<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""></div><h2>La clase pasada aprendimos</h2><p class="lead">Agentes en operación continua y programada</p><ul><li>Instalaste una skill (SKILL.md) y el agente la usó</li><li>Programaste una automatización que escribió un archivo sin que nadie usara el chat</li><li>Un agente siempre activo = sesión + directiva + disparador</li></ul></section>
 <section class="slide"><h2>Un chatbot dice. Un agente hace.</h2>
 <div class="dg dg-two m5"><div class="dg-card" data-paso="1"><h3><span class="dg-i">chat</span>Un chatbot</h3><div class="dg-col"><div class="dg-chips "><span class="dg-chip">Texto entra</span></div><div class="dg-arrow v "></div><div class="dg-node mini"><span class="dg-ico">auto_awesome</span><b>Modelo</b></div><div class="dg-arrow v "></div><div class="dg-chips "><span class="dg-chip">Texto sale</span></div></div><p class="dg-note"><span class="dg-i">chat</span>Peor caso: una respuesta equivocada</p></div><div class="dg-card is-primary" data-paso="2"><h3><span class="dg-i">bolt</span>Un agente</h3><div class="dg-col"><div class="dg-node is-primary"><span class="dg-ico">assistant</span><b>Tu agente</b></div><div class="dg-arrow v "></div><div class="dg-chips "><span class="dg-chip"><span class="dg-i">folder_open</span>Archivos</span><span class="dg-chip"><span class="dg-i">terminal</span>Programas</span><span class="dg-chip"><span class="dg-i">public</span>Internet</span><span class="dg-chip"><span class="dg-i">edit_note</span>Memoria</span><span class="dg-chip"><span class="dg-i">schedule</span>Tareas solas</span></div></div><p class="dg-note"><span class="dg-i">warning</span>Peor caso: una acción equivocada, sin nadie mirando</p></div></div><div class="call warn" data-paso="3"><p>Y toma como orden <b>cualquier texto que lee</b>: tu pedido, una página web o un PDF.</p></div><aside class="notes"><p>Clic 1: el chatbot (texto entra, texto sale; el peor caso es una respuesta equivocada). Clic 2: el agente, con archivos, programas, internet, memoria y tareas que corren solas; el peor caso es una acción equivocada sin nadie mirando. Clic 3: el detalle clave, toma como orden cualquier texto que lee. Antes dejamos al agente trabajando solo: hoy, ¿qué es lo peor que puede hacer con el acceso que ya tiene?</p></aside></section>
 <section class="slide"><h2>La trifecta letal</h2>
@@ -47,5 +47,5 @@
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-3.svg" alt=""><img src="../../assets/brand/forma-7.svg" alt=""></div><h2>En la próxima clase aprenderemos</h2><p class="prox">Identidades y límites con OpenShell</p><ul><li>Quién es el agente dentro del sandbox</li><li>Cómo OpenShell decide permisos por binario e identidad</li><li>Mínimo privilegio en la práctica: usuario no-root y syscalls bloqueadas</li></ul></section>
 <div class="foot"><span><img src="../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Guía de la clase</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../assets/slides.js?v=3d14d45e"></script>
+<script src="../../assets/slides.js?v=1d999028"></script>
 </body></html>

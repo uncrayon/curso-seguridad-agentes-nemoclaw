@@ -167,3 +167,4 @@ footer{margin-top:72px;padding:28px 0 40px;border-top:1px solid var(--sin-outlin
   footer{margin-top:.6rem;padding:6px 0 0;font-size:7.6pt;break-inside:avoid}
   footer p{margin:.2rem 0}
 }
+.b-opt{background:color-mix(in srgb,var(--sin-tertiary) 20%,transparent);color:var(--sin-tertiary)}

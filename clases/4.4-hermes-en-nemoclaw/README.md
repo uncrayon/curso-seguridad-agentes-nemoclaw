@@ -11,6 +11,8 @@ Crea un segundo sandbox con **Hermes Agent** (Nous Research) en tu laboratorio, 
 
 Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) · [skill soporte-nemoclaw para Hermes](skills/soporte-nemoclaw/SKILL.md) · [script de la API](hermes_api.py) · [preguntas frecuentes](../../FAQ.md#hermes)
 
+> **Esta clase es opcional.** El resto del curso no depende de ella. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio, entre la 4.3 y la 5.2. Al terminar, vuelve a encender OpenClaw (`my-assistant`) antes de seguir: el paso 14 te dice cómo.
+
 ## Lo esencial (sin tecnicismos)
 
 **La idea:** NemoClaw no es el agente: es el cuarto con cerradura y sus reglas. Hoy cambias de asistente, de OpenClaw a Hermes, y la seguridad se queda igual. Hermes además aprende solo, así que también aprendes a pedirle que te consulte antes de guardar algo.
@@ -23,7 +25,7 @@ Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) ·
 
 **Qué te llevas:** puedes decidir qué puede aprender solo un agente y qué necesita tu permiso.
 
-**Tu crédito:** esta práctica usa ≈30 min de tu sesión única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Crear el cuarto de Hermes tarda varios minutos. Las preguntas a Hermes gastan créditos del modelo en build.nvidia.com, no de Brev. Si vas justo de tiempo o de crédito, esta es la práctica que puedes ver solo en video. Al terminar, vuelve a encender `my-assistant`: los módulos 5 y 6 lo usan. Si paras por hoy, haz **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 6.1), **Delete**.
+**Tu crédito:** esta práctica usa ≈30 min de tu sesión única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Crear el cuarto de Hermes tarda varios minutos. Las preguntas a Hermes gastan créditos del modelo en build.nvidia.com, no de Brev. Si vas justo de tiempo o de crédito, esta es la práctica que puedes ver solo en video. Al terminar, vuelve a encender `my-assistant`: los módulos 5 y 6 lo usan. Si paras por hoy, haz **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica opcional que hagas), **Delete**.
 
 ## La idea en una frase
 

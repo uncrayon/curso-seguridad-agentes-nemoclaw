@@ -21,7 +21,7 @@ Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clase
 - Customize `SOUL.md` so your agent behaves like **Soporte NemoClaw**, and test it in a new session.
 - List and reset sessions, and check that what's written to files survives into a new session.
 
-**Your credit:** this practice uses ≈20 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). If you stop for today, use **Stop** and come back soon. At the very end of the lab (after class 6.1), use **Delete**.
+**Your credit:** this practice uses ≈20 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). If you stop for today, use **Stop** and come back soon. At the very end of the lab (after 5.3, or after the last optional practice you do), use **Delete**.
 
 ## Before you start
 

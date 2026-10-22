@@ -13,6 +13,8 @@ Create a second sandbox with **Hermes Agent** (Nous Research) in your lab, walk 
 
 Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/cookbook.md) · [soporte-nemoclaw skill for Hermes (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/SKILL.md) · [API script (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/hermes_api.py) · [FAQ (Spanish)](../../../FAQ.md#hermes)
 
+> **This class is optional.** The rest of the course doesn't depend on it. If you do it, it adds ≈30 min (≈USD 0.13) to your lab sitting, between 4.3 and 5.2. When you finish, turn OpenClaw (`my-assistant`) back on before you continue: step 14 shows you how.
+
 ## The idea in one sentence
 
 NemoClaw isn't OpenClaw: it's the **sandbox, the policies, and the managed inference** around an agent. Today you swap the agent, and everything security-related stays the same.
@@ -47,7 +49,7 @@ NemoClaw isn't OpenClaw: it's the **sandbox, the policies, and the managed infer
   ```
 - Your `nvapi-` key from class 1.2 at hand. NemoClaw stores it on the host; the sandbox only gets a placeholder.
 - Everything happens in the NemoClaw dashboard's **VM TERMINAL**: that's where `nemohermes` lives. The **SANDBOX TERMINAL** is inside the `my-assistant` room and doesn't have it. Click inside the black area before typing, and **don't** press **Shift+Escape** while the room is being created: it closes the terminal and its processes.
-- Your credit: this practice uses ≈30 min of your single lab sitting (see [LABORATORIO.md (Spanish)](../../../LABORATORIO.md)). Creating the Hermes room takes several minutes. Questions to Hermes spend model credits on build.nvidia.com, not Brev credit. If you're short on time or credit, this is the practice you can just watch on video. When you finish, turn `my-assistant` back on: Modules 5 and 6 use it. If you stop for today, click **Stop** and come back soon; at the very end of the lab (after 6.1), **Delete**.
+- Your credit: this practice uses ≈30 min of your single lab sitting (see [LABORATORIO.md (Spanish)](../../../LABORATORIO.md)). Creating the Hermes room takes several minutes. Questions to Hermes spend model credits on build.nvidia.com, not Brev credit. If you're short on time or credit, this is the practice you can just watch on video. When you finish, turn `my-assistant` back on: Modules 5 and 6 use it. If you stop for today, click **Stop** and come back soon; at the very end of the lab (after 5.3, or after the last optional practice you do), **Delete**.
 
 ![NemoClaw dashboard with the MY-ASSISTANT card and its four buttons: CHAT WITH AGENT, SANDBOX TERMINAL, VM TERMINAL, and OPENSHELL TUI](../../../assets/lab/13-panel-nemoclaw.jpg)
 
