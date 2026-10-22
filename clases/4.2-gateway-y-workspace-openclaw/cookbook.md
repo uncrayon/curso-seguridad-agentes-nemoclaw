@@ -1,4 +1,4 @@
-# Cookbook 4.2 · Workspace, sesiones y memoria de OpenClaw
+# Cookbook · Workspace, sesiones y memoria de OpenClaw
 
 Recetas para inspeccionar y editar el workspace de un agente OpenClaw dentro de NemoClaw, como operador. Funcionan en el laboratorio del curso y en cualquier instalación de NemoClaw.
 

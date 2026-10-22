@@ -1,4 +1,4 @@
-# Cookbook 4.3 · Skills, FAQ y tareas programadas en NemoClaw
+# Cookbook · Skills, FAQ y tareas programadas en NemoClaw
 
 Recetas para instalar skills, cargar archivos de conocimiento al workspace y verificar tareas programadas como operador. Funcionan en el laboratorio del curso y en cualquier sandbox OpenClaw de NemoClaw.
 

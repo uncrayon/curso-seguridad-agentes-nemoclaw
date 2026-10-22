@@ -1,4 +1,4 @@
-# Cookbook 5.2 · Identidad y límites dentro del sandbox
+# Cookbook · Identidad y límites dentro del sandbox
 
 Recetas para el laboratorio NemoClaw en Brev, todas desde el navegador. Todas son **de solo lectura o se limpian solas**: ninguna cambia la política ni rompe el agente.
 

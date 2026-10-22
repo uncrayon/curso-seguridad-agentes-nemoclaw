@@ -92,13 +92,12 @@ def modules_html(lang="es"):
     out = []
     for m in MODULES:
         cls = [c for c in CLASSES if c["module"] == m["n"]]
-        mins = sum(c["minutes"] for c in cls)
         opt = (f' <span class="badge b-opt">{"Opcional" if lang == "es" else "Optional"}</span>'
                if all(c.get("opcional") for c in cls) else "")
         title, outcome, where = (m["title"], m["outcome"], m["where"]) if lang == "es" else MODULES_EN[m["n"]]
         out.append(f'<section class="modulo" id="modulo-{m["n"]}"><header>'
                    f'<h3>{E(title)}</h3><p>{E(outcome)}</p>'
-                   f'<p class="meta">{len(cls)} {t["classes"]} · ≈{mins} min · {E(where)}{opt}</p></header>'
+                   f'<p class="meta">{len(cls)} {t["classes"]} · {E(where)}{opt}</p></header>'
                    f'<div class="clases">{"".join(class_card(c, lang) for c in cls)}</div></section>')
     return "\n".join(out)
 
@@ -143,14 +142,14 @@ def cabecera(lang, pre, n_clases, horas):
              (f"{pre}FAQ.html", "quiz", "Preguntas frecuentes" if es else "FAQ (ES)"),
              ("en/index.html" if es else "../index.html", "translate", "English" if es else "Español")]
     nav = "".join(f'<a href="{h}"><span class="icon">{i}</span>{E(t)}</a>' for h, i, t in links)
-    chips = ([f"6 módulos", f"{n_clases} clases", f"≈{horas} h de video", "en español", f"instructor: {COURSE['instructor']}"] if es else
-             [f"6 modules", f"{n_clases} classes", f"≈{horas} h of video", "taught in Spanish", f"instructor: {COURSE['instructor']}"])
-    iconos = ["view_kanban", "school", "smart_display", "translate", "person"]
+    chips = ([f"6 módulos", f"{n_clases} clases", "en español", f"instructor: {COURSE['instructor']}"] if es else
+             [f"6 modules", f"{n_clases} classes", "taught in Spanish", f"instructor: {COURSE['instructor']}"])
+    iconos = ["view_kanban", "school", "translate", "person"]
     facts = "".join(f'<span class="chip"><span class="icon">{i}</span>{E(c)}</span>' for i, c in zip(iconos, chips))
-    cta = ([("primary", start, "play_arrow", "Empieza con la clase 1.1", False),
+    cta = ([("primary", start, "play_arrow", "Empieza el curso", False),
             ("", COURSE["build"], "key", "Consigue tu API key ↗", True),
             ("", COURSE["launchable"], "computer", "Laboratorio en Brev ↗", True)] if es else
-           [("primary", start, "play_arrow", "Start with class 1.1", False),
+           [("primary", start, "play_arrow", "Start the course", False),
             ("", COURSE["build"], "key", "Get your API key ↗", True),
             ("", COURSE["launchable"], "computer", "Brev lab ↗", True)])
     botones = "".join(f'<a class="btn {c}" href="{h}"' + (' target="_blank" rel="noopener"' if ext else "") + f'><span class="icon">{i}</span>{E(t)}</a>'

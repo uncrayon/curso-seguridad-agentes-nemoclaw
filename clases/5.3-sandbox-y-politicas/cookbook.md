@@ -1,4 +1,4 @@
-# Cookbook 5.3 · Leer, probar y cambiar la política del sandbox
+# Cookbook · Leer, probar y cambiar la política del sandbox
 
 Recetas para el laboratorio NemoClaw en Brev, todas desde el navegador: leer la política real, predecir y probar bloqueos, diagnosticar una negación y agregar o quitar permisos con los comandos reales de NemoClaw.
 

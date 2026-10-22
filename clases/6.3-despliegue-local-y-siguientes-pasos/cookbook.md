@@ -1,4 +1,4 @@
-# Cookbook opcional 6.3 · NemoClaw en tu propia máquina
+# Cookbook · NemoClaw en tu propia máquina
 
 Recetas para instalar y operar NemoClaw fuera de Brev: en Linux, macOS con Apple Silicon o Windows con WSL2.
 Es **opcional**: el curso se completa en Brev. Úsalo solo si quieres tu agente en tu propia máquina o en un servidor propio. Nada de aquí depende del laboratorio de Brev: todo pasa en tu computadora.

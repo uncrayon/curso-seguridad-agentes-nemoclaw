@@ -1,4 +1,4 @@
-# Cookbook 6.1 · Inspecciona tu agente desde la terminal del laboratorio
+# Cookbook · Inspecciona tu agente desde la terminal del laboratorio
 
 Recetas para la **VM TERMINAL** del tablero de NemoClaw en Brev. Todo se hace en el navegador: no necesitas instalar nada en tu computadora. Las mismas recetas sirven en una instalación local de NemoClaw (clase 6.3).
 

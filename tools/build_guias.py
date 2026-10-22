@@ -225,14 +225,13 @@ def pagina_clase(c, lang):
     if (es_carpeta / "cookbook.md").exists():
         rel = "cookbook.html" if lang == "es" else f"../../../clases/{c['slug']}/cookbook.html"
         acciones.append(f'<a class="btn" href="{rel}"><span class="icon">terminal</span>{u["cb"]}</a>')
-    chips = [f'<span class="chip"><span class="icon">schedule</span>≈{c["minutes"]} min</span>',
-             f'<span class="chip"><span class="icon">{"computer" if c["practica"] == "lab" else "play_arrow"}</span>{PRACTICA[lang][c["practica"]]}</span>']
+    chips = [f'<span class="chip"><span class="icon">{"computer" if c["practica"] == "lab" else "play_arrow"}</span>{PRACTICA[lang][c["practica"]]}</span>']
     if c.get("opcional"):
         chips.insert(0, f'<span class="chip opt"><span class="icon">flag</span>{OPCIONAL[lang]}</span>')
     if skill:
         chips.append(f'<span class="chip primary"><span class="icon">bolt</span>{u["skill"]}: {E(skill)}</span>')
-    hero = (f'<section class="hero"><span class="tag">{u["module"]} {c["module"]} · {E(mod)}</span>'
-            f'<h1><span class="num">{c["id"]}</span>{E(titulo)}</h1><p class="chips">{"".join(chips)}</p>'
+    hero = (f'<section class="hero"><span class="tag">{E(mod)}</span>'
+            f'<h1>{E(titulo)}</h1><p class="chips">{"".join(chips)}</p>'
             f'<p class="acciones">{"".join(acciones)}</p></section>')
     fondo = (f'<section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>{u["fondo"]}</h2>'
              f'<p class="fondo-sub">{u["fondo_sub"]}</p><div class="md">{cuerpo}</div></section>')
@@ -241,10 +240,10 @@ def pagina_clase(c, lang):
         if not x:
             return "<span></span>"
         t = x["title"] if lang == "es" else CLASSES_EN[x["id"]][0]
-        return f'<a class="pn {clase}" href="../{x["slug"]}/index.html"><small>{etiqueta}</small>{x["id"]} · {E(t)}</a>'
+        return f'<a class="pn {clase}" href="../{x["slug"]}/index.html"><small>{etiqueta}</small>{E(t)}</a>'
     pie = f'<nav class="prevnext">{enlace(prev, u["prev"], "prev")}{enlace(nxt, u["next"], "next")}</nav>'
     curso = COURSE["title"] if lang == "es" else COURSE_EN["title"]
-    out = PAGINA.format(lang=lang, titulo_txt=E(f'{c["id"]} {titulo} · {curso}'), assets=assets, ver=VER, raiz=raiz,
+    out = PAGINA.format(lang=lang, titulo_txt=E(f'{titulo} · {curso}'), assets=assets, ver=VER, raiz=raiz,
                         home="index.html" if lang == "es" else "en/index.html", curso=E(curso), nav=nav(lang, raiz),
                         hero=hero, cuerpo=esencial + fondo, pie=pie, partner=E(COURSE["partner"]),
                         copy=u["copy"], copied=u["copied"])

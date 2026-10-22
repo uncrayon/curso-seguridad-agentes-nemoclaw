@@ -1,4 +1,4 @@
-# Cookbook 4.4 · Hermes Agent en NemoClaw
+# Cookbook · Hermes Agent en NemoClaw
 
 Recetas para crear, operar, observar y apagar un sandbox de Hermes con NemoClaw. Funcionan en el laboratorio del curso y en cualquier instalación de NemoClaw (Linux, macOS con Apple Silicon o WSL2).
 

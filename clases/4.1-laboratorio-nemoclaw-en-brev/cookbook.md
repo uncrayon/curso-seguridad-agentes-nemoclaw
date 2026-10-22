@@ -1,4 +1,4 @@
-# Cookbook 4.1 · Tu laboratorio NemoClaw desde la terminal de operador
+# Cookbook · Tu laboratorio NemoClaw desde la terminal de operador
 
 Recetas para revisar, usar y diagnosticar tu laboratorio NemoClaw en Brev. Todas se pegan en la **VM TERMINAL** del tablero: no necesitas instalar nada en tu computadora. Sirven igual en cualquier máquina con NemoClaw.
 

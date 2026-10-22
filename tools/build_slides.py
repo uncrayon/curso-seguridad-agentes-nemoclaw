@@ -195,7 +195,7 @@ def build(c, lang="es"):
     page = PAGE.format(
         lang=lang, help=T[lang]["help"], guia=T[lang]["guia"], assets=assets, ver=VER,
         modulos_css="".join(f'<link rel="stylesheet" href="{assets}diagramas-m{m}.css?v={VER}">\n' for m in range(1, 7)),
-        title_txt=html.escape(f"{c['id']} {L(c, lang)['title']} · {title}"),
+        title_txt=html.escape(f"{L(c, lang)['title']} · {title}"),
         slides="\n".join(slides),
     )
     (folder / "slides.html").write_text(page, encoding="utf-8")
