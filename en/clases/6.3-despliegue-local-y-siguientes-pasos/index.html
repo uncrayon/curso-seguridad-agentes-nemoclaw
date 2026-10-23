@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Next steps and local deployment · Securing Agents with OpenShell and NemoClaw</title>
+<title>Next steps and local deployment · Secure Agents with NemoClaw</title>
 <link rel="stylesheet" href="../../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Secure Agents with NemoClaw</a>
   <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Extend your agent practice</span><h1>Next steps and local deployment</h1><p class="chips"><span class="chip opt"><span class="icon">flag</span>Optional</span><span class="chip"><span class="icon">play_arrow</span>Slides</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
+<section class="hero"><span class="tag">Local deployment</span><h1>Next steps and local deployment</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Slides</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
 <section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
 <p>🇪🇸 Original Spanish guide: <a href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/index.html"><code>clases/6.3-despliegue-local-y-siguientes-pasos/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
 </blockquote>
@@ -42,7 +42,7 @@
 </tbody>
 </table>
 <blockquote>
-<p><strong>Module 6 is optional.</strong> This class doesn't use the Brev lab.</p>
+<p>This class doesn't use the Brev lab.</p>
 </blockquote>
 <h2 id="what-youll-achieve">What you'll achieve</h2>
 <ul>
@@ -53,7 +53,7 @@
 <h2 id="before-you-start">Before you start</h2>
 <ul>
 <li>Your <strong>Soporte NemoClaw</strong> project with the work from classes 2.1 to 5.3, plus 6.1 and 6.2 if you did them (notebooks, skills in <a href="../../../skill-library/index.html"><code>skill-library/</code> (Spanish)</a>, the security analysis from 5.x).</li>
-<li>Your Brev lab should already be <strong>deleted</strong>: you closed it at the end of <a href="../5.3-sandbox-y-politicas/index.html">5.3</a> or, if you did optional practices, at the end of the last one you did (<a href="../6.1-clis-de-agentes/index.html">6.1</a> or the lab part of <a href="../6.2-biblioteca-de-skills/index.html">6.2</a>). If not, step 7 shows you how.</li>
+<li>Your Brev lab should already be <strong>deleted</strong>: you closed it at the end of <a href="../5.3-sandbox-y-politicas/index.html">5.3</a> or, if you did supplementary practices, at the end of the last one you did (<a href="../6.1-clis-de-agentes/index.html">6.1</a> or the lab part of <a href="../6.2-biblioteca-de-skills/index.html">6.2</a>). If not, step 7 shows you how.</li>
 <li>Optional, only if you want to install NemoClaw on your own machine: Linux, macOS on Apple Silicon, or Windows with WSL2 (see the table in step 2). You don't need Brev for this.</li>
 </ul>
 <h2 id="step-by-step">Step by step</h2>
@@ -261,7 +261,7 @@ You should see: 4 or more CPUs, 8 GB or more of RAM, 20 GB or more free, <code>D
 </table>
 <p>Add up your points: <strong>5–8</strong> keep iterating · <strong>9–12</strong> ready to show · <strong>13–15</strong> publish it and share it.</p>
 <h3 id="7-confirm-the-lab-is-deleted">7. Confirm the lab is deleted</h3>
-<p>Normally you already deleted your instance at the end of your last lab practice (<a href="../5.3-sandbox-y-politicas/index.html">5.3</a>, or the last optional practice you did). Check it in the browser:
+<p>Normally you already deleted your instance at the end of your last lab practice (<a href="../5.3-sandbox-y-politicas/index.html">5.3</a>, or the last supplementary practice you did). Check it in the browser:
 1. In the Brev console (brev.nvidia.com), open <strong>Compute</strong>. Your instance (<code>nemoclaw-…</code>) should no longer show up.
 2. If it's still there, save what you want: copy the text from the <strong>VM TERMINAL</strong>, or download everything as a zip with the <a href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.html#receta-previa--respalda-tu-laboratorio-en-un-zip">first recipe of the cookbook (Spanish)</a>, then open the instance and click <strong>Delete</strong>. Confirm in the dialog that appears.
 3. Open <strong>Billing</strong> in the top menu and check your balance.</p>
@@ -351,9 +351,9 @@ You should see: 4 or more CPUs, 8 GB or more of RAM, 20 GB or more free, <code>D
 <li>NVIDIA · <a href="https://developer.nvidia.com/topics/ai/agentic-ai-learning-path">Agentic AI Learning Path</a> · <a href="https://developer.nvidia.com/blog/category/generative-ai/">Generative AI blog</a></li>
 <li>NVIDIA Blog · <a href="https://developer.nvidia.com/blog/build-a-secure-always-on-local-ai-agent-with-nvidia-nemoclaw-and-openclaw/">Build a secure, always-on local AI agent with NemoClaw and OpenClaw</a></li>
 </ul></div></section>
-<nav class="prevnext"><a class="pn prev" href="../6.2-biblioteca-de-skills/index.html"><small>Previous class</small>Build your skill library</a><span></span></nav>
+<nav class="prevnext"><a class="pn prev" href="../5.3-sandbox-y-politicas/index.html"><small>Previous class</small>Restrict tools, files and network</a><span></span></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Secure Agents with NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";

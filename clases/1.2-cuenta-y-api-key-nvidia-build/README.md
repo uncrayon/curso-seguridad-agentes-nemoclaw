@@ -158,7 +158,7 @@ Invoke-RestMethod -Uri "https://integrate.api.nvidia.com/v1/chat/completions" -M
 
 - La cuenta gratuita de NVIDIA Build da acceso a los modelos alojados con **límites de uso**: créditos o solicitudes por minuto. Las cifras cambian con el tiempo: revisa tu consumo y tus créditos en tu cuenta de build.nvidia.com.
 - Cuando superas el límite por minuto, la API responde **429**. Espera y reintenta (en la 1.3 escribes un reintento con backoff).
-- Lo que más gasta: loops sin límite de pasos, ejecutar celdas en ráfaga y `max_tokens` enormes. En el Módulo 2 tu loop siempre tendrá un máximo de pasos.
+- Lo que más gasta: loops sin límite de pasos, ejecutar celdas en ráfaga y `max_tokens` enormes. En «Fundamentos de Agentes» tu loop siempre tendrá un máximo de pasos.
 - Los modelos gratuitos **cambian**. Un modelo retirado responde **410**. Le pasó al curso de NVIDIA con `nvidia/nemotron-3-nano-30b-a3b`. Por eso el modelo vive en una variable (`NVIDIA_MODEL`) y no escrito en el código.
 
 ### 7. Si filtras tu key

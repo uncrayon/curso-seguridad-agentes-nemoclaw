@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Convierte funciones en herramientas · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Convierte funciones en herramientas · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Construye el loop básico del agente</span><h1>Convierte funciones en herramientas</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Convertir funciones en herramientas de agente</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.3-funciones-a-herramientas/2.3-funciones-a-herramientas.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="hero"><span class="tag">Fundamentos de Agentes</span><h1>Convierte funciones en herramientas</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Convertir funciones en herramientas de agente</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.3-funciones-a-herramientas/2.3-funciones-a-herramientas.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
 <section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>El modelo elige qué herramienta usar leyendo solo su ficha: nombre, descripción y datos que pide. Si la descripción es mala, elige mal. Y como el modelo a veces pide cosas incorrectas o peligrosas, tu programa revisa cada pedido y solo ejecuta las herramientas que tú permitiste.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>La ventanilla de un trámite, con un letrero que dice cómo se llama, para qué sirve, qué papeles pide y qué te entregan. Un subagente es como un jefe de proyecto que reparte encargos a su equipo, y MCP es una tienda de apps de otra empresa: tú decides cuáles instalas.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p>Contrato de una herramienta (su ficha: nombre, descripción, datos que pide y resultado en texto), <a href="../../GLOSARIO.html#subagente" class="glos" data-def="Un agente que otro agente crea para una parte de la tarea, con su propia conversación. · Un jefe de proyecto que reparte encargos a su equipo.">subagente</a>, MCP (un estándar para descubrir herramientas que viven en otro servidor).</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Descarga el notebook de esta clase, súbelo a <a href="https://colab.research.google.com/">Colab</a> con <strong>Archivo → Subir notebook</strong> y presiona ▶ en cada celda, en orden, sin leer el código (o usa <strong>Entorno de ejecución → Ejecutar todo</strong>) (sin key funciona con respuestas simuladas). Luego responde:</p>
 <ol>
 <li>En la sección 4, ¿qué herramienta eligió el modelo para cada una de las tres preguntas?</li>
@@ -175,9 +175,9 @@ borrar_instancia({"nombre": "mi-lab"})
 <li>Schick et al. (2023), <a href="https://arxiv.org/abs/2302.04761">Toolformer: Language Models Can Teach Themselves to Use Tools</a>.</li>
 <li><a href="https://www.nvidia.com/en-us/launchables/pricing">Precios de los launchables de NVIDIA</a> (para <code>estimar_costo_brev</code>) y la <a href="../../FAQ.html#brev">FAQ de Brev del curso</a>.</li>
 </ul></div></section>
-<nav class="prevnext"><a class="pn prev" href="../2.2-patron-react/index.html"><small>Clase anterior</small>Razonamiento con el patrón ReAct</a><a class="pn next" href="../3.1-enrutamiento-y-workflows/index.html"><small>Clase siguiente</small>Enruta trabajo entre varias llamadas</a></nav>
+<nav class="prevnext"><a class="pn prev" href="../2.2-patron-react/index.html"><small>Clase anterior</small>Razonamiento con el patrón ReAct</a><a class="pn next" href="../4.1-laboratorio-nemoclaw-en-brev/index.html"><small>Clase siguiente</small>Levanta el laboratorio NemoClaw en Brev</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

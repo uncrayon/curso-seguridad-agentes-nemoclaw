@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Deep agents that spawn subagents · Securing Agents with OpenShell and NemoClaw</title>
+<title>Deep agents that spawn subagents · Secure Agents with NemoClaw</title>
 <link rel="stylesheet" href="../../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Secure Agents with NemoClaw</a>
   <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Coordinate, ground and plan</span><h1>Deep agents that spawn subagents</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Skill: Coordinate subagents with a planner</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Open in Colab</a></p></section>
+<section class="hero"><span class="tag">Supplementary classes</span><h1>Deep agents that spawn subagents</h1><p class="chips"><span class="chip opt"><span class="icon">menu_book</span>Supplementary · no video</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Skill: Coordinate subagents with a planner</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Open in Colab</a></p></section>
 <section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
 <p>🇪🇸 Original Spanish guide: <a href="../../../clases/3.3-agentes-profundos/index.html"><code>clases/3.3-agentes-profundos/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
 </blockquote>
@@ -24,8 +24,8 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Video length</strong></td>
-<td>≈9 min</td>
+<td><strong>Video</strong></td>
+<td>None: this is a supplementary class</td>
 </tr>
 <tr>
 <td><strong>Practice</strong></td>
@@ -41,6 +41,9 @@
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>This is a supplementary class: it has no video.</strong> You don't need it to follow the course. It has a guide and a notebook so you can go deeper at your own pace, and it doesn't use the Brev lab.</p>
+</blockquote>
 <h2 id="what-youll-achieve">What you'll achieve</h2>
 <ul>
 <li>Write a <strong>planner</strong> that splits a problem into 2 to 4 independent subtasks, with a cap and validation.</li>
@@ -90,7 +93,7 @@ s3 | Cómo renovar la sesión de acceso (cookie) del laboratorio
 <li><strong>c)</strong> <code>limpiar_plan</code> (clean plan) with 9 subtasks. You should see <code>4 subtareas tras limpiar</code>.</li>
 </ul>
 <h3 id="9-isolating-context-is-not-a-sandbox-section-9">9. Isolating context is not a sandbox (section 9)</h3>
-<p>Run the <code>os.environ</code> cell. You should see that your process can see <code>NVIDIA_API_KEY</code> (without printing its value) and can list your home folder. Read the table in that section: OpenShell solves this in Modules 4 and 5.</p>
+<p>Run the <code>os.environ</code> cell. You should see that your process can see <code>NVIDIA_API_KEY</code> (without printing its value) and can list your home folder. Read the table in that section: OpenShell solves this in "Build your agent with NemoClaw" and "Agentic security with OpenShell".</p>
 <h3 id="10-project-milestone">10. Project milestone</h3>
 <p>Run the last cell with a different report. You should see the cost, the files in the virtual file system, and the full diagnostic report.</p>
 <h2 id="check-that-it-worked">Check that it worked</h2>
@@ -153,7 +156,7 @@ s3 | Cómo renovar la sesión de acceso (cookie) del laboratorio
 <p><strong>Success criteria:</strong> add a false sentence to the report by hand, for example <em>"Brev borra tu key al reanudar [brev.md#inventado]"</em> ("Brev deletes your key when it resumes"), and the reviewer (or <code>revisar_citas</code>) flags it; the original report gets no findings. Without a key, <code>revisar_citas</code> already catches the invented citation; with a key, also try a false claim with a <strong>real</strong> citation.</p>
 <h2 id="project-milestone">Project milestone</h2>
 <p><strong>Soporte NemoClaw (NemoClaw Support) v3.3: diagnosis with subagents.</strong> Given a report like <em>"me sale 401 en el laboratorio después de reanudar Brev"</em>, your agent plans the checks, launches isolated subagents that research the FAQ, saves their drafts, and delivers a diagnostic report with the likely cause, steps, what it couldn't verify, and reviewed citations.</p>
-<p>Add <code>planear</code>, <code>limpiar_plan</code>, <code>ejecutar_subagente</code>, <code>investigar</code>, <code>sintetizar</code>, <code>revisar_citas</code>, and <code>diagnosticar</code> to your <code>soporte_nemoclaw.py</code>. In Module 4 you take it to NemoClaw on Brev: the FAQ lives in the agent's workspace, and this flow becomes the <code>soporte-nemoclaw</code> skill, inside a real sandbox.</p>
+<p>Add <code>planear</code>, <code>limpiar_plan</code>, <code>ejecutar_subagente</code>, <code>investigar</code>, <code>sintetizar</code>, <code>revisar_citas</code>, and <code>diagnosticar</code> to your <code>soporte_nemoclaw.py</code>. In "Build your agent with NemoClaw" you take it to NemoClaw on Brev: the FAQ lives in the agent's workspace, and this flow becomes the <code>soporte-nemoclaw</code> skill, inside a real sandbox.</p>
 <h2 id="resources">Resources</h2>
 <ul>
 <li>Lesson 02c · Deep Agents, from the NVIDIA DLI course. This class is based on it (Apache-2.0).</li>
@@ -164,7 +167,7 @@ s3 | Cómo renovar la sesión de acceso (cookie) del laboratorio
 </ul></div></section>
 <nav class="prevnext"><a class="pn prev" href="../3.2-rag/index.html"><small>Previous class</small>RAG to ground answers in your sources</a><a class="pn next" href="../4.1-laboratorio-nemoclaw-en-brev/index.html"><small>Next class</small>Launch the NemoClaw lab on Brev</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Secure Agents with NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";

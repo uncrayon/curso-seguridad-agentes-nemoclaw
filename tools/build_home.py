@@ -10,7 +10,7 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from course import CLASSES, COURSE, MODULES  # noqa: E402
+from course import CLASSES, COURSE, MODULES, video_classes  # noqa: E402
 from course_en import CLASSES_EN, COURSE_EN, MODULES_EN  # noqa: E402
 from diagramas import DIAGRAMAS  # noqa: E402
 
@@ -23,10 +23,10 @@ PRACTICE_EN = {"notebook": "Notebook", "lab": "Brev lab", "slides": "Slides", "n
 # Etiquetas de la interfaz por idioma. En inglés, el material de cada clase sigue en español: se marca (ES).
 UI = {
     "es": {"guide": "Guía", "slides": "Diapositivas", "nb": "Colab", "cb": "Recetario",
-           "skill": "Habilidad", "module": "Módulo", "classes": "clases",
+           "skill": "Habilidad", "module": "Módulo", "classes": "clases", "extra_h": "Clases complementarias", "extra_p": "Estas clases no tienen video. Tienen guía, notebook o recetas para que profundices a tu ritmo: no las necesitas para seguir el curso.",
            "mats": "Material", "names": ("guía", "diapositivas", "notebook", "cookbook")},
     "en": {"guide": "Guide", "slides": "Slides", "nb": "Colab (ES)", "cb": "Cookbook (ES)",
-           "skill": "Skill", "module": "Module", "classes": "classes",
+           "skill": "Skill", "module": "Module", "classes": "classes", "extra_h": "Supplementary classes", "extra_p": "These classes have no video. They come with a guide, a notebook or recipes so you can go deeper at your own pace: you don't need them to follow the course.",
            "mats": "Materials (ES)", "names": ("guide", "slides", "notebook", "cookbook")},
 }
 
@@ -80,7 +80,8 @@ def class_card(c, lang="es"):
     skill = f'<p class="skill">{t["skill"]}: {E(skill_txt)}</p>' if skill_txt else ""
     return (f'<article class="clase"><div class="clase-top">'
             f'<span class="badge b-{c["practica"]}">{practica[c["practica"]]}</span>'
-            + (f'<span class="badge b-opt">{"Opcional" if lang == "es" else "Optional"}</span>' if c.get("opcional") else "")
+            + (f'<span class="badge b-opt">{"Sin video" if lang == "es" else "No video"}</span>' if c.get("opcional") else "")
+            + (f'<span class="badge">{len(c["videos"])} videos: {" + ".join(c["videos"])}</span>' if c.get("videos") else "")
             + '</div>'
             f'<h4>{E(title)}</h4>'
             f'<ul class="promesa">{"".join(f"<li>{E(p)}</li>" for p in promesa)}</ul>'
@@ -92,12 +93,14 @@ def modules_html(lang="es"):
     out = []
     for m in MODULES:
         cls = [c for c in CLASSES if c["module"] == m["n"]]
-        opt = (f' <span class="badge b-opt">{"Opcional" if lang == "es" else "Optional"}</span>'
-               if all(c.get("opcional") for c in cls) else "")
         title, outcome, where = (m["title"], m["outcome"], m["where"]) if lang == "es" else MODULES_EN[m["n"]]
+        if m.get("complementario"):              # sin encabezado de módulo: el título de la sección basta
+            out.append(f'<h2 class="complementarias">{t["extra_h"]}</h2><p class="lead">{t["extra_p"]}</p>'
+                       f'<section class="modulo" id="modulo-{m["n"]}"><div class="clases">{"".join(class_card(c, lang) for c in cls)}</div></section>')
+            continue
         out.append(f'<section class="modulo" id="modulo-{m["n"]}"><header>'
                    f'<h3>{E(title)}</h3><p>{E(outcome)}</p>'
-                   f'<p class="meta">{len(cls)} {t["classes"]} · {E(where)}{opt}</p></header>'
+                   f'<p class="meta">{len(cls)} {t["classes"] if len(cls) != 1 else t["classes"][:-1]} · {E(where)}</p></header>'
                    f'<div class="clases">{"".join(class_card(c, lang) for c in cls)}</div></section>')
     return "\n".join(out)
 
@@ -142,9 +145,12 @@ def cabecera(lang, pre, n_clases, horas):
              (f"{pre}FAQ.html", "quiz", "Preguntas frecuentes" if es else "FAQ (ES)"),
              ("en/index.html" if es else "../index.html", "translate", "English" if es else "Español")]
     nav = "".join(f'<a href="{h}"><span class="icon">{i}</span>{E(t)}</a>' for h, i, t in links)
-    chips = ([f"6 módulos", f"{n_clases} clases", "en español", f"instructor: {COURSE['instructor']}"] if es else
-             [f"6 modules", f"{n_clases} classes", "taught in Spanish", f"instructor: {COURSE['instructor']}"])
-    iconos = ["view_kanban", "school", "translate", "person"]
+    n_mod = sum(1 for m in MODULES if not m.get("complementario"))
+    n_vid = sum(len(c.get("videos", [1])) for c in video_classes())
+    n_extra = sum(1 for c in CLASSES if c.get("opcional"))
+    chips = ([f"{n_mod} módulos", f"{n_vid} videos", f"{n_extra} clases complementarias", "en español", f"instructor: {COURSE['instructor']}"] if es else
+             [f"{n_mod} modules", f"{n_vid} videos", f"{n_extra} supplementary classes", "taught in Spanish", f"instructor: {COURSE['instructor']}"])
+    iconos = ["view_kanban", "smart_display", "menu_book", "translate", "person"]
     facts = "".join(f'<span class="chip"><span class="icon">{i}</span>{E(c)}</span>' for i, c in zip(iconos, chips))
     cta = ([("primary", start, "play_arrow", "Empieza el curso", False),
             ("", COURSE["build"], "key", "Consigue tu API key ↗", True),
@@ -195,9 +201,9 @@ PAGE_ES = """<!doctype html>
 <section id="como">
   <h2>Cómo funciona el curso</h2>
   <div class="pasos">
-    <div class="paso"><span>1</span><h3>Tu acceso a modelos</h3><p>Creas una cuenta gratuita en NVIDIA Build y una API key <code>nvapi-</code>. Es lo único que necesitas en los módulos 1 a 3.</p></div>
+    <div class="paso"><span>1</span><h3>Tu acceso a modelos</h3><p>Creas una cuenta gratuita en NVIDIA Build y una API key <code>nvapi-</code>. Es lo único que necesitas en «Prepara tu entorno» y «Fundamentos de Agentes».</p></div>
     <div class="paso"><span>2</span><h3>Notebooks en Colab o local</h3><p>Construyes el agente desde cero en Python: loop, ReAct, herramientas, enrutamiento, RAG y subagentes. Sin key también corren, con un modelo simulado.</p></div>
-    <div class="paso"><span>3</span><h3>Laboratorio real en Brev</h3><p>Desde el módulo 4 lanzas NemoClaw en una máquina en la nube: OpenClaw dentro de un sandbox de OpenShell. Lo operas desde el navegador: el tablero del laboratorio trae el chat, la terminal y el monitor de OpenShell.</p></div>
+    <div class="paso"><span>3</span><h3>Laboratorio real en Brev</h3><p>En «Crea tu agente con NemoClaw» lanzas NemoClaw en una máquina en la nube: OpenClaw dentro de un sandbox de OpenShell. Lo operas desde el navegador: el tablero del laboratorio trae el chat, la terminal y el monitor de OpenShell.</p></div>
   </div>
   <p class="note">Cada clase trae <strong>guía paso a paso</strong>, <strong>diapositivas</strong>, <strong>notebook o cookbook</strong> y una tabla de <strong>errores comunes</strong>. Las diapositivas empiezan con lo que aprendimos la clase pasada y terminan con lo que viene.</p>
 </section>
@@ -233,11 +239,11 @@ PAGE_ES = """<!doctype html>
   <h2>Objetivos de aprendizaje</h2>
   <p>Los cinco objetivos oficiales del curso de NVIDIA (en inglés, tal cual) y dónde se cubren:</p>
   <table><thead><tr><th>Objetivo (NVIDIA)</th><th>En español</th><th>Dónde</th></tr></thead><tbody>
-    <tr><td>Build a basic agent loop and identify its core components.</td><td>Construir un loop básico de agente e identificar sus componentes</td><td>Módulo 2</td></tr>
-    <tr><td>Implement reliable tool use and function calling within an agent system.</td><td>Implementar un uso confiable de herramientas y llamadas a funciones</td><td>Módulo 2</td></tr>
-    <tr><td>Design and coordinate multi-agent systems using structured routing patterns.</td><td>Diseñar y coordinar sistemas multiagente con enrutamiento estructurado</td><td>Módulo 3</td></tr>
-    <tr><td>Utilize OpenShell to configure agent identities and ensure safe, sandboxed operations.</td><td>Usar OpenShell para configurar identidades y operar en un sandbox seguro</td><td>Módulo 5</td></tr>
-    <tr><td>Deploy and manage autonomous agents while building persistent skill libraries.</td><td>Desplegar y operar agentes autónomos con bibliotecas de skills persistentes</td><td>Módulos 4 y 6</td></tr>
+    <tr><td>Build a basic agent loop and identify its core components.</td><td>Construir un loop básico de agente e identificar sus componentes</td><td>Fundamentos de Agentes</td></tr>
+    <tr><td>Implement reliable tool use and function calling within an agent system.</td><td>Implementar un uso confiable de herramientas y llamadas a funciones</td><td>Fundamentos de Agentes</td></tr>
+    <tr><td>Design and coordinate multi-agent systems using structured routing patterns.</td><td>Diseñar y coordinar sistemas multiagente con enrutamiento estructurado</td><td>Clases complementarias</td></tr>
+    <tr><td>Utilize OpenShell to configure agent identities and ensure safe, sandboxed operations.</td><td>Usar OpenShell para configurar identidades y operar en un sandbox seguro</td><td>Seguridad agéntica con OpenShell</td></tr>
+    <tr><td>Deploy and manage autonomous agents while building persistent skill libraries.</td><td>Desplegar y operar agentes autónomos con bibliotecas de skills persistentes</td><td>Crea tu agente con NemoClaw y clases complementarias</td></tr>
   </tbody></table>
 </section>
 </main>
@@ -264,9 +270,9 @@ PAGE_EN = """<!doctype html>
 <section id="como">
   <h2>How the course works</h2>
   <div class="pasos">
-    <div class="paso"><span>1</span><h3>Access to models</h3><p>You create a free NVIDIA Build account and an <code>nvapi-</code> API key. That's all you need for modules 1 to 3.</p></div>
+    <div class="paso"><span>1</span><h3>Access to models</h3><p>You create a free NVIDIA Build account and an <code>nvapi-</code> API key. That's all you need for «Set up your environment» and «Agent Fundamentals».</p></div>
     <div class="paso"><span>2</span><h3>Notebooks in Colab or locally</h3><p>You build the agent from scratch in Python: loop, ReAct, tools, routing, RAG and subagents. They also run without a key, using a simulated model.</p></div>
-    <div class="paso"><span>3</span><h3>A real lab on Brev</h3><p>From module 4 you launch NemoClaw on a cloud machine: OpenClaw inside an OpenShell sandbox. You operate it from the browser: the lab dashboard gives you the chat, a terminal and the OpenShell monitor.</p></div>
+    <div class="paso"><span>3</span><h3>A real lab on Brev</h3><p>In «Build your agent with NemoClaw» you launch NemoClaw on a cloud machine: OpenClaw inside an OpenShell sandbox. You operate it from the browser: the lab dashboard gives you the chat, a terminal and the OpenShell monitor.</p></div>
   </div>
   <p class="note">Every class comes with a <strong>step-by-step guide</strong>, <strong>slides</strong>, a <strong>notebook or cookbook</strong>, and a table of <strong>common errors</strong>. The slides open with what we learned last class and close with what comes next.</p>
 </section>
@@ -303,11 +309,11 @@ PAGE_EN = """<!doctype html>
   <h2>Learning objectives</h2>
   <p>The five official objectives of the NVIDIA course, and where each one is covered:</p>
   <table><thead><tr><th>Objective (NVIDIA)</th><th>Where</th></tr></thead><tbody>
-    <tr><td>Build a basic agent loop and identify its core components.</td><td>Module 2</td></tr>
-    <tr><td>Implement reliable tool use and function calling within an agent system.</td><td>Module 2</td></tr>
-    <tr><td>Design and coordinate multi-agent systems using structured routing patterns.</td><td>Module 3</td></tr>
-    <tr><td>Utilize OpenShell to configure agent identities and ensure safe, sandboxed operations.</td><td>Module 5</td></tr>
-    <tr><td>Deploy and manage autonomous agents while building persistent skill libraries.</td><td>Modules 4 and 6</td></tr>
+    <tr><td>Build a basic agent loop and identify its core components.</td><td>Agent Fundamentals</td></tr>
+    <tr><td>Implement reliable tool use and function calling within an agent system.</td><td>Agent Fundamentals</td></tr>
+    <tr><td>Design and coordinate multi-agent systems using structured routing patterns.</td><td>Supplementary classes</td></tr>
+    <tr><td>Utilize OpenShell to configure agent identities and ensure safe, sandboxed operations.</td><td>Agentic security with OpenShell</td></tr>
+    <tr><td>Deploy and manage autonomous agents while building persistent skill libraries.</td><td>Build your agent with NemoClaw and supplementary classes</td></tr>
   </tbody></table>
 </section>
 
@@ -349,7 +355,7 @@ def readme_table():
             if (folder / "cookbook.md").exists():
                 mats.append(f"[cookbook]({base}/cookbook.md)")
 
-            rows.append(f"| {c['id']} | {c['title']}{' *(opcional)*' if c.get('opcional') else ''} | {PRACTICA[c['practica']]} | {c['minutes']} | {' · '.join(mats)} |")
+            rows.append(f"| {c['id']} | {c['title']}{' *(sin video)*' if c.get('opcional') else ''} | {PRACTICA[c['practica']]} | {c['minutes']} | {' · '.join(mats)} |")
     return "\n".join(rows)
 
 

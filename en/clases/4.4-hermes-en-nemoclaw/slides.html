@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Swap OpenClaw for Hermes in NemoClaw · Securing Agents with OpenShell and NemoClaw</title>
+<title>Swap OpenClaw for Hermes in NemoClaw · Secure Agents with NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/slides.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=61936557">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/slides.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=8243843d">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Swap OpenClaw for Hermes in NemoClaw</h1><p class="lead">Take your agent to NemoClaw</p><p class="meta"><span class="chip opt"><span class="icon">flag</span>Optional</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Deploy and operate Hermes Agent in NemoClaw</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Swap OpenClaw for Hermes in NemoClaw</h1><p class="lead">Supplementary classes</p><p class="meta"><span class="chip opt"><span class="icon">menu_book</span>Supplementary · no video</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Deploy and operate Hermes Agent in NemoClaw</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><h2>Last class we learned</h2><p class="lead">Agents in continuous and scheduled operation</p><ul><li>You installed a skill (SKILL.md) and the agent used it</li><li>You scheduled an automation that wrote a file with no one using the chat</li><li>An always-on agent = session + directive + trigger</li></ul></section>
 <section class="slide"><h2>Swap the agent, not the security</h2>
 <div class="dg dg-pieces m4-swap"><div class="dg-kit"><span class="dg-label"><span class="dg-i">category</span>NemoClaw</span><div class="dg-room "><span class="dg-label"><span class="dg-i">lock</span>OpenShell · locked room</span><div class="dg-row"><div class="dg-node mini m4-off" data-paso="1"><span class="dg-ico">assistant</span><b>OpenClaw</b><small>the one you already used</small></div><div class="dg-arrow h " data-paso="2" style="width:4.8em"><span class="dg-lab">you swap</span></div><div class="dg-node is-primary" data-paso="2"><span class="dg-ico">assistant</span><b>Hermes</b><small>keeps a diary</small></div></div></div></div><div class="dg-legend"><div class="dg-legend-row room" data-paso="3"><span class="dg-ico">lock</span><div><b>Stays the same</b><small>the room, the network rules and the key outside</small></div></div><div class="dg-legend-row is-primary" data-paso="2"><span class="dg-ico">assistant</span><div><b>Changes</b><small>the assistant working inside</small></div></div><div class="dg-legend-row kit" data-paso="4"><span class="dg-ico">edit_note</span><div><b>What's new in Hermes</b><small>takes notes and writes its own recipes</small></div></div></div></div><aside class="notes"><p>Same locked room, different assistant. Click 1: OpenClaw, the one you already used. Click 2: you swap it for Hermes (Nous Research, MIT license). Click 3: what stays the same: the OpenShell sandbox, the network policies, managed inference with the key on the host. Click 4: what's new, Hermes keeps memory across sessions and creates its own skills. NemoClaw ≠ OpenClaw: it's a question you already know, now proven in the lab. It can also carry LangChain Deep Agents.</p></aside></section>
@@ -46,5 +46,5 @@ curl -sf http://127.0.0.1:8642/health             # does the new door answer?</c
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">The lethal trifecta and the risk surface</p><ul><li>Why an autonomous agent is risky by design</li><li>The lethal trifecta: private data, untrusted content and outbound access</li><li>The 3 layers of defense: prompt, harness and sandbox</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=61936557"></script>
+<script src="../../../assets/slides.js?v=8243843d"></script>
 </body></html>

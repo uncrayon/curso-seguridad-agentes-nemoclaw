@@ -2,6 +2,8 @@
 
 Recetas para la **VM TERMINAL** del tablero de NemoClaw en Brev. Todo se hace en el navegador: no necesitas instalar nada en tu computadora. Las mismas recetas sirven en una instalación local de NemoClaw (clase 6.3).
 
+> **La clase 6.1 es complementaria: no tiene video.** No la necesitas para seguir el curso. Si haces su práctica, hazla en la misma sentada, después de la 5.3 y antes de borrar la instancia (≈20 min, ≈USD 0.08).
+
 **Convenciones**
 - `my-assistant`: el nombre de tu sandbox. Si el tuyo es otro, cámbialo (lo ves con `openshell sandbox list`).
 - **[host]** = en la VM TERMINAL (plano del operador, usuario `ubuntu`). **[sandbox]** = dentro del sandbox del agente, a través de `nemoclaw my-assistant exec -- <comando>`.

@@ -24,7 +24,7 @@ Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) ·
 
 **Qué te llevas:** puedes definir por escrito la personalidad y los límites de un agente, y sabes que lo que el agente dice se comprueba en el archivo.
 
-**Tu crédito:** esta práctica usa ≈20 min de instancia encendida, dentro de tu sentada única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Si paras por hoy, haz **Stop** y vuelve pronto. Al final del laboratorio (después de la 5.3, o de la última práctica opcional que hagas), haz **Delete**.
+**Tu crédito:** esta práctica usa ≈20 min de instancia encendida, dentro de tu sentada única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Si paras por hoy, haz **Stop** y vuelve pronto. Al final del laboratorio (después de la 5.3, o de la última práctica complementaria que hagas), haz **Delete**.
 
 ## Lo que vas a lograr
 
@@ -114,7 +114,7 @@ Vas a escribir tu sección en un archivo de la máquina, subirlo al sandbox y ag
    cat > ~/soul-extra.md <<'EOF'
 
    ## Proyecto: Soporte NemoClaw
-   - Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".
+   - Ayudas a estudiantes del curso "Agentes Seguros con NemoClaw".
    - Respondes en español neutro, con frases cortas y pasos numerados.
    - Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.
    - Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.

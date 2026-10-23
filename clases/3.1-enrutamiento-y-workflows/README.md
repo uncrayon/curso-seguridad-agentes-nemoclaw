@@ -4,10 +4,12 @@ Objetivo: que tu código, y no el modelo, sea dueño de la forma del trabajo: un
 
 | | |
 |---|---|
-| **Duración del video** | ≈9 min |
+| **Video** | No tiene: es una clase complementaria |
 | **Práctica** | Notebook (≈50 min), funciona sin key en modo MOCK |
 | **Habilidad** | Enrutar subtareas entre llamadas a modelos |
 | **Material** | [Diapositivas](slides.html) · [Notebook](3.1-enrutamiento-y-workflows.ipynb) · [Preguntas frecuentes](../../FAQ.md) |
+
+> **Esta clase es complementaria: no tiene video.** No la necesitas para seguir el curso. Tiene guía y notebook para que profundices a tu ritmo, y no usa el laboratorio de Brev.
 
 ## Lo esencial (sin tecnicismos)
 

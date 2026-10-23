@@ -11,7 +11,7 @@ Wrap up your project, learn what you need to run NemoClaw on your own machine, a
 | **Skill** | Plan a local deployment and close out an agent project with quality criteria |
 | **Materials** | [Slides](slides.html) · [FAQ (Spanish)](../../../FAQ.md) |
 
-> **Module 6 is optional.** This class doesn't use the Brev lab.
+> This class doesn't use the Brev lab.
 
 ## What you'll achieve
 - Know whether your machine can run NemoClaw, what to install, and which inference provider to use.
@@ -20,7 +20,7 @@ Wrap up your project, learn what you need to run NemoClaw on your own machine, a
 
 ## Before you start
 - Your **Soporte NemoClaw** project with the work from classes 2.1 to 5.3, plus 6.1 and 6.2 if you did them (notebooks, skills in [`skill-library/` (Spanish)](../../../skill-library/README.md), the security analysis from 5.x).
-- Your Brev lab should already be **deleted**: you closed it at the end of [5.3](../5.3-sandbox-y-politicas/README.md) or, if you did optional practices, at the end of the last one you did ([6.1](../6.1-clis-de-agentes/README.md) or the lab part of [6.2](../6.2-biblioteca-de-skills/README.md)). If not, step 7 shows you how.
+- Your Brev lab should already be **deleted**: you closed it at the end of [5.3](../5.3-sandbox-y-politicas/README.md) or, if you did supplementary practices, at the end of the last one you did ([6.1](../6.1-clis-de-agentes/README.md) or the lab part of [6.2](../6.2-biblioteca-de-skills/README.md)). If not, step 7 shows you how.
 - Optional, only if you want to install NemoClaw on your own machine: Linux, macOS on Apple Silicon, or Windows with WSL2 (see the table in step 2). You don't need Brev for this.
 
 ## Step by step
@@ -104,7 +104,7 @@ For each one, write a line in your project: "I'd use it for ___ when ___".
 Add up your points: **5–8** keep iterating · **9–12** ready to show · **13–15** publish it and share it.
 
 ### 7. Confirm the lab is deleted
-Normally you already deleted your instance at the end of your last lab practice ([5.3](../5.3-sandbox-y-politicas/README.md), or the last optional practice you did). Check it in the browser:
+Normally you already deleted your instance at the end of your last lab practice ([5.3](../5.3-sandbox-y-politicas/README.md), or the last supplementary practice you did). Check it in the browser:
 1. In the Brev console (brev.nvidia.com), open **Compute**. Your instance (`nemoclaw-…`) should no longer show up.
 2. If it's still there, save what you want: copy the text from the **VM TERMINAL**, or download everything as a zip with the [first recipe of the cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md#receta-previa--respalda-tu-laboratorio-en-un-zip), then open the instance and click **Delete**. Confirm in the dialog that appears.
 3. Open **Billing** in the top menu and check your balance.

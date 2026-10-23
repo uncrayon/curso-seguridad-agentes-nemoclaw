@@ -1,6 +1,6 @@
 # Preguntas frecuentes y solución de problemas
 
-Curso **Seguridad de agentes con OpenShell y NemoClaw** (Platzi × NVIDIA DLI).
+Curso **Agentes Seguros con NemoClaw** (Platzi × NVIDIA DLI).
 
 Esta página reúne los problemas reales que vas a encontrar en el curso: la API key, los errores del modelo, los notebooks, Brev, la conexión con el laboratorio, OpenClaw, OpenShell y la instalación local de NemoClaw. Cada entrada tiene la **causa**, la **solución** con comandos exactos y, cuando existe, la **fuente** oficial.
 
@@ -287,7 +287,7 @@ Luego reinicia el kernel y elige el intérprete de `.venv`.
 **Solución:**
 - **Encendida (Running):** ≈**USD 0.25 por hora** (cómputo ≈0.20 + disco ≈0.05). La página de la instancia muestra ≈$0.26/hr.
 - **Detenida (Stopped):** el disco sigue cobrando ≈USD 0.05 por hora, unos **USD 1.20 al día**. En un día gasta más que el cupón de 1 USD.
-- Con 1 USD tienes unas **4 horas** encendida. El plan del curso usa ≈2 horas (≈3 con las prácticas opcionales) en **una sola sentada** y termina con **Delete** (ver [LABORATORIO.md](LABORATORIO.md)).
+- Con 1 USD tienes unas **4 horas** encendida. El plan del curso usa ≈2 horas (≈3 con las prácticas complementarias) en **una sola sentada** y termina con **Delete** (ver [LABORATORIO.md](LABORATORIO.md)).
 - Lo que le preguntas al modelo no gasta crédito de Brev: gasta los créditos de tu cuenta de build.nvidia.com.
 
 **Fuente:** prueba del laboratorio del curso (20 de octubre de 2026); [precios de launchables](https://www.nvidia.com/en-us/launchables/pricing).
@@ -304,7 +304,7 @@ Luego reinicia el kernel y elige el intérprete de `.venv`.
 | **Stopped** (detenida) | No se cobra | **Se sigue cobrando** | ≈USD 1.20/día | Se conservan (excepto `/tmp`) |
 | **Deleted** (borrada) | No | No | USD 0 | **Se pierden para siempre** |
 
-Usa **Stop** solo para pausas cortas: vuelve el mismo día o el siguiente. Al terminar tu última práctica (la 5.3, o la última práctica opcional que hagas), guarda lo que quieras conservar y usa **Delete**.
+Usa **Stop** solo para pausas cortas: vuelve el mismo día o el siguiente. Al terminar tu última práctica (la 5.3, o la última práctica complementaria que hagas), guarda lo que quieras conservar y usa **Delete**.
 
 **Fuente:** prueba del laboratorio del curso; [Brev: GPU Instances](https://docs.nvidia.com/brev/latest/concepts/gpu-instances); [Console Reference › Billing](https://docs.nvidia.com/brev/latest/guides/console-reference).
 
@@ -1172,7 +1172,7 @@ No pongas `OLLAMA_HOST=0.0.0.0` (era el arreglo viejo y en WSL2 causa timeouts):
 
 **Solución:** según la documentación de Hermes, dentro de Hermes puedes usar `/memory approval on` y `/skills approval on`; revisar con `/memory pending` y rechazar con `/memory reject <id>`. Si tu versión muestra otros nombres, revisa su ayuda dentro de Hermes. Lee `/sandbox/.hermes/memories/MEMORY.md` como operador y limpia lo que no reconozcas.
 
-**Fuente:** [Hermes Agent · Memoria](https://hermes-agent.nousresearch.com/docs/user-guide/features/memory); clase 4.4 y Módulo 5.
+**Fuente:** [Hermes Agent · Memoria](https://hermes-agent.nousresearch.com/docs/user-guide/features/memory); clase 4.4 y módulo «Seguridad agéntica con OpenShell».
 
 ---
 
@@ -1223,7 +1223,7 @@ Si un log o una captura incluye alguno de estos valores, reemplázalo por `nvapi
 | Dudas del curso, notebooks, ejercicios | Comunidad de Platzi, en la sección de comentarios de la clase |
 | Cuenta de NVIDIA Build, verificación de teléfono | `help@build.nvidia.com` o `https://developer.nvidia.com/support` |
 | Brev: facturación, instancias trabadas, límites de la organización | `brev-support@nvidia.com` |
-| Curso web de NVIDIA (páginas y panel de la API key de los Módulos 1 a 3) | Issues de [NVDLI/NemoClawDLI](https://github.com/NVDLI/NemoClawDLI/issues) |
+| Curso web de NVIDIA (sus páginas y el panel de la API key) | Issues de [NVDLI/NemoClawDLI](https://github.com/NVDLI/NemoClawDLI/issues) |
 | Bugs de NemoClaw | Issues de [NVIDIA/NemoClaw](https://github.com/NVIDIA/NemoClaw/issues) (busca primero si ya existe) |
 | Preguntas generales sobre NemoClaw | [Discussions de NVIDIA/NemoClaw](https://github.com/NVIDIA/NemoClaw/discussions) |
 | Bugs de OpenShell | Issues de [NVIDIA/OpenShell](https://github.com/NVIDIA/OpenShell/issues) |

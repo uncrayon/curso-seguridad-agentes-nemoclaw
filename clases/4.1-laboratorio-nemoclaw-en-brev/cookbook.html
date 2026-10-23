@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cookbook · Tu laboratorio NemoClaw desde la terminal de operador · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Cookbook · Tu laboratorio NemoClaw desde la terminal de operador · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
@@ -127,7 +127,7 @@ ls<span class="w"> </span>~/curso/datos/faq/
 <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">100</span><span class="w">                       </span><span class="c1"># últimas 100 líneas: gateway y auditoría de OpenShell</span>
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>DENIED<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-4<span class="w">   </span><span class="c1"># solo las últimas conexiones bloqueadas</span>
 </code></pre></div>
-<p>Salida esperada: los turnos recientes y, si la política bloqueó algo, líneas con <code>DENIED</code>. Las leemos en el Módulo 5.</p>
+<p>Salida esperada: los turnos recientes y, si la política bloqueó algo, líneas con <code>DENIED</code>. Las leemos en «Seguridad agéntica con OpenShell».</p>
 <p>Cuidado con <code>openshell logs</code>: ahí <code>--tail</code> <strong>sigue</strong> el log en vivo, mientras que en <code>nemoclaw … logs</code> <code>--tail N</code> es un número de líneas.</p>
 <hr />
 <h2 id="receta-10--guarda-lo-importante-antes-de-borrar">Receta 10 · Guarda lo importante antes de borrar</h2>
@@ -139,7 +139,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>logs<span cl
 <p><strong>Si falla:</strong> no puedes detener ni borrar la instancia, o se enciende sola → escribe a brev-support@nvidia.com con el ID de tu organización, el nombre de la instancia y la hora.</p></div>
 
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

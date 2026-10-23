@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Crea tu cuenta y tu API key en NVIDIA Build · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Crea tu cuenta y tu API key en NVIDIA Build · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Prepara tu entorno de agentes</span><h1>Crea tu cuenta y tu API key en NVIDIA Build</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Navegador</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Administrar el consumo de API en NVIDIA Build</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a></p></section>
+<section class="hero"><span class="tag">Prepara tu entorno</span><h1>Crea tu cuenta y tu API key en NVIDIA Build</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Navegador</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Administrar el consumo de API en NVIDIA Build</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a></p></section>
 <section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Para que un programa hable con los modelos de NVIDIA necesitas una cuenta gratuita y una contraseña especial, la API key. Hoy la creas, la guardas en un lugar seguro y pruebas el modelo. Cada respuesta gasta un poco de tu saldo gratuito.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>La tarjeta de acceso de un edificio: quien la tenga entra a tu nombre. Y el saldo es como el prepago del celular.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#api-key" class="glos" data-def="Una contraseña que identifica tu cuenta cuando un programa usa los modelos de NVIDIA. · La tarjeta de acceso de un edificio: quien la tenga entra a tu nombre.">API key</a>, <a href="../../GLOSARIO.html#crédito" class="glos" data-def="El saldo gratuito que gastas al usar modelos o máquinas en la nube. · Saldo de prepago en el celular.">crédito</a>, <a href="../../GLOSARIO.html#token" class="glos" data-def="Un pedacito de texto (más o menos ¾ de palabra). Los modelos cobran y se limitan por tokens. · Las sílabas de un telegrama, que se cobraba por palabra.">token</a>.</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><ol>
 <li>Entra a <a href="https://build.nvidia.com/?ncid=ref-dli-146986">build.nvidia.com</a>, crea tu cuenta y confirma tu correo.</li>
 <li>En el menú de tu cuenta, abre <strong>API Keys</strong>, genera una key y guárdala en tu gestor de contraseñas (o en una nota privada). Si usarás Colab, guárdala también en el panel de la llave 🔑 con el nombre <code>NVIDIA_API_KEY</code>.</li>
@@ -170,7 +170,7 @@ git<span class="w"> </span>check-ignore<span class="w"> </span>.env<span class="
 <ul>
 <li>La cuenta gratuita de NVIDIA Build da acceso a los modelos alojados con <strong>límites de uso</strong>: créditos o solicitudes por minuto. Las cifras cambian con el tiempo: revisa tu consumo y tus créditos en tu cuenta de build.nvidia.com.</li>
 <li>Cuando superas el límite por minuto, la API responde <strong>429</strong>. Espera y reintenta (en la 1.3 escribes un reintento con backoff).</li>
-<li>Lo que más gasta: loops sin límite de pasos, ejecutar celdas en ráfaga y <code>max_tokens</code> enormes. En el Módulo 2 tu loop siempre tendrá un máximo de pasos.</li>
+<li>Lo que más gasta: loops sin límite de pasos, ejecutar celdas en ráfaga y <code>max_tokens</code> enormes. En «Fundamentos de Agentes» tu loop siempre tendrá un máximo de pasos.</li>
 <li>Los modelos gratuitos <strong>cambian</strong>. Un modelo retirado responde <strong>410</strong>. Le pasó al curso de NVIDIA con <code>nvidia/nemotron-3-nano-30b-a3b</code>. Por eso el modelo vive en una variable (<code>NVIDIA_MODEL</code>) y no escrito en el código.</li>
 </ul>
 <h3 id="7-si-filtras-tu-key">7. Si filtras tu key</h3>
@@ -258,7 +258,7 @@ git<span class="w"> </span>check-ignore<span class="w"> </span>.env<span class="
 <p><em>Basado en la página de inicio del curso de NVIDIA DLI "Securing Agents with OpenShell and NemoClaw" (Apache-2.0).</em></p></div></section>
 <nav class="prevnext"><a class="pn prev" href="../1.1-que-son-nemoclaw-openclaw-openshell/index.html"><small>Clase anterior</small>Qué son NemoClaw, OpenClaw y OpenShell</a><a class="pn next" href="../1.3-rutas-de-modelo-y-errores/index.html"><small>Clase siguiente</small>Configura rutas de modelo y diagnostica errores</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

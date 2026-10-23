@@ -4,12 +4,12 @@ Escribe skills reutilizables, mide si tu agente las encuentra solo y llévalas a
 
 | | |
 |---|---|
-| **Duración del video** | ≈9 min |
+| **Video** | No tiene: es una clase complementaria |
 | **Práctica** | Notebook · [6.2-biblioteca-de-skills.ipynb](6.2-biblioteca-de-skills.ipynb) (corre sin key, en modo MOCK) · parte final opcional en el laboratorio de Brev (VM TERMINAL) |
 | **Habilidad** | Crear skills de agente reutilizables |
 | **Material** | [Diapositivas](slides.html) · [Biblioteca del proyecto](../../skill-library/README.md) · [FAQ del curso](../../FAQ.md) |
 
-> **El Módulo 6 es opcional**, y la parte final de esta clase en el laboratorio también. Si la haces, hazla en la misma sentada, después de la 6.1 (o de la 5.3, si te saltaste la 6.1) y antes de borrar la instancia (≈15 min, ≈USD 0.06). Si ya la borraste al terminar la 5.3, sáltala: el notebook no necesita el laboratorio.
+> **Esta clase es complementaria: no tiene video.** No la necesitas para seguir el curso, y su parte final en el laboratorio también es opcional. Si la haces, hazla en la misma sentada, después de la 6.1 (o de la 5.3, si te saltaste la 6.1) y antes de borrar la instancia (≈15 min, ≈USD 0.06). Si ya la borraste al terminar la 5.3, sáltala: el notebook no necesita el laboratorio.
 
 ## Lo esencial (sin tecnicismos)
 

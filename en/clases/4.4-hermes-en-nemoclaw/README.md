@@ -6,14 +6,14 @@ Create a second sandbox with **Hermes Agent** (Nous Research) in your lab, walk 
 
 | | |
 |---|---|
-| Video length | ≈9 min |
+| Video | None: this is a supplementary class |
 | Practice | Lab on Brev: NemoClaw dashboard + browser terminal ([cookbook.md (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/cookbook.md)) |
 | Skill | Deploy and operate Hermes Agent in NemoClaw |
 | Reference | [NemoClaw · Quickstart with Hermes](https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/get-started/quickstart) (there's no equivalent lesson in the NVIDIA course) |
 
 Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/cookbook.md) · [soporte-nemoclaw skill for Hermes (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/SKILL.md) · [API script (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/hermes_api.py) · [FAQ (Spanish)](../../../FAQ.md#hermes)
 
-> **This class is optional.** The rest of the course doesn't depend on it. If you do it, it adds ≈30 min (≈USD 0.13) to your lab sitting, between 4.3 and 5.2. When you finish, turn OpenClaw (`my-assistant`) back on before you continue: step 14 shows you how.
+> **This is a supplementary class: it has no video.** You don't need it to follow the course. If you do it, it adds ≈30 min (≈USD 0.13) to your lab sitting, between 4.3 and 5.2. When you finish, turn OpenClaw (`my-assistant`) back on before you continue: step 14 shows you how.
 
 ## The idea in one sentence
 
@@ -49,7 +49,7 @@ NemoClaw isn't OpenClaw: it's the **sandbox, the policies, and the managed infer
   ```
 - Your `nvapi-` key from class 1.2 at hand. NemoClaw stores it on the host; the sandbox only gets a placeholder.
 - Everything happens in the NemoClaw dashboard's **VM TERMINAL**: that's where `nemohermes` lives. The **SANDBOX TERMINAL** is inside the `my-assistant` room and doesn't have it. Click inside the black area before typing, and **don't** press **Shift+Escape** while the room is being created: it closes the terminal and its processes.
-- Your credit: this practice uses ≈30 min of your single lab sitting (see [LABORATORIO.md (Spanish)](../../../LABORATORIO.md)). Creating the Hermes room takes several minutes. Questions to Hermes spend model credits on build.nvidia.com, not Brev credit. If you're short on time or credit, this is the practice you can just watch on video. When you finish, turn `my-assistant` back on: Modules 5 and 6 use it. If you stop for today, click **Stop** and come back soon; at the very end of the lab (after 5.3, or after the last optional practice you do), **Delete**.
+- Your credit: this practice uses ≈30 min of your single lab sitting (see [LABORATORIO.md (Spanish)](../../../LABORATORIO.md)). Creating the Hermes room takes several minutes. Questions to Hermes spend model credits on build.nvidia.com, not Brev credit. If you're short on time or credit, this is the practice you can just read. When you finish, turn `my-assistant` back on: the "Agentic security with OpenShell" practices use it. If you stop for today, click **Stop** and come back soon; at the very end of the lab (after 5.3, or after the last supplementary practice you do), **Delete**.
 
 ![NemoClaw dashboard with the MY-ASSISTANT card and its four buttons: CHAT WITH AGENT, SANDBOX TERMINAL, VM TERMINAL, and OPENSHELL TUI](../../../assets/lab/13-panel-nemoclaw.jpg)
 
@@ -111,7 +111,7 @@ The full commands and their variants are in the [cookbook (Spanish)](../../../cl
    cat >> SOUL.md <<'EOF'
 
    ## Proyecto: Soporte NemoClaw
-   - Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".
+   - Ayudas a estudiantes del curso "Agentes Seguros con NemoClaw".
    - Respondes en español neutro, con frases cortas y pasos numerados.
    - Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.
    - Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.
@@ -182,7 +182,7 @@ The full commands and their variants are in the [cookbook (Spanish)](../../../cl
     nemoclaw my-assistant start
     nemoclaw my-assistant status
     ```
-    You should see `Phase Ready` and Inference `healthy` for `my-assistant`. Modules 5 and 6 work with it.
+    You should see `Phase Ready` and Inference `healthy` for `my-assistant`. The practices that follow work with it.
 
 ## Check that it worked
 
@@ -227,7 +227,7 @@ Success criteria: a table in `proyecto/openclaw-vs-hermes.md` with, for each age
 
 **Soporte NemoClaw (NemoClaw Support) runs on two agents.** The same skill and the same personality, on OpenClaw and on Hermes, inside the same kind of sandbox. And you have a Python client that calls Hermes through its API.
 
-Save `proyecto/SOUL-soporte.md`, both versions of `SKILL.md`, and `hermes_api.py` in your project notes. In Module 5 you'll secure this agent: what you see in this class (memory that writes itself, skills the agent creates, an API with a token) is exactly the risk surface you'll review.
+Save `proyecto/SOUL-soporte.md`, both versions of `SKILL.md`, and `hermes_api.py` in your project notes. In "Agentic security with OpenShell" you'll secure this agent: what you see in this class (memory that writes itself, skills the agent creates, an API with a token) is exactly the risk surface you'll review.
 
 ## Resources
 

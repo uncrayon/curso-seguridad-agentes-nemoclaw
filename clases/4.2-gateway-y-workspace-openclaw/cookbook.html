@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cookbook · Workspace, sesiones y memoria de OpenClaw · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Cookbook · Workspace, sesiones y memoria de OpenClaw · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
@@ -29,7 +29,7 @@
 <p>Salida esperada: una lista con un resumen parecido a <code>22/57 ready</code>.</p>
 <p><strong>Si falla:</strong>
 - <code>exec</code> necesita el separador <code>--</code> antes del comando.
-- Ves <code>nemoclaw: recent network policy denial detected for …</code> → no es un error de tu comando: es una pista de que la política bloqueó una conexión hace poco. La retomamos en el Módulo 5.</p>
+- Ves <code>nemoclaw: recent network policy denial detected for …</code> → no es un error de tu comando: es una pista de que la política bloqueó una conexión hace poco. La retomamos en «Seguridad agéntica con OpenShell».</p>
 <hr />
 <h2 id="receta-2--lee-los-archivos-que-definen-al-agente">Receta 2 · Lee los archivos que definen al agente</h2>
 <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/sandbox/.openclaw/workspace/SOUL.md
@@ -61,7 +61,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class=
 cat<span class="w"> </span>&gt;<span class="w"> </span>~/soul-extra.md<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
 
 <span class="s">## Proyecto: Soporte NemoClaw</span>
-<span class="s">- Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".</span>
+<span class="s">- Ayudas a estudiantes del curso "Agentes Seguros con NemoClaw".</span>
 <span class="s">- Respondes en español neutro, con frases cortas y pasos numerados.</span>
 <span class="s">- Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.</span>
 <span class="s">- Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.</span>
@@ -174,7 +174,7 @@ openshell<span class="w"> </span>gateway<span class="w"> </span>info
 </table></div>
 
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

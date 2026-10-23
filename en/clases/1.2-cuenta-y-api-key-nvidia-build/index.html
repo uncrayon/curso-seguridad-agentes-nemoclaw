@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Create your NVIDIA Build account and API key · Securing Agents with OpenShell and NemoClaw</title>
+<title>Create your NVIDIA Build account and API key · Secure Agents with NemoClaw</title>
 <link rel="stylesheet" href="../../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Secure Agents with NemoClaw</a>
   <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Set up your agent environment</span><h1>Create your NVIDIA Build account and API key</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Browser</span><span class="chip primary"><span class="icon">bolt</span>Skill: Manage API usage in NVIDIA Build</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a></p></section>
+<section class="hero"><span class="tag">Set up your environment</span><h1>Create your NVIDIA Build account and API key</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Browser</span><span class="chip primary"><span class="icon">bolt</span>Skill: Manage API usage in NVIDIA Build</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a></p></section>
 <section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
 <p>🇪🇸 Original Spanish guide: <a href="../../../clases/1.2-cuenta-y-api-key-nvidia-build/index.html"><code>clases/1.2-cuenta-y-api-key-nvidia-build/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
 </blockquote>
@@ -168,7 +168,7 @@ git<span class="w"> </span>check-ignore<span class="w"> </span>.env<span class="
 <ul>
 <li>The free NVIDIA Build account gives you access to hosted models with <strong>usage limits</strong>: credits or requests per minute. The numbers change over time: check your usage and credits in your build.nvidia.com account.</li>
 <li>When you go over the per-minute limit, the API returns <strong>429</strong>. Wait and retry (in 1.3 you write a retry with backoff).</li>
-<li>What burns the most: loops with no step limit, running cells in rapid bursts, and huge <code>max_tokens</code>. In Module 2 your loop will always have a maximum number of steps.</li>
+<li>What burns the most: loops with no step limit, running cells in rapid bursts, and huge <code>max_tokens</code>. In "Agent Fundamentals" your loop will always have a maximum number of steps.</li>
 <li>Free models <strong>change</strong>. A retired model returns <strong>410</strong>. It happened to NVIDIA's course with <code>nvidia/nemotron-3-nano-30b-a3b</code>. That's why the model lives in a variable (<code>NVIDIA_MODEL</code>) and isn't hard-coded.</li>
 </ul>
 <h3 id="7-if-you-leak-your-key">7. If you leak your key</h3>
@@ -256,7 +256,7 @@ git<span class="w"> </span>check-ignore<span class="w"> </span>.env<span class="
 <p><em>Based on the home page of the NVIDIA DLI course "Securing Agents with OpenShell and NemoClaw" (Apache-2.0).</em></p></div></section>
 <nav class="prevnext"><a class="pn prev" href="../1.1-que-son-nemoclaw-openclaw-openshell/index.html"><small>Previous class</small>What NemoClaw, OpenClaw and OpenShell are</a><a class="pn next" href="../1.3-rutas-de-modelo-y-errores/index.html"><small>Next class</small>Configure model routes and diagnose errors</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Secure Agents with NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";

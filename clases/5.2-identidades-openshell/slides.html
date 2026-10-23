@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Identidades y límites con OpenShell · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Identidades y límites con OpenShell · Agentes Seguros con NemoClaw</title>
 <link rel="preload" href="../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas.css?v=61936557">
-<link rel="stylesheet" href="../../assets/slides.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=61936557">
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/slides.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=8243843d">
 
 </head><body>
 <span class="help">← → navegar · N notas · F pantalla completa</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""><img src="../../assets/brand/forma-1.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Identidades y límites con OpenShell</h1><p class="lead">Asegura el agente con OpenShell</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Configurar identidades de agente en OpenShell</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""><img src="../../assets/brand/forma-1.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Identidades y límites con OpenShell</h1><p class="lead">Seguridad agéntica con OpenShell</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Configurar identidades de agente en OpenShell</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""></div><h2>La clase pasada aprendimos</h2><p class="lead">La trifecta letal y la superficie de riesgo</p><ul><li>Trifecta letal = datos privados + contenido no confiable + comunicación externa</li><li>Una instrucción inyectada puede desviar a un agente con herramientas</li><li>Defensa en capas: prompt → harness → sandbox</li></ul></section>
 <section class="slide"><h2>¿Quién está actuando?</h2>
 <div class="dg m5"><div class="dg-row m5-quien"><div class="dg-node " data-paso="1"><span class="dg-ico">person</span><b>El usuario del agente</b><small>«sandbox», sin ser administrador</small><div class="m5-power lvl1"><em>poder</em><span class="on"></span><span class=""></span><span class=""></span></div></div><div class="dg-node " data-paso="2"><span class="dg-ico">terminal</span><b>Cada programa</b><small>openclaw, curl: permisos propios</small><div class="m5-power lvl2"><em>poder</em><span class="on"></span><span class="on"></span><span class=""></span></div></div><div class="dg-node " data-paso="3"><span class="dg-ico">badge</span><b>Tú, el operador</b><small>en la máquina, cambias las reglas</small><div class="m5-power lvl3"><em>poder</em><span class="on"></span><span class="on"></span><span class="on"></span></div></div></div></div><p class="dg-note" data-paso="4"><span class="dg-i">key</span>Mínimo privilegio: la llave de su oficina, no la llave maestra del edificio</p><aside class="notes"><p>Tres respuestas, tres niveles de poder. Clic 1: el usuario con el que corre el agente (sandbox, sin root). Clic 2: cada programa que abre una conexión (/usr/local/bin/openclaw, /usr/bin/curl…), con sus propios permisos. Clic 3: tú, el operador, en el host con nemoclaw y openshell. Clic 4: mínimo privilegio, la llave de su oficina y no la llave maestra. Si la respuesta fuera "root con un token que puede todo", ninguna política abajo te salva.</p></aside></section>
@@ -52,5 +52,5 @@ nemoclaw my-assistant logs --tail 300 | grep DENIED | tail -4   # quién fue neg
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""></div><h2>En la próxima clase aprenderemos</h2><p class="prox">Restringe herramientas, archivos y red</p><ul><li>Leer la política real de tu sandbox</li><li>Predecir y comprobar qué se permite y qué se bloquea</li><li>Por qué el aislamiento es una capa y no la solución completa</li></ul></section>
 <div class="foot"><span><img src="../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Guía de la clase</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../assets/slides.js?v=61936557"></script>
+<script src="../../assets/slides.js?v=8243843d"></script>
 </body></html>

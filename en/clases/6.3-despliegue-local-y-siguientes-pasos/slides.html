@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Next steps and local deployment · Securing Agents with OpenShell and NemoClaw</title>
+<title>Next steps and local deployment · Secure Agents with NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/slides.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=61936557">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/slides.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=8243843d">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Next steps and local deployment</h1><p class="lead">Extend your agent practice</p><p class="meta"><span class="chip opt"><span class="icon">flag</span>Optional</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span></p></section>
-<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><h2>Last class we learned</h2><p class="lead">Build your skill library</p><ul><li>A skill is a folder with SKILL.md: name, description and runbook</li><li>The description decides whether the agent finds it on its own</li><li>Your skill library travels with you across sessions and agents</li></ul></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Next steps and local deployment</h1><p class="lead">Local deployment</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span></p></section>
+<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><h2>Last class we learned</h2><p class="lead">Restrict tools, files and network</p><ul><li>You read the sandbox's real policy and understood it</li><li>You predicted and verified network and file blocks</li><li>An allowed command can still leak a secret: the sandbox is one layer</li></ul></section>
 <section class="slide"><h2>Where does your agent live?</h2>
 <div class="dg c6 dg-row"><div class="dg-node ok" data-paso="1"><span class="dg-ico">business</span><b>Brev</b><small>an office rented by the hour</small><div class="dg-chips "><span class="dg-chip">pay per hour</span></div></div><div class="dg-arrow h " data-paso="2"></div><div class="dg-node " data-paso="2"><span class="dg-ico">home</span><b>Your computer</b><small>the office at home</small><div class="dg-chips "><span class="dg-chip">16 GB · Docker</span></div></div><div class="dg-arrow h " data-paso="3"></div><div class="dg-node " data-paso="3"><span class="dg-ico">storage</span><b>Server or DGX Spark</b><small>your own building, 24/7</small><div class="dg-chips "><span class="dg-chip">your data stays put</span></div></div></div><p class="dg-note" data-paso="4"><span class="dg-i">route</span>Choose by where your data is and who will run it</p><aside class="notes"><p>Like moving from a rented office to your own. Click 1: Brev, the course launchable; ≈USD 0.25 per hour while it's on, and for the disk while it exists (≈USD 1.20 a day even when stopped). Click 2: your computer (16 GB of RAM, Docker, Node 22.19+), close to your files. Click 3: a server or a DGX Spark: 24/7 and local inference, your data stays put. Click 4: the criterion. The lab ends; your project doesn't. This class is a map, not an install tutorial: the step by step is in the optional cookbook.</p></aside></section>
 <section class="slide"><h2>Requirements to run it locally</h2>
@@ -46,5 +46,5 @@
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><h2>What now?</h2><ul><li>Save your project: your SOUL.md, your skills and your notes</li><li>Delete your Brev instance so the disk stops billing</li><li>Continue with NVIDIA's agentic AI learning path and Platzi's courses</li><li>Share your agent with the community: tell us what you built</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=61936557"></script>
+<script src="../../../assets/slides.js?v=8243843d"></script>
 </body></html>

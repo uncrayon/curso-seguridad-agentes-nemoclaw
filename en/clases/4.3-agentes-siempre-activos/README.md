@@ -29,7 +29,7 @@ Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clase
   ```
   That brings the skill (`~/curso/clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/`) and the course FAQ (`~/curso/datos/faq/`).
 - Every `nemoclaw` command prints an `ExperimentalWarning: SQLite is an experimental feature` line. It's harmless: ignore it.
-- Your credit: this practice uses ≈25 min of your single lab sitting (see [LABORATORIO.md (Spanish)](../../../LABORATORIO.md)). The scheduled task also spends model credits on build.nvidia.com, not Brev credit: one run used ≈112k tokens. If you stop for today, click **Stop** and come back soon; at the very end of the lab (after 5.3, or after the last optional practice you do), **Delete**.
+- Your credit: this practice uses ≈25 min of your single lab sitting (see [LABORATORIO.md (Spanish)](../../../LABORATORIO.md)). The scheduled task also spends model credits on build.nvidia.com, not Brev credit: one run used ≈112k tokens. If you stop for today, click **Stop** and come back soon; at the very end of the lab (after 5.3, or after the last supplementary practice you do), **Delete**.
 
 ## The 3 controls
 
@@ -202,7 +202,7 @@ Success criteria: with the vague description, the agent doesn't follow the skill
 - The `soporte-nemoclaw` skill installed, with the course FAQ in `faq/` inside the workspace.
 - A scheduled task in **Automations** that left `reportes/resumen-faq.md` with no intervention.
 
-Repeat the 4.1 baseline question ("My notebook returns HTTP 401") and compare. Save the new answer in your project notes (`proyecto/linea-base-4.1.md`), below the previous one, and write down the difference: does it cite the FAQ now? Does it follow the categories from the class 3.1 router? In Module 5 you'll review the risks all this opened up: an agent with data, tools, and jobs that run on their own.
+Repeat the 4.1 baseline question ("My notebook returns HTTP 401") and compare. Save the new answer in your project notes (`proyecto/linea-base-4.1.md`), below the previous one, and write down the difference: does it cite the FAQ now? Does it follow the categories from the class 3.1 router? In "Agentic security with OpenShell" you'll review the risks all this opened up: an agent with data, tools, and jobs that run on their own.
 
 ## Resources
 

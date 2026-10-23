@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Reasoning with the ReAct pattern · Securing Agents with OpenShell and NemoClaw</title>
+<title>Reasoning with the ReAct pattern · Secure Agents with NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/slides.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=61936557">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/slides.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=8243843d">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Reasoning with the ReAct pattern</h1><p class="lead">Build the basic agent loop</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Implement the ReAct pattern</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Reasoning with the ReAct pattern</h1><p class="lead">Agent Fundamentals</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Implement the ReAct pattern</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><h2>Last class we learned</h2><p class="lead">From a single call to the agent loop</p><ul><li>An agent is a loop: observe → decide → act → stop?</li><li>The decide function can be code, search or an LLM; the loop doesn't change</li><li>Memory is the messages list you resend on every call</li></ul></section>
 <section class="slide"><h2>ReAct: reason, act, observe</h2>
 <div class="dg m2 dg-row"><div class="dg-node " data-paso="1"><span class="dg-ico">person</span><b>Question</b><small>“What time is it in UTC?”</small></div><div class="dg-arrow h " data-paso="2"></div><div class="m2-loop3" data-paso="2"><div class="dg-loop-ring"></div><div class="dg-loop-step m2-t0"><span class="dg-ico">insights</span><span class="m2-ls"><b>Reason</b><small>“I need the time”</small></span></div><div class="dg-loop-step m2-t1"><span class="dg-ico">bolt</span><span class="m2-ls"><b>Act</b><small>asks for the clock</small></span></div><div class="dg-loop-step m2-t2"><span class="dg-ico">visibility</span><span class="m2-ls"><b>Observe</b><small>“16:05 UTC”</small></span></div><div class="dg-loop-center"><div class="dg-node mini is-primary"><span class="dg-ico">search</span><b>ReAct</b></div></div></div><div class="dg-arrow h " data-paso="3"></div><div class="dg-node ok" data-paso="3"><span class="dg-ico">check_circle</span><b>Answers</b><small>“It's 16:05”</small></div></div><p class="dg-note" data-paso="4"><span class="dg-i">search</span>Like a detective: hypothesis, clue, and again until it's solved</p>
@@ -40,5 +40,5 @@
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">Turn functions into tools</p><ul><li>The contract between the model and a tool</li><li>How to write descriptions the model understands</li><li>Validate arguments and return errors as observations</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=61936557"></script>
+<script src="../../../assets/slides.js?v=8243843d"></script>
 </body></html>

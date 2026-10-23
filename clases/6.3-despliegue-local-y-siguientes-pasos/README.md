@@ -9,7 +9,7 @@ Cierra tu proyecto, aprende qué necesitas para correr NemoClaw en tu máquina y
 | **Habilidad** | Planear un despliegue local y cerrar un proyecto de agente con criterios de calidad |
 | **Material** | [Diapositivas](slides.html) · [FAQ del curso](../../FAQ.md) |
 
-> **El Módulo 6 es opcional.** Esta clase no usa el laboratorio de Brev.
+> Esta clase no usa el laboratorio de Brev.
 
 ## Lo esencial (sin tecnicismos)
 
@@ -30,7 +30,7 @@ Cierra tu proyecto, aprende qué necesitas para correr NemoClaw en tu máquina y
 
 ## Antes de empezar
 - Tu proyecto **Soporte NemoClaw** con lo hecho en las clases 2.1 a 5.3, y en la 6.1 y la 6.2 si las hiciste (notebooks, skills en [`skill-library/`](../../skill-library/README.md), análisis de seguridad de la 5.x).
-- Tu laboratorio de Brev ya debería estar **borrado**: lo cerraste al final de la [5.3](../5.3-sandbox-y-politicas/README.md) o, si hiciste prácticas opcionales, de la última que hiciste ([6.1](../6.1-clis-de-agentes/README.md) o la parte de laboratorio de la [6.2](../6.2-biblioteca-de-skills/README.md)). Si no, el paso 7 te dice cómo.
+- Tu laboratorio de Brev ya debería estar **borrado**: lo cerraste al final de la [5.3](../5.3-sandbox-y-politicas/README.md) o, si hiciste prácticas complementarias, de la última que hiciste ([6.1](../6.1-clis-de-agentes/README.md) o la parte de laboratorio de la [6.2](../6.2-biblioteca-de-skills/README.md)). Si no, el paso 7 te dice cómo.
 - Opcional, solo si quieres instalar NemoClaw en tu propia máquina: Linux, macOS Apple Silicon o Windows con WSL2 (ver tabla del paso 2). No necesitas Brev para esto.
 
 ## Paso a paso
@@ -114,7 +114,7 @@ Para cada una, escribe una línea en tu proyecto: "la usaría para ___ cuando __
 Suma tus puntos: **5–8** sigue iterando · **9–12** listo para mostrar · **13–15** publícalo y compártelo.
 
 ### 7. Confirma que el laboratorio está borrado
-Lo normal es que ya hayas borrado tu instancia al final de tu última práctica de laboratorio ([5.3](../5.3-sandbox-y-politicas/README.md), o la última práctica opcional que hiciste). Compruébalo en el navegador:
+Lo normal es que ya hayas borrado tu instancia al final de tu última práctica de laboratorio ([5.3](../5.3-sandbox-y-politicas/README.md), o la última práctica complementaria que hiciste). Compruébalo en el navegador:
 1. En la consola de Brev (brev.nvidia.com), abre **Compute**. Tu instancia (`nemoclaw-…`) ya no debe aparecer.
 2. Si sigue ahí, guarda lo que quieras: copia el texto desde la **VM TERMINAL** o baja todo en un zip con la [receta previa del cookbook](cookbook.md#receta-previa--respalda-tu-laboratorio-en-un-zip), y luego abre la instancia y presiona **Delete**. Confirma en el aviso que aparece.
 3. Abre **Billing** en el menú de arriba y revisa tu saldo.

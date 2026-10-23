@@ -143,7 +143,7 @@ Invoke-RestMethod -Uri "https://integrate.api.nvidia.com/v1/chat/completions" -M
 
 - The free NVIDIA Build account gives you access to hosted models with **usage limits**: credits or requests per minute. The numbers change over time: check your usage and credits in your build.nvidia.com account.
 - When you go over the per-minute limit, the API returns **429**. Wait and retry (in 1.3 you write a retry with backoff).
-- What burns the most: loops with no step limit, running cells in rapid bursts, and huge `max_tokens`. In Module 2 your loop will always have a maximum number of steps.
+- What burns the most: loops with no step limit, running cells in rapid bursts, and huge `max_tokens`. In "Agent Fundamentals" your loop will always have a maximum number of steps.
 - Free models **change**. A retired model returns **410**. It happened to NVIDIA's course with `nvidia/nemotron-3-nano-30b-a3b`. That's why the model lives in a variable (`NVIDIA_MODEL`) and isn't hard-coded.
 
 ### 7. If you leak your key

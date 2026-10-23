@@ -78,7 +78,7 @@ Para quitar una: `nemoclaw my-assistant skill remove resumen-diario`.
 Una skill son **instrucciones persistentes**: sobreviven entre sesiones. Una skill envenenada es una directiva envenenada que no se va.
 - Revisa las skills como revisas código (pull request, diff, dueño).
 - Pon los límites en las herramientas y en el sandbox, no solo en el texto de la skill.
-- Decide quién puede escribir en la carpeta `skills/` del agente (Módulos 4 y 5).
+- Decide quién puede escribir en la carpeta `skills/` del agente (lo ves en «Crea tu agente con NemoClaw» y «Seguridad agéntica con OpenShell»).
 
 ---
-Las skills de ejemplo adaptan la idea de las skills de práctica del curso de NVIDIA DLI *Seguridad de agentes con OpenShell y NemoClaw*, lección 03c (Apache-2.0), y el formato de [Agent Skills](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview).
+Las skills de ejemplo adaptan la idea de las skills de práctica del curso de NVIDIA DLI *Securing Agents with OpenShell and NemoClaw*, lección 03c (Apache-2.0), y el formato de [Agent Skills](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview).

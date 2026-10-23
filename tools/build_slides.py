@@ -63,7 +63,7 @@ def L(c, lang):
     return {"title": title, "promesa": promesa, "aprendimos": LEARNED_EN[c["id"]], "skill": skill,
             "module": MODULES_EN[c["module"]][0]}
 
-OPCIONAL = {"es": "Opcional", "en": "Optional"}
+OPCIONAL = {"es": "Complementaria · sin video", "en": "Supplementary · no video"}
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 # Versión de los assets: cambia cuando cambian el CSS o el JS, para que el navegador no use una copia vieja
 import hashlib  # noqa: E402
@@ -103,7 +103,7 @@ def li(items):
 
 
 def opcional(lang):
-    return f'<span class="chip opt"><span class="icon">flag</span>{OPCIONAL[lang]}</span>'
+    return f'<span class="chip opt"><span class="icon">menu_book</span>{OPCIONAL[lang]}</span>'
 
 
 def anterior(c):

@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Qué son NemoClaw, OpenClaw y OpenShell · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Qué son NemoClaw, OpenClaw y OpenShell · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Prepara tu entorno de agentes</span><h1>Qué son NemoClaw, OpenClaw y OpenShell</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Navegador</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a></p></section>
+<section class="hero"><span class="tag">Prepara tu entorno</span><h1>Qué son NemoClaw, OpenClaw y OpenShell</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Navegador</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a></p></section>
 <section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Un agente es un asistente de inteligencia artificial que no solo contesta: también hace cosas por ti, paso a paso, hasta terminar una tarea. Por eso hay que cuidarlo. OpenClaw es el asistente, OpenShell es el cuarto cerrado donde trabaja y NemoClaw es el kit que arma todo.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Contratar a un asistente y sentarlo en un cuarto con cerradura, ventanas con rejas y un guardia que revisa lo que entra y sale.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#modelo" class="glos" data-def="Un programa que lee texto y escribe una respuesta. · Alguien muy leído que contesta por escrito, pero no recuerda conversaciones anteriores.">modelo</a>, <a href="../../GLOSARIO.html#agente" class="glos" data-def="Un modelo que, además de contestar, puede usar herramientas y repetir pasos hasta terminar una tarea. · La diferencia entre preguntarle algo a un experto y contratar a un asistente que hace el trámite por ti.">agente</a>, <a href="../../GLOSARIO.html#sandbox" class="glos" data-def="El espacio aislado donde corre el agente. · El cuarto con cerradura.">sandbox</a>.</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Clasifica estos cinco ejemplos como <strong>agente</strong> o <strong>solo modelo</strong> (un modelo contesta; un agente además actúa y repite pasos):</p>
 <ol>
 <li>Le preguntas a un chat cuál es la capital de Perú y te responde.</li>
@@ -54,7 +54,7 @@
 </ul>
 <h2 id="antes-de-empezar">Antes de empezar</h2>
 <ul>
-<li>Un navegador de escritorio (Chrome, Edge o Firefox). Desde el Módulo 4 lo vas a necesitar con herramientas de desarrollador, así que no uses el celular para este curso.</li>
+<li>Un navegador de escritorio (Chrome, Edge o Firefox). Desde «Crea tu agente con NemoClaw» lo vas a usar para el laboratorio, así que no uses el celular para este curso.</li>
 <li>Nada más. No hace falta cuenta, GPU ni instalar nada en esta clase.</li>
 </ul>
 <h2 id="las-ideas-clave">Las ideas clave</h2>
@@ -129,24 +129,24 @@ Sandbox (contenedor, usuario "sandbox"; solo /sandbox y /tmp se pueden escribir)
 </thead>
 <tbody>
 <tr>
-<td>2</td>
+<td>Fundamentos de Agentes</td>
 <td>Un loop de chat con memoria, el patrón ReAct y herramientas reales (<code>buscar_faq</code>, <code>estimar_costo_brev</code>)</td>
 </tr>
 <tr>
-<td>3</td>
-<td>Un router de triage, RAG sobre la FAQ con citas y subagentes que arman un reporte de diagnóstico</td>
-</tr>
-<tr>
-<td>4</td>
+<td>Crea tu agente con NemoClaw</td>
 <td>Lo despliegas en OpenClaw como skill dentro del laboratorio en Brev, con una tarea programada</td>
 </tr>
 <tr>
-<td>5</td>
+<td>Seguridad agéntica con OpenShell</td>
 <td>Analizas sus riesgos y escribes la política de su sandbox</td>
 </tr>
 <tr>
-<td>6</td>
-<td>Armas tu biblioteca de skills y ves cómo correrlo en tu máquina</td>
+<td>Despliegue local</td>
+<td>Ves cómo correrlo en tu máquina</td>
+</tr>
+<tr>
+<td>Clases complementarias (sin video)</td>
+<td>Un router de triage, RAG sobre la FAQ con citas, subagentes que arman un reporte de diagnóstico y tu biblioteca de skills</td>
 </tr>
 </tbody>
 </table>
@@ -161,7 +161,7 @@ Sandbox (contenedor, usuario "sandbox"; solo /sandbox y /tmp se pueden escribir)
 </thead>
 <tbody>
 <tr>
-<td><strong>1 · Prepara tu entorno</strong></td>
+<td><strong>Prepara tu entorno</strong></td>
 <td>1.1 Qué son NemoClaw, OpenClaw y OpenShell</td>
 <td>Navegador</td>
 </tr>
@@ -176,7 +176,7 @@ Sandbox (contenedor, usuario "sandbox"; solo /sandbox y /tmp se pueden escribir)
 <td>Notebook</td>
 </tr>
 <tr>
-<td><strong>2 · El loop básico</strong></td>
+<td><strong>Fundamentos de Agentes</strong></td>
 <td>2.1 De una sola llamada al loop de agente</td>
 <td>Notebook</td>
 </tr>
@@ -191,22 +191,7 @@ Sandbox (contenedor, usuario "sandbox"; solo /sandbox y /tmp se pueden escribir)
 <td>Notebook</td>
 </tr>
 <tr>
-<td><strong>3 · Coordina, fundamenta y planea</strong></td>
-<td>3.1 Enruta trabajo entre varias llamadas</td>
-<td>Notebook</td>
-</tr>
-<tr>
-<td></td>
-<td>3.2 RAG para fundamentar en tus fuentes</td>
-<td>Notebook</td>
-</tr>
-<tr>
-<td></td>
-<td>3.3 Agentes profundos que crean subagentes</td>
-<td>Notebook</td>
-</tr>
-<tr>
-<td><strong>4 · Lleva tu agente a NemoClaw</strong></td>
+<td><strong>Crea tu agente con NemoClaw</strong></td>
 <td>4.1 Levanta el laboratorio NemoClaw en Brev</td>
 <td>Laboratorio</td>
 </tr>
@@ -221,12 +206,7 @@ Sandbox (contenedor, usuario "sandbox"; solo /sandbox y /tmp se pueden escribir)
 <td>Laboratorio</td>
 </tr>
 <tr>
-<td></td>
-<td>4.4 Cambia OpenClaw por Hermes en NemoClaw <em>(opcional)</em></td>
-<td>Laboratorio</td>
-</tr>
-<tr>
-<td><strong>5 · Asegura el agente con OpenShell</strong></td>
+<td><strong>Seguridad agéntica con OpenShell</strong></td>
 <td>5.1 La trifecta letal y la superficie de riesgo</td>
 <td>Diapositivas</td>
 </tr>
@@ -237,44 +217,67 @@ Sandbox (contenedor, usuario "sandbox"; solo /sandbox y /tmp se pueden escribir)
 </tr>
 <tr>
 <td></td>
-<td>5.3 Restringe herramientas, archivos y red</td>
+<td>5.3 Restringe herramientas, archivos y red <em>(dos videos: teoría y hands-on)</em></td>
 <td>Laboratorio</td>
 </tr>
 <tr>
-<td><strong>6 · Amplía tu práctica</strong> <em>(opcional)</em></td>
-<td>6.1 Compara CLIs de agentes modernos <em>(opcional)</em></td>
-<td>Laboratorio</td>
+<td><strong>Despliegue local</strong></td>
+<td>6.3 Próximos pasos y despliegue local</td>
+<td>Diapositivas</td>
 </tr>
 <tr>
-<td></td>
-<td>6.2 Construye tu biblioteca de skills <em>(opcional)</em></td>
+<td><strong>Clases complementarias (sin video)</strong></td>
+<td>3.1 Enruta trabajo entre varias llamadas</td>
 <td>Notebook</td>
 </tr>
 <tr>
 <td></td>
-<td>6.3 Próximos pasos y despliegue local <em>(opcional)</em></td>
-<td>Diapositivas</td>
+<td>3.2 RAG para fundamentar en tus fuentes</td>
+<td>Notebook</td>
+</tr>
+<tr>
+<td></td>
+<td>3.3 Agentes profundos que crean subagentes</td>
+<td>Notebook</td>
+</tr>
+<tr>
+<td></td>
+<td>4.4 Cambia OpenClaw por Hermes en NemoClaw</td>
+<td>Laboratorio</td>
+</tr>
+<tr>
+<td></td>
+<td>6.1 Compara CLIs de agentes modernos</td>
+<td>Laboratorio</td>
+</tr>
+<tr>
+<td></td>
+<td>6.2 Construye tu biblioteca de skills</td>
+<td>Notebook</td>
 </tr>
 </tbody>
 </table>
+<p>Las clases complementarias no tienen video: traen guía, notebook o recetas para profundizar a tu ritmo. No las necesitas para seguir el curso.</p>
 <p>Qué necesitas en cada etapa:</p>
 <ul>
-<li><strong>Módulos 1 a 3</strong>: una API key gratuita de NVIDIA Build y Python (Colab o tu máquina). No necesitas GPU.</li>
-<li><strong>Módulos 4 a 6</strong>: una cuenta de <a href="https://brev.nvidia.com/">Brev</a> para levantar el laboratorio (una máquina en la nube con NemoClaw ya instalado) y un navegador de escritorio.</li>
+<li><strong>Prepara tu entorno</strong> y <strong>Fundamentos de Agentes</strong>: una API key gratuita de NVIDIA Build y Python (Colab o tu máquina). No necesitas GPU.</li>
+<li><strong>Crea tu agente con NemoClaw</strong> y <strong>Seguridad agéntica con OpenShell</strong>: una cuenta de <a href="https://brev.nvidia.com/">Brev</a> para levantar el laboratorio (una máquina en la nube con NemoClaw ya instalado) y un navegador de escritorio.</li>
+<li><strong>Despliegue local</strong>: nada nuevo. Esta clase no usa el laboratorio.</li>
+<li><strong>Clases complementarias</strong>: las de notebook (3.1, 3.2, 3.3 y 6.2) solo necesitan tu API key; las de laboratorio (4.4, 6.1 y el final de la 6.2) usan la misma instancia de Brev.</li>
 </ul>
 <h2 id="paso-a-paso-práctica-guiada-en-el-navegador">Paso a paso (práctica guiada en el navegador)</h2>
 <h3 id="1-recorre-la-portada-del-curso">1. Recorre la portada del curso</h3>
 <ol>
 <li>Abre la <a href="../../index.html">portada del curso</a>: es el enlace que está debajo del video. Desde ahí llegas a todo el material.</li>
 <li>Lee <strong>"¿No programas? Este curso también es para ti"</strong>. Son tres ideas: cada clase empieza con «Lo esencial» (la idea en palabras simples y una actividad sin programar), los notebooks se corren con un botón en Colab aunque todavía no tengas API key, y el laboratorio se hace desde el navegador, sin instalar nada.</li>
-<li>Baja a <strong>"Cómo funciona el curso"</strong> y ubica las tres etapas: tu acceso a modelos (una API key <code>nvapi-</code> gratuita, lo único que necesitas en los módulos 1 a 3), los notebooks en Colab o en tu máquina, y el laboratorio real en Brev desde el Módulo 4.</li>
+<li>Baja a <strong>"Cómo funciona el curso"</strong> y ubica las tres etapas: tu acceso a modelos (una API key <code>nvapi-</code> gratuita, lo único que necesitas antes del laboratorio), los notebooks en Colab o en tu máquina, y el laboratorio real en Brev, desde «Crea tu agente con NemoClaw».</li>
 <li>Mira <strong>"El stack en un vistazo"</strong>: una tarjeta por pieza (OpenClaw, el agente; OpenShell, el sandbox; NemoClaw, el blueprint) y un diagrama que muestra que tu API key se queda fuera del sandbox. Compáralo con la tabla de "Las tres piezas" de arriba.</li>
-<li>Lee <strong>"Proyecto del curso: «Soporte NemoClaw»"</strong>: ahí ves cómo crece el agente del Módulo 2 al 6.</li>
-<li>Baja a <strong>"Clase por clase"</strong>: 6 módulos y 19 clases. Cada tarjeta trae la duración, lo que vas a aprender y sus enlaces: <strong>Guía</strong> (la página de la clase, como esta), <strong>Diapositivas</strong> y, según la clase, <strong>Colab</strong> (el notebook, que se abre en tu navegador) o <strong>Recetario</strong> (las recetas de comandos del laboratorio). Compara con la tabla de arriba y ubica la clase 1.3: es la primera con botón de Colab.</li>
+<li>Lee <strong>"Proyecto del curso: «Soporte NemoClaw»"</strong>: ahí ves cómo crece el agente clase a clase.</li>
+<li>Baja a <strong>"Clase por clase"</strong>: 5 módulos con video y, al final, las clases complementarias (sin video), 19 clases en total. Cada tarjeta trae la duración, lo que vas a aprender y sus enlaces: <strong>Guía</strong> (la página de la clase, como esta), <strong>Diapositivas</strong> y, según la clase, <strong>Colab</strong> (el notebook, que se abre en tu navegador) o <strong>Recetario</strong> (las recetas de comandos del laboratorio). Compara con la tabla de arriba y ubica la clase 1.3: es la primera con botón de Colab.</li>
 <li>Lee <strong>"Los errores que más vas a ver"</strong>. Ahí está la regla de oro: ante un 401 o 403, revisa tu key y tu cuenta; ante un 404 o 410, revisa el nombre del modelo; ante un 429, espera unos segundos y reintenta.</li>
 <li>Ubica las páginas de apoyo: el <strong>Glosario</strong> (botón de arriba), <strong>Tu laboratorio en Brev</strong> (el enlace «plan del laboratorio», en la primera sección: cuánto cuesta y cómo hacer que te alcance el crédito) y las <strong>Preguntas frecuentes</strong>, con más de 50 casos resueltos. Guarda la portada en tus marcadores.</li>
 </ol>
-<p>Deberías ver: arriba, el título del curso con los botones "Empieza con la clase 1.1", "Consigue tu API key", "Laboratorio en Brev", "Preguntas frecuentes" y "Glosario", y la línea "6 módulos · 19 clases".</p>
+<p>Deberías ver: arriba, el título del curso con los botones "Empieza el curso", "Consigue tu API key" y "Laboratorio en Brev", y debajo las etiquetas "5 módulos", "14 videos" y "6 clases complementarias".</p>
 <h3 id="2-recorre-el-repositorio-de-nemoclaw">2. Recorre el repositorio de NemoClaw</h3>
 <ol>
 <li>Abre <a href="https://github.com/NVIDIA/NemoClaw">https://github.com/NVIDIA/NemoClaw</a> y lee el inicio del README.</li>
@@ -289,7 +292,7 @@ Sandbox (contenedor, usuario "sandbox"; solo /sandbox y /tmp se pueden escribir)
 <ol>
 <li>Abre <a href="https://docs.nvidia.com/nemoclaw/latest/">https://docs.nvidia.com/nemoclaw/latest/</a>.</li>
 <li>Busca la página <strong>Ecosystem</strong> (sección <em>About</em>). Ahí está la tabla con el alcance de OpenClaw, OpenShell y NemoClaw que resumimos arriba.</li>
-<li>Busca <strong>How it works</strong>. Ubica la tabla de <strong>capas de protección</strong>: red, sistema de archivos, procesos e inferencia. Anota cuáles se pueden cambiar en caliente (red e inferencia) y cuáles quedan fijas al crear el sandbox (archivos y procesos). Lo vas a usar en el Módulo 5.</li>
+<li>Busca <strong>How it works</strong>. Ubica la tabla de <strong>capas de protección</strong>: red, sistema de archivos, procesos e inferencia. Anota cuáles se pueden cambiar en caliente (red e inferencia) y cuáles quedan fijas al crear el sandbox (archivos y procesos). Lo vas a usar en «Seguridad agéntica con OpenShell».</li>
 </ol>
 <h3 id="4-completa-tu-mapa">4. Completa tu mapa</h3>
 <p>Copia esta tabla en tus notas y llénala con tus palabras:</p>
@@ -354,8 +357,8 @@ Sandbox (contenedor, usuario "sandbox"; solo /sandbox y /tmp se pueden escribir)
 </tr>
 <tr>
 <td>Pienso que necesito GPU para empezar</td>
-<td>Los módulos 1 a 3 llaman a modelos alojados por NVIDIA por API</td>
-<td>Solo necesitas la key gratuita. La GPU llega con Brev en el Módulo 4, y no es tuya: es de la nube</td>
+<td>Todo el curso llama a modelos alojados por NVIDIA por API</td>
+<td>Solo necesitas la key gratuita. Ni siquiera el laboratorio de Brev usa GPU: la instancia es solo CPU y el modelo corre en la nube de NVIDIA</td>
 </tr>
 <tr>
 <td>Instrucciones de un blog no coinciden con el repo de NemoClaw</td>
@@ -370,9 +373,9 @@ Sandbox (contenedor, usuario "sandbox"; solo /sandbox y /tmp se pueden escribir)
 <h2 id="avance-del-proyecto">Avance del proyecto</h2>
 <p>Todavía no hay código. Tu avance es el <strong>mapa de Soporte NemoClaw</strong>: en tus notas, dibuja el diagrama de flujo de arriba y marca dónde vivirá cada parte del proyecto:</p>
 <ul>
-<li>El loop en Python (Módulos 2 y 3): fuera de todo sandbox, en tu notebook.</li>
-<li>La skill <code>soporte-nemoclaw</code> y la FAQ (Módulo 4): dentro del workspace de OpenClaw, en el sandbox.</li>
-<li>La política que lo contiene (Módulo 5): en OpenShell.</li>
+<li>El loop en Python (Fundamentos de Agentes y las clases complementarias 3.1 a 3.3): fuera de todo sandbox, en tu notebook.</li>
+<li>La skill <code>soporte-nemoclaw</code> y la FAQ (Crea tu agente con NemoClaw): dentro del workspace de OpenClaw, en el sandbox.</li>
+<li>La política que lo contiene (Seguridad agéntica con OpenShell): en OpenShell.</li>
 </ul>
 <h2 id="recursos">Recursos</h2>
 <ul>
@@ -388,7 +391,7 @@ Sandbox (contenedor, usuario "sandbox"; solo /sandbox y /tmp se pueden escribir)
 <p><em>Basado en la página de inicio del curso de NVIDIA DLI "Securing Agents with OpenShell and NemoClaw" (Apache-2.0) y en la documentación de NemoClaw.</em></p></div></section>
 <nav class="prevnext"><span></span><a class="pn next" href="../1.2-cuenta-y-api-key-nvidia-build/index.html"><small>Clase siguiente</small>Crea tu cuenta y tu API key en NVIDIA Build</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

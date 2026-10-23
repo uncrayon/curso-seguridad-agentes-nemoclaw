@@ -30,7 +30,7 @@ Salida esperada: una lista con un resumen parecido a `22/57 ready`.
 
 **Si falla:**
 - `exec` necesita el separador `--` antes del comando.
-- Ves `nemoclaw: recent network policy denial detected for …` → no es un error de tu comando: es una pista de que la política bloqueó una conexión hace poco. La retomamos en el Módulo 5.
+- Ves `nemoclaw: recent network policy denial detected for …` → no es un error de tu comando: es una pista de que la política bloqueó una conexión hace poco. La retomamos en «Seguridad agéntica con OpenShell».
 
 ---
 
@@ -85,7 +85,7 @@ Compara las dos listas. Lo que el agente dice es su relato; `ls` es la evidencia
 cat > ~/soul-extra.md <<'EOF'
 
 ## Proyecto: Soporte NemoClaw
-- Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".
+- Ayudas a estudiantes del curso "Agentes Seguros con NemoClaw".
 - Respondes en español neutro, con frases cortas y pasos numerados.
 - Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.
 - Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.

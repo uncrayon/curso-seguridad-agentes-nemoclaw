@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Launch the NemoClaw lab on Brev · Securing Agents with OpenShell and NemoClaw</title>
+<title>Launch the NemoClaw lab on Brev · Secure Agents with NemoClaw</title>
 <link rel="stylesheet" href="../../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Secure Agents with NemoClaw</a>
   <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Take your agent to NemoClaw</span><h1>Launch the NemoClaw lab on Brev</h1><p class="chips"><span class="chip"><span class="icon">computer</span>Lab on Brev</span><span class="chip primary"><span class="icon">bolt</span>Skill: Deploy NemoClaw on Brev</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/4.1-laboratorio-nemoclaw-en-brev/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
+<section class="hero"><span class="tag">Build your agent with NemoClaw</span><h1>Launch the NemoClaw lab on Brev</h1><p class="chips"><span class="chip"><span class="icon">computer</span>Lab on Brev</span><span class="chip primary"><span class="icon">bolt</span>Skill: Deploy NemoClaw on Brev</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/4.1-laboratorio-nemoclaw-en-brev/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
 <section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
 <p>🇪🇸 Original Spanish guide: <a href="../../../clases/4.1-laboratorio-nemoclaw-en-brev/index.html"><code>clases/4.1-laboratorio-nemoclaw-en-brev/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
 </blockquote>
@@ -49,14 +49,14 @@
 <li>Prove that a conversation's memory lives in its session.</li>
 <li>Know what each instance state costs and when to use <strong>Stop</strong> or <strong>Delete</strong>.</li>
 </ul>
-<p><strong>Your credit:</strong> this practice uses ≈30 min of running instance, inside your single lab sitting (see <a href="../../../LABORATORIO.html">the lab guide (Spanish)</a>). If you stop for today, use <strong>Stop</strong> and come back soon. At the very end of the lab (after 5.3, or after the last optional practice you do), use <strong>Delete</strong>.</p>
+<p><strong>Your credit:</strong> this practice uses ≈30 min of running instance, inside your single lab sitting (see <a href="../../../LABORATORIO.html">the lab guide (Spanish)</a>). If you stop for today, use <strong>Stop</strong> and come back soon. At the very end of the lab (after 5.3, or after the last supplementary practice you do), use <strong>Delete</strong>.</p>
 <h2 id="before-you-start">Before you start</h2>
 <ul>
 <li>Your <code>nvapi-</code> API key from class 1.2. You'll paste it once, on the setup screen.</li>
 <li>Your USD 1 Brev credit coupon.</li>
 <li>An NVIDIA account (the same one you use for build.nvidia.com) to sign in to Brev.</li>
 <li>A desktop browser: Chrome, Edge, Brave, Firefox, or Safari. It doesn't work from a phone.</li>
-<li>Having watched the videos of Modules 4, 5, and 6. You'll do the lab practices in a single sitting: ≈2 hours for the required ones, ≈3 hours if you also do the optional ones.</li>
+<li>Having watched the videos of "Build your agent with NemoClaw" and "Agentic security with OpenShell". You'll do the lab practices in a single sitting: ≈2 hours for the required ones, ≈3 hours if you also do the supplementary ones.</li>
 </ul>
 <p>The pieces you're about to spin up, one sentence each:</p>
 <table>
@@ -177,7 +177,7 @@
 <tr>
 <td><strong>OPENSHELL TUI</strong></td>
 <td>The OpenShell guard's panel, in text mode.</td>
-<td>Viewing the policy and approving or rejecting access (Module 5).</td>
+<td>Viewing the policy and approving or rejecting access ("Agentic security with OpenShell").</td>
 </tr>
 </tbody>
 </table>
@@ -299,10 +299,10 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class=
 <p>Questions to the model don't spend Brev credit: they're paid with your build.nvidia.com account credits.</p>
 </li>
 <li>
-<p><strong>Follow the single-sitting plan.</strong> Do the practices of 4.2, 4.3, 5.2, and 5.3 now, one after another. If you want to do the optional ones, 4.4 goes between 4.3 and 5.2, and 6.1 and 6.2 go at the end. If you really have to stop: Brev console → <strong>Compute</strong> → your instance → <strong>Stop</strong>. Come back the same day or the next; never leave it stopped for several days.</p>
+<p><strong>Follow the single-sitting plan.</strong> Do the practices of 4.2, 4.3, 5.2, and 5.3 now, one after another. If you want to do the supplementary ones, 4.4 goes between 4.3 and 5.2, and 6.1 and 6.2 go at the end. If you really have to stop: Brev console → <strong>Compute</strong> → your instance → <strong>Stop</strong>. Come back the same day or the next; never leave it stopped for several days.</p>
 </li>
 <li>
-<p><strong>At the end of the lab, delete it.</strong> When you finish 5.3 (or the last optional practice you do): Brev console → <strong>Compute</strong> → your instance → <strong>Delete</strong>. It's the only way it stops billing. First, copy anything you want to keep into your notes. Details in <a href="../../../LABORATORIO.html">the lab guide (Spanish)</a>.</p>
+<p><strong>At the end of the lab, delete it.</strong> When you finish 5.3 (or the last supplementary practice you do): Brev console → <strong>Compute</strong> → your instance → <strong>Delete</strong>. It's the only way it stops billing. First, copy anything you want to keep into your notes. Details in <a href="../../../LABORATORIO.html">the lab guide (Spanish)</a>.</p>
 </li>
 </ol>
 <h2 id="check-that-it-worked">Check that it worked</h2>
@@ -407,9 +407,9 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class=
 <li><a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/troubleshooting.md">NemoClaw · Troubleshooting</a></li>
 <li>Reference issues: <a href="https://github.com/NVIDIA/NemoClaw/issues/11535">NemoClaw #11535</a> (503), <a href="https://github.com/NVIDIA/NemoClaw/issues/11536">#11536</a> (RETRY), <a href="https://github.com/brevdev/brev-cli/issues/390">brev-cli #390</a> (organization)</li>
 </ul></div></section>
-<nav class="prevnext"><a class="pn prev" href="../3.3-agentes-profundos/index.html"><small>Previous class</small>Deep agents that spawn subagents</a><a class="pn next" href="../4.2-gateway-y-workspace-openclaw/index.html"><small>Next class</small>Explore the OpenClaw gateway and workspace</a></nav>
+<nav class="prevnext"><a class="pn prev" href="../2.3-funciones-a-herramientas/index.html"><small>Previous class</small>Turn functions into tools</a><a class="pn next" href="../4.2-gateway-y-workspace-openclaw/index.html"><small>Next class</small>Explore the OpenClaw gateway and workspace</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Secure Agents with NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";

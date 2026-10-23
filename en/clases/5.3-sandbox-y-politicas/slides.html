@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Restrict tools, files and network · Securing Agents with OpenShell and NemoClaw</title>
+<title>Restrict tools, files and network · Secure Agents with NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/slides.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=61936557">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/slides.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=8243843d">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Restrict tools, files and network</h1><p class="lead">Secure the agent with OpenShell</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Define and verify a sandbox in OpenShell</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Restrict tools, files and network</h1><p class="lead">Agentic security with OpenShell</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Define and verify a sandbox in OpenShell</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""></div><h2>Last class we learned</h2><p class="lead">Identities and limits with OpenShell</p><ul><li>The agent runs as an unprivileged user inside the sandbox</li><li>OpenShell grants permissions by binary and identity, not by name</li><li>Real credentials never enter the sandbox</li></ul></section>
 <section class="slide"><h2>Don't ask "is it safe?"</h2>
 <p class="lead">Ask: what exactly can it reach, and have I tested it?</p>
@@ -46,8 +46,8 @@ nemoclaw my-assistant policy remove soporte-docs --yes           # back to how i
 <p class="lead">Paste them in the dashboard's VM TERMINAL. The OPENSHELL TUI shows the policy and the pending requests with keys.</p><aside class="notes"><p>The operator way: the dashboard's VM TERMINAL (user ubuntu). In the OPENSHELL TUI: r (Rules), select, x rejects. Don't approve example.com: always use x. Never d in the sandbox view.</p></aside></section>
 <section class="slide"><h2>Common errors</h2>
 <table><thead><tr><th>Symptom</th><th>Cause</th></tr></thead><tbody><tr><td><code>CONNECT tunnel failed, response 403</code></td><td>Policy: host or program</td></tr><tr><td><code>code=403</code> without CONNECT</td><td>The server answered</td></tr><tr><td>Preset applied, still blocked</td><td>Wrong program in the preset</td></tr><tr><td>The approval "disappeared"</td><td>The sandbox was recreated</td></tr><tr><td>curl → NVIDIA API returns 200</td><td>NVIDIA native profile</td></tr></tbody></table><aside class="notes"><p>The full table is on the class page.</p></aside></section>
-<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">Compare modern agent CLIs<span class="chip opt"><span class="icon">flag</span>Optional</span></p><ul><li>Claude Code, Codex, Cursor, Hermes, Deep Agents and OpenClaw side by side</li><li>The axes that matter: files, network, identity and persistence</li><li>How to choose based on task and risk</li></ul></section>
+<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">Next steps and local deployment</p><ul><li>What you need to run NemoClaw on your own machine</li><li>Production paths: NIM, NeMo Guardrails, NeMo Retriever</li><li>How to keep learning and wrap up your project</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=61936557"></script>
+<script src="../../../assets/slides.js?v=8243843d"></script>
 </body></html>

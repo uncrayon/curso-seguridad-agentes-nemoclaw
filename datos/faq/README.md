@@ -64,6 +64,6 @@ def cargar_faq(carpeta="datos/faq"):
 
 ## Origen y licencia
 
-- Contenido **propio del curso** "Seguridad de agentes con OpenShell y NemoClaw" (Platzi × NVIDIA DLI), escrito en español por el equipo del curso. No copia texto de terceros: resume y cita, en `FAQ.md`, la documentación pública de NVIDIA NemoClaw (Apache-2.0), el curso NVDLI/NemoClawDLI (Apache-2.0), la documentación de NVIDIA Brev y issues públicos de GitHub.
+- Contenido **propio del curso** "Agentes Seguros con NemoClaw" (Platzi × NVIDIA DLI), escrito en español por el equipo del curso. No copia texto de terceros: resume y cita, en `FAQ.md`, la documentación pública de NVIDIA NemoClaw (Apache-2.0), el curso NVDLI/NemoClawDLI (Apache-2.0), la documentación de NVIDIA Brev y issues públicos de GitHub.
 - Se distribuye con la misma licencia que el resto de este repositorio. `[VERIFICAR licencia final con Platzi]`
 - Revisado contra NemoClaw v0.0.134 y OpenShell 0.0.116 (14 de octubre de 2026), y probado en el laboratorio de Brev con NemoClaw v0.0.135 (20 de octubre de 2026). NemoClaw cambia cada pocos días: actualiza el corpus cuando cambie un comando.

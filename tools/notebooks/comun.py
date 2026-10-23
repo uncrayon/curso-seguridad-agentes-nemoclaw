@@ -40,8 +40,8 @@ def header(cid, intro):
     glosario = (f"https://github.com/{COURSE['github']}/blob/main/GLOSARIO.md" if COURSE.get("github")
                 else "../../GLOSARIO.md")
     return md(f"""
-# {c['id']} · {c['title']}
-**Módulo {c['module']} · {module(c['module'])['title']}** — *{COURSE['title']}* ({COURSE['partner']})
+# {c['title']}
+**{module(c['module'])['title']}** — *{COURSE['title']}* ({COURSE['partner']})
 {colab}
 {textwrap.dedent(intro).strip()}
 

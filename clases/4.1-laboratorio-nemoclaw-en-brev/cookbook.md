@@ -180,7 +180,7 @@ nemoclaw my-assistant logs --tail 100                       # últimas 100 líne
 nemoclaw my-assistant logs --tail 300 | grep DENIED | tail -4   # solo las últimas conexiones bloqueadas
 ```
 
-Salida esperada: los turnos recientes y, si la política bloqueó algo, líneas con `DENIED`. Las leemos en el Módulo 5.
+Salida esperada: los turnos recientes y, si la política bloqueó algo, líneas con `DENIED`. Las leemos en «Seguridad agéntica con OpenShell».
 
 Cuidado con `openshell logs`: ahí `--tail` **sigue** el log en vivo, mientras que en `nemoclaw … logs` `--tail N` es un número de líneas.
 

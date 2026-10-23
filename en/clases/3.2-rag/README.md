@@ -6,10 +6,12 @@ Goal: make Soporte NemoClaw (NemoClaw Support) answer from the course FAQ, cite 
 
 | | |
 |---|---|
-| **Video length** | ≈9 min |
+| **Video** | None: this is a supplementary class |
 | **Practice** | Notebook (≈50 min), works without a key in MOCK mode |
 | **Skill** | Implement RAG with your own sources |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/3.2-rag/3.2-rag.ipynb) · [FAQ (Spanish)](../../../FAQ.md) · [`datos/faq/` corpus (Spanish)](../../../datos/faq/) |
+
+> **This is a supplementary class: it has no video.** You don't need it to follow the course. It has a guide and a notebook so you can go deeper at your own pace, and it doesn't use the Brev lab.
 
 ## What you'll achieve
 

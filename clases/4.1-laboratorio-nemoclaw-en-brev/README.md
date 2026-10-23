@@ -24,7 +24,7 @@ Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) ·
 
 **Qué te llevas:** sabes encender, usar, pausar y borrar tu propio laboratorio en la nube sin gastar crédito de más.
 
-**Tu crédito:** esta práctica usa ≈30 min de instancia encendida, dentro de tu sentada única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Si paras por hoy, haz **Stop** y vuelve pronto. Al final del laboratorio (después de la 5.3, o de la última práctica opcional que hagas), haz **Delete**.
+**Tu crédito:** esta práctica usa ≈30 min de instancia encendida, dentro de tu sentada única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Si paras por hoy, haz **Stop** y vuelve pronto. Al final del laboratorio (después de la 5.3, o de la última práctica complementaria que hagas), haz **Delete**.
 
 ## Lo que vas a lograr
 
@@ -40,7 +40,7 @@ Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) ·
 - Tu cupón de 1 USD de crédito de Brev.
 - Una cuenta de NVIDIA (la misma de build.nvidia.com) para entrar a Brev.
 - Un navegador de escritorio: Chrome, Edge, Brave, Firefox o Safari. Desde el celular no se puede.
-- Haber visto los videos de los Módulos 4, 5 y 6. Vas a hacer las prácticas del laboratorio en una sola sentada: ≈2 horas las obligatorias, ≈3 horas si haces también las opcionales (ver [LABORATORIO.md](../../LABORATORIO.md)).
+- Haber visto los videos de «Crea tu agente con NemoClaw» y «Seguridad agéntica con OpenShell». Vas a hacer las prácticas del laboratorio en una sola sentada: ≈2 horas las obligatorias, ≈3 horas si haces también las complementarias (ver [LABORATORIO.md](../../LABORATORIO.md)).
 
 Las piezas que vas a levantar, en una frase cada una:
 
@@ -113,7 +113,7 @@ Las piezas que vas a levantar, en una frase cada una:
     | **CHAT WITH AGENT** | El chat de OpenClaw, en una pestaña nueva. | Conversar con tu agente. |
     | **SANDBOX TERMINAL** | Una terminal **dentro del cuarto** (usuario `sandbox`, carpeta `/sandbox`). | Ver el mundo como lo ve el agente. |
     | **VM TERMINAL** | La **terminal de operador**: la computadora que rodea al cuarto (usuario `ubuntu`). | Pegar los comandos de las guías y revisar al agente desde afuera. |
-    | **OPENSHELL TUI** | El panel del guardia de OpenShell, en modo texto. | Ver la política y aprobar o rechazar accesos (Módulo 5). |
+    | **OPENSHELL TUI** | El panel del guardia de OpenShell, en modo texto. | Ver la política y aprobar o rechazar accesos («Seguridad agéntica con OpenShell»). |
 
     ![Tablero de NemoClaw: 1 marca CHAT WITH AGENT, 2 marca SANDBOX TERMINAL, 3 marca VM TERMINAL, 4 marca OPENSHELL TUI y 5 marca el panel de registros](../../assets/lab/13-panel-nemoclaw.jpg)
 
@@ -209,9 +209,9 @@ Cada conversación tiene una **clave de sesión**. El gateway guarda el historia
 
     Las preguntas al modelo no gastan crédito de Brev: se pagan con los créditos de tu cuenta de build.nvidia.com.
 
-25. **Sigue el plan de una sola sentada.** Haz ahora las prácticas de 4.2, 4.3, 5.2 y 5.3, una tras otra. Si quieres hacer las opcionales, la 4.4 va entre la 4.3 y la 5.2, y la 6.1 y la 6.2 van al final. Si de verdad tienes que parar: consola de Brev → **Compute** → tu instancia → **Stop**. Vuelve el mismo día o el siguiente; nunca la dejes detenida varios días.
+25. **Sigue el plan de una sola sentada.** Haz ahora las prácticas de 4.2, 4.3, 5.2 y 5.3, una tras otra. Si quieres hacer las complementarias, la 4.4 va entre la 4.3 y la 5.2, y la 6.1 y la 6.2 van al final. Si de verdad tienes que parar: consola de Brev → **Compute** → tu instancia → **Stop**. Vuelve el mismo día o el siguiente; nunca la dejes detenida varios días.
 
-26. **Al final del laboratorio, bórrala.** Cuando termines la 5.3 (o la última práctica opcional que hagas): consola de Brev → **Compute** → tu instancia → **Delete**. Es la única forma de que deje de cobrar. Antes, copia a tus notas lo que quieras conservar. El detalle está en [LABORATORIO.md](../../LABORATORIO.md).
+26. **Al final del laboratorio, bórrala.** Cuando termines la 5.3 (o la última práctica complementaria que hagas): consola de Brev → **Compute** → tu instancia → **Delete**. Es la única forma de que deje de cobrar. Antes, copia a tus notas lo que quieras conservar. El detalle está en [LABORATORIO.md](../../LABORATORIO.md).
 
 ## Comprueba que funcionó
 

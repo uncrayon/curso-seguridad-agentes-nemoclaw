@@ -21,7 +21,7 @@ Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clase
 - Customize `SOUL.md` so your agent behaves like **Soporte NemoClaw**, and test it in a new session.
 - List and reset sessions, and check that what's written to files survives into a new session.
 
-**Your credit:** this practice uses ≈20 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). If you stop for today, use **Stop** and come back soon. At the very end of the lab (after 5.3, or after the last optional practice you do), use **Delete**.
+**Your credit:** this practice uses ≈20 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). If you stop for today, use **Stop** and come back soon. At the very end of the lab (after 5.3, or after the last supplementary practice you do), use **Delete**.
 
 ## Before you start
 
@@ -104,7 +104,7 @@ You'll write your section into a file on the machine, upload it to the sandbox, 
    cat > ~/soul-extra.md <<'EOF'
 
    ## Proyecto: Soporte NemoClaw
-   - Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".
+   - Ayudas a estudiantes del curso "Agentes Seguros con NemoClaw".
    - Respondes en español neutro, con frases cortas y pasos numerados.
    - Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.
    - Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.

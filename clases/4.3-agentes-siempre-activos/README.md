@@ -24,7 +24,7 @@ Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) ·
 
 **Qué te llevas:** sabes escribir la descripción que hace que un agente encuentre su receta, y describir cualquier automatización con tres preguntas: qué recuerda, qué instrucciones sigue y qué la hace empezar.
 
-**Tu crédito:** esta práctica usa ≈25 min de tu sesión única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). La tarea programada también gasta créditos del modelo en build.nvidia.com, no de Brev: una sola ejecución usó ≈112 mil tokens. Si paras por hoy, haz **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica opcional que hagas), **Delete**.
+**Tu crédito:** esta práctica usa ≈25 min de tu sesión única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). La tarea programada también gasta créditos del modelo en build.nvidia.com, no de Brev: una sola ejecución usó ≈112 mil tokens. Si paras por hoy, haz **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica complementaria que hagas), **Delete**.
 
 ## Lo que vas a lograr
 
@@ -213,7 +213,7 @@ Criterio de éxito: con la descripción vaga el agente no sigue el formato de la
 - La skill `soporte-nemoclaw` instalada, con la FAQ del curso en `faq/` dentro del workspace.
 - Una tarea programada en **Automations** que dejó `reportes/resumen-faq.md` sin intervención.
 
-Repite la pregunta de la línea base de 4.1 ("Mi notebook responde HTTP 401") y compara. Guarda la respuesta nueva en tus notas del proyecto (`proyecto/linea-base-4.1.md`), debajo de la anterior, y anota la diferencia: ¿ahora cita la FAQ? ¿Sigue las categorías del router de la clase 3.1? En el módulo 5 vas a revisar qué riesgos abrió todo esto: un agente con datos, herramientas y tareas que corren solas.
+Repite la pregunta de la línea base de 4.1 ("Mi notebook responde HTTP 401") y compara. Guarda la respuesta nueva en tus notas del proyecto (`proyecto/linea-base-4.1.md`), debajo de la anterior, y anota la diferencia: ¿ahora cita la FAQ? ¿Sigue las categorías del router de la clase 3.1? En «Seguridad agéntica con OpenShell» vas a revisar qué riesgos abrió todo esto: un agente con datos, herramientas y tareas que corren solas.
 
 ## Recursos
 

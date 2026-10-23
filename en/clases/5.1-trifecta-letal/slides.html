@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The lethal trifecta and the risk surface · Securing Agents with OpenShell and NemoClaw</title>
+<title>The lethal trifecta and the risk surface · Secure Agents with NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/slides.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=61936557">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/slides.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=8243843d">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>The lethal trifecta and the risk surface</h1><p class="lead">Secure the agent with OpenShell</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>The lethal trifecta and the risk surface</h1><p class="lead">Agentic security with OpenShell</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><h2>Last class we learned</h2><p class="lead">Agents in continuous and scheduled operation</p><ul><li>You installed a skill (SKILL.md) and the agent used it</li><li>You scheduled an automation that wrote a file with no one using the chat</li><li>An always-on agent = session + directive + trigger</li></ul></section>
 <section class="slide"><h2>A chatbot talks. An agent acts.</h2>
 <div class="dg dg-two m5"><div class="dg-card" data-paso="1"><h3><span class="dg-i">chat</span>A chatbot</h3><div class="dg-col"><div class="dg-chips "><span class="dg-chip">Text in</span></div><div class="dg-arrow v "></div><div class="dg-node mini"><span class="dg-ico">auto_awesome</span><b>Model</b></div><div class="dg-arrow v "></div><div class="dg-chips "><span class="dg-chip">Text out</span></div></div><p class="dg-note"><span class="dg-i">chat</span>Worst case: a wrong answer</p></div><div class="dg-card is-primary" data-paso="2"><h3><span class="dg-i">bolt</span>An agent</h3><div class="dg-col"><div class="dg-node is-primary"><span class="dg-ico">assistant</span><b>Your agent</b></div><div class="dg-arrow v "></div><div class="dg-chips "><span class="dg-chip"><span class="dg-i">folder_open</span>Files</span><span class="dg-chip"><span class="dg-i">terminal</span>Programs</span><span class="dg-chip"><span class="dg-i">public</span>Internet</span><span class="dg-chip"><span class="dg-i">edit_note</span>Memory</span><span class="dg-chip"><span class="dg-i">schedule</span>Tasks on its own</span></div></div><p class="dg-note"><span class="dg-i">warning</span>Worst case: a wrong action, with nobody watching</p></div></div><div class="call warn" data-paso="3"><p>And it takes <b>any text it reads</b> as an order: your request, a web page or a PDF.</p></div><aside class="notes"><p>Click 1: the chatbot (text in, text out; the worst case is a wrong answer). Click 2: the agent, with files, programs, internet, memory and tasks that run on their own; the worst case is a wrong action with nobody watching. Click 3: the key detail, it takes any text it reads as an order. Earlier we left the agent working on its own: today, what's the worst it can do with the access it already has?</p></aside></section>
@@ -47,5 +47,5 @@
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">Identities and limits with OpenShell</p><ul><li>Who the agent is inside the sandbox</li><li>How OpenShell grants permissions by binary and identity</li><li>Least privilege in practice: non-root user and blocked syscalls</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=61936557"></script>
+<script src="../../../assets/slides.js?v=8243843d"></script>
 </body></html>

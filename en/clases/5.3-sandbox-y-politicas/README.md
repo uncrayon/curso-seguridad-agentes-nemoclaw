@@ -12,6 +12,8 @@ Read your sandbox's real policy, predict what it allows and what it blocks, chec
 
 Materials: [slides](slides.html) · [lab cookbook (Spanish)](../../../clases/5.3-sandbox-y-politicas/cookbook.md) · [notebook (Spanish)](../../../clases/5.3-sandbox-y-politicas/5.3-sandbox-y-politicas.ipynb) · [FAQ (Spanish)](../../../FAQ.md)
 
+> This class has **two videos**, one on theory and one hands-on. Both use the materials on this page.
+
 > Based on lesson 04a-safety from the NVIDIA DLI «NemoClaw» course (Apache-2.0) and on `nemoclaw-blueprint/policies/` from NVIDIA/NemoClaw (Apache-2.0).
 
 ## What you'll achieve
@@ -21,7 +23,7 @@ Materials: [slides](slides.html) · [lab cookbook (Spanish)](../../../clases/5.3
 - Approve or reject a blocked request and explain why that lasts less than a preset.
 - Add and remove the *Soporte NemoClaw* (NemoClaw Support) preset and explain why the sandbox is only one layer.
 
-**Your credit:** this practice uses ≈25 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). It's the last required lab practice. If you stop for today, use **Stop** and come back soon. When you finish: if you'll do the optional Module 6 practices, leave the instance running and keep going; if not, save what you want and **Delete**.
+**Your credit:** this practice uses ≈25 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). It's the last required lab practice. If you stop for today, use **Stop** and come back soon. When you finish: if you'll do the supplementary practices (6.1 and 6.2), leave the instance running and keep going; if not, save what you want and **Delete**.
 
 ## Before you start
 
@@ -217,7 +219,7 @@ Network and inference change on the fly. Folders and user are set when the sandb
 In the notebook (section 9), the poisoned FAQ from 5.1 attacks *Soporte NemoClaw* with the base policy: the `curl` to the attacker's host is blocked, but the send from the agent's program to `clawhub.ai` (an allowed host that accepts `POST`) **gets through**. Recipe 8 in the cookbook shows it live with a fake secret: a secret the agent reads with permission has already traveled to the model. And Part 3 gave you another example: `curl` reaches the NVIDIA API. An allow list approves destinations, not the meaning of what travels.
 
 ### Part 7 · Close the lab: save and delete
-This is the last required lab practice. If you'll do the optional Module 6 practices ([6.1](../6.1-clis-de-agentes/README.md) and the lab part of [6.2](../6.2-biblioteca-de-skills/README.md)), leave the instance running and move on to them: you close the lab there. If not, save what you want and **Delete**. If you'll try the [Challenge](#challenge) in the lab, do it before you delete. When you delete the instance, everything on the VM is lost.
+This is the last required lab practice. If you'll do the supplementary practices ([6.1](../6.1-clis-de-agentes/README.md) and the lab part of [6.2](../6.2-biblioteca-de-skills/README.md)), leave the instance running and move on to them: you close the lab there. If not, save what you want and **Delete**. If you'll try the [Challenge](#challenge) in the lab, do it before you delete. When you delete the instance, everything on the VM is lost.
 1. **Save what you want.** The course files (`~/curso`) are already on GitHub. To keep something your agent wrote, print it in the VM TERMINAL, select it with the mouse and paste it into your notes. For example, the report from 4.3:
    ```bash
    nemoclaw my-assistant exec -- cat /sandbox/.openclaw/workspace/reportes/resumen-faq.md
@@ -236,7 +238,7 @@ This is the last required lab practice. If you'll do the optional Module 6 pract
 - [ ] You saw a live `CONNECT tunnel failed, response 403`, an unexpected `code=200` and a `Permission denied`, and you can explain each one.
 - [ ] You rejected a pending request with **x** in the OPENSHELL TUI.
 - [ ] You added and removed the `soporte-docs` preset without restarting anything.
-- [ ] You deleted your instance with **Delete** and it no longer shows up under **Compute** (or you left it running to continue with the optional Module 6 practices).
+- [ ] You deleted your instance with **Delete** and it no longer shows up under **Compute** (or you left it running to continue with the supplementary practices).
 
 ## Common errors
 
@@ -265,7 +267,7 @@ Close the module with the *Soporte NemoClaw* policy:
 2. Add a **"Policy (class 5.3)"** section to your `trifecta.md`: which groups the project uses, which preset of your own you added, and which exit channels **are still open** (the inference provider, `integrate.api.nvidia.com` also for `curl`, and `clawhub.ai`).
 3. Optional: `nemoclaw my-assistant policy explain --write` should update `POLICY.md`, the summary the agent reads about its own policy. If your version doesn't accept that option, skip it.
 
-In class 6.2 (optional) you'll package this as part of your skill library.
+In supplementary class 6.2 you'll package this as part of your skill library.
 
 ## Resources
 

@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Agents in continuous and scheduled operation · Securing Agents with OpenShell and NemoClaw</title>
+<title>Agents in continuous and scheduled operation · Secure Agents with NemoClaw</title>
 <link rel="stylesheet" href="../../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Secure Agents with NemoClaw</a>
   <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Take your agent to NemoClaw</span><h1>Agents in continuous and scheduled operation</h1><p class="chips"><span class="chip"><span class="icon">computer</span>Lab on Brev</span><span class="chip primary"><span class="icon">bolt</span>Skill: Operate agents in continuous mode</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/4.3-agentes-siempre-activos/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
+<section class="hero"><span class="tag">Build your agent with NemoClaw</span><h1>Agents in continuous and scheduled operation</h1><p class="chips"><span class="chip"><span class="icon">computer</span>Lab on Brev</span><span class="chip primary"><span class="icon">bolt</span>Skill: Operate agents in continuous mode</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/4.3-agentes-siempre-activos/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
 <section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
 <p>🇪🇸 Original Spanish guide: <a href="../../../clases/4.3-agentes-siempre-activos/index.html"><code>clases/4.3-agentes-siempre-activos/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
 </blockquote>
@@ -55,7 +55,7 @@
 </code></pre></div>
   That brings the skill (<code>~/curso/clases/4.3-agentes-siempre-activos/skills/soporte-nemoclaw/</code>) and the course FAQ (<code>~/curso/datos/faq/</code>).</li>
 <li>Every <code>nemoclaw</code> command prints an <code>ExperimentalWarning: SQLite is an experimental feature</code> line. It's harmless: ignore it.</li>
-<li>Your credit: this practice uses ≈25 min of your single lab sitting (see <a href="../../../LABORATORIO.html">LABORATORIO.md (Spanish)</a>). The scheduled task also spends model credits on build.nvidia.com, not Brev credit: one run used ≈112k tokens. If you stop for today, click <strong>Stop</strong> and come back soon; at the very end of the lab (after 5.3, or after the last optional practice you do), <strong>Delete</strong>.</li>
+<li>Your credit: this practice uses ≈25 min of your single lab sitting (see <a href="../../../LABORATORIO.html">LABORATORIO.md (Spanish)</a>). The scheduled task also spends model credits on build.nvidia.com, not Brev credit: one run used ≈112k tokens. If you stop for today, click <strong>Stop</strong> and come back soon; at the very end of the lab (after 5.3, or after the last supplementary practice you do), <strong>Delete</strong>.</li>
 </ul>
 <h2 id="the-3-controls">The 3 controls</h2>
 <p>Every agent run, whether you asked for it or not, is described by three questions:</p>
@@ -292,7 +292,7 @@ Installed soporte-nemoclaw from path -&gt; /sandbox/.openclaw/workspace/skills/s
 <li>The <code>soporte-nemoclaw</code> skill installed, with the course FAQ in <code>faq/</code> inside the workspace.</li>
 <li>A scheduled task in <strong>Automations</strong> that left <code>reportes/resumen-faq.md</code> with no intervention.</li>
 </ul>
-<p>Repeat the 4.1 baseline question ("My notebook returns HTTP 401") and compare. Save the new answer in your project notes (<code>proyecto/linea-base-4.1.md</code>), below the previous one, and write down the difference: does it cite the FAQ now? Does it follow the categories from the class 3.1 router? In Module 5 you'll review the risks all this opened up: an agent with data, tools, and jobs that run on their own.</p>
+<p>Repeat the 4.1 baseline question ("My notebook returns HTTP 401") and compare. Save the new answer in your project notes (<code>proyecto/linea-base-4.1.md</code>), below the previous one, and write down the difference: does it cite the FAQ now? Does it follow the categories from the class 3.1 router? In "Agentic security with OpenShell" you'll review the risks all this opened up: an agent with data, tools, and jobs that run on their own.</p>
 <h2 id="resources">Resources</h2>
 <ul>
 <li><a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands.md">NemoClaw · Command reference: <code>skill install</code>, <code>skill list</code>, <code>skill remove</code>, <code>upload</code></a></li>
@@ -301,9 +301,9 @@ Installed soporte-nemoclaw from path -&gt; /sandbox/.openclaw/workspace/skills/s
 <li><a href="https://www.anthropic.com/news/skills">Anthropic · Agent Skills</a> and <a href="https://arxiv.org/abs/2305.16291">Voyager (arXiv 2305.16291)</a></li>
 <li><code>man 8 cron</code> for classic Unix cron (the idea is the same: a time and a command)</li>
 </ul></div></section>
-<nav class="prevnext"><a class="pn prev" href="../4.2-gateway-y-workspace-openclaw/index.html"><small>Previous class</small>Explore the OpenClaw gateway and workspace</a><a class="pn next" href="../4.4-hermes-en-nemoclaw/index.html"><small>Next class</small>Swap OpenClaw for Hermes in NemoClaw</a></nav>
+<nav class="prevnext"><a class="pn prev" href="../4.2-gateway-y-workspace-openclaw/index.html"><small>Previous class</small>Explore the OpenClaw gateway and workspace</a><a class="pn next" href="../5.1-trifecta-letal/index.html"><small>Next class</small>The lethal trifecta and the risk surface</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Secure Agents with NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";

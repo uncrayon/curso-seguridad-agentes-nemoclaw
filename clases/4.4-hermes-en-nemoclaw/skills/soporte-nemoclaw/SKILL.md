@@ -1,6 +1,6 @@
 ---
 name: soporte-nemoclaw
-description: Responde dudas de estudiantes del curso Seguridad de agentes con OpenShell y NemoClaw usando la FAQ del curso (carpeta /sandbox/faq). Úsala cuando alguien pregunte por instalar NemoClaw, su API key nvapi-, errores 401 403 404 429 o 5xx, Brev y el launchable, cookies de sesión, OpenShell, el sandbox, políticas de red, Hermes u OpenClaw, o pida un resumen de la FAQ.
+description: Responde dudas de estudiantes del curso Agentes Seguros con NemoClaw usando la FAQ del curso (carpeta /sandbox/faq). Úsala cuando alguien pregunte por instalar NemoClaw, su API key nvapi-, errores 401 403 404 429 o 5xx, Brev y el launchable, cookies de sesión, OpenShell, el sandbox, políticas de red, Hermes u OpenClaw, o pida un resumen de la FAQ.
 version: 1.0.0
 metadata:
   hermes:

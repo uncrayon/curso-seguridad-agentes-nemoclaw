@@ -38,7 +38,7 @@ No key yet? The notebook still runs in **MOCK mode** (simulated answers and erro
 
 | Route | Base URL | Model | What it's for |
 |---|---|---|---|
-| **Chat** | `https://integrate.api.nvidia.com/v1` | `nvidia/nemotron-3.5-lightning-30b-a3b` | Conversation and tools (Modules 2 to 6) |
+| **Chat** | `https://integrate.api.nvidia.com/v1` | `nvidia/nemotron-3.5-lightning-30b-a3b` | Conversation and tools (the rest of the course) |
 | **Embeddings** | `https://integrate.api.nvidia.com/v1` | `nvidia/nemotron-3-embed-1b` | Turning text into vectors for RAG (class 3.2) |
 
 In Python you configure them with `NVIDIA_BASE_URL`, `NVIDIA_MODEL`, `NVIDIA_EMBED_MODEL` and `NVIDIA_API_KEY` (see `.env.example` at the repo root).

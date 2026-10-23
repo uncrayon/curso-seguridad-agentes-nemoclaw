@@ -1,17 +1,20 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cookbook · Inspecciona tu agente desde la terminal del laboratorio · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Cookbook · Inspecciona tu agente desde la terminal del laboratorio · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
 <section class="hero doc"><h1>Cookbook · Inspecciona tu agente desde la terminal del laboratorio</h1></section>
 <div class="md"><p>Recetas para la <strong>VM TERMINAL</strong> del tablero de NemoClaw en Brev. Todo se hace en el navegador: no necesitas instalar nada en tu computadora. Las mismas recetas sirven en una instalación local de NemoClaw (clase 6.3).</p>
+<blockquote>
+<p><strong>La clase 6.1 es complementaria: no tiene video.</strong> No la necesitas para seguir el curso. Si haces su práctica, hazla en la misma sentada, después de la 5.3 y antes de borrar la instancia (≈20 min, ≈USD 0.08).</p>
+</blockquote>
 <p><strong>Convenciones</strong>
 - <code>my-assistant</code>: el nombre de tu sandbox. Si el tuyo es otro, cámbialo (lo ves con <code>openshell sandbox list</code>).
 - <strong>[host]</strong> = en la VM TERMINAL (plano del operador, usuario <code>ubuntu</code>). <strong>[sandbox]</strong> = dentro del sandbox del agente, a través de <code>nemoclaw my-assistant exec -- &lt;comando&gt;</code>.
@@ -186,7 +189,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class=
 <p><strong>Por qué Delete y no Stop:</strong> encendida, la instancia cuesta ≈USD 0.25/h. Detenida, el disco sigue cobrando ≈USD 0.05/h, unos USD 1.20 al día: más que tu cupón. Borrada, ya no cobra nada. Detalles en <a href="../../LABORATORIO.html">LABORATORIO.md</a>.</p></div>
 
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

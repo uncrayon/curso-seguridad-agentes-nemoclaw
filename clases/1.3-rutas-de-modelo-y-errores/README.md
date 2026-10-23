@@ -52,7 +52,7 @@ jupyter lab clases/1.3-rutas-de-modelo-y-errores/
 
 | Ruta | URL base | Modelo | Para qué |
 |---|---|---|---|
-| **Chat** | `https://integrate.api.nvidia.com/v1` | `nvidia/nemotron-3.5-lightning-30b-a3b` | Conversación y tools (módulos 2 a 6) |
+| **Chat** | `https://integrate.api.nvidia.com/v1` | `nvidia/nemotron-3.5-lightning-30b-a3b` | Conversación y tools (el resto del curso) |
 | **Embeddings** | `https://integrate.api.nvidia.com/v1` | `nvidia/nemotron-3-embed-1b` | Convertir texto en vectores para RAG (clase 3.2) |
 
 En Python se configuran con `NVIDIA_BASE_URL`, `NVIDIA_MODEL`, `NVIDIA_EMBED_MODEL` y `NVIDIA_API_KEY` (ver `.env.example` en la raíz del repo).

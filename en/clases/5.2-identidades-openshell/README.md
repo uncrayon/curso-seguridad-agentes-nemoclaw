@@ -21,7 +21,7 @@ Materials: [slides](slides.html) · [lab cookbook (Spanish)](../../../clases/5.2
 - Check in the log that an answer from the agent doesn't prove it had access.
 - Show that the real API key never enters the sandbox: inside, there's only a placeholder.
 
-**Your credit:** this practice uses ≈20 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). If you stop for today, use **Stop** and come back soon. At the very end of the lab (after 5.3, or after the last optional practice you do), use **Delete**.
+**Your credit:** this practice uses ≈20 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). If you stop for today, use **Stop** and come back soon. At the very end of the lab (after 5.3, or after the last supplementary practice you do), use **Delete**.
 
 ## Before you start
 

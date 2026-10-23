@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RAG to ground answers in your sources · Securing Agents with OpenShell and NemoClaw</title>
+<title>RAG to ground answers in your sources · Secure Agents with NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/slides.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=61936557">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/slides.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=8243843d">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>RAG to ground answers in your sources</h1><p class="lead">Coordinate, ground and plan</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Implement RAG with your own sources</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""><img src="../../../assets/brand/forma-7.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>RAG to ground answers in your sources</h1><p class="lead">Supplementary classes</p><p class="meta"><span class="chip opt"><span class="icon">menu_book</span>Supplementary · no video</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Implement RAG with your own sources</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><h2>Last class we learned</h2><p class="lead">Route work across several calls</p><ul><li>A router classifies with a closed enum and never guesses</li><li>ReWOO plans first and runs the steps in parallel</li><li>Every branch needs a plan for when it fails</li></ul></section>
 <section class="slide"><h2>The model doesn't know your FAQ</h2>
 <div class="dg c3-two"><div class="dg-card " data-paso="1"><h3><span class="dg-i">history</span>From memory</h3><div class="dg-col"><span class="c3-q-chip"><span class="dg-i">chat</span>“Session expired”: what do I do?</span><div class="dg-arrow v "></div><div class="dg-node mini"><span class="dg-ico">auto_awesome</span><b>Model</b></div><div class="dg-arrow v "></div><div class="c3-resp bad"><span class="dg-i">error</span>Answers very confidently… and sometimes wrong</div></div></div><div class="dg-card is-primary" data-paso="2"><h3><span class="dg-i">menu_book</span>Open book (RAG)</h3><div class="dg-col"><span class="c3-q-chip"><span class="dg-i">chat</span>“Session expired”: what do I do?</span><div class="dg-arrow v "></div><div class="dg-row "><div class="dg-node mini"><span class="dg-ico">menu_book</span><b>Your notes</b><small>the course FAQ</small></div><div class="dg-arrow h "></div><div class="dg-node mini is-primary"><span class="dg-ico">auto_awesome</span><b>Model</b></div></div><div class="dg-arrow v "></div><div class="c3-resp ok"><span class="dg-i">check_circle</span>Answers with its footnote <span class="c3-nota-pie">¹</span></div><div class="dg-chips "><span class="dg-chip">or says “I don't know”</span></div></div></div></div>
@@ -42,8 +42,8 @@ q = embed(pregunta, input_type=&quot;query&quot;)[0]        # when searching</co
 <p class="lead">Optional: all of this is in the class notebook, ready for ▶.</p><aside class="notes"><p>For people who code: cosine similarity, top-K and MIN_SCORE live in the Indice class; SISTEMA_RAG and verificar_citas in section 5 of the notebook.</p></aside></section>
 <section class="slide"><h2>Project progress</h2>
 <div class="dg dg-flow"><div class="dg-card is-primary"><h3><span class="dg-i">forum</span>Soporte NemoClaw v3.2</h3><div class="dg-row"><div class="dg-node " data-paso="1"><span class="dg-ico">menu_book</span><b>Answers</b><small>from the course FAQ</small></div><div class="dg-node " data-paso="2"><span class="dg-ico">bookmark</span><b>Cites</b><small>every fact, with its footnote</small></div><div class="dg-node " data-paso="3"><span class="dg-ico">front_hand</span><b>Says “I don't know”</b><small>when there's no evidence</small></div></div></div></div><div class="call warn" data-paso="4"><p><strong>What's missing:</strong> “401 after resuming Brev” is spread across several cards. Pulling pieces from several sources together: that's what subagents do.</p></div><aside class="notes"><p>One click per new Soporte NemoClaw capability. Click 4: what's missing. "I get a 401 after resuming Brev": the answer is spread across the key, the instance and the cookie. Pulling pieces from several sources together: that's what subagents do, coming up soon.</p></aside></section>
-<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">Deep agents that spawn subagents</p><ul><li>Planners that split a large task</li><li>Subagents with isolated context that write to files</li><li>The difference between isolating context and isolating the operating system</li></ul></section>
+<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">Deep agents that spawn subagents<span class="chip opt"><span class="icon">menu_book</span>Supplementary · no video</span></p><ul><li>Planners that split a large task</li><li>Subagents with isolated context that write to files</li><li>The difference between isolating context and isolating the operating system</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=61936557"></script>
+<script src="../../../assets/slides.js?v=8243843d"></script>
 </body></html>

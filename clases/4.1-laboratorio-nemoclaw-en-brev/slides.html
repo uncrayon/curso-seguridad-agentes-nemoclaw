@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Levanta el laboratorio NemoClaw en Brev · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Levanta el laboratorio NemoClaw en Brev · Agentes Seguros con NemoClaw</title>
 <link rel="preload" href="../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas.css?v=61936557">
-<link rel="stylesheet" href="../../assets/slides.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=61936557">
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/slides.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=8243843d">
 
 </head><body>
 <span class="help">← → navegar · N notas · F pantalla completa</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""><img src="../../assets/brand/forma-1.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Levanta el laboratorio NemoClaw en Brev</h1><p class="lead">Lleva tu agente a NemoClaw</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Desplegar NemoClaw en Brev</span></p></section>
-<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""></div><h2>La clase pasada aprendimos</h2><p class="lead">Agentes profundos que crean subagentes</p><ul><li>Un planificador divide la tarea y lanza subagentes</li><li>Cada subagente tiene su propio contexto y deja su trabajo en archivos</li><li>Aislar contexto no es lo mismo que un sandbox: eso llega con OpenShell</li></ul></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""><img src="../../assets/brand/forma-1.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Levanta el laboratorio NemoClaw en Brev</h1><p class="lead">Crea tu agente con NemoClaw</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Desplegar NemoClaw en Brev</span></p></section>
+<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""></div><h2>La clase pasada aprendimos</h2><p class="lead">Convierte funciones en herramientas</p><ul><li>Una herramienta es un contrato: nombre, descripción, esquema y resultado en texto</li><li>La descripción decide cuándo el modelo la usa</li><li>Los argumentos se validan antes de ejecutar y los errores vuelven al modelo</li></ul></section>
 <section class="slide"><h2>Lo que vas a levantar hoy</h2>
 <div class="dg dg-flow"><div class="dg-row"><div class="dg-node " data-paso="1"><span class="dg-ico">dashboard</span><b>Consola de Brev</b><small>enciendes y apagas tu máquina</small></div><div class="dg-arrow h " data-paso="2"></div><div class="dg-room " data-paso="2"><span class="dg-label"><span class="dg-i">lock</span>Tu instancia</span><small class="dg-room-sub">una computadora rentada por horas</small><div class="dg-node is-primary mini"><span class="dg-ico">rocket_launch</span><b>Launchable</b><small>ya trae NemoClaw instalado</small></div></div><div class="dg-arrow h " data-paso="3"></div><div class="dg-node " data-paso="3"><span class="dg-ico">terminal</span><b>Tu tablero de NemoClaw</b><small>chat, terminal y reglas, en el navegador</small></div></div></div>
 <p class="lead">Tu oficina rentada ya trae todo: el agente, el cuarto con cerradura y el kit. El modelo corre en la nube de NVIDIA.</p><aside class="notes"><p>Clic 1: la consola de Brev. Clic 2: tu instancia con el launchable. Clic 3: el tablero de NemoClaw, desde donde haremos todo: chat y terminal en el navegador. La instancia es solo CPU (4 CPUs, 16 GiB) porque el modelo corre afuera.</p></aside></section>
@@ -65,5 +65,5 @@ git clone --depth 1 https://github.com/uncrayon/curso-seguridad-agentes-nemoclaw
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-7.svg" alt=""><img src="../../assets/brand/forma-4.svg" alt=""></div><h2>En la próxima clase aprenderemos</h2><p class="prox">Explora el gateway y el workspace de OpenClaw</p><ul><li>Las piezas de OpenClaw: gateway, sesiones y workspace</li><li>Los archivos que definen al agente: SOUL.md, AGENTS.md, MEMORY.md</li><li>Verificar como operador lo que el agente dice que hizo</li></ul></section>
 <div class="foot"><span><img src="../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Guía de la clase</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../assets/slides.js?v=61936557"></script>
+<script src="../../assets/slides.js?v=8243843d"></script>
 </body></html>

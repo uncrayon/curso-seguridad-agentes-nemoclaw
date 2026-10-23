@@ -4,17 +4,17 @@ Keyed by module number / class id. If you change a title or promise in course.py
 """
 
 COURSE_EN = {
-    "title": "Securing Agents with OpenShell and NemoClaw",
+    "title": "Secure Agents with NemoClaw",
     "subtitle": "From a single model call to an always-on agent with skills, running inside a sandbox.",
 }
 
 MODULES_EN = {
-    1: ("Set up your agent environment", "You understand the stack and get access to NVIDIA models.", "Browser + notebook"),
-    2: ("Build the basic agent loop", "You build an agent loop from scratch, with ReAct and tools.", "Notebooks"),
-    3: ("Coordinate, ground and plan", "You design systems with routing, RAG over your own sources, and subagents.", "Notebooks"),
-    4: ("Take your agent to NemoClaw", "You deploy a real agent on Brev and run it continuously.", "Brev lab"),
-    5: ("Secure the agent with OpenShell", "You contain the agent with identity, a sandbox, and verifiable policies.", "Brev lab + notebook"),
-    6: ("Extend your agent practice", "You compare tools, build your skill library, and know how to keep going.", "Brev lab + notebook"),
+    1: ("Set up your environment", "You understand the stack and get access to NVIDIA models.", "Browser + notebook"),
+    2: ("Agent Fundamentals", "You build an agent loop from scratch, with ReAct and tools.", "Notebooks"),
+    3: ("Build your agent with NemoClaw", "You deploy a real agent on Brev and run it continuously.", "Brev lab"),
+    4: ("Agentic security with OpenShell", "You contain the agent with identity, a sandbox, and verifiable policies.", "Brev lab + notebook"),
+    5: ("Local deployment", "You know what you need to run NemoClaw on your own machine and how to keep going.", "Slides + cookbook"),
+    6: ("Supplementary classes", "No video: guides, notebooks and recipes to go deeper at your own pace.", "Notebooks + Brev lab"),
 }
 
 # id: (title, [promises], skill or None)

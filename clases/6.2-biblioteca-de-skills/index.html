@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Construye tu biblioteca de skills · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Construye tu biblioteca de skills · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Amplía tu práctica con agentes</span><h1>Construye tu biblioteca de skills</h1><p class="chips"><span class="chip opt"><span class="icon">flag</span>Opcional</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Crear skills de agente reutilizables</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="hero"><span class="tag">Clases complementarias</span><h1>Construye tu biblioteca de skills</h1><p class="chips"><span class="chip opt"><span class="icon">menu_book</span>Complementaria · sin video</span><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Crear skills de agente reutilizables</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
 <section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Una skill es un archivo de texto con instrucciones paso a paso para una tarea, escrito en español normal. El agente ve solo una lista con el nombre y la descripción de cada skill, y abre la completa cuando tu pedido coincide. Por eso la descripción es la línea más importante: decide si el agente encuentra la skill solo.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Una tarjeta de receta (<a href="../../GLOSARIO.html#skill" class="glos" data-def="Un archivo de texto con instrucciones paso a paso para una tarea. El agente lo lee cuando lo necesita. · Una tarjeta de receta.">skill</a>).</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p>Frontmatter (la etiqueta de la tarjeta: nombre y descripción), <em>progressive disclosure</em> (el menú primero: el agente ve los nombres de los platillos y abre la receta solo cuando hace falta), selección explícita o automática (pedir el platillo por su nombre, o describir lo que quieres y dejar que el mesero elija).</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Escribe una skill para una tarea real de tu trabajo, en español normal y con esta forma: un nombre corto en minúsculas y con guiones (por ejemplo, <code>responder-cotizaciones</code>); una descripción de una o dos frases que diga qué hace y "úsala cuando…", con las palabras que usaría quien la pide; de 3 a 6 pasos numerados; y una sección de límites ("nunca…"). Después escribe cinco pedidos que deberían activarla y dos que no, y revisa si tu descripción los distingue. Si la descripción lleva dos puntos, ponla entre comillas. Es configuración real: el mismo texto se instala en tu agente.</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Puedes convertir una tarea repetitiva de tu trabajo en instrucciones que un agente sabe encontrar y seguir, y juzgar si una descripción está bien escrita.</p></article><article class="es-card credit"><header><span class="icon">paid</span>Tu crédito</header><p>El notebook no usa crédito de Brev. La parte final en el laboratorio es opcional y usa ≈15 min de tu sesión única, justo después de la práctica de la 6.1, o de la 5.3 si te saltaste la 6.1 (ver <a href="../../LABORATORIO.html">LABORATORIO.md</a>). Al terminarla, guarda lo que quieras y <strong>Delete</strong> tu instancia.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Escribe skills reutilizables, mide si tu agente las encuentra solo y llévalas a tu sandbox de NemoClaw.</p>
 <table>
 <thead>
@@ -21,8 +21,8 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Duración del video</strong></td>
-<td>≈9 min</td>
+<td><strong>Video</strong></td>
+<td>No tiene: es una clase complementaria</td>
 </tr>
 <tr>
 <td><strong>Práctica</strong></td>
@@ -39,7 +39,7 @@
 </tbody>
 </table>
 <blockquote>
-<p><strong>El Módulo 6 es opcional</strong>, y la parte final de esta clase en el laboratorio también. Si la haces, hazla en la misma sentada, después de la 6.1 (o de la 5.3, si te saltaste la 6.1) y antes de borrar la instancia (≈15 min, ≈USD 0.06). Si ya la borraste al terminar la 5.3, sáltala: el notebook no necesita el laboratorio.</p>
+<p><strong>Esta clase es complementaria: no tiene video.</strong> No la necesitas para seguir el curso, y su parte final en el laboratorio también es opcional. Si la haces, hazla en la misma sentada, después de la 6.1 (o de la 5.3, si te saltaste la 6.1) y antes de borrar la instancia (≈15 min, ≈USD 0.06). Si ya la borraste al terminar la 5.3, sáltala: el notebook no necesita el laboratorio.</p>
 </blockquote>
 <h2 id="lo-que-vas-a-lograr">Lo que vas a lograr</h2>
 <ul>
@@ -243,7 +243,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>skill<span c
 </ul></div></section>
 <nav class="prevnext"><a class="pn prev" href="../6.1-clis-de-agentes/index.html"><small>Clase anterior</small>Compara CLIs de agentes modernos</a><a class="pn next" href="../6.3-despliegue-local-y-siguientes-pasos/index.html"><small>Clase siguiente</small>Próximos pasos y despliegue local</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

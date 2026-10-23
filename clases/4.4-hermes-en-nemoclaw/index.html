@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cambia OpenClaw por Hermes en NemoClaw · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Cambia OpenClaw por Hermes en NemoClaw · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Lleva tu agente a NemoClaw</span><h1>Cambia OpenClaw por Hermes en NemoClaw</h1><p class="chips"><span class="chip opt"><span class="icon">flag</span>Opcional</span><span class="chip"><span class="icon">computer</span>Laboratorio en Brev</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Desplegar y operar Hermes Agent en NemoClaw</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="cookbook.html"><span class="icon">terminal</span>Recetario de terminal</a></p></section>
-<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>NemoClaw no es el agente: es el cuarto con cerradura y sus reglas. Hoy cambias de asistente, de OpenClaw a Hermes, y la seguridad se queda igual. Hermes además aprende solo, así que también aprendes a pedirle que te consulte antes de guardar algo.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Cambiar de asistente sin cambiar la cerradura ni el guardia. El nuevo asistente, además, lleva un diario.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#hermes" class="glos" data-def="Otro agente de código abierto (de Nous Research) que además aprende: guarda notas y crea sus propias recetas. · Otro asistente, que además lleva un diario.">Hermes</a>.</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Escribe en español normal las reglas del diario de tu agente, en tres listas: qué puede anotar sin preguntarte, qué debe pedirte aprobación antes de guardar y qué nunca debe guardar (por ejemplo, keys, cookies o contraseñas). Luego lee la tabla OpenClaw vs. Hermes de abajo y marca qué filas cambian y cuál no. Tus reglas sirven tal cual como una sección de <code>SOUL.md</code>.</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Puedes decidir qué puede aprender solo un agente y qué necesita tu permiso.</p></article><article class="es-card credit"><header><span class="icon">paid</span>Tu crédito</header><p>Esta práctica usa ≈30 min de tu sesión única de laboratorio (ver <a href="../../LABORATORIO.html">LABORATORIO.md</a>). Crear el cuarto de Hermes tarda varios minutos. Las preguntas a Hermes gastan créditos del modelo en build.nvidia.com, no de Brev. Si vas justo de tiempo o de crédito, esta es la práctica que puedes ver solo en video. Al terminar, vuelve a encender <code>my-assistant</code>: los módulos 5 y 6 lo usan. Si paras por hoy, haz <strong>Stop</strong> y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica opcional que hagas), <strong>Delete</strong>.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Crea un segundo sandbox con <strong>Hermes Agent</strong> (Nous Research) en tu laboratorio, recorre dónde guarda su personalidad, memoria, skills y sesiones, lleva tu skill <code>soporte-nemoclaw</code> y llámalo desde Python por su API compatible con OpenAI.</p>
+<section class="hero"><span class="tag">Clases complementarias</span><h1>Cambia OpenClaw por Hermes en NemoClaw</h1><p class="chips"><span class="chip opt"><span class="icon">menu_book</span>Complementaria · sin video</span><span class="chip"><span class="icon">computer</span>Laboratorio en Brev</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Desplegar y operar Hermes Agent en NemoClaw</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="cookbook.html"><span class="icon">terminal</span>Recetario de terminal</a></p></section>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>NemoClaw no es el agente: es el cuarto con cerradura y sus reglas. Hoy cambias de asistente, de OpenClaw a Hermes, y la seguridad se queda igual. Hermes además aprende solo, así que también aprendes a pedirle que te consulte antes de guardar algo.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Cambiar de asistente sin cambiar la cerradura ni el guardia. El nuevo asistente, además, lleva un diario.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#hermes" class="glos" data-def="Otro agente de código abierto (de Nous Research) que además aprende: guarda notas y crea sus propias recetas. · Otro asistente, que además lleva un diario.">Hermes</a>.</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Escribe en español normal las reglas del diario de tu agente, en tres listas: qué puede anotar sin preguntarte, qué debe pedirte aprobación antes de guardar y qué nunca debe guardar (por ejemplo, keys, cookies o contraseñas). Luego lee la tabla OpenClaw vs. Hermes de abajo y marca qué filas cambian y cuál no. Tus reglas sirven tal cual como una sección de <code>SOUL.md</code>.</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Puedes decidir qué puede aprender solo un agente y qué necesita tu permiso.</p></article><article class="es-card credit"><header><span class="icon">paid</span>Tu crédito</header><p>Esta práctica usa ≈30 min de tu sesión única de laboratorio (ver <a href="../../LABORATORIO.html">LABORATORIO.md</a>). Crear el cuarto de Hermes tarda varios minutos. Las preguntas a Hermes gastan créditos del modelo en build.nvidia.com, no de Brev. Si vas justo de tiempo o de crédito, esta es la práctica que puedes solo leer. Al terminar, vuelve a encender <code>my-assistant</code>: las prácticas de «Seguridad agéntica con OpenShell» lo usan. Si paras por hoy, haz <strong>Stop</strong> y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica complementaria que hagas), <strong>Delete</strong>.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Crea un segundo sandbox con <strong>Hermes Agent</strong> (Nous Research) en tu laboratorio, recorre dónde guarda su personalidad, memoria, skills y sesiones, lleva tu skill <code>soporte-nemoclaw</code> y llámalo desde Python por su API compatible con OpenAI.</p>
 <table>
 <thead>
 <tr>
@@ -21,8 +21,8 @@
 </thead>
 <tbody>
 <tr>
-<td>Duración del video</td>
-<td>≈9 min</td>
+<td>Video</td>
+<td>No tiene: es una clase complementaria</td>
 </tr>
 <tr>
 <td>Práctica</td>
@@ -40,7 +40,7 @@
 </table>
 <p>Material: <a href="slides.html">diapositivas</a> · <a href="cookbook.html">recetario de terminal</a> · <a href="skills/soporte-nemoclaw/SKILL.html">skill soporte-nemoclaw para Hermes</a> · <a href="hermes_api.py">script de la API</a> · <a href="../../FAQ.html#hermes">preguntas frecuentes</a></p>
 <blockquote>
-<p><strong>Esta clase es opcional.</strong> El resto del curso no depende de ella. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio, entre la 4.3 y la 5.2. Al terminar, vuelve a encender OpenClaw (<code>my-assistant</code>) antes de seguir: el paso 14 te dice cómo.</p>
+<p><strong>Esta clase es complementaria: no tiene video.</strong> No la necesitas para seguir el curso. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio, entre la 4.3 y la 5.2. Al terminar, vuelve a encender OpenClaw (<code>my-assistant</code>) antes de seguir: el paso 14 te dice cómo.</p>
 </blockquote>
 <h2 id="la-idea-en-una-frase">La idea en una frase</h2>
 <p>NemoClaw no es OpenClaw: es el <strong>sandbox, las políticas y la inferencia administrada</strong> alrededor de un agente. Hoy cambias el agente y todo lo de seguridad se queda igual.</p>
@@ -180,7 +180,7 @@ cp<span class="w"> </span>SOUL.md<span class="w"> </span>SOUL.md.original
 cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>SOUL.md<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
 
 <span class="s">## Proyecto: Soporte NemoClaw</span>
-<span class="s">- Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".</span>
+<span class="s">- Ayudas a estudiantes del curso "Agentes Seguros con NemoClaw".</span>
 <span class="s">- Respondes en español neutro, con frases cortas y pasos numerados.</span>
 <span class="s">- Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.</span>
 <span class="s">- Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.</span>
@@ -255,7 +255,7 @@ python3<span class="w"> </span>~/curso/clases/4.4-hermes-en-nemoclaw/hermes_api.
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>start
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 </code></pre></div>
-    Deberías ver <code>Phase Ready</code> e Inference <code>healthy</code> en <code>my-assistant</code>. Los módulos 5 y 6 trabajan con él.</p>
+    Deberías ver <code>Phase Ready</code> e Inference <code>healthy</code> en <code>my-assistant</code>. Las prácticas que siguen trabajan con él.</p>
 </li>
 </ol>
 <h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
@@ -356,7 +356,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 <p>Criterio de éxito: una tabla en tus notas del proyecto (<code>proyecto/openclaw-vs-hermes.md</code>) con, por agente y pregunta, si citó la FAQ, si siguió el formato de la skill y si rechazó la 3. Agrega una fila con dónde encontraste la evidencia de cada respuesta (historial de sesiones o <code>sessions export</code>).</p>
 <h2 id="avance-del-proyecto">Avance del proyecto</h2>
 <p><strong>Soporte NemoClaw corre en dos agentes.</strong> La misma skill y la misma personalidad, en OpenClaw y en Hermes, dentro del mismo tipo de sandbox. Y tienes un cliente en Python que llama a Hermes por su API.</p>
-<p>Guarda en tus notas del proyecto <code>proyecto/SOUL-soporte.md</code>, las dos versiones de <code>SKILL.md</code> y <code>hermes_api.py</code>. En el Módulo 5 vas a asegurar este agente: lo que ves en esta clase (memoria que se escribe sola, skills que el agente crea, una API con token) es justo la superficie de riesgo que vas a revisar.</p>
+<p>Guarda en tus notas del proyecto <code>proyecto/SOUL-soporte.md</code>, las dos versiones de <code>SKILL.md</code> y <code>hermes_api.py</code>. En «Seguridad agéntica con OpenShell» vas a asegurar este agente: lo que ves en esta clase (memoria que se escribe sola, skills que el agente crea, una API con token) es justo la superficie de riesgo que vas a revisar.</p>
 <h2 id="recursos">Recursos</h2>
 <ul>
 <li><a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/get-started/quickstart">NemoClaw · Quickstart con Hermes</a> y <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/reference/commands">referencia de comandos <code>nemohermes</code></a></li>
@@ -367,7 +367,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 </ul></div></section>
 <nav class="prevnext"><a class="pn prev" href="../4.3-agentes-siempre-activos/index.html"><small>Clase anterior</small>Agentes en operación continua y programada</a><a class="pn next" href="../5.1-trifecta-letal/index.html"><small>Clase siguiente</small>La trifecta letal y la superficie de riesgo</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

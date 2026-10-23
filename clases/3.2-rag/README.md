@@ -4,10 +4,12 @@ Objetivo: que Soporte NemoClaw responda con la FAQ del curso, cite cada afirmaci
 
 | | |
 |---|---|
-| **Duración del video** | ≈9 min |
+| **Video** | No tiene: es una clase complementaria |
 | **Práctica** | Notebook (≈50 min), funciona sin key en modo MOCK |
 | **Habilidad** | Implementar RAG con tus propias fuentes |
 | **Material** | [Diapositivas](slides.html) · [Notebook](3.2-rag.ipynb) · [Preguntas frecuentes](../../FAQ.md) · [Corpus `datos/faq/`](../../datos/faq/) |
+
+> **Esta clase es complementaria: no tiene video.** No la necesitas para seguir el curso. Tiene guía y notebook para que profundices a tu ritmo, y no usa el laboratorio de Brev.
 
 ## Lo esencial (sin tecnicismos)
 

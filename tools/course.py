@@ -10,7 +10,7 @@ Si cambias un título o un aprendizaje aquí, vuelve a correr:  python3 tools/bu
 """
 
 COURSE = {
-    "title": "Seguridad de agentes con OpenShell y NemoClaw",
+    "title": "Agentes Seguros con NemoClaw",
     "subtitle": "De una sola llamada a un modelo hasta un agente siempre activo, con skills y dentro de un sandbox.",
     "partner": "Platzi × NVIDIA Deep Learning Institute",
     "instructor": "Ulises Rayón",
@@ -27,18 +27,20 @@ COURSE = {
 }
 
 MODULES = [
-    {"n": 1, "title": "Prepara tu entorno de agentes",
+    {"n": 1, "title": "Prepara tu entorno",
      "outcome": "Entiendes el stack y dejas listo tu acceso a modelos de NVIDIA.", "where": "Navegador + notebook"},
-    {"n": 2, "title": "Construye el loop básico del agente",
+    {"n": 2, "title": "Fundamentos de Agentes",
      "outcome": "Construyes un loop de agente desde cero, con ReAct y herramientas.", "where": "Notebooks"},
-    {"n": 3, "title": "Coordina, fundamenta y planea",
-     "outcome": "Diseñas sistemas con enrutamiento, RAG sobre tus fuentes y subagentes.", "where": "Notebooks"},
-    {"n": 4, "title": "Lleva tu agente a NemoClaw",
+    {"n": 3, "title": "Crea tu agente con NemoClaw",
      "outcome": "Despliegas un agente real en Brev y lo operas de forma continua.", "where": "Laboratorio en Brev"},
-    {"n": 5, "title": "Asegura el agente con OpenShell",
+    {"n": 4, "title": "Seguridad agéntica con OpenShell",
      "outcome": "Contienes al agente con identidad, sandbox y políticas verificables.", "where": "Laboratorio en Brev + notebook"},
-    {"n": 6, "title": "Amplía tu práctica con agentes",
-     "outcome": "Comparas herramientas, construyes tu biblioteca de skills y sabes cómo seguir.", "where": "Laboratorio en Brev + notebook"},
+    {"n": 5, "title": "Despliegue local",
+     "outcome": "Sabes qué necesitas para correr NemoClaw en tu propia máquina y cómo seguir.", "where": "Diapositivas + cookbook"},
+    # Clases sin video: material para profundizar. Sus clases llevan "opcional": True.
+    {"n": 6, "title": "Clases complementarias", "complementario": True,
+     "outcome": "No tienen video: son guías, notebooks y recetas para profundizar a tu ritmo.",
+     "where": "Notebooks + laboratorio en Brev"},
 ]
 
 # Cada clase:
@@ -108,7 +110,7 @@ CLASSES = [
                     "La descripción decide cuándo el modelo la usa",
                     "Los argumentos se validan antes de ejecutar y los errores vuelven al modelo"]},
     # ------------------------------------------------------------------ Módulo 3
-    {"id": "3.1", "module": 3, "slug": "3.1-enrutamiento-y-workflows",
+    {"id": "3.1", "module": 6, "slug": "3.1-enrutamiento-y-workflows", "opcional": True,
      "title": "Enruta trabajo entre varias llamadas", "minutes": 9, "practica": "notebook",
      "nvidia": "02a-routing.html", "skill": "Enrutar subtareas entre llamadas a modelos",
      "promesa": ["Cuándo un solo loop no alcanza",
@@ -117,7 +119,7 @@ CLASSES = [
      "aprendimos": ["Un router clasifica con un enum cerrado y nunca adivina",
                     "ReWOO planea primero y ejecuta los pasos en paralelo",
                     "Cada rama necesita un plan para cuando falla"]},
-    {"id": "3.2", "module": 3, "slug": "3.2-rag",
+    {"id": "3.2", "module": 6, "slug": "3.2-rag", "opcional": True,
      "title": "RAG para fundamentar en tus fuentes", "minutes": 9, "practica": "notebook",
      "nvidia": "02b-rag.html", "skill": "Implementar RAG con tus propias fuentes",
      "promesa": ["Indexar documentos con embeddings",
@@ -126,7 +128,7 @@ CLASSES = [
      "aprendimos": ["RAG = indexar, recuperar y generar con los fragmentos citados",
                     "Los embeddings se piden con input_type query o passage",
                     "La recuperación es una herramienta más que el agente decide usar"]},
-    {"id": "3.3", "module": 3, "slug": "3.3-agentes-profundos",
+    {"id": "3.3", "module": 6, "slug": "3.3-agentes-profundos", "opcional": True,
      "title": "Agentes profundos que crean subagentes", "minutes": 9, "practica": "notebook",
      "nvidia": "02c-deep.html", "skill": "Coordinar subagentes con un planificador",
      "promesa": ["Planificadores que dividen una tarea grande",
@@ -136,7 +138,7 @@ CLASSES = [
                     "Cada subagente tiene su propio contexto y deja su trabajo en archivos",
                     "Aislar contexto no es lo mismo que un sandbox: eso llega con OpenShell"]},
     # ------------------------------------------------------------------ Módulo 4
-    {"id": "4.1", "module": 4, "slug": "4.1-laboratorio-nemoclaw-en-brev",
+    {"id": "4.1", "module": 3, "slug": "4.1-laboratorio-nemoclaw-en-brev",
      "title": "Levanta el laboratorio NemoClaw en Brev", "minutes": 9, "practica": "lab",
      "nvidia": "03a-kickstart.html", "skill": "Desplegar NemoClaw en Brev",
      "promesa": ["Lanzar el launchable de NemoClaw en Brev con tu cupón",
@@ -145,7 +147,7 @@ CLASSES = [
      "aprendimos": ["Tu laboratorio NemoClaw corre en Brev y lo abres con el botón NemoClaw",
                     "Configuraste tu agente en el navegador y conoces los 4 botones del tablero",
                     "Sabes cuánto cuesta (≈0.25 USD/h) y cuándo usar Stop o Delete"]},
-    {"id": "4.2", "module": 4, "slug": "4.2-gateway-y-workspace-openclaw",
+    {"id": "4.2", "module": 3, "slug": "4.2-gateway-y-workspace-openclaw",
      "title": "Explora el gateway y el workspace de OpenClaw", "minutes": 8, "practica": "lab",
      "nvidia": "03b-openclaw.html", "skill": None,
      "promesa": ["Las piezas de OpenClaw: gateway, sesiones y workspace",
@@ -154,7 +156,7 @@ CLASSES = [
      "aprendimos": ["El gateway recibe los turnos y guarda las sesiones",
                     "El workspace es el contexto del agente: SOUL.md, AGENTS.md, MEMORY.md, skills/",
                     "Como operador, siempre verificas lo que el agente afirma"]},
-    {"id": "4.3", "module": 4, "slug": "4.3-agentes-siempre-activos",
+    {"id": "4.3", "module": 3, "slug": "4.3-agentes-siempre-activos",
      "title": "Agentes en operación continua y programada", "minutes": 8, "practica": "lab",
      "nvidia": "03c-always-on.html", "skill": "Operar agentes en modo continuo",
      "promesa": ["Instalar una skill y hacer que el agente la use",
@@ -163,7 +165,7 @@ CLASSES = [
      "aprendimos": ["Instalaste una skill (SKILL.md) y el agente la usó",
                     "Programaste una automatización que escribió un archivo sin que nadie usara el chat",
                     "Un agente siempre activo = sesión + directiva + disparador"]},
-    {"id": "4.4", "module": 4, "slug": "4.4-hermes-en-nemoclaw", "opcional": True,
+    {"id": "4.4", "module": 6, "slug": "4.4-hermes-en-nemoclaw", "opcional": True,
      "title": "Cambia OpenClaw por Hermes en NemoClaw", "minutes": 9, "practica": "lab",
      "nvidia": None,
      "ref": ("NemoClaw · Hermes", "https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/get-started/quickstart"),
@@ -175,7 +177,7 @@ CLASSES = [
                     "Hermes guarda todo en /sandbox/.hermes: config, memoria, skills y sesiones en state.db",
                     "Tu skill funciona en los dos agentes y llamas a Hermes desde un programa con su API compatible con OpenAI"]},
     # ------------------------------------------------------------------ Módulo 5
-    {"id": "5.1", "module": 5, "slug": "5.1-trifecta-letal",
+    {"id": "5.1", "module": 4, "slug": "5.1-trifecta-letal",
      "title": "La trifecta letal y la superficie de riesgo", "minutes": 8, "practica": "slides",
      "nvidia": "04a-safety.html", "skill": None,
      "promesa": ["Por qué un agente autónomo es riesgoso por diseño",
@@ -184,7 +186,7 @@ CLASSES = [
      "aprendimos": ["Trifecta letal = datos privados + contenido no confiable + comunicación externa",
                     "Una instrucción inyectada puede desviar a un agente con herramientas",
                     "Defensa en capas: prompt → harness → sandbox"]},
-    {"id": "5.2", "module": 5, "slug": "5.2-identidades-openshell",
+    {"id": "5.2", "module": 4, "slug": "5.2-identidades-openshell",
      "title": "Identidades y límites con OpenShell", "minutes": 9, "practica": "lab",
      "nvidia": "04a-safety.html", "skill": "Configurar identidades de agente en OpenShell",
      "promesa": ["Quién es el agente dentro del sandbox",
@@ -193,7 +195,7 @@ CLASSES = [
      "aprendimos": ["El agente corre como un usuario sin privilegios dentro del sandbox",
                     "OpenShell otorga permisos por binario e identidad, no por nombre",
                     "Las credenciales reales nunca entran al sandbox"]},
-    {"id": "5.3", "module": 5, "slug": "5.3-sandbox-y-politicas",
+    {"id": "5.3", "module": 4, "slug": "5.3-sandbox-y-politicas", "videos": ["Teoría", "Hands-on"],
      "title": "Restringe herramientas, archivos y red", "minutes": 9, "practica": "lab",
      "nvidia": "04a-safety.html", "skill": "Definir y verificar un sandbox en OpenShell",
      "promesa": ["Leer la política real de tu sandbox",
@@ -221,7 +223,7 @@ CLASSES = [
      "aprendimos": ["Una skill es una carpeta con SKILL.md: nombre, descripción y runbook",
                     "La descripción decide si el agente la descubre solo",
                     "Tu biblioteca de skills viaja contigo entre sesiones y agentes"]},
-    {"id": "6.3", "module": 6, "slug": "6.3-despliegue-local-y-siguientes-pasos", "opcional": True,
+    {"id": "6.3", "module": 5, "slug": "6.3-despliegue-local-y-siguientes-pasos",
      "title": "Próximos pasos y despliegue local", "minutes": 8, "practica": "slides",
      "nvidia": "04c-going-further.html", "skill": None,
      "promesa": ["Qué necesitas para correr NemoClaw en tu propia máquina",
@@ -237,11 +239,24 @@ def by_id(cid):
     return next(c for c in CLASSES if c["id"] == cid)
 
 
+def track(c):
+    """Las clases con video siguen el orden de los módulos; las complementarias, el orden temático original."""
+    if c.get("opcional"):
+        return CLASSES
+    return sorted((x for x in CLASSES if not x.get("opcional")), key=lambda x: (x["module"], CLASSES.index(x)))
+
+
 def neighbors(cid):
-    i = [c["id"] for c in CLASSES].index(cid)
-    prev = CLASSES[i - 1] if i > 0 else None
-    nxt = CLASSES[i + 1] if i + 1 < len(CLASSES) else None
+    lista = track(by_id(cid))
+    i = [c["id"] for c in lista].index(cid)
+    prev = lista[i - 1] if i > 0 else None
+    nxt = lista[i + 1] if i + 1 < len(lista) else None
     return prev, nxt
+
+
+def video_classes():
+    """Clases con video, en el orden del curso."""
+    return track({})
 
 
 def module(n):

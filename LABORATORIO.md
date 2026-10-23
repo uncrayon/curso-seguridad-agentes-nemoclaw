@@ -1,6 +1,6 @@
 # Tu laboratorio en Brev
 
-Los Módulos 4, 5 y 6 se hacen en un **laboratorio**: una computadora en la nube con NemoClaw ya instalado. Esta página te explica cuánto cuesta, cómo planear tu práctica para que te alcance el crédito de **1 USD**, cómo crear el laboratorio y cómo usar su tablero.
+Las prácticas de «Crea tu agente con NemoClaw» y «Seguridad agéntica con OpenShell», y de algunas clases complementarias, se hacen en un **laboratorio**: una computadora en la nube con NemoClaw ya instalado. Esta página te explica cuánto cuesta, cómo planear tu práctica para que te alcance el crédito de **1 USD**, cómo crear el laboratorio y cómo usar su tablero.
 
 No necesitas instalar nada en tu computadora. Todo se hace desde el navegador.
 
@@ -30,33 +30,33 @@ No necesitas instalar nada en tu computadora. Todo se hace desde el navegador.
 
 ### El plan: una sola sentada
 
-Primero mira los videos de los Módulos 4, 5 y 6. Después enciende la instancia y haz **las prácticas de laboratorio seguidas**, en una sola sentada. Al terminar, **bórrala**.
+Primero mira los videos de «Crea tu agente con NemoClaw» y «Seguridad agéntica con OpenShell». Después enciende la instancia y haz **las prácticas de laboratorio seguidas**, en una sola sentada. Al terminar, **bórrala**.
 
-Las prácticas obligatorias son 4.1, 4.2, 4.3, 5.2 y 5.3. Las marcadas *(opcional)* puedes saltarlas: el resto del curso no depende de ellas.
+Las prácticas obligatorias son 4.1, 4.2, 4.3, 5.2 y 5.3. Las marcadas *(complementaria, sin video)* puedes saltarlas: el resto del curso no depende de ellas.
 
 | Clase | Práctica | Tiempo encendida (aprox.) |
 |---|---|---|
 | [4.1](clases/4.1-laboratorio-nemoclaw-en-brev/README.md) | Crear el laboratorio y conocer el tablero | ≈30 min |
 | [4.2](clases/4.2-gateway-y-workspace-openclaw/README.md) | Gateway, workspace y memoria de la conversación | ≈20 min |
 | [4.3](clases/4.3-agentes-siempre-activos/README.md) | Una skill y una automatización | ≈25 min |
-| [4.4](clases/4.4-hermes-en-nemoclaw/README.md) (opcional) | Hermes en un segundo sandbox | ≈30 min |
+| [4.4](clases/4.4-hermes-en-nemoclaw/README.md) (complementaria, sin video) | Hermes en un segundo sandbox | ≈30 min |
 | [5.2](clases/5.2-identidades-openshell/README.md) | Quién es quién: operador y sandbox | ≈20 min |
 | [5.3](clases/5.3-sandbox-y-politicas/README.md) | Políticas de red y archivos | ≈25 min |
-| [6.1](clases/6.1-clis-de-agentes/README.md) (opcional) | Comparar CLIs de agentes | ≈20 min |
-| [6.2](clases/6.2-biblioteca-de-skills/README.md) (opcional) | Instalar la biblioteca de skills | ≈15 min |
+| [6.1](clases/6.1-clis-de-agentes/README.md) (complementaria, sin video) | Comparar CLIs de agentes | ≈20 min |
+| [6.2](clases/6.2-biblioteca-de-skills/README.md) (complementaria, sin video) | Instalar la biblioteca de skills | ≈15 min |
 | **Total obligatorio** (4.1, 4.2, 4.3, 5.2 y 5.3) | | **≈2 h 00 min ≈ USD 0.50** |
-| **Total con todas las opcionales** | | **≈3 h 05 min ≈ USD 0.77** |
+| **Total con todas las complementarias** | | **≈3 h 05 min ≈ USD 0.77** |
 
 La 4.4 va entre la 4.3 y la 5.2: si te la saltas, pasa directo de la 4.3 a la 5.2. La 6.1 y la 6.2 van al final, después de la 5.3.
 
-Con solo las obligatorias te sobran unos USD 0.50 por si algo tarda más de lo previsto. Si vas rápido, puedes terminar en ≈1 h 45 min (≈USD 0.44). Con todas las opcionales te sobran unos USD 0.23. Para otra combinación, suma los minutos: cada hora encendida cuesta ≈USD 0.25.
+Con solo las obligatorias te sobran unos USD 0.50 por si algo tarda más de lo previsto. Si vas rápido, puedes terminar en ≈1 h 45 min (≈USD 0.44). Con todas las complementarias te sobran unos USD 0.23. Para otra combinación, suma los minutos: cada hora encendida cuesta ≈USD 0.25.
 
 Cinco reglas para que te alcance:
 
 1. **Mira primero los videos.** Así, cuando enciendas la instancia, ya sabes qué vas a hacer en cada clase.
 2. **Haz todo en una sola sentada.** Ten a la mano tu API key y estas guías abiertas en otra pestaña.
 3. **Usa Stop solo para pausas cortas.** Si tienes que parar, detén la instancia (**Stop**) y vuelve el mismo día o el siguiente. Nunca la dejes detenida varios días.
-4. **Al terminar tu última práctica, guarda tu trabajo y borra la instancia: Delete.** Si no haces las opcionales, es la 5.3; si haces alguna, es la última opcional que hagas. Es la única forma de que deje de cobrar del todo (ver [5 · Al terminar](#5--al-terminar)).
+4. **Al terminar tu última práctica, guarda tu trabajo y borra la instancia: Delete.** Si no haces las complementarias, es la 5.3; si haces alguna, es la última complementaria que hagas. Es la única forma de que deje de cobrar del todo (ver [5 · Al terminar](#5--al-terminar)).
 5. **No actives la recarga automática** (*auto-recharge*) en **Billing**.
 
 ### Cómo canjear el cupón y revisar tu saldo
@@ -108,7 +108,7 @@ En la tarjeta **MY-ASSISTANT** tienes cuatro botones:
 | **CHAT WITH AGENT** | El chat de OpenClaw, en una pestaña nueva. A la izquierda tiene **Home**, **Dashboards**, **Automations**, **Plugins** y **Sessions**. | Conversar con tu agente y crear automatizaciones (clase 4.3). |
 | **SANDBOX TERMINAL** | Una terminal **dentro del cuarto** del agente (usuario `sandbox`, carpeta `/sandbox`). | Ver el mundo como lo ve el agente. |
 | **VM TERMINAL** | La **terminal de operador**: la computadora que rodea al cuarto (usuario `ubuntu`). | Pegar los comandos de las guías. Desde aquí revisas y controlas al agente. |
-| **OPENSHELL TUI** | El panel del guardia de OpenShell, en modo texto. | Ver la política del sandbox y aprobar o rechazar accesos bloqueados (Módulo 5). |
+| **OPENSHELL TUI** | El panel del guardia de OpenShell, en modo texto. | Ver la política del sandbox y aprobar o rechazar accesos bloqueados («Seguridad agéntica con OpenShell»). |
 
 ![Tablero de NemoClaw: 1 marca CHAT WITH AGENT, 2 marca SANDBOX TERMINAL, 3 marca VM TERMINAL, 4 marca OPENSHELL TUI y 5 marca el panel de registros](assets/lab/13-panel-nemoclaw.jpg)
 
@@ -142,7 +142,7 @@ Si el agente no responde justo después de encender la instancia, espera un par 
 
 ## 5 · Al terminar
 
-Cuando termines tu última práctica (la 5.3 si no haces las opcionales; si haces alguna, la última que hagas):
+Cuando termines tu última práctica (la 5.3 si no haces las complementarias; si haces alguna, la última que hagas):
 
 1. **Guarda lo que quieras conservar.** Este comando, en la **VM TERMINAL**, muestra en pantalla tu `SOUL.md` y los reportes que escribió tu agente:
 

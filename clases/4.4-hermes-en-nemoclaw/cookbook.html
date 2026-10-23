@@ -1,19 +1,19 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cookbook · Hermes Agent en NemoClaw · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Cookbook · Hermes Agent en NemoClaw · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
 <section class="hero doc"><h1>Cookbook · Hermes Agent en NemoClaw</h1></section>
 <div class="md"><p>Recetas para crear, operar, observar y apagar un sandbox de Hermes con NemoClaw. Funcionan en el laboratorio del curso y en cualquier instalación de NemoClaw (Linux, macOS con Apple Silicon o WSL2).</p>
 <blockquote>
-<p><strong>La clase 4.4 es opcional.</strong> El resto del curso no depende de ella. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio. Al terminar, vuelve a encender OpenClaw (<code>my-assistant</code>) antes de seguir: la receta 14 te dice cómo.</p>
+<p><strong>La clase 4.4 es complementaria: no tiene video.</strong> No la necesitas para seguir el curso. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio. Al terminar, vuelve a encender OpenClaw (<code>my-assistant</code>) antes de seguir: la receta 14 te dice cómo.</p>
 </blockquote>
 <p>Convenciones:
 - Todos los comandos van en la <strong>VM TERMINAL</strong> del tablero de NemoClaw (la terminal de operador, usuario <code>ubuntu</code>). Ahí está <code>nemohermes</code>; la <strong>SANDBOX TERMINAL</strong> no lo tiene. Haz clic dentro del área negra antes de escribir y no presiones <strong>Shift+Escape</strong> mientras corre un comando largo: cierra la terminal y sus procesos.
@@ -36,7 +36,7 @@ free<span class="w"> </span>-h<span class="w"> </span><span class="o">&amp;&amp;
 </ul>
 <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>stop
 </code></pre></div>
-<p>Lo vuelves a encender con <code>nemoclaw my-assistant start</code> (receta 14). No lo olvides: los módulos 5 y 6 lo usan.</p>
+<p>Lo vuelves a encender con <code>nemoclaw my-assistant start</code> (receta 14). No lo olvides: las prácticas de «Seguridad agéntica con OpenShell» lo usan.</p>
 <hr />
 <h2 id="receta-2--crea-el-sandbox-de-hermes-interactivo">Receta 2 · Crea el sandbox de Hermes (interactivo)</h2>
 <div class="highlight"><pre><span></span><code><span class="nb">read</span><span class="w"> </span>-rsp<span class="w"> </span><span class="s2">"NVIDIA API key: "</span><span class="w"> </span>NVIDIA_INFERENCE_API_KEY<span class="p">;</span><span class="w"> </span><span class="nb">echo</span>
@@ -172,7 +172,7 @@ cp<span class="w"> </span>SOUL.md<span class="w"> </span>SOUL.md.original
 cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>SOUL.md<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
 
 <span class="s">## Proyecto: Soporte NemoClaw</span>
-<span class="s">- Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".</span>
+<span class="s">- Ayudas a estudiantes del curso "Agentes Seguros con NemoClaw".</span>
 <span class="s">- Respondes en español neutro, con frases cortas y pasos numerados.</span>
 <span class="s">- Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.</span>
 <span class="s">- Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.</span>
@@ -205,7 +205,7 @@ nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span><span class="
 <p>Debe responder con <strong>Categoría</strong>, <strong>Qué hacer</strong> y <strong>Fuente:</strong> <code>faq/errores-api.md</code>.</p>
 <hr />
 <h2 id="receta-9--memoria-y-skills-que-hermes-escribe-solo">Receta 9 · Memoria y skills que Hermes escribe solo</h2>
-<p>Hermes <strong>aprende</strong>: guarda notas en su memoria y puede crear o mejorar skills con su herramienta <code>skill_manage</code>. Es útil y es un riesgo: una instrucción maliciosa puede quedar guardada y afectar sesiones futuras (lo verás en el Módulo 5).</p>
+<p>Hermes <strong>aprende</strong>: guarda notas en su memoria y puede crear o mejorar skills con su herramienta <code>skill_manage</code>. Es útil y es un riesgo: una instrucción maliciosa puede quedar guardada y afectar sesiones futuras (lo verás en «Seguridad agéntica con OpenShell»).</p>
 <table>
 <thead>
 <tr>
@@ -310,10 +310,10 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status<span 
 <div class="highlight"><pre><span></span><code>nemohermes<span class="w"> </span>mi-hermes<span class="w"> </span>destroy
 </code></pre></div>
 <p><code>destroy</code> no se puede deshacer. Exporta antes las sesiones que quieras conservar (receta 10).</p>
-<p>Si paras por hoy, detén la instancia en la consola de Brev con <strong>Stop</strong> y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica opcional que hagas), <strong>Delete</strong> (ver <a href="../../LABORATORIO.html">LABORATORIO.md</a>).</p></div>
+<p>Si paras por hoy, detén la instancia en la consola de Brev con <strong>Stop</strong> y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica complementaria que hagas), <strong>Delete</strong> (ver <a href="../../LABORATORIO.html">LABORATORIO.md</a>).</p></div>
 
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

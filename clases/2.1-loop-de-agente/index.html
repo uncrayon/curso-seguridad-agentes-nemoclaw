@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>De una sola llamada al loop de agente · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>De una sola llamada al loop de agente · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="../../index.html"><img src="../../assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="../../GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="../../LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="../../FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Construye el loop básico del agente</span><h1>De una sola llamada al loop de agente</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Construir un loop básico de agente</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
+<section class="hero"><span class="tag">Fundamentos de Agentes</span><h1>De una sola llamada al loop de agente</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Notebook</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Construir un loop básico de agente</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="https://colab.research.google.com/github/uncrayon/curso-seguridad-agentes-nemoclaw/blob/main/clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb" target="_blank" rel="noopener"><span class="icon">play_arrow</span>Abrir en Colab</a></p></section>
 <section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Un agente es un modelo que trabaja en ciclo: mira, decide, actúa y revisa si ya terminó. Lo que decide puede ser una regla fija, una búsqueda o un modelo de IA, y el ciclo es el mismo. El modelo no recuerda nada: la memoria es la conversación que le volvemos a enviar cada vez.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Seguir una receta: lees el paso, lo haces, pruebas, y sigues hasta que el platillo está listo. La memoria es como tomar notas en una libreta y releerlas antes de cada llamada.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p><a href="../../GLOSARIO.html#loop-de-agente" class="glos" data-def="El ciclo que repite el agente: mirar, decidir, actuar y revisar si ya terminó. · Seguir una receta: lees el paso, lo haces, pruebas, y sigues hasta que el platillo está listo.">loop de agente</a>, <a href="../../GLOSARIO.html#memoria" class="glos" data-def="La lista de mensajes que se le reenvía al modelo en cada turno, porque él no recuerda solo. · Tomar notas en una libreta y releerlas antes de cada llamada.">memoria</a>, <a href="../../GLOSARIO.html#prompt" class="glos" data-def="El texto que le mandas al modelo: tu pregunta y sus instrucciones. · El mensaje que le dejas a tu asistente antes de que empiece.">prompt</a>.</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Descarga el notebook de esta clase, súbelo a <a href="https://colab.research.google.com/">Colab</a> con <strong>Archivo → Subir notebook</strong> y presiona ▶ en cada celda, en orden, sin leer el código (o usa <strong>Entorno de ejecución → Ejecutar todo</strong>) (sin key funciona con respuestas simuladas). Luego responde:</p>
 <ol>
 <li>En la sección 3, ¿cuántos pasos da el agente de "siempre a la derecha" antes de detenerse, y cuántos el de la búsqueda?</li>
@@ -168,7 +168,7 @@ jupyter<span class="w"> </span>lab<span class="w"> </span>clases/2.1-loop-de-age
 </ul></div></section>
 <nav class="prevnext"><a class="pn prev" href="../1.3-rutas-de-modelo-y-errores/index.html"><small>Clase anterior</small>Configura rutas de modelo y diagnostica errores</a><a class="pn next" href="../2.2-patron-react/index.html"><small>Clase siguiente</small>Razonamiento con el patrón ReAct</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

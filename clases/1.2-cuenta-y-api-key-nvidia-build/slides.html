@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Crea tu cuenta y tu API key en NVIDIA Build · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Crea tu cuenta y tu API key en NVIDIA Build · Agentes Seguros con NemoClaw</title>
 <link rel="preload" href="../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../assets/sinapsis.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas.css?v=61936557">
-<link rel="stylesheet" href="../../assets/slides.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=61936557">
-<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=61936557">
+<link rel="stylesheet" href="../../assets/sinapsis.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/slides.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m1.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m2.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m3.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m4.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m5.css?v=8243843d">
+<link rel="stylesheet" href="../../assets/diagramas-m6.css?v=8243843d">
 
 </head><body>
 <span class="help">← → navegar · N notas · F pantalla completa</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Crea tu cuenta y tu API key en NVIDIA Build</h1><p class="lead">Prepara tu entorno de agentes</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Administrar el consumo de API en NVIDIA Build</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""><img src="../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Crea tu cuenta y tu API key en NVIDIA Build</h1><p class="lead">Prepara tu entorno</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Habilidad: Administrar el consumo de API en NVIDIA Build</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""></div><h2>La clase pasada aprendimos</h2><p class="lead">Qué son NemoClaw, OpenClaw y OpenShell</p><ul><li>Un agente es un modelo dentro de un loop, con herramientas y memoria</li><li>OpenClaw es el agente; OpenShell, el sandbox; NemoClaw, el blueprint que los une</li><li>El curso va de un loop en Python a un agente real dentro de un sandbox en Brev</li></ul></section>
 <section class="slide"><h2>Tu llave a los modelos</h2>
 <div class="dg dg-row"><div class="dg-node " data-paso="1"><span class="dg-ico">person</span><b>Tú</b><small>tu cuenta gratuita</small></div><div class="dg-arrow h " data-paso="2"></div><div class="dg-node is-primary c12-acceso" data-paso="2"><span class="dg-ico">key</span><b>API key</b><small>tu tarjeta de acceso</small><code class="c12-nvapi">nvapi-••••••••</code></div><div class="dg-arrow h " data-paso="3" style="width:8.8em"><span class="dg-lab">entra a tu nombre</span></div><div class="dg-node " data-paso="3"><span class="dg-ico">language</span><b>build.nvidia.com</b><small>el catálogo de modelos de NVIDIA</small></div><div class="dg-arrow h " data-paso="4"></div><div class="dg-node ok" data-paso="4"><span class="dg-ico">auto_awesome</span><b>Nemotron</b><small>el modelo del curso</small></div></div><p class="dg-note" data-paso="5"><span class="dg-i">lock</span>Quien tenga tu key entra a tu nombre: trátala como una contraseña</p><aside class="notes"><p>La API key es la tarjeta de acceso de un edificio. Clic 1: tú, con tu cuenta gratuita. Clic 2: la key (empieza con nvapi-). Clic 3: build.nvidia.com, el catálogo de modelos alojados por NVIDIA (API compatible con OpenAI, dirección https://integrate.api.nvidia.com/v1). Clic 4: Nemotron, el modelo del curso. Clic 5: trátala como contraseña. La primera parte del curso usa esta dirección; no hace falta tarjeta gráfica propia.</p></aside></section>
@@ -41,5 +41,5 @@ curl -s https://integrate.api.nvidia.com/v1/models \
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../assets/brand/forma-1.svg" alt=""><img src="../../assets/brand/forma-8.svg" alt=""></div><h2>En la próxima clase aprenderemos</h2><p class="prox">Configura rutas de modelo y diagnostica errores</p><ul><li>Configurar las rutas de chat y embeddings que usa todo el curso</li><li>Usar el panel del curso de NVIDIA y el notebook de verificación</li><li>Leer y resolver los errores 401, 403, 404, 410, 429 y 5xx</li></ul></section>
 <div class="foot"><span><img src="../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Guía de la clase</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../assets/slides.js?v=61936557"></script>
+<script src="../../assets/slides.js?v=8243843d"></script>
 </body></html>

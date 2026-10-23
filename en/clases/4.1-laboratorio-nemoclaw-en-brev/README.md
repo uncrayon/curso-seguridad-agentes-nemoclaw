@@ -22,7 +22,7 @@ Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clase
 - Prove that a conversation's memory lives in its session.
 - Know what each instance state costs and when to use **Stop** or **Delete**.
 
-**Your credit:** this practice uses ≈30 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). If you stop for today, use **Stop** and come back soon. At the very end of the lab (after 5.3, or after the last optional practice you do), use **Delete**.
+**Your credit:** this practice uses ≈30 min of running instance, inside your single lab sitting (see [the lab guide (Spanish)](../../../LABORATORIO.md)). If you stop for today, use **Stop** and come back soon. At the very end of the lab (after 5.3, or after the last supplementary practice you do), use **Delete**.
 
 ## Before you start
 
@@ -30,7 +30,7 @@ Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clase
 - Your USD 1 Brev credit coupon.
 - An NVIDIA account (the same one you use for build.nvidia.com) to sign in to Brev.
 - A desktop browser: Chrome, Edge, Brave, Firefox, or Safari. It doesn't work from a phone.
-- Having watched the videos of Modules 4, 5, and 6. You'll do the lab practices in a single sitting: ≈2 hours for the required ones, ≈3 hours if you also do the optional ones.
+- Having watched the videos of "Build your agent with NemoClaw" and "Agentic security with OpenShell". You'll do the lab practices in a single sitting: ≈2 hours for the required ones, ≈3 hours if you also do the supplementary ones.
 
 The pieces you're about to spin up, one sentence each:
 
@@ -103,7 +103,7 @@ The pieces you're about to spin up, one sentence each:
     | **CHAT WITH AGENT** | The OpenClaw chat, in a new tab. | Talking to your agent. |
     | **SANDBOX TERMINAL** | A terminal **inside the room** (user `sandbox`, folder `/sandbox`). | Seeing the world as the agent sees it. |
     | **VM TERMINAL** | The **operator terminal**: the computer around the room (user `ubuntu`). | Pasting the guides' commands and checking the agent from outside. |
-    | **OPENSHELL TUI** | The OpenShell guard's panel, in text mode. | Viewing the policy and approving or rejecting access (Module 5). |
+    | **OPENSHELL TUI** | The OpenShell guard's panel, in text mode. | Viewing the policy and approving or rejecting access ("Agentic security with OpenShell"). |
 
     ![NemoClaw dashboard: 1 marks CHAT WITH AGENT, 2 marks SANDBOX TERMINAL, 3 marks VM TERMINAL, 4 marks OPENSHELL TUI, and 5 marks the logs panel](../../../assets/lab/13-panel-nemoclaw.jpg)
 
@@ -199,9 +199,9 @@ Each conversation has a **session key**. The gateway keeps the history under tha
 
     Questions to the model don't spend Brev credit: they're paid with your build.nvidia.com account credits.
 
-25. **Follow the single-sitting plan.** Do the practices of 4.2, 4.3, 5.2, and 5.3 now, one after another. If you want to do the optional ones, 4.4 goes between 4.3 and 5.2, and 6.1 and 6.2 go at the end. If you really have to stop: Brev console → **Compute** → your instance → **Stop**. Come back the same day or the next; never leave it stopped for several days.
+25. **Follow the single-sitting plan.** Do the practices of 4.2, 4.3, 5.2, and 5.3 now, one after another. If you want to do the supplementary ones, 4.4 goes between 4.3 and 5.2, and 6.1 and 6.2 go at the end. If you really have to stop: Brev console → **Compute** → your instance → **Stop**. Come back the same day or the next; never leave it stopped for several days.
 
-26. **At the end of the lab, delete it.** When you finish 5.3 (or the last optional practice you do): Brev console → **Compute** → your instance → **Delete**. It's the only way it stops billing. First, copy anything you want to keep into your notes. Details in [the lab guide (Spanish)](../../../LABORATORIO.md).
+26. **At the end of the lab, delete it.** When you finish 5.3 (or the last supplementary practice you do): Brev console → **Compute** → your instance → **Delete**. It's the only way it stops billing. First, copy anything you want to keep into your notes. Details in [the lab guide (Spanish)](../../../LABORATORIO.md).
 
 ## Check that it worked
 

@@ -2,7 +2,7 @@
 
 Recetas para crear, operar, observar y apagar un sandbox de Hermes con NemoClaw. Funcionan en el laboratorio del curso y en cualquier instalación de NemoClaw (Linux, macOS con Apple Silicon o WSL2).
 
-> **La clase 4.4 es opcional.** El resto del curso no depende de ella. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio. Al terminar, vuelve a encender OpenClaw (`my-assistant`) antes de seguir: la receta 14 te dice cómo.
+> **La clase 4.4 es complementaria: no tiene video.** No la necesitas para seguir el curso. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio. Al terminar, vuelve a encender OpenClaw (`my-assistant`) antes de seguir: la receta 14 te dice cómo.
 
 Convenciones:
 - Todos los comandos van en la **VM TERMINAL** del tablero de NemoClaw (la terminal de operador, usuario `ubuntu`). Ahí está `nemohermes`; la **SANDBOX TERMINAL** no lo tiene. Haz clic dentro del área negra antes de escribir y no presiones **Shift+Escape** mientras corre un comando largo: cierra la terminal y sus procesos.
@@ -32,7 +32,7 @@ free -h && df -h /
 nemoclaw my-assistant stop
 ```
 
-Lo vuelves a encender con `nemoclaw my-assistant start` (receta 14). No lo olvides: los módulos 5 y 6 lo usan.
+Lo vuelves a encender con `nemoclaw my-assistant start` (receta 14). No lo olvides: las prácticas de «Seguridad agéntica con OpenShell» lo usan.
 
 ---
 
@@ -153,7 +153,7 @@ cp SOUL.md SOUL.md.original
 cat >> SOUL.md <<'EOF'
 
 ## Proyecto: Soporte NemoClaw
-- Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".
+- Ayudas a estudiantes del curso "Agentes Seguros con NemoClaw".
 - Respondes en español neutro, con frases cortas y pasos numerados.
 - Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.
 - Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.
@@ -197,7 +197,7 @@ Debe responder con **Categoría**, **Qué hacer** y **Fuente:** `faq/errores-api
 
 ## Receta 9 · Memoria y skills que Hermes escribe solo
 
-Hermes **aprende**: guarda notas en su memoria y puede crear o mejorar skills con su herramienta `skill_manage`. Es útil y es un riesgo: una instrucción maliciosa puede quedar guardada y afectar sesiones futuras (lo verás en el Módulo 5).
+Hermes **aprende**: guarda notas en su memoria y puede crear o mejorar skills con su herramienta `skill_manage`. Es útil y es un riesgo: una instrucción maliciosa puede quedar guardada y afectar sesiones futuras (lo verás en «Seguridad agéntica con OpenShell»).
 
 | Archivo | Qué guarda | Límite |
 |---|---|---|
@@ -317,4 +317,4 @@ nemohermes mi-hermes destroy
 
 `destroy` no se puede deshacer. Exporta antes las sesiones que quieras conservar (receta 10).
 
-Si paras por hoy, detén la instancia en la consola de Brev con **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica opcional que hagas), **Delete** (ver [LABORATORIO.md](../../LABORATORIO.md)).
+Si paras por hoy, detén la instancia en la consola de Brev con **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica complementaria que hagas), **Delete** (ver [LABORATORIO.md](../../LABORATORIO.md)).

@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Preguntas frecuentes y solución de problemas · Seguridad de agentes con OpenShell y NemoClaw</title>
+<title>Preguntas frecuentes y solución de problemas · Agentes Seguros con NemoClaw</title>
 <link rel="stylesheet" href="assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="index.html"><img src="assets/brand/platzi-isotype-solid.svg" alt="">Seguridad de agentes con OpenShell y NemoClaw</a>
+  <a class="brand" href="index.html"><img src="assets/brand/platzi-isotype-solid.svg" alt="">Agentes Seguros con NemoClaw</a>
   <nav><a href="GLOSARIO.html"><span class="icon">menu_book</span>Glosario</a><a href="LABORATORIO.html"><span class="icon">paid</span>Tu laboratorio</a><a href="FAQ.html"><span class="icon">quiz</span>Preguntas frecuentes</a></nav>
 </div></header>
 <main class="wrap">
 <section class="hero doc"><h1>Preguntas frecuentes y solución de problemas</h1></section>
-<div class="md"><p>Curso <strong>Seguridad de agentes con OpenShell y NemoClaw</strong> (Platzi × NVIDIA DLI).</p>
+<div class="md"><p>Curso <strong>Agentes Seguros con NemoClaw</strong> (Platzi × NVIDIA DLI).</p>
 <p>Esta página reúne los problemas reales que vas a encontrar en el curso: la API key, los errores del modelo, los notebooks, Brev, la conexión con el laboratorio, OpenClaw, OpenShell y la instalación local de NemoClaw. Cada entrada tiene la <strong>causa</strong>, la <strong>solución</strong> con comandos exactos y, cuando existe, la <strong>fuente</strong> oficial.</p>
 <blockquote>
 <p><strong>Antes de seguir:</strong> NemoClaw está en <em>alpha</em> y publica versiones cada 1 a 3 días. Si un comando no coincide con lo que ves, revisa tu versión con <code>nemoclaw --version</code> y la documentación oficial. Las entradas del laboratorio se probaron con NemoClaw v0.0.135 y OpenShell 0.0.116.</p>
@@ -230,7 +230,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </s
 <p><strong>Solución:</strong>
 - <strong>Encendida (Running):</strong> ≈<strong>USD 0.25 por hora</strong> (cómputo ≈0.20 + disco ≈0.05). La página de la instancia muestra ≈$0.26/hr.
 - <strong>Detenida (Stopped):</strong> el disco sigue cobrando ≈USD 0.05 por hora, unos <strong>USD 1.20 al día</strong>. En un día gasta más que el cupón de 1 USD.
-- Con 1 USD tienes unas <strong>4 horas</strong> encendida. El plan del curso usa ≈2 horas (≈3 con las prácticas opcionales) en <strong>una sola sentada</strong> y termina con <strong>Delete</strong> (ver <a href="LABORATORIO.html">LABORATORIO.md</a>).
+- Con 1 USD tienes unas <strong>4 horas</strong> encendida. El plan del curso usa ≈2 horas (≈3 con las prácticas complementarias) en <strong>una sola sentada</strong> y termina con <strong>Delete</strong> (ver <a href="LABORATORIO.html">LABORATORIO.md</a>).
 - Lo que le preguntas al modelo no gasta crédito de Brev: gasta los créditos de tu cuenta de build.nvidia.com.</p>
 <p><strong>Fuente:</strong> prueba del laboratorio del curso (20 de octubre de 2026); <a href="https://www.nvidia.com/en-us/launchables/pricing">precios de launchables</a>.</p>
 <h3 id="qué-me-cobra-brev-si-la-detengo-y-qué-si-la-borro">¿Qué me cobra Brev si la detengo y qué si la borro?</h3>
@@ -270,7 +270,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </s
 </tr>
 </tbody>
 </table>
-<p>Usa <strong>Stop</strong> solo para pausas cortas: vuelve el mismo día o el siguiente. Al terminar tu última práctica (la 5.3, o la última práctica opcional que hagas), guarda lo que quieras conservar y usa <strong>Delete</strong>.</p>
+<p>Usa <strong>Stop</strong> solo para pausas cortas: vuelve el mismo día o el siguiente. Al terminar tu última práctica (la 5.3, o la última práctica complementaria que hagas), guarda lo que quieras conservar y usa <strong>Delete</strong>.</p>
 <p><strong>Fuente:</strong> prueba del laboratorio del curso; <a href="https://docs.nvidia.com/brev/latest/concepts/gpu-instances">Brev: GPU Instances</a>; <a href="https://docs.nvidia.com/brev/latest/guides/console-reference">Console Reference › Billing</a>.</p>
 <h3 id="cómo-detengo-o-borro-mi-instancia">¿Cómo detengo o borro mi instancia?</h3>
 <p><strong>Solución:</strong> en la consola de Brev (brev.nvidia.com) → <strong>Compute</strong> → tu instancia (se llama algo como <code>nemoclaw-xxxxxx</code>) → <strong>Stop</strong> para detenerla o <strong>Delete</strong> para borrarla. Confirma que el estado cambie. <strong>Delete</strong> no se puede deshacer.</p>
@@ -862,7 +862,7 @@ nemoclaw<span class="w"> </span>onboard
 <h3 id="hermes-guardó-algo-en-su-memoria-que-yo-no-quería">Hermes guardó algo en su memoria que yo no quería</h3>
 <p><strong>Causa:</strong> Hermes escribe en su memoria y crea skills por su cuenta. Sin aprobación, una instrucción (tuya o de un texto malicioso) queda guardada para sesiones futuras.</p>
 <p><strong>Solución:</strong> según la documentación de Hermes, dentro de Hermes puedes usar <code>/memory approval on</code> y <code>/skills approval on</code>; revisar con <code>/memory pending</code> y rechazar con <code>/memory reject &lt;id&gt;</code>. Si tu versión muestra otros nombres, revisa su ayuda dentro de Hermes. Lee <code>/sandbox/.hermes/memories/MEMORY.md</code> como operador y limpia lo que no reconozcas.</p>
-<p><strong>Fuente:</strong> <a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/memory">Hermes Agent · Memoria</a>; clase 4.4 y Módulo 5.</p>
+<p><strong>Fuente:</strong> <a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/memory">Hermes Agent · Memoria</a>; clase 4.4 y módulo «Seguridad agéntica con OpenShell».</p>
 <hr />
 <p><a id="pedir-ayuda"></a></p>
 <h2 id="11-cómo-pedir-ayuda-bien">11. Cómo pedir ayuda bien</h2>
@@ -920,7 +920,7 @@ nemoclaw<span class="w"> </span>debug<span class="w"> </span>--sandbox<span clas
 <td><code>brev-support@nvidia.com</code></td>
 </tr>
 <tr>
-<td>Curso web de NVIDIA (páginas y panel de la API key de los Módulos 1 a 3)</td>
+<td>Curso web de NVIDIA (sus páginas y el panel de la API key)</td>
 <td>Issues de <a href="https://github.com/NVDLI/NemoClawDLI/issues">NVDLI/NemoClawDLI</a></td>
 </tr>
 <tr>
@@ -941,7 +941,7 @@ nemoclaw<span class="w"> </span>debug<span class="w"> </span>--sandbox<span clas
 <p><em>Basada en la documentación pública de NVIDIA NemoClaw (Apache-2.0), en el curso de NVIDIA DLI "Securing Agents with OpenShell and NemoClaw" (<a href="https://github.com/NVDLI/NemoClawDLI">NVDLI/NemoClawDLI</a>, Apache-2.0), en la documentación de NVIDIA Brev y en issues públicos de GitHub revisados el 14 de octubre de 2026, y en una prueba completa del laboratorio del curso el 20 de octubre de 2026. Versión de referencia: NemoClaw v0.0.135, OpenShell 0.0.116, OpenClaw v2026.9.2.</em></p></div>
 
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Seguridad de agentes con OpenShell y NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Agentes Seguros con NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copiar";

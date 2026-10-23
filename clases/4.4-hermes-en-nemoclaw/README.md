@@ -4,14 +4,14 @@ Crea un segundo sandbox con **Hermes Agent** (Nous Research) en tu laboratorio, 
 
 | | |
 |---|---|
-| Duración del video | ≈9 min |
+| Video | No tiene: es una clase complementaria |
 | Práctica | Laboratorio en Brev: tablero de NemoClaw + terminal del navegador ([cookbook.md](cookbook.md)) |
 | Habilidad | Desplegar y operar Hermes Agent en NemoClaw |
 | Referencia | [NemoClaw · Quickstart con Hermes](https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/get-started/quickstart) (no hay lección equivalente en el curso de NVIDIA) |
 
 Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) · [skill soporte-nemoclaw para Hermes](skills/soporte-nemoclaw/SKILL.md) · [script de la API](hermes_api.py) · [preguntas frecuentes](../../FAQ.md#hermes)
 
-> **Esta clase es opcional.** El resto del curso no depende de ella. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio, entre la 4.3 y la 5.2. Al terminar, vuelve a encender OpenClaw (`my-assistant`) antes de seguir: el paso 14 te dice cómo.
+> **Esta clase es complementaria: no tiene video.** No la necesitas para seguir el curso. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio, entre la 4.3 y la 5.2. Al terminar, vuelve a encender OpenClaw (`my-assistant`) antes de seguir: el paso 14 te dice cómo.
 
 ## Lo esencial (sin tecnicismos)
 
@@ -25,7 +25,7 @@ Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) ·
 
 **Qué te llevas:** puedes decidir qué puede aprender solo un agente y qué necesita tu permiso.
 
-**Tu crédito:** esta práctica usa ≈30 min de tu sesión única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Crear el cuarto de Hermes tarda varios minutos. Las preguntas a Hermes gastan créditos del modelo en build.nvidia.com, no de Brev. Si vas justo de tiempo o de crédito, esta es la práctica que puedes ver solo en video. Al terminar, vuelve a encender `my-assistant`: los módulos 5 y 6 lo usan. Si paras por hoy, haz **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica opcional que hagas), **Delete**.
+**Tu crédito:** esta práctica usa ≈30 min de tu sesión única de laboratorio (ver [LABORATORIO.md](../../LABORATORIO.md)). Crear el cuarto de Hermes tarda varios minutos. Las preguntas a Hermes gastan créditos del modelo en build.nvidia.com, no de Brev. Si vas justo de tiempo o de crédito, esta es la práctica que puedes solo leer. Al terminar, vuelve a encender `my-assistant`: las prácticas de «Seguridad agéntica con OpenShell» lo usan. Si paras por hoy, haz **Stop** y vuelve pronto; al final de todo el laboratorio (después de la 5.3, o de la última práctica complementaria que hagas), **Delete**.
 
 ## La idea en una frase
 
@@ -122,7 +122,7 @@ Los comandos completos y sus variantes están en el [cookbook](cookbook.md). Cad
    cat >> SOUL.md <<'EOF'
 
    ## Proyecto: Soporte NemoClaw
-   - Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".
+   - Ayudas a estudiantes del curso "Agentes Seguros con NemoClaw".
    - Respondes en español neutro, con frases cortas y pasos numerados.
    - Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.
    - Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.
@@ -193,7 +193,7 @@ Los comandos completos y sus variantes están en el [cookbook](cookbook.md). Cad
     nemoclaw my-assistant start
     nemoclaw my-assistant status
     ```
-    Deberías ver `Phase Ready` e Inference `healthy` en `my-assistant`. Los módulos 5 y 6 trabajan con él.
+    Deberías ver `Phase Ready` e Inference `healthy` en `my-assistant`. Las prácticas que siguen trabajan con él.
 
 ## Comprueba que funcionó
 
@@ -238,7 +238,7 @@ Criterio de éxito: una tabla en tus notas del proyecto (`proyecto/openclaw-vs-h
 
 **Soporte NemoClaw corre en dos agentes.** La misma skill y la misma personalidad, en OpenClaw y en Hermes, dentro del mismo tipo de sandbox. Y tienes un cliente en Python que llama a Hermes por su API.
 
-Guarda en tus notas del proyecto `proyecto/SOUL-soporte.md`, las dos versiones de `SKILL.md` y `hermes_api.py`. En el Módulo 5 vas a asegurar este agente: lo que ves en esta clase (memoria que se escribe sola, skills que el agente crea, una API con token) es justo la superficie de riesgo que vas a revisar.
+Guarda en tus notas del proyecto `proyecto/SOUL-soporte.md`, las dos versiones de `SKILL.md` y `hermes_api.py`. En «Seguridad agéntica con OpenShell» vas a asegurar este agente: lo que ves en esta clase (memoria que se escribe sola, skills que el agente crea, una API con token) es justo la superficie de riesgo que vas a revisar.
 
 ## Recursos
 

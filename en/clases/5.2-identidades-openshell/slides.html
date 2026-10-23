@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Identities and limits with OpenShell · Securing Agents with OpenShell and NemoClaw</title>
+<title>Identities and limits with OpenShell · Secure Agents with NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/slides.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=61936557">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=61936557">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/slides.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=8243843d">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
-<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Identities and limits with OpenShell</h1><p class="lead">Secure the agent with OpenShell</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Configure agent identities in OpenShell</span></p></section>
+<section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""><img src="../../../assets/brand/forma-1.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Identities and limits with OpenShell</h1><p class="lead">Agentic security with OpenShell</p><p class="meta"><span class="chip"><span class="icon">person</span>Ulises Rayón</span><span class="chip primary"><span class="icon">bolt</span>Skill: Configure agent identities in OpenShell</span></p></section>
 <section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><h2>Last class we learned</h2><p class="lead">The lethal trifecta and the risk surface</p><ul><li>Lethal trifecta = private data + untrusted content + external communication</li><li>An injected instruction can hijack an agent that has tools</li><li>Defense in layers: prompt → harness → sandbox</li></ul></section>
 <section class="slide"><h2>Who is acting?</h2>
 <div class="dg m5"><div class="dg-row m5-quien"><div class="dg-node " data-paso="1"><span class="dg-ico">person</span><b>The agent's user</b><small>«sandbox», not an administrator</small><div class="m5-power lvl1"><em>power</em><span class="on"></span><span class=""></span><span class=""></span></div></div><div class="dg-node " data-paso="2"><span class="dg-ico">terminal</span><b>Each program</b><small>openclaw, curl: their own permissions</small><div class="m5-power lvl2"><em>power</em><span class="on"></span><span class="on"></span><span class=""></span></div></div><div class="dg-node " data-paso="3"><span class="dg-ico">badge</span><b>You, the operator</b><small>on the machine, you change the rules</small><div class="m5-power lvl3"><em>power</em><span class="on"></span><span class="on"></span><span class="on"></span></div></div></div></div><p class="dg-note" data-paso="4"><span class="dg-i">key</span>Least privilege: the key to its office, not the building's master key</p><aside class="notes"><p>Three answers, three levels of power. Click 1: the user the agent runs as (sandbox, no root). Click 2: each program that opens a connection (/usr/local/bin/openclaw, /usr/bin/curl…), with its own permissions. Click 3: you, the operator, on the host with nemoclaw and openshell. Click 4: least privilege, the key to its office and not the master key. If the answer were "root with a token that can do anything", no policy below would save you.</p></aside></section>
@@ -52,5 +52,5 @@ nemoclaw my-assistant logs --tail 300 | grep DENIED | tail -4   # who was denied
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-7.svg" alt=""><img src="../../../assets/brand/forma-4.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">Restrict tools, files and network</p><ul><li>Read your sandbox's real policy</li><li>Predict and verify what is allowed and what is blocked</li><li>Why isolation is one layer, not the whole solution</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=61936557"></script>
+<script src="../../../assets/slides.js?v=8243843d"></script>
 </body></html>

@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Swap OpenClaw for Hermes in NemoClaw · Securing Agents with OpenShell and NemoClaw</title>
+<title>Swap OpenClaw for Hermes in NemoClaw · Secure Agents with NemoClaw</title>
 <link rel="stylesheet" href="../../../assets/sinapsis.css?v=70d0b71a">
 <link rel="stylesheet" href="../../../assets/guia.css?v=70d0b71a">
 </head><body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Securing Agents with OpenShell and NemoClaw</a>
+  <a class="brand" href="../../../en/index.html"><img src="../../../assets/brand/platzi-isotype-solid.svg" alt="">Secure Agents with NemoClaw</a>
   <nav><a href="../../../GLOSARIO.html"><span class="icon">menu_book</span>Glossary (ES)</a><a href="../../../LABORATORIO.html"><span class="icon">paid</span>Your lab (ES)</a><a href="../../../FAQ.html"><span class="icon">quiz</span>FAQ (ES)</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><span class="tag">Take your agent to NemoClaw</span><h1>Swap OpenClaw for Hermes in NemoClaw</h1><p class="chips"><span class="chip opt"><span class="icon">flag</span>Optional</span><span class="chip"><span class="icon">computer</span>Lab on Brev</span><span class="chip primary"><span class="icon">bolt</span>Skill: Deploy and operate Hermes Agent in NemoClaw</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/4.4-hermes-en-nemoclaw/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
+<section class="hero"><span class="tag">Supplementary classes</span><h1>Swap OpenClaw for Hermes in NemoClaw</h1><p class="chips"><span class="chip opt"><span class="icon">menu_book</span>Supplementary · no video</span><span class="chip"><span class="icon">computer</span>Lab on Brev</span><span class="chip primary"><span class="icon">bolt</span>Skill: Deploy and operate Hermes Agent in NemoClaw</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>View slides</a><a class="btn" href="../../../clases/4.4-hermes-en-nemoclaw/cookbook.html"><span class="icon">terminal</span>Terminal cookbook (ES)</a></p></section>
 <section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
 <p>🇪🇸 Original Spanish guide: <a href="../../../clases/4.4-hermes-en-nemoclaw/index.html"><code>clases/4.4-hermes-en-nemoclaw/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
 </blockquote>
@@ -24,8 +24,8 @@
 </thead>
 <tbody>
 <tr>
-<td>Video length</td>
-<td>≈9 min</td>
+<td>Video</td>
+<td>None: this is a supplementary class</td>
 </tr>
 <tr>
 <td>Practice</td>
@@ -43,7 +43,7 @@
 </table>
 <p>Materials: <a href="slides.html">slides</a> · <a href="../../../clases/4.4-hermes-en-nemoclaw/cookbook.html">terminal cookbook (Spanish)</a> · <a href="../../../clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/SKILL.html">soporte-nemoclaw skill for Hermes (Spanish)</a> · <a href="../../../clases/4.4-hermes-en-nemoclaw/hermes_api.py">API script (Spanish)</a> · <a href="../../../FAQ.html#hermes">FAQ (Spanish)</a></p>
 <blockquote>
-<p><strong>This class is optional.</strong> The rest of the course doesn't depend on it. If you do it, it adds ≈30 min (≈USD 0.13) to your lab sitting, between 4.3 and 5.2. When you finish, turn OpenClaw (<code>my-assistant</code>) back on before you continue: step 14 shows you how.</p>
+<p><strong>This is a supplementary class: it has no video.</strong> You don't need it to follow the course. If you do it, it adds ≈30 min (≈USD 0.13) to your lab sitting, between 4.3 and 5.2. When you finish, turn OpenClaw (<code>my-assistant</code>) back on before you continue: step 14 shows you how.</p>
 </blockquote>
 <h2 id="the-idea-in-one-sentence">The idea in one sentence</h2>
 <p>NemoClaw isn't OpenClaw: it's the <strong>sandbox, the policies, and the managed inference</strong> around an agent. Today you swap the agent, and everything security-related stays the same.</p>
@@ -124,7 +124,7 @@
 </code></pre></div></li>
 <li>Your <code>nvapi-</code> key from class 1.2 at hand. NemoClaw stores it on the host; the sandbox only gets a placeholder.</li>
 <li>Everything happens in the NemoClaw dashboard's <strong>VM TERMINAL</strong>: that's where <code>nemohermes</code> lives. The <strong>SANDBOX TERMINAL</strong> is inside the <code>my-assistant</code> room and doesn't have it. Click inside the black area before typing, and <strong>don't</strong> press <strong>Shift+Escape</strong> while the room is being created: it closes the terminal and its processes.</li>
-<li>Your credit: this practice uses ≈30 min of your single lab sitting (see <a href="../../../LABORATORIO.html">LABORATORIO.md (Spanish)</a>). Creating the Hermes room takes several minutes. Questions to Hermes spend model credits on build.nvidia.com, not Brev credit. If you're short on time or credit, this is the practice you can just watch on video. When you finish, turn <code>my-assistant</code> back on: Modules 5 and 6 use it. If you stop for today, click <strong>Stop</strong> and come back soon; at the very end of the lab (after 5.3, or after the last optional practice you do), <strong>Delete</strong>.</li>
+<li>Your credit: this practice uses ≈30 min of your single lab sitting (see <a href="../../../LABORATORIO.html">LABORATORIO.md (Spanish)</a>). Creating the Hermes room takes several minutes. Questions to Hermes spend model credits on build.nvidia.com, not Brev credit. If you're short on time or credit, this is the practice you can just read. When you finish, turn <code>my-assistant</code> back on: the "Agentic security with OpenShell" practices use it. If you stop for today, click <strong>Stop</strong> and come back soon; at the very end of the lab (after 5.3, or after the last supplementary practice you do), <strong>Delete</strong>.</li>
 </ul>
 <p><img alt="NemoClaw dashboard with the MY-ASSISTANT card and its four buttons: CHAT WITH AGENT, SANDBOX TERMINAL, VM TERMINAL, and OPENSHELL TUI" src="../../../assets/lab/13-panel-nemoclaw.jpg" /></p>
 <p>Another way to try Hermes: in a fresh lab, in the browser setup (<strong>Connect to AI</strong>), you can pick <strong>Hermes</strong> as the agent instead of OpenClaw. This course creates it as a second room so you keep <code>my-assistant</code>.</p>
@@ -184,7 +184,7 @@ cp<span class="w"> </span>SOUL.md<span class="w"> </span>SOUL.md.original
 cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>SOUL.md<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
 
 <span class="s">## Proyecto: Soporte NemoClaw</span>
-<span class="s">- Ayudas a estudiantes del curso "Seguridad de agentes con OpenShell y NemoClaw".</span>
+<span class="s">- Ayudas a estudiantes del curso "Agentes Seguros con NemoClaw".</span>
 <span class="s">- Respondes en español neutro, con frases cortas y pasos numerados.</span>
 <span class="s">- Antes de responder, clasificas la duda en una categoría: instalacion, api_key, brev, seguridad u otro.</span>
 <span class="s">- Si usas la FAQ del curso, citas el archivo de donde sale la respuesta.</span>
@@ -259,7 +259,7 @@ python3<span class="w"> </span>~/curso/clases/4.4-hermes-en-nemoclaw/hermes_api.
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>start
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 </code></pre></div>
-    You should see <code>Phase Ready</code> and Inference <code>healthy</code> for <code>my-assistant</code>. Modules 5 and 6 work with it.</p>
+    You should see <code>Phase Ready</code> and Inference <code>healthy</code> for <code>my-assistant</code>. The practices that follow work with it.</p>
 </li>
 </ol>
 <h2 id="check-that-it-worked">Check that it worked</h2>
@@ -360,7 +360,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 <p>Success criteria: a table in <code>proyecto/openclaw-vs-hermes.md</code> with, for each agent and question, whether it cited the FAQ, whether it followed the skill's format, and whether it refused question 3. Add a row with where you found the evidence for each answer (session history or <code>sessions export</code>).</p>
 <h2 id="project-milestone">Project milestone</h2>
 <p><strong>Soporte NemoClaw (NemoClaw Support) runs on two agents.</strong> The same skill and the same personality, on OpenClaw and on Hermes, inside the same kind of sandbox. And you have a Python client that calls Hermes through its API.</p>
-<p>Save <code>proyecto/SOUL-soporte.md</code>, both versions of <code>SKILL.md</code>, and <code>hermes_api.py</code> in your project notes. In Module 5 you'll secure this agent: what you see in this class (memory that writes itself, skills the agent creates, an API with a token) is exactly the risk surface you'll review.</p>
+<p>Save <code>proyecto/SOUL-soporte.md</code>, both versions of <code>SKILL.md</code>, and <code>hermes_api.py</code> in your project notes. In "Agentic security with OpenShell" you'll secure this agent: what you see in this class (memory that writes itself, skills the agent creates, an API with a token) is exactly the risk surface you'll review.</p>
 <h2 id="resources">Resources</h2>
 <ul>
 <li><a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/get-started/quickstart">NemoClaw · Quickstart with Hermes</a> and <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/reference/commands"><code>nemohermes</code> command reference</a></li>
@@ -371,7 +371,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 </ul></div></section>
 <nav class="prevnext"><a class="pn prev" href="../4.3-agentes-siempre-activos/index.html"><small>Previous class</small>Agents in continuous and scheduled operation</a><a class="pn next" href="../5.1-trifecta-letal/index.html"><small>Next class</small>The lethal trifecta and the risk surface</a></nav>
 </main>
-<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Securing Agents with OpenShell and NemoClaw</div></footer>
+<footer class="foot"><div class="wrap">Platzi × NVIDIA Deep Learning Institute · Secure Agents with NemoClaw</div></footer>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
   var b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";

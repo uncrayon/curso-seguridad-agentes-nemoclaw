@@ -6,10 +6,12 @@ Goal: turn a student's report into a diagnostic report with citations, using a p
 
 | | |
 |---|---|
-| **Video length** | ≈9 min |
+| **Video** | None: this is a supplementary class |
 | **Practice** | Notebook (≈50 min), works without a key in MOCK mode |
 | **Skill** | Coordinate subagents with a planner |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/3.3-agentes-profundos/3.3-agentes-profundos.ipynb) · [FAQ (Spanish)](../../../FAQ.md) |
+
+> **This is a supplementary class: it has no video.** You don't need it to follow the course. It has a guide and a notebook so you can go deeper at your own pace, and it doesn't use the Brev lab.
 
 ## What you'll achieve
 
@@ -87,7 +89,7 @@ Run `diagnosticar` (diagnose). You should see something like `{'llamadas': 11, '
 
 ### 9. Isolating context is not a sandbox (section 9)
 
-Run the `os.environ` cell. You should see that your process can see `NVIDIA_API_KEY` (without printing its value) and can list your home folder. Read the table in that section: OpenShell solves this in Modules 4 and 5.
+Run the `os.environ` cell. You should see that your process can see `NVIDIA_API_KEY` (without printing its value) and can list your home folder. Read the table in that section: OpenShell solves this in "Build your agent with NemoClaw" and "Agentic security with OpenShell".
 
 ### 10. Project milestone
 
@@ -123,7 +125,7 @@ Add a **reviewer**: one more call (`llm("revisor", ...)`) that receives the repo
 
 **Soporte NemoClaw (NemoClaw Support) v3.3: diagnosis with subagents.** Given a report like *"me sale 401 en el laboratorio después de reanudar Brev"*, your agent plans the checks, launches isolated subagents that research the FAQ, saves their drafts, and delivers a diagnostic report with the likely cause, steps, what it couldn't verify, and reviewed citations.
 
-Add `planear`, `limpiar_plan`, `ejecutar_subagente`, `investigar`, `sintetizar`, `revisar_citas`, and `diagnosticar` to your `soporte_nemoclaw.py`. In Module 4 you take it to NemoClaw on Brev: the FAQ lives in the agent's workspace, and this flow becomes the `soporte-nemoclaw` skill, inside a real sandbox.
+Add `planear`, `limpiar_plan`, `ejecutar_subagente`, `investigar`, `sintetizar`, `revisar_citas`, and `diagnosticar` to your `soporte_nemoclaw.py`. In "Build your agent with NemoClaw" you take it to NemoClaw on Brev: the FAQ lives in the agent's workspace, and this flow becomes the `soporte-nemoclaw` skill, inside a real sandbox.
 
 ## Resources
 
