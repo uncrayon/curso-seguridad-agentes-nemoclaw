@@ -150,7 +150,7 @@ Cuando termines tu última práctica (la 5.3 si no haces las opcionales; si hace
    nemoclaw my-assistant exec -- bash -lc 'cd /sandbox/.openclaw/workspace && for f in SOUL.md reportes/*.md; do echo "===== $f"; cat "$f"; done'
    ```
 
-   Selecciona el texto con el mouse, cópialo y pégalo en un documento tuyo. Si prefieres no usar la terminal, pídele al agente en el chat: «Muéstrame el contenido de SOUL.md», y copia la respuesta.
+   Selecciona el texto con el mouse, cópialo y pégalo en un documento tuyo. Si prefieres no usar la terminal, pídele al agente en el chat: «Muéstrame el contenido de SOUL.md», y copia la respuesta. Para bajar a tu computadora una copia completa en un zip (workspace, memoria, skills, tareas e historial), sigue la [receta previa del cookbook 6.3](clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md#receta-previa--respalda-tu-laboratorio-en-un-zip).
 2. En la consola de Brev: **Compute** → tu instancia → **Delete**. Confirma.
 3. Revisa en **Billing** que no quede ninguna instancia cobrando y anota tu saldo.
 

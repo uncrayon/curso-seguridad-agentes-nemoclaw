@@ -1,13 +1,77 @@
 # Cookbook · NemoClaw en tu propia máquina
 
 Recetas para instalar y operar NemoClaw fuera de Brev: en Linux, macOS con Apple Silicon o Windows con WSL2.
-Es **opcional**: el curso se completa en Brev. Úsalo solo si quieres tu agente en tu propia máquina o en un servidor propio. Nada de aquí depende del laboratorio de Brev: todo pasa en tu computadora.
+Es **opcional**: el curso se completa en Brev. Úsalo solo si quieres tu agente en tu propia máquina o en un servidor propio. Salvo la [receta previa](#receta-previa--respalda-tu-laboratorio-en-un-zip), que respalda tu laboratorio antes de borrarlo, nada de aquí depende de Brev: todo pasa en tu computadora.
 
 > **Proyecto en *alpha*.** NemoClaw publica versiones cada 1 a 3 días. Fija una versión (Receta 3) y revisa la [documentación oficial](https://docs.nvidia.com/nemoclaw/latest/) antes de instalar. Las salidas cambian entre versiones: si la tuya muestra otro texto, compara la idea y sigue con el siguiente paso.
 
 **Convenciones:** `my-assistant` es el nombre del sandbox (cámbialo por el tuyo). Las keys de ejemplo (`nvapi-xxxxxxxx`) son falsas.
 
 Fuentes: documentación y repo de [NVIDIA/NemoClaw](https://github.com/NVIDIA/NemoClaw) (prerequisites, quickstart, commands, troubleshooting) y la lección 04c del curso de NVIDIA DLI (Apache-2.0).
+
+---
+
+## Receta previa · Respalda tu laboratorio en un zip
+
+Haz esto **antes de borrar tu instancia de Brev** si quieres quedarte con lo que tu agente guardó. Dentro del sandbox, `~` es `/sandbox`, así que `~/.openclaw` es la carpeta `/sandbox/.openclaw`. Ahí viven el workspace (`SOUL.md`, `USER.md`, `AGENTS.md`, `MEMORY.md`, `memory/`, `skills/` y lo que escribió tu agente), las tareas programadas (`cron/`) y el historial de conversaciones (`agents/`, `state/`).
+
+El zip **deja fuera** dos cosas:
+
+- **Lo que se reinstala solo:** paquetes de plugins (`npm/`, `extensions/`, `plugin-runtime-deps/`, `plugin-skills/`), `cache/`, `logs/` y `tmp/`. Pesan ≈380 MB y traen enlaces simbólicos que `download` no acepta.
+- **Lo secreto:** `credentials/`, `identity/`, `devices/`, los archivos `.key` y `openclaw.json` (con sus copias `.bak`), que guardan el token del gateway y llaves de ese laboratorio. NemoClaw vuelve a escribir `openclaw.json` cuando creas un sandbox nuevo.
+
+**Paso 1 · En el laboratorio.** Con la instancia encendida, abre la **VM TERMINAL** del tablero y pega:
+
+```bash
+# 1. Empaca ~/.openclaw dentro del sandbox, sin paquetes ni secretos
+nemoclaw my-assistant exec -- tar czf /sandbox/.openclaw/tmp/respaldo.tgz -C /sandbox \
+  --exclude=.openclaw/npm --exclude=.openclaw/cache --exclude=.openclaw/plugin-runtime-deps \
+  --exclude=.openclaw/extensions --exclude=.openclaw/plugin-skills --exclude=.openclaw/logs \
+  --exclude=.openclaw/tmp --exclude=.openclaw/credentials --exclude=.openclaw/identity \
+  --exclude=.openclaw/devices --exclude='*.key' --exclude='.openclaw/openclaw.json*' .openclaw
+
+# 2. Pásalo del sandbox a la VM y borra la copia que quedó en el sandbox
+nemoclaw my-assistant download /sandbox/.openclaw/tmp/respaldo.tgz ~/
+nemoclaw my-assistant exec -- rm /sandbox/.openclaw/tmp/respaldo.tgz
+
+# 3. Conviértelo en zip (la VM no trae el comando zip; Python sí)
+rm -rf ~/respaldo && mkdir ~/respaldo && tar xzf ~/respaldo.tgz -C ~/respaldo
+mv ~/respaldo/.openclaw ~/respaldo/openclaw
+cd ~/respaldo && python3 -m zipfile -c ~/openclaw-respaldo.zip openclaw && cd ~
+ls -lh ~/openclaw-respaldo.zip
+```
+
+**Esperado:** `✓ Download complete` después del paso 2 y, al final, un archivo `/home/ubuntu/openclaw-respaldo.zip` de cientos de KB (en nuestra prueba, 731K). Las líneas `ExperimentalWarning: SQLite …` no son errores.
+
+**Paso 2 · En tu computadora.** La consola web de Brev no tiene botón de descarga: el archivo se baja con la **Brev CLI**. Instálala una vez:
+
+- **macOS:** `brew install brevdev/homebrew-brev/brev`
+- **Linux:** `bash -c "$(curl -fsSL https://raw.githubusercontent.com/brevdev/brev-cli/main/bin/install-latest.sh)"`
+- **Windows:** la Brev CLI solo funciona dentro de WSL (Ubuntu). Si no quieres instalar WSL, usa el plan B de abajo.
+
+Luego, en una terminal de tu computadora, dentro de la carpeta donde quieras guardar el zip:
+
+```bash
+brev login     # escribe tu correo y termina el inicio de sesión en el navegador
+brev ls        # muestra el nombre de tu instancia, por ejemplo nemoclaw-4c4e92
+brev copy nemoclaw-xxxxxx:/home/ubuntu/openclaw-respaldo.zip ./
+```
+
+Cambia `nemoclaw-xxxxxx` por el nombre de tu instancia. La consola de Brev muestra el mismo comando en **Compute → tu instancia → Access → Copy Files**, eligiendo **Download**.
+
+**Esperado:** unos segundos de `waiting for SSH connection to be available` y luego `✓ Successfully copied nemoclaw-xxxxxx:/home/ubuntu/openclaw-respaldo.zip → ./`. Al abrir el zip verás una carpeta `openclaw/` con `workspace/`, `agents/`, `cron/`, `memory/`, `skills/` y `state/`. La primera vez, Brev agrega a tu `~/.ssh/config` una línea `Include` que apunta a su propia configuración.
+
+**Cuídalo como algo privado:** `agents/` y `state/` guardan todo lo que le escribiste al agente. No lo subas a un repositorio público.
+
+**Plan B, sin instalar nada:** si solo quieres tus textos (`SOUL.md`, los reportes del agente), muéstralos en la VM TERMINAL y cópialos con el mouse, como en [LABORATORIO.md · Al terminar](../../LABORATORIO.md#5--al-terminar).
+
+**Para usarlo después:** descomprime el zip y sube a tu sandbox nuevo (local, Receta 8, o en otro laboratorio) solo lo que quieras, archivo por archivo, por ejemplo `nemoclaw my-assistant upload ./openclaw/workspace/SOUL.md /sandbox/.openclaw/workspace/`. No subas `POLICY.md`: NemoClaw lo escribe solo. Más detalle en [NemoClaw · Transfer State Manually](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/manage-sandboxes/state-and-backups/transfer-state-manually).
+
+**Si falla:**
+- `sandbox source path … is outside the sandbox workspace (/sandbox)`: `download` solo acepta rutas dentro de `/sandbox`. Por eso el paquete se arma en `/sandbox/.openclaw/tmp/`, no en `/tmp`.
+- `rate limit exceeded` justo después de `Successfully logged in`: el inicio de sesión ya quedó; sigue con `brev ls`.
+- `brev copy` se queda esperando o no encuentra la instancia: la instancia tiene que estar **Running**. Si la detuviste, presiona **Start** en la consola, espera a que diga Running y repite.
+- `brev: command not found`: abre una terminal nueva después de instalar.
 
 ---
 

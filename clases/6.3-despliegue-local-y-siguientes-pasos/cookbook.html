@@ -12,12 +12,60 @@
 <main class="wrap">
 <section class="hero doc"><h1>Cookbook · NemoClaw en tu propia máquina</h1></section>
 <div class="md"><p>Recetas para instalar y operar NemoClaw fuera de Brev: en Linux, macOS con Apple Silicon o Windows con WSL2.
-Es <strong>opcional</strong>: el curso se completa en Brev. Úsalo solo si quieres tu agente en tu propia máquina o en un servidor propio. Nada de aquí depende del laboratorio de Brev: todo pasa en tu computadora.</p>
+Es <strong>opcional</strong>: el curso se completa en Brev. Úsalo solo si quieres tu agente en tu propia máquina o en un servidor propio. Salvo la <a href="#receta-previa--respalda-tu-laboratorio-en-un-zip">receta previa</a>, que respalda tu laboratorio antes de borrarlo, nada de aquí depende de Brev: todo pasa en tu computadora.</p>
 <blockquote>
 <p><strong>Proyecto en <em>alpha</em>.</strong> NemoClaw publica versiones cada 1 a 3 días. Fija una versión (Receta 3) y revisa la <a href="https://docs.nvidia.com/nemoclaw/latest/">documentación oficial</a> antes de instalar. Las salidas cambian entre versiones: si la tuya muestra otro texto, compara la idea y sigue con el siguiente paso.</p>
 </blockquote>
 <p><strong>Convenciones:</strong> <code>my-assistant</code> es el nombre del sandbox (cámbialo por el tuyo). Las keys de ejemplo (<code>nvapi-xxxxxxxx</code>) son falsas.</p>
 <p>Fuentes: documentación y repo de <a href="https://github.com/NVIDIA/NemoClaw">NVIDIA/NemoClaw</a> (prerequisites, quickstart, commands, troubleshooting) y la lección 04c del curso de NVIDIA DLI (Apache-2.0).</p>
+<hr />
+<h2 id="receta-previa--respalda-tu-laboratorio-en-un-zip">Receta previa · Respalda tu laboratorio en un zip</h2>
+<p>Haz esto <strong>antes de borrar tu instancia de Brev</strong> si quieres quedarte con lo que tu agente guardó. Dentro del sandbox, <code>~</code> es <code>/sandbox</code>, así que <code>~/.openclaw</code> es la carpeta <code>/sandbox/.openclaw</code>. Ahí viven el workspace (<code>SOUL.md</code>, <code>USER.md</code>, <code>AGENTS.md</code>, <code>MEMORY.md</code>, <code>memory/</code>, <code>skills/</code> y lo que escribió tu agente), las tareas programadas (<code>cron/</code>) y el historial de conversaciones (<code>agents/</code>, <code>state/</code>).</p>
+<p>El zip <strong>deja fuera</strong> dos cosas:</p>
+<ul>
+<li><strong>Lo que se reinstala solo:</strong> paquetes de plugins (<code>npm/</code>, <code>extensions/</code>, <code>plugin-runtime-deps/</code>, <code>plugin-skills/</code>), <code>cache/</code>, <code>logs/</code> y <code>tmp/</code>. Pesan ≈380 MB y traen enlaces simbólicos que <code>download</code> no acepta.</li>
+<li><strong>Lo secreto:</strong> <code>credentials/</code>, <code>identity/</code>, <code>devices/</code>, los archivos <code>.key</code> y <code>openclaw.json</code> (con sus copias <code>.bak</code>), que guardan el token del gateway y llaves de ese laboratorio. NemoClaw vuelve a escribir <code>openclaw.json</code> cuando creas un sandbox nuevo.</li>
+</ul>
+<p><strong>Paso 1 · En el laboratorio.</strong> Con la instancia encendida, abre la <strong>VM TERMINAL</strong> del tablero y pega:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Empaca ~/.openclaw dentro del sandbox, sin paquetes ni secretos</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>tar<span class="w"> </span>czf<span class="w"> </span>/sandbox/.openclaw/tmp/respaldo.tgz<span class="w"> </span>-C<span class="w"> </span>/sandbox<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--exclude<span class="o">=</span>.openclaw/npm<span class="w"> </span>--exclude<span class="o">=</span>.openclaw/cache<span class="w"> </span>--exclude<span class="o">=</span>.openclaw/plugin-runtime-deps<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--exclude<span class="o">=</span>.openclaw/extensions<span class="w"> </span>--exclude<span class="o">=</span>.openclaw/plugin-skills<span class="w"> </span>--exclude<span class="o">=</span>.openclaw/logs<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--exclude<span class="o">=</span>.openclaw/tmp<span class="w"> </span>--exclude<span class="o">=</span>.openclaw/credentials<span class="w"> </span>--exclude<span class="o">=</span>.openclaw/identity<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--exclude<span class="o">=</span>.openclaw/devices<span class="w"> </span>--exclude<span class="o">=</span><span class="s1">'*.key'</span><span class="w"> </span>--exclude<span class="o">=</span><span class="s1">'.openclaw/openclaw.json*'</span><span class="w"> </span>.openclaw
+
+<span class="c1"># 2. Pásalo del sandbox a la VM y borra la copia que quedó en el sandbox</span>
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>download<span class="w"> </span>/sandbox/.openclaw/tmp/respaldo.tgz<span class="w"> </span>~/
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--<span class="w"> </span>rm<span class="w"> </span>/sandbox/.openclaw/tmp/respaldo.tgz
+
+<span class="c1"># 3. Conviértelo en zip (la VM no trae el comando zip; Python sí)</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>~/respaldo<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mkdir<span class="w"> </span>~/respaldo<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>tar<span class="w"> </span>xzf<span class="w"> </span>~/respaldo.tgz<span class="w"> </span>-C<span class="w"> </span>~/respaldo
+mv<span class="w"> </span>~/respaldo/.openclaw<span class="w"> </span>~/respaldo/openclaw
+<span class="nb">cd</span><span class="w"> </span>~/respaldo<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>zipfile<span class="w"> </span>-c<span class="w"> </span>~/openclaw-respaldo.zip<span class="w"> </span>openclaw<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~
+ls<span class="w"> </span>-lh<span class="w"> </span>~/openclaw-respaldo.zip
+</code></pre></div>
+<p><strong>Esperado:</strong> <code>✓ Download complete</code> después del paso 2 y, al final, un archivo <code>/home/ubuntu/openclaw-respaldo.zip</code> de cientos de KB (en nuestra prueba, 731K). Las líneas <code>ExperimentalWarning: SQLite …</code> no son errores.</p>
+<p><strong>Paso 2 · En tu computadora.</strong> La consola web de Brev no tiene botón de descarga: el archivo se baja con la <strong>Brev CLI</strong>. Instálala una vez:</p>
+<ul>
+<li><strong>macOS:</strong> <code>brew install brevdev/homebrew-brev/brev</code></li>
+<li><strong>Linux:</strong> <code>bash -c "$(curl -fsSL https://raw.githubusercontent.com/brevdev/brev-cli/main/bin/install-latest.sh)"</code></li>
+<li><strong>Windows:</strong> la Brev CLI solo funciona dentro de WSL (Ubuntu). Si no quieres instalar WSL, usa el plan B de abajo.</li>
+</ul>
+<p>Luego, en una terminal de tu computadora, dentro de la carpeta donde quieras guardar el zip:</p>
+<div class="highlight"><pre><span></span><code>brev<span class="w"> </span>login<span class="w">     </span><span class="c1"># escribe tu correo y termina el inicio de sesión en el navegador</span>
+brev<span class="w"> </span>ls<span class="w">        </span><span class="c1"># muestra el nombre de tu instancia, por ejemplo nemoclaw-4c4e92</span>
+brev<span class="w"> </span>copy<span class="w"> </span>nemoclaw-xxxxxx:/home/ubuntu/openclaw-respaldo.zip<span class="w"> </span>./
+</code></pre></div>
+<p>Cambia <code>nemoclaw-xxxxxx</code> por el nombre de tu instancia. La consola de Brev muestra el mismo comando en <strong>Compute → tu instancia → Access → Copy Files</strong>, eligiendo <strong>Download</strong>.</p>
+<p><strong>Esperado:</strong> unos segundos de <code>waiting for SSH connection to be available</code> y luego <code>✓ Successfully copied nemoclaw-xxxxxx:/home/ubuntu/openclaw-respaldo.zip → ./</code>. Al abrir el zip verás una carpeta <code>openclaw/</code> con <code>workspace/</code>, <code>agents/</code>, <code>cron/</code>, <code>memory/</code>, <code>skills/</code> y <code>state/</code>. La primera vez, Brev agrega a tu <code>~/.ssh/config</code> una línea <code>Include</code> que apunta a su propia configuración.</p>
+<p><strong>Cuídalo como algo privado:</strong> <code>agents/</code> y <code>state/</code> guardan todo lo que le escribiste al agente. No lo subas a un repositorio público.</p>
+<p><strong>Plan B, sin instalar nada:</strong> si solo quieres tus textos (<code>SOUL.md</code>, los reportes del agente), muéstralos en la VM TERMINAL y cópialos con el mouse, como en <a href="../../LABORATORIO.html#5--al-terminar">LABORATORIO.md · Al terminar</a>.</p>
+<p><strong>Para usarlo después:</strong> descomprime el zip y sube a tu sandbox nuevo (local, Receta 8, o en otro laboratorio) solo lo que quieras, archivo por archivo, por ejemplo <code>nemoclaw my-assistant upload ./openclaw/workspace/SOUL.md /sandbox/.openclaw/workspace/</code>. No subas <code>POLICY.md</code>: NemoClaw lo escribe solo. Más detalle en <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/manage-sandboxes/state-and-backups/transfer-state-manually">NemoClaw · Transfer State Manually</a>.</p>
+<p><strong>Si falla:</strong>
+- <code>sandbox source path … is outside the sandbox workspace (/sandbox)</code>: <code>download</code> solo acepta rutas dentro de <code>/sandbox</code>. Por eso el paquete se arma en <code>/sandbox/.openclaw/tmp/</code>, no en <code>/tmp</code>.
+- <code>rate limit exceeded</code> justo después de <code>Successfully logged in</code>: el inicio de sesión ya quedó; sigue con <code>brev ls</code>.
+- <code>brev copy</code> se queda esperando o no encuentra la instancia: la instancia tiene que estar <strong>Running</strong>. Si la detuviste, presiona <strong>Start</strong> en la consola, espera a que diga Running y repite.
+- <code>brev: command not found</code>: abre una terminal nueva después de instalar.</p>
 <hr />
 <h2 id="receta-0--tu-máquina-sirve">Receta 0 · ¿Tu máquina sirve?</h2>
 <table>

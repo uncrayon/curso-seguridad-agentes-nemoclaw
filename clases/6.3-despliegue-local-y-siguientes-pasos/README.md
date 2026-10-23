@@ -116,7 +116,7 @@ Suma tus puntos: **5–8** sigue iterando · **9–12** listo para mostrar · **
 ### 7. Confirma que el laboratorio está borrado
 Lo normal es que ya hayas borrado tu instancia al final de tu última práctica de laboratorio ([5.3](../5.3-sandbox-y-politicas/README.md), o la última práctica opcional que hiciste). Compruébalo en el navegador:
 1. En la consola de Brev (brev.nvidia.com), abre **Compute**. Tu instancia (`nemoclaw-…`) ya no debe aparecer.
-2. Si sigue ahí, guarda lo que quieras (muéstralo en la **VM TERMINAL** y copia el texto a tus notas), y luego abre la instancia y presiona **Delete**. Confirma en el aviso que aparece.
+2. Si sigue ahí, guarda lo que quieras: copia el texto desde la **VM TERMINAL** o baja todo en un zip con la [receta previa del cookbook](cookbook.md#receta-previa--respalda-tu-laboratorio-en-un-zip), y luego abre la instancia y presiona **Delete**. Confirma en el aviso que aparece.
 3. Abre **Billing** en el menú de arriba y revisa tu saldo.
 
 Encendida, la instancia cuesta ≈USD 0.25/h. Detenida (**Stop**), el disco sigue cobrando ≈USD 0.05/h, unos USD 1.20 al día. Borrada (**Delete**), ya no cobra nada, pero pierdes lo que había adentro. Detalles en [LABORATORIO.md](../../LABORATORIO.md).

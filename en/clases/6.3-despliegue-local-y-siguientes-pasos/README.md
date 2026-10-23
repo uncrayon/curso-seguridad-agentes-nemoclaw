@@ -106,7 +106,7 @@ Add up your points: **5–8** keep iterating · **9–12** ready to show · **13
 ### 7. Confirm the lab is deleted
 Normally you already deleted your instance at the end of your last lab practice ([5.3](../5.3-sandbox-y-politicas/README.md), or the last optional practice you did). Check it in the browser:
 1. In the Brev console (brev.nvidia.com), open **Compute**. Your instance (`nemoclaw-…`) should no longer show up.
-2. If it's still there, save what you want (print it in the **VM TERMINAL** and copy the text into your notes), then open the instance and click **Delete**. Confirm in the dialog that appears.
+2. If it's still there, save what you want: copy the text from the **VM TERMINAL**, or download everything as a zip with the [first recipe of the cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md#receta-previa--respalda-tu-laboratorio-en-un-zip), then open the instance and click **Delete**. Confirm in the dialog that appears.
 3. Open **Billing** in the top menu and check your balance.
 
 Running, the instance costs ≈USD 0.25/h. Stopped (**Stop**), the disk keeps billing ≈USD 0.05/h, about USD 1.20 a day. Deleted (**Delete**), nothing is billed, but you lose what was inside. Details in [your Brev lab (Spanish)](../../../LABORATORIO.md).
