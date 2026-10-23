@@ -205,4 +205,4 @@ nemoclaw my-assistant skill remove soporte-nemoclaw     # usa el name de la etiq
 nemoclaw my-assistant exec -- rm -f /sandbox/.openclaw/workspace/reportes/resumen-faq.md
 ```
 
-No la quites si vas a seguir con «Seguridad agéntica con OpenShell» (o con la clase complementaria 4.4): ahí la vuelves a usar. Si paras por hoy, detén la instancia en la consola de Brev con **Stop** y vuelve pronto; al final de todo el laboratorio, **Delete** (ver [LABORATORIO.md](../../LABORATORIO.md)).
+No la quites si vas a seguir con «Seguridad agéntica con OpenShell» (o con la clase 4.4, material complementario): ahí la vuelves a usar. Si paras por hoy, detén la instancia en la consola de Brev con **Stop** y vuelve pronto; al final de todo el laboratorio, **Delete** (ver [LABORATORIO.md](../../LABORATORIO.md)).

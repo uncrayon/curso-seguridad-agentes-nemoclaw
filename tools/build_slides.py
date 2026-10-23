@@ -63,7 +63,7 @@ def L(c, lang):
     return {"title": title, "promesa": promesa, "aprendimos": LEARNED_EN[c["id"]], "skill": skill,
             "module": MODULES_EN[c["module"]][0]}
 
-OPCIONAL = {"es": "Complementaria · sin video", "en": "Supplementary · no video"}
+OPCIONAL = {"es": "Material complementario · sin video", "en": "Supplementary material · no video"}
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 # Versión de los assets: cambia cuando cambian el CSS o el JS, para que el navegador no use una copia vieja
 import hashlib  # noqa: E402

@@ -1,6 +1,6 @@
 # Tu laboratorio en Brev
 
-Las prácticas de «Crea tu agente con NemoClaw» y «Seguridad agéntica con OpenShell», y de algunas clases complementarias, se hacen en un **laboratorio**: una computadora en la nube con NemoClaw ya instalado. Esta página te explica cuánto cuesta, cómo planear tu práctica para que te alcance el crédito de **1 USD**, cómo crear el laboratorio y cómo usar su tablero.
+Las prácticas de «Crea tu agente con NemoClaw» y «Seguridad agéntica con OpenShell», y de parte del material complementario, se hacen en un **laboratorio**: una computadora en la nube con NemoClaw ya instalado. Esta página te explica cuánto cuesta, cómo planear tu práctica para que te alcance el crédito de **1 USD**, cómo crear el laboratorio y cómo usar su tablero.
 
 No necesitas instalar nada en tu computadora. Todo se hace desde el navegador.
 
@@ -32,18 +32,18 @@ No necesitas instalar nada en tu computadora. Todo se hace desde el navegador.
 
 Primero mira los videos de «Crea tu agente con NemoClaw» y «Seguridad agéntica con OpenShell». Después enciende la instancia y haz **las prácticas de laboratorio seguidas**, en una sola sentada. Al terminar, **bórrala**.
 
-Las prácticas obligatorias son 4.1, 4.2, 4.3, 5.2 y 5.3. Las marcadas *(complementaria, sin video)* puedes saltarlas: el resto del curso no depende de ellas.
+Las prácticas obligatorias son 4.1, 4.2, 4.3, 5.2 y 5.3. Las marcadas *(material complementario, sin video)* puedes saltarlas: el resto del curso no depende de ellas.
 
 | Clase | Práctica | Tiempo encendida (aprox.) |
 |---|---|---|
 | [4.1](clases/4.1-laboratorio-nemoclaw-en-brev/README.md) | Crear el laboratorio y conocer el tablero | ≈30 min |
 | [4.2](clases/4.2-gateway-y-workspace-openclaw/README.md) | Gateway, workspace y memoria de la conversación | ≈20 min |
 | [4.3](clases/4.3-agentes-siempre-activos/README.md) | Una skill y una automatización | ≈25 min |
-| [4.4](clases/4.4-hermes-en-nemoclaw/README.md) (complementaria, sin video) | Hermes en un segundo sandbox | ≈30 min |
+| [4.4](clases/4.4-hermes-en-nemoclaw/README.md) (material complementario, sin video) | Hermes en un segundo sandbox | ≈30 min |
 | [5.2](clases/5.2-identidades-openshell/README.md) | Quién es quién: operador y sandbox | ≈20 min |
 | [5.3](clases/5.3-sandbox-y-politicas/README.md) | Políticas de red y archivos | ≈25 min |
-| [6.1](clases/6.1-clis-de-agentes/README.md) (complementaria, sin video) | Comparar CLIs de agentes | ≈20 min |
-| [6.2](clases/6.2-biblioteca-de-skills/README.md) (complementaria, sin video) | Instalar la biblioteca de skills | ≈15 min |
+| [6.1](clases/6.1-clis-de-agentes/README.md) (material complementario, sin video) | Comparar CLIs de agentes | ≈20 min |
+| [6.2](clases/6.2-biblioteca-de-skills/README.md) (material complementario, sin video) | Instalar la biblioteca de skills | ≈15 min |
 | **Total obligatorio** (4.1, 4.2, 4.3, 5.2 y 5.3) | | **≈2 h 00 min ≈ USD 0.50** |
 | **Total con todas las complementarias** | | **≈3 h 05 min ≈ USD 0.77** |
 

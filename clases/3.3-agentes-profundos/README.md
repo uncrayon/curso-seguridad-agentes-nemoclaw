@@ -4,12 +4,12 @@ Objetivo: convertir el reporte de un estudiante en un reporte de diagnóstico co
 
 | | |
 |---|---|
-| **Video** | No tiene: es una clase complementaria |
+| **Video** | No tiene: es material complementario |
 | **Práctica** | Notebook (≈50 min), funciona sin key en modo MOCK |
 | **Habilidad** | Coordinar subagentes con un planificador |
 | **Material** | [Diapositivas](slides.html) · [Notebook](3.3-agentes-profundos.ipynb) · [Preguntas frecuentes](../../FAQ.md) |
 
-> **Esta clase es complementaria: no tiene video.** No la necesitas para seguir el curso. Tiene guía y notebook para que profundices a tu ritmo, y no usa el laboratorio de Brev.
+> **Esta clase es material complementario: no tiene video.** No la necesitas para seguir el curso. Tiene guía y notebook para que profundices a tu ritmo, y no usa el laboratorio de Brev.
 
 ## Lo esencial (sin tecnicismos)
 

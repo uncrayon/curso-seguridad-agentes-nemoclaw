@@ -4,14 +4,14 @@ Aprende a comparar cualquier agente de CLI con cinco preguntas, compruébalas en
 
 | | |
 |---|---|
-| **Video** | No tiene: es una clase complementaria |
+| **Video** | No tiene: es material complementario |
 | **Práctica** | Laboratorio en Brev: tablero de NemoClaw + terminal del navegador ([cookbook.md](cookbook.md)) |
 | **Habilidad** | Comparar agentes por su superficie de riesgo y elegir según la tarea |
 | **Material** | [Diapositivas](slides.html) · [FAQ del curso](../../FAQ.md) |
 
 > Basado en la lección 04b del curso NVIDIA DLI «NemoClaw» (Apache-2.0) y en el repo NVIDIA/NemoClaw.
 
-> **Esta clase es complementaria: no tiene video.** No la necesitas para seguir el curso, y su práctica de laboratorio también es opcional. Si la haces, hazla en la misma sentada, después de la 5.3 y antes de borrar la instancia (≈20 min, ≈USD 0.08). Si ya la borraste al terminar la 5.3, sáltala: puedes leer esta guía sin laboratorio.
+> **Esta clase es material complementario: no tiene video.** No la necesitas para seguir el curso, y su práctica de laboratorio también es opcional. Si la haces, hazla en la misma sentada, después de la 5.3 y antes de borrar la instancia (≈20 min, ≈USD 0.08). Si ya la borraste al terminar la 5.3, sáltala: puedes leer esta guía sin laboratorio.
 
 ## Lo esencial (sin tecnicismos)
 

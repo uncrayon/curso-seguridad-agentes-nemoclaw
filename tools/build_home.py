@@ -23,10 +23,10 @@ PRACTICE_EN = {"notebook": "Notebook", "lab": "Brev lab", "slides": "Slides", "n
 # Etiquetas de la interfaz por idioma. En inglés, el material de cada clase sigue en español: se marca (ES).
 UI = {
     "es": {"guide": "Guía", "slides": "Diapositivas", "nb": "Colab", "cb": "Recetario",
-           "skill": "Habilidad", "module": "Módulo", "classes": "clases", "extra_h": "Clases complementarias", "extra_p": "Estas clases no tienen video. Tienen guía, notebook o recetas para que profundices a tu ritmo: no las necesitas para seguir el curso.",
+           "skill": "Habilidad", "module": "Módulo", "classes": "clases", "extra_h": "Material complementario", "extra_p": "Estas clases no tienen video. Tienen guía, notebook o recetas para que profundices a tu ritmo: no las necesitas para seguir el curso.",
            "mats": "Material", "names": ("guía", "diapositivas", "notebook", "cookbook")},
     "en": {"guide": "Guide", "slides": "Slides", "nb": "Colab (ES)", "cb": "Cookbook (ES)",
-           "skill": "Skill", "module": "Module", "classes": "classes", "extra_h": "Supplementary classes", "extra_p": "These classes have no video. They come with a guide, a notebook or recipes so you can go deeper at your own pace: you don't need them to follow the course.",
+           "skill": "Skill", "module": "Module", "classes": "classes", "extra_h": "Supplementary material", "extra_p": "These classes have no video. They come with a guide, a notebook or recipes so you can go deeper at your own pace: you don't need them to follow the course.",
            "mats": "Materials (ES)", "names": ("guide", "slides", "notebook", "cookbook")},
 }
 
@@ -148,8 +148,8 @@ def cabecera(lang, pre, n_clases, horas):
     n_mod = sum(1 for m in MODULES if not m.get("complementario"))
     n_vid = sum(len(c.get("videos", [1])) for c in video_classes())
     n_extra = sum(1 for c in CLASSES if c.get("opcional"))
-    chips = ([f"{n_mod} módulos", f"{n_vid} videos", f"{n_extra} clases complementarias", "en español", f"instructor: {COURSE['instructor']}"] if es else
-             [f"{n_mod} modules", f"{n_vid} videos", f"{n_extra} supplementary classes", "taught in Spanish", f"instructor: {COURSE['instructor']}"])
+    chips = ([f"{n_mod} módulos", f"{n_vid} videos", f"{n_extra} clases de material complementario", "en español", f"instructor: {COURSE['instructor']}"] if es else
+             [f"{n_mod} modules", f"{n_vid} videos", f"{n_extra} classes of supplementary material", "taught in Spanish", f"instructor: {COURSE['instructor']}"])
     iconos = ["view_kanban", "smart_display", "menu_book", "translate", "person"]
     facts = "".join(f'<span class="chip"><span class="icon">{i}</span>{E(c)}</span>' for i, c in zip(iconos, chips))
     cta = ([("primary", start, "play_arrow", "Empieza el curso", False),
@@ -241,9 +241,9 @@ PAGE_ES = """<!doctype html>
   <table><thead><tr><th>Objetivo (NVIDIA)</th><th>En español</th><th>Dónde</th></tr></thead><tbody>
     <tr><td>Build a basic agent loop and identify its core components.</td><td>Construir un loop básico de agente e identificar sus componentes</td><td>Fundamentos de Agentes</td></tr>
     <tr><td>Implement reliable tool use and function calling within an agent system.</td><td>Implementar un uso confiable de herramientas y llamadas a funciones</td><td>Fundamentos de Agentes</td></tr>
-    <tr><td>Design and coordinate multi-agent systems using structured routing patterns.</td><td>Diseñar y coordinar sistemas multiagente con enrutamiento estructurado</td><td>Clases complementarias</td></tr>
+    <tr><td>Design and coordinate multi-agent systems using structured routing patterns.</td><td>Diseñar y coordinar sistemas multiagente con enrutamiento estructurado</td><td>Material complementario</td></tr>
     <tr><td>Utilize OpenShell to configure agent identities and ensure safe, sandboxed operations.</td><td>Usar OpenShell para configurar identidades y operar en un sandbox seguro</td><td>Seguridad agéntica con OpenShell</td></tr>
-    <tr><td>Deploy and manage autonomous agents while building persistent skill libraries.</td><td>Desplegar y operar agentes autónomos con bibliotecas de skills persistentes</td><td>Crea tu agente con NemoClaw y clases complementarias</td></tr>
+    <tr><td>Deploy and manage autonomous agents while building persistent skill libraries.</td><td>Desplegar y operar agentes autónomos con bibliotecas de skills persistentes</td><td>Crea tu agente con NemoClaw y material complementario</td></tr>
   </tbody></table>
 </section>
 </main>
@@ -311,9 +311,9 @@ PAGE_EN = """<!doctype html>
   <table><thead><tr><th>Objective (NVIDIA)</th><th>Where</th></tr></thead><tbody>
     <tr><td>Build a basic agent loop and identify its core components.</td><td>Agent Fundamentals</td></tr>
     <tr><td>Implement reliable tool use and function calling within an agent system.</td><td>Agent Fundamentals</td></tr>
-    <tr><td>Design and coordinate multi-agent systems using structured routing patterns.</td><td>Supplementary classes</td></tr>
+    <tr><td>Design and coordinate multi-agent systems using structured routing patterns.</td><td>Supplementary material</td></tr>
     <tr><td>Utilize OpenShell to configure agent identities and ensure safe, sandboxed operations.</td><td>Agentic security with OpenShell</td></tr>
-    <tr><td>Deploy and manage autonomous agents while building persistent skill libraries.</td><td>Build your agent with NemoClaw and supplementary classes</td></tr>
+    <tr><td>Deploy and manage autonomous agents while building persistent skill libraries.</td><td>Build your agent with NemoClaw and supplementary material</td></tr>
   </tbody></table>
 </section>
 

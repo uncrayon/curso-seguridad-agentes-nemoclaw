@@ -38,7 +38,7 @@ MODULES = [
     {"n": 5, "title": "Despliegue local",
      "outcome": "Sabes qué necesitas para correr NemoClaw en tu propia máquina y cómo seguir.", "where": "Diapositivas + cookbook"},
     # Clases sin video: material para profundizar. Sus clases llevan "opcional": True.
-    {"n": 6, "title": "Clases complementarias", "complementario": True,
+    {"n": 6, "title": "Material complementario", "complementario": True,
      "outcome": "No tienen video: son guías, notebooks y recetas para profundizar a tu ritmo.",
      "where": "Notebooks + laboratorio en Brev"},
 ]

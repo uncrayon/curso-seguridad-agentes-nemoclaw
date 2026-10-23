@@ -81,7 +81,7 @@ Throughout the course you build **Soporte NemoClaw** (NemoClaw Support), an agen
 | Build your agent with NemoClaw | You deploy it in OpenClaw as a skill inside the Brev lab, with a scheduled task |
 | Agentic security with OpenShell | You analyze its risks and write its sandbox policy |
 | Local deployment | You see how to run it on your own machine |
-| Supplementary classes (no video) | A triage router, RAG over the FAQ with citations, subagents that put together a diagnostic report, and your skill library |
+| Supplementary material (no video) | A triage router, RAG over the FAQ with citations, subagents that put together a diagnostic report, and your skill library |
 
 ### The map of the 19 classes
 
@@ -100,21 +100,21 @@ Throughout the course you build **Soporte NemoClaw** (NemoClaw Support), an agen
 | | 5.2 Identities and limits with OpenShell | Lab |
 | | 5.3 Restrict tools, files and network *(two videos: theory and hands-on)* | Lab |
 | **Local deployment** | 6.3 Next steps and local deployment | Slides |
-| **Supplementary classes (no video)** | 3.1 Route work across several calls | Notebook |
+| **Supplementary material (no video)** | 3.1 Route work across several calls | Notebook |
 | | 3.2 RAG to ground answers in your sources | Notebook |
 | | 3.3 Deep agents that spawn subagents | Notebook |
 | | 4.4 Swap OpenClaw for Hermes in NemoClaw | Lab |
 | | 6.1 Compare modern agent CLIs | Lab |
 | | 6.2 Build your skill library | Notebook |
 
-The supplementary classes have no video: they come with a guide, a notebook or recipes so you can go deeper at your own pace. You don't need them to follow the course.
+The supplementary material has no video: it comes with a guide, a notebook or recipes so you can go deeper at your own pace. You don't need them to follow the course.
 
 What you need at each stage:
 
 - **Set up your environment** and **Agent Fundamentals**: a free NVIDIA Build API key and Python (Colab or your own machine). You don't need a GPU.
 - **Build your agent with NemoClaw** and **Agentic security with OpenShell**: a [Brev](https://brev.nvidia.com/) account to launch the lab (a cloud machine with NemoClaw already installed) and a desktop browser.
 - **Local deployment**: nothing new. This class doesn't use the lab.
-- **Supplementary classes**: the notebook ones (3.1, 3.2, 3.3 and 6.2) only need your API key; the lab ones (4.4, 6.1 and the end of 6.2) use the same Brev instance.
+- **Supplementary material**: the notebook ones (3.1, 3.2, 3.3 and 6.2) only need your API key; the lab ones (4.4, 6.1 and the end of 6.2) use the same Brev instance.
 
 ## Step by step (guided practice in the browser)
 
@@ -125,11 +125,11 @@ What you need at each stage:
 3. Scroll down to **"Cómo funciona el curso"** (How the course works) and find the three stages: your access to models (a free `nvapi-` API key, all you need before the lab), the notebooks in Colab or on your machine, and the real lab on Brev, from "Build your agent with NemoClaw" on.
 4. Look at **"El stack en un vistazo"** (The stack at a glance): one card per piece (OpenClaw, the agent; OpenShell, the sandbox; NemoClaw, the blueprint) and a diagram showing that your API key stays outside the sandbox. Compare it with the "three pieces" table above.
 5. Read **"Proyecto del curso: «Soporte NemoClaw»"** (Course project): it shows how the agent grows class by class.
-6. Scroll down to **"Clase por clase"** (Class by class): 5 modules with video and, at the end, the supplementary classes (no video), 19 classes in total. Each card shows the length, what you'll learn and its links: **Guía** (the class guide, like this page), **Diapositivas** (slides) and, depending on the class, **Colab** (the notebook, which opens in your browser) or **Recetario** (the lab's command recipes). Compare it with the table above and find class 1.3: it's the first one with a Colab button.
+6. Scroll down to **"Clase por clase"** (Class by class): 5 modules with video and, at the end, the supplementary material (no video), 19 classes in total. Each card shows the length, what you'll learn and its links: **Guía** (the class guide, like this page), **Diapositivas** (slides) and, depending on the class, **Colab** (the notebook, which opens in your browser) or **Recetario** (the lab's command recipes). Compare it with the table above and find class 1.3: it's the first one with a Colab button.
 7. Read **"Los errores que más vas a ver"** (The errors you'll see most). It holds the golden rule: on a 401 or 403, check your key and your account; on a 404 or 410, check the model name; on a 429, wait a few seconds and retry.
 8. Find the support pages: the **Glosario** (glossary, button at the top), **Tu laboratorio en Brev** (your Brev lab: the «plan del laboratorio» link in the first section, covering what it costs and how to make your credit last) and the **Preguntas frecuentes** (FAQ), with more than 50 solved cases. Bookmark the home page.
 
-You should see: at the top, the course title with the buttons "Empieza el curso" (Start the course), "Consigue tu API key" (Get your API key) and "Laboratorio en Brev" (Brev lab), and below them the labels "5 módulos" (5 modules), "14 videos" and "6 clases complementarias" (6 supplementary classes).
+You should see: at the top, the course title with the buttons "Empieza el curso" (Start the course), "Consigue tu API key" (Get your API key) and "Laboratorio en Brev" (Brev lab), and below them the labels "5 módulos" (5 modules), "14 videos" and "6 clases de material complementario" (6 classes of supplementary material).
 
 ### 2. Tour the NemoClaw repository
 
@@ -185,7 +185,7 @@ Write a paragraph of at most 5 lines that explains to a classmate what happens w
 
 There's no code yet. Your milestone is the **Soporte NemoClaw map**: in your notes, draw the flow diagram above and mark where each part of the project will live:
 
-- The Python loop (Agent Fundamentals and supplementary classes 3.1 to 3.3): outside any sandbox, in your notebook.
+- The Python loop (Agent Fundamentals and supplementary material 3.1 to 3.3): outside any sandbox, in your notebook.
 - The `soporte-nemoclaw` skill (NemoClaw support skill) and the FAQ (Build your agent with NemoClaw): inside the OpenClaw workspace, in the sandbox.
 - The policy that contains it (Agentic security with OpenShell): in OpenShell.
 

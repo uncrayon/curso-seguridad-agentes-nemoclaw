@@ -2,7 +2,7 @@
 
 Recetas para crear, operar, observar y apagar un sandbox de Hermes con NemoClaw. Funcionan en el laboratorio del curso y en cualquier instalación de NemoClaw (Linux, macOS con Apple Silicon o WSL2).
 
-> **La clase 4.4 es complementaria: no tiene video.** No la necesitas para seguir el curso. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio. Al terminar, vuelve a encender OpenClaw (`my-assistant`) antes de seguir: la receta 14 te dice cómo.
+> **La clase 4.4 es material complementario: no tiene video.** No la necesitas para seguir el curso. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio. Al terminar, vuelve a encender OpenClaw (`my-assistant`) antes de seguir: la receta 14 te dice cómo.
 
 Convenciones:
 - Todos los comandos van en la **VM TERMINAL** del tablero de NemoClaw (la terminal de operador, usuario `ubuntu`). Ahí está `nemohermes`; la **SANDBOX TERMINAL** no lo tiene. Haz clic dentro del área negra antes de escribir y no presiones **Shift+Escape** mientras corre un comando largo: cierra la terminal y sus procesos.

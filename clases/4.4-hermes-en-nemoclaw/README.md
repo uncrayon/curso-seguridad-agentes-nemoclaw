@@ -4,14 +4,14 @@ Crea un segundo sandbox con **Hermes Agent** (Nous Research) en tu laboratorio, 
 
 | | |
 |---|---|
-| Video | No tiene: es una clase complementaria |
+| Video | No tiene: es material complementario |
 | Práctica | Laboratorio en Brev: tablero de NemoClaw + terminal del navegador ([cookbook.md](cookbook.md)) |
 | Habilidad | Desplegar y operar Hermes Agent en NemoClaw |
 | Referencia | [NemoClaw · Quickstart con Hermes](https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/get-started/quickstart) (no hay lección equivalente en el curso de NVIDIA) |
 
 Material: [diapositivas](slides.html) · [recetario de terminal](cookbook.md) · [skill soporte-nemoclaw para Hermes](skills/soporte-nemoclaw/SKILL.md) · [script de la API](hermes_api.py) · [preguntas frecuentes](../../FAQ.md#hermes)
 
-> **Esta clase es complementaria: no tiene video.** No la necesitas para seguir el curso. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio, entre la 4.3 y la 5.2. Al terminar, vuelve a encender OpenClaw (`my-assistant`) antes de seguir: el paso 14 te dice cómo.
+> **Esta clase es material complementario: no tiene video.** No la necesitas para seguir el curso. Si la haces, suma ≈30 min (≈USD 0.13) a tu sentada de laboratorio, entre la 4.3 y la 5.2. Al terminar, vuelve a encender OpenClaw (`my-assistant`) antes de seguir: el paso 14 te dice cómo.
 
 ## Lo esencial (sin tecnicismos)
 

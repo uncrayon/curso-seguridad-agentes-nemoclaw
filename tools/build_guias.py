@@ -29,7 +29,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from course import CLASSES, COURSE, by_id, module, neighbors  # noqa: E402
 from course_en import CLASSES_EN, COURSE_EN, MODULES_EN  # noqa: E402
 
-OPCIONAL = {"es": "Complementaria · sin video", "en": "Supplementary · no video"}
+OPCIONAL = {"es": "Material complementario · sin video", "en": "Supplementary material · no video"}
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 E = html.escape
 VER = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("sinapsis.css", "guia.css"))).hexdigest()[:8]

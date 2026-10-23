@@ -6,14 +6,14 @@ Create a second sandbox with **Hermes Agent** (Nous Research) in your lab, walk 
 
 | | |
 |---|---|
-| Video | None: this is a supplementary class |
+| Video | None: this is supplementary material |
 | Practice | Lab on Brev: NemoClaw dashboard + browser terminal ([cookbook.md (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/cookbook.md)) |
 | Skill | Deploy and operate Hermes Agent in NemoClaw |
 | Reference | [NemoClaw · Quickstart with Hermes](https://docs.nvidia.com/nemoclaw/latest/user-guide/hermes/get-started/quickstart) (there's no equivalent lesson in the NVIDIA course) |
 
 Materials: [slides](slides.html) · [terminal cookbook (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/cookbook.md) · [soporte-nemoclaw skill for Hermes (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/skills/soporte-nemoclaw/SKILL.md) · [API script (Spanish)](../../../clases/4.4-hermes-en-nemoclaw/hermes_api.py) · [FAQ (Spanish)](../../../FAQ.md#hermes)
 
-> **This is a supplementary class: it has no video.** You don't need it to follow the course. If you do it, it adds ≈30 min (≈USD 0.13) to your lab sitting, between 4.3 and 5.2. When you finish, turn OpenClaw (`my-assistant`) back on before you continue: step 14 shows you how.
+> **This class is supplementary material: it has no video.** You don't need it to follow the course. If you do it, it adds ≈30 min (≈USD 0.13) to your lab sitting, between 4.3 and 5.2. When you finish, turn OpenClaw (`my-assistant`) back on before you continue: step 14 shows you how.
 
 ## The idea in one sentence
 

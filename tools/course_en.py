@@ -14,7 +14,7 @@ MODULES_EN = {
     3: ("Build your agent with NemoClaw", "You deploy a real agent on Brev and run it continuously.", "Brev lab"),
     4: ("Agentic security with OpenShell", "You contain the agent with identity, a sandbox, and verifiable policies.", "Brev lab + notebook"),
     5: ("Local deployment", "You know what you need to run NemoClaw on your own machine and how to keep going.", "Slides + cookbook"),
-    6: ("Supplementary classes", "No video: guides, notebooks and recipes to go deeper at your own pace.", "Notebooks + Brev lab"),
+    6: ("Supplementary material", "No video: guides, notebooks and recipes to go deeper at your own pace.", "Notebooks + Brev lab"),
 }
 
 # id: (title, [promises], skill or None)

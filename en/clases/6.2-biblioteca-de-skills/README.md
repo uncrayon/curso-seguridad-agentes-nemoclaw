@@ -6,12 +6,12 @@ Write reusable skills, measure whether your agent finds them on its own, and bri
 
 | | |
 |---|---|
-| **Video** | None: this is a supplementary class |
+| **Video** | None: this is supplementary material |
 | **Practice** | Notebook · [6.2-biblioteca-de-skills.ipynb (Spanish)](../../../clases/6.2-biblioteca-de-skills/6.2-biblioteca-de-skills.ipynb) (runs without a key, in MOCK mode) · optional last part in the Brev lab (VM TERMINAL) |
 | **Skill** | Create reusable agent skills |
 | **Materials** | [Slides](slides.html) · [Project library (Spanish)](../../../skill-library/README.md) · [FAQ (Spanish)](../../../FAQ.md) |
 
-> **This is a supplementary class: it has no video.** You don't need it to follow the course, and its last part in the lab is optional too. If you do it, do it in the same sitting, after 6.1 (or after 5.3, if you skipped 6.1) and before you delete the instance (≈15 min, ≈USD 0.06). If you already deleted it when you finished 5.3, skip it: the notebook doesn't need the lab.
+> **This class is supplementary material: it has no video.** You don't need it to follow the course, and its last part in the lab is optional too. If you do it, do it in the same sitting, after 6.1 (or after 5.3, if you skipped 6.1) and before you delete the instance (≈15 min, ≈USD 0.06). If you already deleted it when you finished 5.3, skip it: the notebook doesn't need the lab.
 
 ## What you'll achieve
 - Write a correct `SKILL.md`: frontmatter (`name`, `description`) and a runbook an agent can follow.

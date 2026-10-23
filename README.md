@@ -31,7 +31,7 @@ python3 tools/check_notebooks.py    # corre los notebooks sin API key (modo simu
 | `clases/<clase>/` | Guía (`README.md` → `index.html`), diapositivas (`slides.md` → `slides.html`), notebook o recetario de terminal |
 | `en/` | Portada, guías y diapositivas en inglés |
 | `datos/faq/` | La FAQ del curso, que el agente del proyecto usa como base de conocimiento |
-| `skill-library/` | Skills de ejemplo para la clase complementaria 6.2 |
+| `skill-library/` | Skills de ejemplo para la clase 6.2 (material complementario) |
 | `assets/` | Estilos (Platzi Sinapsis), tipografías, íconos y scripts de las diapositivas |
 | `tools/` | Los generadores del sitio y de los notebooks |
 

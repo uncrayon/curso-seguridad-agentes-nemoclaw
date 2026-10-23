@@ -267,7 +267,7 @@ Close the module with the *Soporte NemoClaw* policy:
 2. Add a **"Policy (class 5.3)"** section to your `trifecta.md`: which groups the project uses, which preset of your own you added, and which exit channels **are still open** (the inference provider, `integrate.api.nvidia.com` also for `curl`, and `clawhub.ai`).
 3. Optional: `nemoclaw my-assistant policy explain --write` should update `POLICY.md`, the summary the agent reads about its own policy. If your version doesn't accept that option, skip it.
 
-In supplementary class 6.2 you'll package this as part of your skill library.
+In class 6.2 (supplementary material) you'll package this as part of your skill library.
 
 ## Resources
 

@@ -6,12 +6,12 @@ Goal: make your code, not the model, own the shape of the work: a triage router 
 
 | | |
 |---|---|
-| **Video** | None: this is a supplementary class |
+| **Video** | None: this is supplementary material |
 | **Practice** | Notebook (≈50 min), works without a key in MOCK mode |
 | **Skill** | Route subtasks across model calls |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/3.1-enrutamiento-y-workflows/3.1-enrutamiento-y-workflows.ipynb) · [FAQ (Spanish)](../../../FAQ.md) |
 
-> **This is a supplementary class: it has no video.** You don't need it to follow the course. It has a guide and a notebook so you can go deeper at your own pace, and it doesn't use the Brev lab.
+> **This class is supplementary material: it has no video.** You don't need it to follow the course. It has a guide and a notebook so you can go deeper at your own pace, and it doesn't use the Brev lab.
 
 ## What you'll achieve
 

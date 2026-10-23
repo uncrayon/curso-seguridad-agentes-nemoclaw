@@ -6,14 +6,14 @@ Learn to compare any CLI agent with five questions, check the answers in your la
 
 | | |
 |---|---|
-| **Video** | None: this is a supplementary class |
+| **Video** | None: this is supplementary material |
 | **Practice** | Brev lab: NemoClaw dashboard + browser terminal ([cookbook.md (Spanish)](../../../clases/6.1-clis-de-agentes/cookbook.md)) |
 | **Skill** | Compare agents by their risk surface and choose based on the task |
 | **Materials** | [Slides](slides.html) · [FAQ (Spanish)](../../../FAQ.md) |
 
 > Based on lesson 04b of the NVIDIA DLI course "NemoClaw" (Apache-2.0) and on the NVIDIA/NemoClaw repo.
 
-> **This is a supplementary class: it has no video.** You don't need it to follow the course, and its lab practice is optional too. If you do it, do it in the same sitting, after 5.3 and before you delete the instance (≈20 min, ≈USD 0.08). If you already deleted it when you finished 5.3, skip it: you can read this guide without the lab.
+> **This class is supplementary material: it has no video.** You don't need it to follow the course, and its lab practice is optional too. If you do it, do it in the same sitting, after 5.3 and before you delete the instance (≈20 min, ≈USD 0.08). If you already deleted it when you finished 5.3, skip it: you can read this guide without the lab.
 
 ## What you'll achieve
 - Explain why Claude Code, Codex, Cursor, Hermes, Deep Agents and OpenClaw are **the same loop with different defaults**.

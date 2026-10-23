@@ -275,7 +275,7 @@ Cierra el módulo con la política de *Soporte NemoClaw*:
 2. Agrega a tu `trifecta.md` una sección **"Política (clase 5.3)"**: qué grupos usa el proyecto, qué preset propio agregaste y qué canales de salida **siguen abiertos** (el proveedor de inferencia, `integrate.api.nvidia.com` también para `curl`, y `clawhub.ai`).
 3. Opcional: `nemoclaw my-assistant policy explain --write` debería actualizar `POLICY.md`, el resumen que el agente lee sobre su propia política. Si tu versión no acepta esa opción, sáltalo.
 
-En la clase complementaria 6.2 vas a empaquetar esto como parte de tu biblioteca de skills.
+En la clase 6.2 (material complementario) vas a empaquetar esto como parte de tu biblioteca de skills.
 
 ## Recursos
 
