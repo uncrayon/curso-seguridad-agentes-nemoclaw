@@ -1,4 +1,4 @@
-# 5.1 · The lethal trifecta and the risk surface
+# 5.1 · The lethal trifecta: when your AI agent becomes a risk
 
 > 🇪🇸 Original Spanish guide: [`clases/5.1-trifecta-letal/README.md`](../../../clases/5.1-trifecta-letal/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
@@ -6,7 +6,7 @@ Understand why an agent with tools is risky by design, and learn to locate that 
 
 | | |
 |---|---|
-| Video length | ≈8 min |
+| Video length | ≈6 min |
 | Practice | Guided (analysis worksheet) + optional notebook |
 | Skill | Analyze an agent's risk surface |
 

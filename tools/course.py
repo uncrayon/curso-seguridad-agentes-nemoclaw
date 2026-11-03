@@ -24,6 +24,7 @@ COURSE = {
     # los notebooks ganan el botón "Abrir en Colab" y la portada enlaza al repo.
     "github": "uncrayon/curso-seguridad-agentes-nemoclaw",
     "sitio": "https://uncrayon.github.io/curso-seguridad-agentes-nemoclaw/",
+    "platzi": "https://platzi.com/cursos/nemoclaw/",
 }
 
 MODULES = [
@@ -52,10 +53,14 @@ MODULES = [
 #   nvidia:     archivo de la lección de NVIDIA DLI en la que se basa la clase (solo para el crédito en texto;
 #               no se enlaza a las páginas de NVIDIA), o None si la clase no tiene lección equivalente;
 #               en ese caso "ref" = (etiqueta, url) apunta a la documentación de referencia.
+#   videos:     títulos de los videos en Platzi, cuando la clase tiene más de uno (en orden).
+#   parte_de:   id de la clase con la que comparte un solo video en Platzi. Se muestra como su parte 2:
+#               sin tarjeta propia en la portada, y sus diapositivas siguen la de esa clase sin cambiar de video.
 CLASSES = [
     # ------------------------------------------------------------------ Módulo 1
     {"id": "1.1", "module": 1, "slug": "1.1-que-son-nemoclaw-openclaw-openshell",
-     "title": "Qué son NemoClaw, OpenClaw y OpenShell", "minutes": 6, "practica": "navegador",
+     "title": "Cómo diseñar un agente de IA seguro con NVIDIA", "minutes": 9,
+     "videos": ["Barreras de seguridad para agentes con NemoClaw", "Cómo diseñar un agente de IA seguro con NVIDIA"], "practica": "navegador",
      "nvidia": "index.html", "skill": None,
      "promesa": ["Qué es un agente de IA, sin tecnicismos",
                  "Qué hace cada pieza: OpenClaw, OpenShell y NemoClaw",
@@ -64,7 +69,7 @@ CLASSES = [
                     "OpenClaw es el agente; OpenShell, el sandbox; NemoClaw, el blueprint que los une",
                     "El curso va de un loop en Python a un agente real dentro de un sandbox en Brev"]},
     {"id": "1.2", "module": 1, "slug": "1.2-cuenta-y-api-key-nvidia-build",
-     "title": "Crea tu cuenta y tu API key en NVIDIA Build", "minutes": 6, "practica": "navegador",
+     "title": "Cómo crear y proteger tu API key de NVIDIA", "minutes": 15, "practica": "navegador",
      "nvidia": "index.html", "skill": "Administrar el consumo de API en NVIDIA Build",
      "promesa": ["Crear tu cuenta gratuita en build.nvidia.com",
                  "Generar tu API key nvapi- y guardarla sin exponerla",
@@ -72,7 +77,7 @@ CLASSES = [
      "aprendimos": ["Tienes una cuenta en NVIDIA Build y una API key nvapi-",
                     "La key vive en una variable de entorno o un .env, nunca en el código",
                     "Hiciste tu primera llamada con curl y conoces los límites de la cuenta gratuita"]},
-    {"id": "1.3", "module": 1, "slug": "1.3-rutas-de-modelo-y-errores",
+    {"id": "1.3", "module": 1, "slug": "1.3-rutas-de-modelo-y-errores", "parte_de": "1.2",
      "title": "Configura rutas de modelo y diagnostica errores", "minutes": 7, "practica": "notebook",
      "nvidia": "index.html", "skill": "Configurar rutas de modelo; diagnosticar errores 401, 403, 404, 429 y 5xx",
      "promesa": ["Configurar las rutas de chat y embeddings que usa todo el curso",
@@ -83,7 +88,7 @@ CLASSES = [
                     "Sabes qué significa cada error de la API y qué hacer con él"]},
     # ------------------------------------------------------------------ Módulo 2
     {"id": "2.1", "module": 2, "slug": "2.1-loop-de-agente",
-     "title": "De una sola llamada al loop de agente", "minutes": 9, "practica": "notebook",
+     "title": "El loop ReAct: cómo un agente observa y actúa", "minutes": 10, "practica": "notebook",
      "nvidia": "01a-loop.html", "skill": "Construir un loop básico de agente",
      "promesa": ["Qué separa una llamada a un modelo de un agente",
                  "El ciclo observar → decidir → actuar y su condición de parada",
@@ -91,7 +96,7 @@ CLASSES = [
      "aprendimos": ["Un agente es un loop: observar → decidir → actuar → ¿parar?",
                     "La función de decisión puede ser código, búsqueda o un LLM; el loop no cambia",
                     "La memoria es la lista messages que reenvías en cada llamada"]},
-    {"id": "2.2", "module": 2, "slug": "2.2-patron-react",
+    {"id": "2.2", "module": 2, "slug": "2.2-patron-react", "parte_de": "2.1",
      "title": "Razonamiento con el patrón ReAct", "minutes": 9, "practica": "notebook",
      "nvidia": "01b-react.html", "skill": "Implementar el patrón ReAct",
      "promesa": ["El patrón ReAct: razonar, actuar, observar y repetir",
@@ -101,7 +106,7 @@ CLASSES = [
                     "finish_reason decide: stop, tool_calls o length",
                     "Cada tool_call se valida, se ejecuta y su resultado vuelve como mensaje tool"]},
     {"id": "2.3", "module": 2, "slug": "2.3-funciones-a-herramientas",
-     "title": "Convierte funciones en herramientas", "minutes": 9, "practica": "notebook",
+     "title": "El contrato de una herramienta para agentes LLM", "minutes": 7, "practica": "notebook",
      "nvidia": "01c-tools.html", "skill": "Convertir funciones en herramientas de agente",
      "promesa": ["El contrato entre el modelo y una herramienta",
                  "Cómo escribir descripciones que el modelo entiende",
@@ -139,7 +144,8 @@ CLASSES = [
                     "Aislar contexto no es lo mismo que un sandbox: eso llega con OpenShell"]},
     # ------------------------------------------------------------------ Módulo 4
     {"id": "4.1", "module": 3, "slug": "4.1-laboratorio-nemoclaw-en-brev",
-     "title": "Levanta el laboratorio NemoClaw en Brev", "minutes": 9, "practica": "lab",
+     "title": "Cómo rentar tu primera instancia en Brev", "minutes": 20,
+     "videos": ["Cómo rentar tu primera instancia en Brev", "Cómo verificar si tu agente de OpenClaw miente"], "practica": "lab",
      "nvidia": "03a-kickstart.html", "skill": "Desplegar NemoClaw en Brev",
      "promesa": ["Lanzar el launchable de NemoClaw en Brev con tu cupón",
                  "Configurar tu agente desde el navegador y abrir su tablero",
@@ -148,7 +154,8 @@ CLASSES = [
                     "Configuraste tu agente en el navegador y conoces los 4 botones del tablero",
                     "Sabes cuánto cuesta (≈0.25 USD/h) y cuándo usar Stop o Delete"]},
     {"id": "4.2", "module": 3, "slug": "4.2-gateway-y-workspace-openclaw",
-     "title": "Explora el gateway y el workspace de OpenClaw", "minutes": 8, "practica": "lab",
+     "title": "Primeros pasos con el agente en OpenClaw", "minutes": 18,
+     "videos": ["Primeros pasos con el agente en OpenClaw", "Sandbox terminal vs VM terminal en NemoClaw"], "practica": "lab",
      "nvidia": "03b-openclaw.html", "skill": None,
      "promesa": ["Las piezas de OpenClaw: gateway, sesiones y workspace",
                  "Los archivos que definen al agente: SOUL.md, AGENTS.md, MEMORY.md",
@@ -157,7 +164,8 @@ CLASSES = [
                     "El workspace es el contexto del agente: SOUL.md, AGENTS.md, MEMORY.md, skills/",
                     "Como operador, siempre verificas lo que el agente afirma"]},
     {"id": "4.3", "module": 3, "slug": "4.3-agentes-siempre-activos",
-     "title": "Agentes en operación continua y programada", "minutes": 8, "practica": "lab",
+     "title": "Skills y cron: agentes que trabajan solos", "minutes": 21,
+     "videos": ["Skills y cron: agentes que trabajan solos", "Crea e instala skills desde la terminal y el chat"], "practica": "lab",
      "nvidia": "03c-always-on.html", "skill": "Operar agentes en modo continuo",
      "promesa": ["Instalar una skill y hacer que el agente la use",
                  "Programar una tarea que corre sin que nadie escriba en el chat",
@@ -178,7 +186,7 @@ CLASSES = [
                     "Tu skill funciona en los dos agentes y llamas a Hermes desde un programa con su API compatible con OpenAI"]},
     # ------------------------------------------------------------------ Módulo 5
     {"id": "5.1", "module": 4, "slug": "5.1-trifecta-letal",
-     "title": "La trifecta letal y la superficie de riesgo", "minutes": 8, "practica": "slides",
+     "title": "La trifecta letal: cuando tu agente de IA se vuelve riesgo", "minutes": 6, "practica": "slides",
      "nvidia": "04a-safety.html", "skill": None,
      "promesa": ["Por qué un agente autónomo es riesgoso por diseño",
                  "La trifecta letal: datos privados, contenido no confiable y salida al exterior",
@@ -187,7 +195,7 @@ CLASSES = [
                     "Una instrucción inyectada puede desviar a un agente con herramientas",
                     "Defensa en capas: prompt → harness → sandbox"]},
     {"id": "5.2", "module": 4, "slug": "5.2-identidades-openshell",
-     "title": "Identidades y límites con OpenShell", "minutes": 9, "practica": "lab",
+     "title": "Permisos de agentes IA con OpenShell: defensa en capas", "minutes": 14, "practica": "lab",
      "nvidia": "04a-safety.html", "skill": "Configurar identidades de agente en OpenShell",
      "promesa": ["Quién es el agente dentro del sandbox",
                  "Cómo OpenShell decide permisos por binario e identidad",
@@ -195,8 +203,9 @@ CLASSES = [
      "aprendimos": ["El agente corre como un usuario sin privilegios dentro del sandbox",
                     "OpenShell otorga permisos por binario e identidad, no por nombre",
                     "Las credenciales reales nunca entran al sandbox"]},
-    {"id": "5.3", "module": 4, "slug": "5.3-sandbox-y-politicas", "videos": ["Teoría", "Hands-on"],
-     "title": "Restringe herramientas, archivos y red", "minutes": 9, "practica": "lab",
+    {"id": "5.3", "module": 4, "slug": "5.3-sandbox-y-politicas",
+     "title": "Probando los límites reales del sandbox en OpenShell", "minutes": 18, "practica": "lab",
+     "videos": ["Probando los límites reales del sandbox en OpenShell", "Políticas de sandbox: cómo proteger tu agente de IA"],
      "nvidia": "04a-safety.html", "skill": "Definir y verificar un sandbox en OpenShell",
      "promesa": ["Leer la política real de tu sandbox",
                  "Predecir y comprobar qué se permite y qué se bloquea",
@@ -224,7 +233,7 @@ CLASSES = [
                     "La descripción decide si el agente la descubre solo",
                     "Tu biblioteca de skills viaja contigo entre sesiones y agentes"]},
     {"id": "6.3", "module": 5, "slug": "6.3-despliegue-local-y-siguientes-pasos",
-     "title": "Próximos pasos y despliegue local", "minutes": 8, "practica": "slides",
+     "title": "Cómo correr tu agente de Brev en local", "minutes": 13, "practica": "slides",
      "nvidia": "04c-going-further.html", "skill": None,
      "promesa": ["Qué necesitas para correr NemoClaw en tu propia máquina",
                  "Rutas de producción: NIM, NeMo Guardrails, NeMo Retriever",
@@ -255,8 +264,13 @@ def neighbors(cid):
 
 
 def video_classes():
-    """Clases con video, en el orden del curso."""
+    """Clases con video, en el orden del curso (las partes 2 comparten video con su clase)."""
     return track({})
+
+
+def partes(cid):
+    """Clases que son la parte 2 (o siguientes) del video de cid."""
+    return [c for c in CLASSES if c.get("parte_de") == cid]
 
 
 def module(n):

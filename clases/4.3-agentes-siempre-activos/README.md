@@ -1,10 +1,10 @@
-# 4.3 · Agentes en operación continua y programada
+# 4.3 · Skills y cron: agentes que trabajan solos
 
 Instala la skill `soporte-nemoclaw` con la FAQ del curso, programa una tarea que escribe un resumen sin que nadie escriba en el chat y aprende a describir cualquier automatización con 3 controles.
 
 | | |
 |---|---|
-| Duración del video | ≈8 min |
+| Duración del video | 2 videos: ≈11 min + ≈10 min |
 | Práctica | Laboratorio en Brev: tablero de NemoClaw + terminal del navegador ([cookbook.md](cookbook.md)) |
 | Habilidad | Operar agentes en modo continuo |
 

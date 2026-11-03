@@ -1,4 +1,4 @@
-# 6.3 · Next steps and local deployment
+# 6.3 · How to run your Brev agent locally
 
 > 🇪🇸 Original Spanish guide: [`clases/6.3-despliegue-local-y-siguientes-pasos/README.md`](../../../clases/6.3-despliegue-local-y-siguientes-pasos/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
@@ -6,7 +6,7 @@ Wrap up your project, learn what you need to run NemoClaw on your own machine, a
 
 | | |
 |---|---|
-| **Video length** | ≈8 min |
+| **Video length** | ≈13 min |
 | **Practice** | Guided on this page + [optional local install cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md) (on your own computer, outside Brev) |
 | **Skill** | Plan a local deployment and close out an agent project with quality criteria |
 | **Materials** | [Slides](slides.html) · [FAQ (Spanish)](../../../FAQ.md) |

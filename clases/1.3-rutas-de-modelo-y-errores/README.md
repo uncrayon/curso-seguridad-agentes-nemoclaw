@@ -4,7 +4,7 @@ Objetivo: dejar tu entorno verificado (chat, tools y embeddings) y saber leer cu
 
 | | |
 |---|---|
-| **Duración del video** | ≈7 min |
+| **Duración del video** | Parte 2 del video «Cómo crear y proteger tu API key de NVIDIA» (≈15 min en total) |
 | **Práctica** | Notebook [`1.3-rutas-de-modelo-y-errores.ipynb`](1.3-rutas-de-modelo-y-errores.ipynb) (≈30 min) |
 | **Habilidad** | Configurar rutas de modelo; diagnosticar errores 401, 403, 404, 429 y 5xx |
 | **Material** | [Diapositivas](slides.html) · [Preguntas frecuentes](../../FAQ.md) |

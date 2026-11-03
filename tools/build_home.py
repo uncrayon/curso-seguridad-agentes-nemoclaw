@@ -10,7 +10,7 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from course import CLASSES, COURSE, MODULES, video_classes  # noqa: E402
+from course import CLASSES, COURSE, MODULES, partes, video_classes  # noqa: E402
 from course_en import CLASSES_EN, COURSE_EN, MODULES_EN  # noqa: E402
 from diagramas import DIAGRAMAS  # noqa: E402
 
@@ -24,10 +24,10 @@ PRACTICE_EN = {"notebook": "Notebook", "lab": "Brev lab", "slides": "Slides", "n
 UI = {
     "es": {"guide": "Guía", "slides": "Diapositivas", "nb": "Colab", "cb": "Recetario",
            "skill": "Habilidad", "module": "Módulo", "classes": "clases", "extra_h": "Material complementario", "extra_p": "Estas clases no tienen video. Tienen guía, notebook o recetas para que profundices a tu ritmo: no las necesitas para seguir el curso.",
-           "mats": "Material", "names": ("guía", "diapositivas", "notebook", "cookbook")},
+           "mats": "Material", "names": ("guía", "diapositivas", "notebook", "cookbook"), "parte": "En el mismo video, parte {n}"},
     "en": {"guide": "Guide", "slides": "Slides", "nb": "Colab (ES)", "cb": "Cookbook (ES)",
            "skill": "Skill", "module": "Module", "classes": "classes", "extra_h": "Supplementary material", "extra_p": "These classes have no video. They come with a guide, a notebook or recipes so you can go deeper at your own pace: you don't need them to follow the course.",
-           "mats": "Materials (ES)", "names": ("guide", "slides", "notebook", "cookbook")},
+           "mats": "Materials (ES)", "names": ("guide", "slides", "notebook", "cookbook"), "parte": "Same video, part {n}"},
 }
 
 
@@ -40,13 +40,9 @@ def repo(path, folder=False, prefix=""):
     return prefix + path + ("/" if folder and not path.endswith("/") else "")
 
 
-def class_card(c, lang="es"):
+def class_links(c, lang="es"):
+    """Enlaces y lista de materiales de una clase: (html de los enlaces, html de los materiales)."""
     t, pre = UI[lang], ("" if lang == "es" else "../")
-    if lang == "es":
-        title, promesa, skill_txt, practica = c["title"], c["promesa"], c.get("skill"), PRACTICA
-    else:
-        title, promesa, skill_txt = CLASSES_EN[c["id"]]
-        practica = PRACTICE_EN
     folder = ROOT / "clases" / c["slug"]
     base = f"clases/{c['slug']}"
     en_guide = ROOT / "en" / base / "README.md"
@@ -77,22 +73,39 @@ def class_card(c, lang="es"):
         mats = f'<p class="mats">{", ".join(en_have).capitalize()} (EN){rest}</p>'
     else:
         mats = f'<p class="mats">{t["mats"]}: {", ".join(names)}</p>'
+    return "".join(links), mats
+
+
+def class_card(c, lang="es"):
+    t = UI[lang]
+    if lang == "es":
+        title, promesa, skill_txt, practica = c["title"], c["promesa"], c.get("skill"), PRACTICA
+    else:
+        title, promesa, skill_txt = CLASSES_EN[c["id"]]
+        practica = PRACTICE_EN
+    links, mats = class_links(c, lang)
+    extra = ""
+    for n, parte in enumerate(partes(c["id"]), start=2):     # la parte 2 vive dentro de la misma tarjeta
+        p_title = parte["title"] if lang == "es" else CLASSES_EN[parte["id"]][0]
+        p_links, _ = class_links(parte, lang)
+        extra += (f'<div class="parte"><p class="parte-h">{t["parte"].format(n=n)}</p>'
+                  f'<h5>{E(p_title)}</h5><nav>{p_links}</nav></div>')
     skill = f'<p class="skill">{t["skill"]}: {E(skill_txt)}</p>' if skill_txt else ""
     return (f'<article class="clase"><div class="clase-top">'
             f'<span class="badge b-{c["practica"]}">{practica[c["practica"]]}</span>'
             + (f'<span class="badge b-opt">{"Sin video" if lang == "es" else "No video"}</span>' if c.get("opcional") else "")
-            + (f'<span class="badge">{len(c["videos"])} videos: {" + ".join(c["videos"])}</span>' if c.get("videos") else "")
+            + (f'<span class="badge">{len(c["videos"])} videos</span>' if c.get("videos") else "")
             + '</div>'
             f'<h4>{E(title)}</h4>'
             f'<ul class="promesa">{"".join(f"<li>{E(p)}</li>" for p in promesa)}</ul>'
-            f'{skill}{mats}<nav>{"".join(links)}</nav></article>')
+            f'{skill}{mats}<nav>{links}</nav>{extra}</article>')
 
 
 def modules_html(lang="es"):
     t = UI[lang]
     out = []
     for m in MODULES:
-        cls = [c for c in CLASSES if c["module"] == m["n"]]
+        cls = [c for c in CLASSES if c["module"] == m["n"] and not c.get("parte_de")]
         title, outcome, where = (m["title"], m["outcome"], m["where"]) if lang == "es" else MODULES_EN[m["n"]]
         if m.get("complementario"):              # sin encabezado de módulo: el título de la sección basta
             out.append(f'<h2 class="complementarias">{t["extra_h"]}</h2><p class="lead">{t["extra_p"]}</p>'
@@ -146,16 +159,18 @@ def cabecera(lang, pre, n_clases, horas):
              ("en/index.html" if es else "../index.html", "translate", "English" if es else "Español")]
     nav = "".join(f'<a href="{h}"><span class="icon">{i}</span>{E(t)}</a>' for h, i, t in links)
     n_mod = sum(1 for m in MODULES if not m.get("complementario"))
-    n_vid = sum(len(c.get("videos", [1])) for c in video_classes())
+    n_vid = sum(len(c.get("videos", [1])) for c in video_classes() if not c.get("parte_de"))
     n_extra = sum(1 for c in CLASSES if c.get("opcional"))
     chips = ([f"{n_mod} módulos", f"{n_vid} videos", f"{n_extra} clases de material complementario", "en español", f"instructor: {COURSE['instructor']}"] if es else
              [f"{n_mod} modules", f"{n_vid} videos", f"{n_extra} classes of supplementary material", "taught in Spanish", f"instructor: {COURSE['instructor']}"])
     iconos = ["view_kanban", "smart_display", "menu_book", "translate", "person"]
     facts = "".join(f'<span class="chip"><span class="icon">{i}</span>{E(c)}</span>' for i, c in zip(iconos, chips))
     cta = ([("primary", start, "play_arrow", "Empieza el curso", False),
+            ("", COURSE["platzi"], "smart_display", "Mira los videos en Platzi ↗", True),
             ("", COURSE["build"], "key", "Consigue tu API key ↗", True),
             ("", COURSE["launchable"], "computer", "Laboratorio en Brev ↗", True)] if es else
            [("primary", start, "play_arrow", "Start the course", False),
+            ("", COURSE["platzi"], "smart_display", "Watch the videos on Platzi ↗", True),
             ("", COURSE["build"], "key", "Get your API key ↗", True),
             ("", COURSE["launchable"], "computer", "Brev lab ↗", True)])
     botones = "".join(f'<a class="btn {c}" href="{h}"' + (' target="_blank" rel="noopener"' if ext else "") + f'><span class="icon">{i}</span>{E(t)}</a>'
@@ -296,7 +311,7 @@ PAGE_EN = """<!doctype html>
 <section id="adaptacion">
   <h2>What this adaptation adds</h2>
   <table><thead><tr><th>NVIDIA DLI course</th><th>Platzi adaptation</th></tr></thead><tbody>
-    <tr><td>12 interactive web lessons with JavaScript cells in the browser</td><td>20 short video classes in Spanish, each with a step-by-step guide, slides, hands-on practice and a common-errors table</td></tr>
+    <tr><td>12 interactive web lessons with JavaScript cells in the browser</td><td>16 short videos in Spanish on Platzi, each class with a step-by-step guide, slides, hands-on practice and a common-errors table</td></tr>
     <tr><td>Exercises scoped to each lesson</td><td>One course project, “Soporte NemoClaw”, that grows from a chat loop to a skill running inside a sandbox</td></tr>
     <tr><td>Browser exercises that need an API key</td><td>Python notebooks for Colab or local use that also run offline with a simulated model; NVIDIA's browser lessons stay as complementary practice</td></tr>
     <tr><td>Lab driven from the browser</td><td>Lab driven from both the browser and the terminal (<code>brev</code>, <code>nemoclaw</code>, <code>openshell</code>) with reusable cookbooks</td></tr>
@@ -355,7 +370,8 @@ def readme_table():
             if (folder / "cookbook.md").exists():
                 mats.append(f"[cookbook]({base}/cookbook.md)")
 
-            rows.append(f"| {c['id']} | {c['title']}{' *(sin video)*' if c.get('opcional') else ''} | {PRACTICA[c['practica']]} | {c['minutes']} | {' · '.join(mats)} |")
+            parte = f" *(mismo video que {c['parte_de']})*" if c.get("parte_de") else ""
+            rows.append(f"| {c['id']} | {c['title']}{parte}{' *(sin video)*' if c.get('opcional') else ''} | {PRACTICA[c['practica']]} | {c['minutes']} | {' · '.join(mats)} |")
     return "\n".join(rows)
 
 

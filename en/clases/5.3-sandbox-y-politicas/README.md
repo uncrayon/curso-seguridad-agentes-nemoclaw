@@ -1,4 +1,4 @@
-# 5.3 · Restrict tools, files and network
+# 5.3 · Testing the real limits of the sandbox in OpenShell
 
 > 🇪🇸 Original Spanish guide: [`clases/5.3-sandbox-y-politicas/README.md`](../../../clases/5.3-sandbox-y-politicas/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
@@ -6,13 +6,13 @@ Read your sandbox's real policy, predict what it allows and what it blocks, chec
 
 | | |
 |---|---|
-| Video length | ≈9 min |
+| Video length | 2 videos: ≈9 min + ≈10 min |
 | Practice | Lab on Brev: NemoClaw dashboard + in-browser terminal ([cookbook.md (Spanish)](../../../clases/5.3-sandbox-y-politicas/cookbook.md)) + [notebook (Spanish)](../../../clases/5.3-sandbox-y-politicas/5.3-sandbox-y-politicas.ipynb) |
 | Skill | Define and verify a sandbox in OpenShell |
 
 Materials: [slides](slides.html) · [lab cookbook (Spanish)](../../../clases/5.3-sandbox-y-politicas/cookbook.md) · [notebook (Spanish)](../../../clases/5.3-sandbox-y-politicas/5.3-sandbox-y-politicas.ipynb) · [FAQ (Spanish)](../../../FAQ.md)
 
-> This class has **two videos**, one on theory and one hands-on. Both use the materials on this page.
+> This class has **two videos** on Platzi: «Testing the real limits of the sandbox in OpenShell» and «Sandbox policies: how to protect your AI agent». Both use the materials on this page.
 
 > Based on lesson 04a-safety from the NVIDIA DLI «NemoClaw» course (Apache-2.0) and on `nemoclaw-blueprint/policies/` from NVIDIA/NemoClaw (Apache-2.0).
 

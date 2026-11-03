@@ -104,6 +104,9 @@ p{margin:.5em 0}
 .clase nav a:first-child .icon{color:var(--sin-on-primary)}
 .clase nav a .icon{color:var(--sin-primary)}
 .clase nav a:hover{filter:brightness(1.1)}
+.parte-h{margin:14px 0 2px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--sin-on-surface-variant)}
+.parte h5{margin:0;font-size:16px;line-height:1.25}
+.parte nav{margin-top:8px}
 
 /* Tablas */
 table{width:100%;border-collapse:collapse;background:var(--sin-surface-container-lowest);border-radius:var(--sin-radius-3xl);overflow:hidden;font-size:15px}

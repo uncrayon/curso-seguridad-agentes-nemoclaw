@@ -1,10 +1,10 @@
-# 2.3 · Convierte funciones en herramientas
+# 2.3 · El contrato de una herramienta para agentes LLM
 
 Objetivo: convertir funciones de Python en herramientas que el modelo usa bien, con argumentos validados y errores que el agente puede corregir.
 
 | | |
 |---|---|
-| **Duración del video** | ≈9 min |
+| **Duración del video** | ≈7 min |
 | **Práctica** | Notebook (≈50 min), funciona sin key en modo MOCK |
 | **Habilidad** | Convertir funciones en herramientas de agente |
 | **Material** | [Diapositivas](slides.html) · [Notebook](2.3-funciones-a-herramientas.ipynb) · [Preguntas frecuentes](../../FAQ.md) |

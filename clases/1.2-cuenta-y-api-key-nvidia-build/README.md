@@ -1,10 +1,10 @@
-# 1.2 · Crea tu cuenta y tu API key en NVIDIA Build
+# 1.2 · Cómo crear y proteger tu API key de NVIDIA
 
 Objetivo: tener una API key `nvapi-` guardada de forma segura y una primera llamada a un modelo que responde.
 
 | | |
 |---|---|
-| **Duración del video** | ≈6 min |
+| **Duración del video** | ≈15 min |
 | **Práctica** | Guiada en el navegador y la terminal (≈20 min) |
 | **Habilidad** | Administrar el consumo de API en NVIDIA Build |
 | **Material** | [Diapositivas](slides.html) · [Preguntas frecuentes](../../FAQ.md) |

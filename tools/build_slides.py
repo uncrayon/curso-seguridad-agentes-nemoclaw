@@ -33,6 +33,7 @@ DIAGRAMAS = registro()
 T = {
     "es": {"lang": "es", "guia": "Guía de la clase", "module": "Módulo", "class": "Clase", "skill": "Habilidad", "help": "← → navegar · N notas · F pantalla completa",
            "prev": "La clase pasada aprendimos", "next": "En la próxima clase aprenderemos",
+           "prev_parte": "Hasta aquí aprendimos", "next_parte": "A continuación, en este mismo video", "parte": "Parte {n}",
            "first_h": "Antes de empezar", "first": ["No necesitas saber programar: cada clase empieza con «Lo esencial», sin tecnicismos",
                                                    "Una cuenta gratuita de NVIDIA Build (te mostramos cómo crearla)",
                                                    "Para el laboratorio, una cuenta de Brev y tu cupón de 1 USD",
@@ -43,6 +44,7 @@ T = {
                                                "Comparte tu agente con la comunidad: cuéntanos qué construiste"]},
     "en": {"lang": "en", "guia": "Class guide", "module": "Module", "class": "Class", "skill": "Skill", "help": "← → navigate · N notes · F full screen",
            "prev": "Last class we learned", "next": "Next class we'll learn",
+           "prev_parte": "So far we learned", "next_parte": "Up next, in this same video", "parte": "Part {n}",
            "first_h": "Before we start", "first": ["You don't need to code: every class starts with «The essentials», no jargon",
                                                    "A free NVIDIA Build account (we show you how to create it)",
                                                    "For the lab, a Brev account and your 1 USD coupon",
@@ -121,10 +123,13 @@ def portada(c, lang="es", assets=""):
         chips = opcional(lang) + chips
     if l["skill"]:
         chips += f'<span class="chip primary"><span class="icon">bolt</span>{t["skill"]}: {html.escape(l["skill"])}</span>'
+    lead = l["module"]
+    if c.get("parte_de"):                    # la parte 2 de un video lleva el título del video
+        lead = f'{t["parte"].format(n=2)} · {L(by_id(c["parte_de"]), lang)["title"]}'
     return (f'<section class="slide portada">{deco(c, 3, assets)}'
             f'<img class="logo" src="{assets}brand/platzi-logo-new.svg" alt="Platzi">'
             f"<h1>{html.escape(l['title'])}</h1>"
-            f'<p class="lead">{html.escape(l["module"])}</p>'
+            f'<p class="lead">{html.escape(lead)}</p>'
             f'<p class="meta">{chips}</p></section>')
 
 
@@ -135,7 +140,7 @@ def repaso(c, lang="es", assets=""):
         body = f"<h2>{t['first_h']}</h2>" + li(t["first"])
     else:
         lp = L(prev, lang)
-        body = (f"<h2>{t['prev']}</h2>"
+        body = (f"<h2>{t['prev_parte' if c.get('parte_de') else 'prev']}</h2>"
                 f'<p class="lead">{html.escape(lp["title"])}</p>' + li(lp["aprendimos"]))
     return f'<section class="slide repaso">{deco(c, 2, assets)}{body}</section>'
 
@@ -147,7 +152,7 @@ def siguiente(c, lang="es", assets=""):
         body = f"<h2>{t['last_h']}</h2>" + li(t["last"])
     else:
         ln = L(nxt, lang)
-        body = (f"<h2>{t['next']}</h2>"
+        body = (f"<h2>{t['next_parte' if nxt.get('parte_de') == c['id'] else 'next']}</h2>"
                 f'<p class="prox">{html.escape(ln["title"])}{opcional(lang) if nxt.get("opcional") else ""}</p>' + li(ln["promesa"]))
     return f'<section class="slide siguiente">{deco(c, 2, assets)}{body}</section>'
 

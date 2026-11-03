@@ -3,15 +3,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Build your skill library · Secure Agents with NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/slides.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/slides.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=4ee79d57">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
@@ -40,8 +40,8 @@
 <div class="dg c6 c6-pares"><div class="c6-par" data-paso="1"><div class="dg-node bad mini"><span class="dg-ico">error</span><b>The label can't be read</b><small><code>mapping values are not allowed</code></small></div><div class="dg-arrow h "></div><div class="dg-node ok mini"><span class="dg-ico">check_circle</span><b>Quote the description</b><small>or drop the colon</small></div></div><div class="c6-par" data-paso="2"><div class="dg-node bad mini"><span class="dg-ico">error</span><b>Name rejected</b><small>has spaces or other symbols</small></div><div class="dg-arrow h "></div><div class="dg-node ok mini"><span class="dg-ico">check_circle</span><b>Only letters, numbers, . - _</b></div></div><div class="c6-par" data-paso="3"><div class="dg-node warn mini"><span class="dg-ico">error</span><b>Installed, but never used alone</b></div><div class="dg-arrow h "></div><div class="dg-node ok mini"><span class="dg-ico">check_circle</span><b>Improve the description</b><small>and open a new session</small></div></div><div class="c6-par" data-paso="4"><div class="dg-node warn mini"><span class="dg-ico">error</span><b>Picks the wrong skill</b></div><div class="dg-arrow h "></div><div class="dg-node ok mini"><span class="dg-ico">check_circle</span><b>Say when not to use it</b></div></div></div><aside class="notes"><p>One click per error. 1: <code>mapping values are not allowed here</code> = there's a <code>: </code> inside the description; use quotes (the YAML error is number one; we trigger it live). 2: the name only accepts letters, numbers, <code>.</code> <code>-</code> <code>_</code>. 3: installed but not used on its own: improve the description and open a new session. 4: picks the wrong skill: say when <strong>not</strong> to use it.</p></aside></section>
 <section class="slide"><h2>A skill is persistence</h2>
 <div class="dg c6 c6-pila"><div class="dg-row"><div class="dg-card c6-biblio" data-paso="1"><h3><span class="dg-i">menu_book</span>Your library</h3><div class="c6-estante"><span class="dg-chip"><span class="dg-i">description</span>diagnostico-api</span><span class="dg-chip"><span class="dg-i">description</span>resumen-diario</span><span class="dg-chip"><span class="dg-i">description</span>soporte-nemoclaw</span><span class="dg-chip c6-chip-bad"><span class="dg-i">warning</span>poisoned skill</span></div></div><div class="dg-arrow h warn" data-paso="2"></div><div class="dg-node warn" data-paso="2"><span class="dg-ico">replay</span><b>Every new session</b><small>the poisoned order comes back</small></div></div><div class="c6-tres"><p class="dg-note" data-paso="3"><span class="dg-i">contract</span>Review them like a contract: changes, owner, review</p><p class="dg-note" data-paso="4"><span class="dg-i">lock</span>The text asks; the tool and the sandbox enforce</p><p class="dg-note" data-paso="5"><span class="dg-i">key</span>Decide who can write to <code>skills/</code></p></div></div><aside class="notes"><p>Click 1: your library, with a poisoned skill hidden in it. Click 2: a poisoned skill is a poisoned directive that survives across sessions. Clicks 3 to 5: review them like code (diff, owner, pull request); the text asks, the tool and the sandbox enforce; decide who can write to <code>skills/</code>. Tie it back to the lethal trifecta: persistence makes an injection outlast a conversation.</p></aside></section>
-<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">Next steps and local deployment</p><ul><li>What you need to run NemoClaw on your own machine</li><li>Production paths: NIM, NeMo Guardrails, NeMo Retriever</li><li>How to keep learning and wrap up your project</li></ul></section>
+<section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">How to run your Brev agent locally</p><ul><li>What you need to run NemoClaw on your own machine</li><li>Production paths: NIM, NeMo Guardrails, NeMo Retriever</li><li>How to keep learning and wrap up your project</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=8243843d"></script>
+<script src="../../../assets/slides.js?v=4ee79d57"></script>
 </body></html>

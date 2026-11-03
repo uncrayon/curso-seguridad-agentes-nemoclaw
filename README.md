@@ -4,11 +4,13 @@
 
 👉 **Abre el curso aquí: https://uncrayon.github.io/curso-seguridad-agentes-nemoclaw/**
 
+🎬 **Videos del curso en Platzi: https://platzi.com/cursos/nemoclaw/**
+
 Vas a entender qué es un agente de IA, construir uno paso a paso, llevarlo a un laboratorio real con **NVIDIA NemoClaw** y encerrarlo de forma segura con **OpenShell**. No necesitas saber programar: cada clase empieza con **«Lo esencial»**, en palabras simples, con una actividad que haces sin código. Quien ya programa tiene todo el detalle técnico en la misma página.
 
 ## Cómo tomar el curso
 
-1. Mira el video de la clase en Platzi.
+1. Mira el video de la clase en [Platzi](https://platzi.com/cursos/nemoclaw/).
 2. Abre la página de la clase en el [sitio del curso](https://uncrayon.github.io/curso-seguridad-agentes-nemoclaw/): ahí están «Lo esencial», las diapositivas, la práctica y el glosario.
 3. Los notebooks se abren en Colab con un clic y funcionan aunque todavía no tengas API key.
 4. Desde el módulo «Crea tu agente con NemoClaw» usas un laboratorio en la nube (Brev). Antes, lee [Tu laboratorio en Brev](https://uncrayon.github.io/curso-seguridad-agentes-nemoclaw/LABORATORIO.html) para que te alcance el crédito.

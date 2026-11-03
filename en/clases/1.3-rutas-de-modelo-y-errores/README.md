@@ -6,7 +6,7 @@ Goal: leave your environment verified (chat, tools and embeddings) and know how 
 
 | | |
 |---|---|
-| **Video length** | ≈7 min |
+| **Video length** | Part 2 of the video «How to create and protect your NVIDIA API key» (≈15 min in total) |
 | **Practice** | Notebook [`1.3-rutas-de-modelo-y-errores.ipynb` (Spanish)](../../../clases/1.3-rutas-de-modelo-y-errores/1.3-rutas-de-modelo-y-errores.ipynb) (≈30 min) |
 | **Skill** | Configure model routes; diagnose 401, 403, 404, 429 and 5xx errors |
 | **Materials** | [Slides](slides.html) · [FAQ (Spanish)](../../../FAQ.md) |

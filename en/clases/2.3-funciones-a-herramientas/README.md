@@ -1,4 +1,4 @@
-# 2.3 · Turn functions into tools
+# 2.3 · The contract of a tool for LLM agents
 
 > 🇪🇸 Original Spanish guide: [`clases/2.3-funciones-a-herramientas/README.md`](../../../clases/2.3-funciones-a-herramientas/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
@@ -6,7 +6,7 @@ Goal: turn Python functions into tools the model uses well, with validated argum
 
 | | |
 |---|---|
-| **Video length** | ≈9 min |
+| **Video length** | ≈7 min |
 | **Practice** | Notebook (≈50 min), works without a key in MOCK mode |
 | **Skill** | Turn functions into agent tools |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/2.3-funciones-a-herramientas/2.3-funciones-a-herramientas.ipynb) · [FAQ (Spanish)](../../../FAQ.md) |

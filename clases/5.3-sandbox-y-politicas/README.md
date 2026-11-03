@@ -1,16 +1,16 @@
-# 5.3 · Restringe herramientas, archivos y red
+# 5.3 · Probando los límites reales del sandbox en OpenShell
 
 Lee la política real de tu sandbox, predice qué permite y qué bloquea, compruébalo en vivo y cámbiala con los comandos de NemoClaw.
 
 | | |
 |---|---|
-| Duración del video | ≈9 min |
+| Duración del video | 2 videos: ≈9 min + ≈10 min |
 | Práctica | Laboratorio en Brev: tablero de NemoClaw + terminal del navegador ([cookbook.md](cookbook.md)) + [notebook](5.3-sandbox-y-politicas.ipynb) |
 | Habilidad | Definir y verificar un sandbox en OpenShell |
 
 Material: [diapositivas](slides.html) · [cookbook del lab](cookbook.md) · [notebook](5.3-sandbox-y-politicas.ipynb) · [FAQ del curso](../../FAQ.md)
 
-> Esta clase tiene **dos videos**, uno de teoría y otro hands-on. Los dos usan el material de esta página.
+> Esta clase tiene **dos videos** en Platzi: «Probando los límites reales del sandbox en OpenShell» y «Políticas de sandbox: cómo proteger tu agente de IA». Los dos usan el material de esta página.
 
 > Basado en la lección 04a-safety del curso NVIDIA DLI «NemoClaw» (Apache-2.0) y en `nemoclaw-blueprint/policies/` de NVIDIA/NemoClaw (Apache-2.0).
 
