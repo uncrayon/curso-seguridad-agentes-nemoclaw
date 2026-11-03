@@ -1,4 +1,4 @@
-# 4.1 · Spin up the NemoClaw lab on Brev
+# 4.1 · How to rent your first instance on Brev
 
 > 🇪🇸 Original Spanish guide: [`clases/4.1-laboratorio-nemoclaw-en-brev/README.md`](../../../clases/4.1-laboratorio-nemoclaw-en-brev/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
@@ -6,7 +6,7 @@ Redeem your credit, deploy NemoClaw on Brev, set up your agent from the browser,
 
 | | |
 |---|---|
-| Video length | ≈9 min |
+| Video length | 2 videos: ≈7 min + ≈13 min |
 | Practice | Lab on Brev: NemoClaw dashboard + in-browser terminal ([cookbook.md (Spanish)](../../../clases/4.1-laboratorio-nemoclaw-en-brev/cookbook.md)) |
 | Skill | Deploy NemoClaw on Brev |
 

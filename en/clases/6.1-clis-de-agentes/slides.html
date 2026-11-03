@@ -3,20 +3,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Compare modern agent CLIs · Secure Agents with NemoClaw</title>
 <link rel="preload" href="../../../assets/fonts/material-symbols-rounded-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../../assets/sinapsis.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/slides.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=8243843d">
-<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=8243843d">
+<link rel="stylesheet" href="../../../assets/sinapsis.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/slides.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m1.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m2.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m3.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m4.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m5.css?v=4ee79d57">
+<link rel="stylesheet" href="../../../assets/diagramas-m6.css?v=4ee79d57">
 
 </head><body>
 <span class="help">← → navigate · N notes · F full screen</span>
 <section class="slide portada"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""><img src="../../../assets/brand/forma-3.svg" alt=""></div><img class="logo" src="../../../assets/brand/platzi-logo-new.svg" alt="Platzi"><h1>Compare modern agent CLIs</h1><p class="lead">Supplementary material</p><p class="meta"><span class="chip opt"><span class="icon">menu_book</span>Supplementary material · no video</span><span class="chip"><span class="icon">person</span>Ulises Rayón</span></p></section>
-<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><h2>Last class we learned</h2><p class="lead">Restrict tools, files and network</p><ul><li>You read the sandbox's real policy and understood it</li><li>You predicted and verified network and file blocks</li><li>An allowed command can still leak a secret: the sandbox is one layer</li></ul></section>
+<section class="slide repaso"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><h2>Last class we learned</h2><p class="lead">Testing the real limits of the sandbox in OpenShell</p><ul><li>You read the sandbox's real policy and understood it</li><li>You predicted and verified network and file blocks</li><li>An allowed command can still leak a secret: the sandbox is one layer</li></ul></section>
 <section class="slide"><h2>Same loop, different defaults</h2>
 <div class="dg c6 dg-row"><div class="dg-node " data-paso="1"><span class="dg-ico">folder_open</span><b>Working folder</b><small>what it can read and write</small></div><div class="dg-node " data-paso="2"><span class="dg-ico">settings</span><b>Tools</b><small>terminal, editing, search</small></div><div class="dg-node " data-paso="3"><span class="dg-ico">edit_note</span><b>Memory</b><small>instructions and saved sessions</small></div><div class="dg-node " data-paso="4"><span class="dg-ico">schedule</span><b>Unattended tasks</b><small>scheduled or very long</small></div><div class="dg-node " data-paso="5"><span class="dg-ico">public</span><b>Network</b><small>who it can talk to</small></div></div><p class="dg-note" data-paso="6"><span class="dg-i">tune</span>They all repeat the same cycle. What changes is what comes open out of the box.</p><aside class="notes"><p>Open with the strong idea: we're not going to memorize products, we're going to learn to compare them. Five clicks, one piece each: working folder, tools (terminal, editing, search, MCP), memory, unattended tasks (cron, long tasks, queues) and network. Click 6: what changes is what comes open by default. The loop is the one you already know.</p></aside></section>
 <section class="slide"><h2>Five questions for any agent</h2>
@@ -46,5 +46,5 @@ nemoclaw my-assistant logs --tail 300 | grep DENIED | tail -4</code></pre>
 <section class="slide siguiente"><div class="deco" aria-hidden="true"><img src="../../../assets/brand/forma-1.svg" alt=""><img src="../../../assets/brand/forma-8.svg" alt=""></div><h2>Next class we'll learn</h2><p class="prox">Build your skill library<span class="chip opt"><span class="icon">menu_book</span>Supplementary material · no video</span></p><ul><li>Anatomy of a skill: SKILL.md with frontmatter and a runbook</li><li>Explicit vs. automatic selection</li><li>Start your own library and take it to the lab</li></ul></section>
 <div class="foot"><span><img src="../../../assets/brand/platzi-isotype-solid.svg" alt=""></span><span class="foot-r"><a class="guia" href="index.html">Class guide</a><span id="counter"></span></span></div>
 <div class="bar"></div>
-<script src="../../../assets/slides.js?v=8243843d"></script>
+<script src="../../../assets/slides.js?v=4ee79d57"></script>
 </body></html>

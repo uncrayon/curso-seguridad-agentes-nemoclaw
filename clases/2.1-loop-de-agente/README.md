@@ -1,10 +1,10 @@
-# 2.1 · De una sola llamada al loop de agente
+# 2.1 · El loop ReAct: cómo un agente observa y actúa
 
 Objetivo: construir un agente desde cero y entender qué cambia cuando la decisión la toma un LLM.
 
 | | |
 |---|---|
-| **Duración del video** | ≈9 min |
+| **Duración del video** | ≈10 min |
 | **Práctica** | Notebook (≈45 min), funciona sin key en modo MOCK |
 | **Habilidad** | Construir un loop básico de agente |
 | **Material** | [Diapositivas](slides.html) · [Notebook](2.1-loop-de-agente.ipynb) · [Preguntas frecuentes](../../FAQ.md) |

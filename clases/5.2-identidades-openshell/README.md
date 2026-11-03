@@ -1,10 +1,10 @@
-# 5.2 · Identidades y límites con OpenShell
+# 5.2 · Permisos de agentes IA con OpenShell: defensa en capas
 
 Comprueba con evidencia quién es tu agente dentro del sandbox, qué programas pueden salir a la red y dónde está (y dónde no) tu API key.
 
 | | |
 |---|---|
-| Duración del video | ≈9 min |
+| Duración del video | ≈14 min |
 | Práctica | Laboratorio en Brev: tablero de NemoClaw + terminal del navegador ([cookbook.md](cookbook.md)) |
 | Habilidad | Configurar identidades de agente en OpenShell |
 

@@ -1,4 +1,4 @@
-# 4.2 · Explore the OpenClaw gateway and workspace
+# 4.2 · First steps with the agent in OpenClaw
 
 > 🇪🇸 Original Spanish guide: [`clases/4.2-gateway-y-workspace-openclaw/README.md`](../../../clases/4.2-gateway-y-workspace-openclaw/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
@@ -6,7 +6,7 @@ Open the folder that defines your agent, compare what the agent says about itsel
 
 | | |
 |---|---|
-| Video length | ≈8 min |
+| Video length | 2 videos: ≈10 min + ≈8 min |
 | Practice | Lab on Brev: NemoClaw dashboard + in-browser terminal ([cookbook.md (Spanish)](../../../clases/4.2-gateway-y-workspace-openclaw/cookbook.md)) |
 | Skill | Orientation (no assessed skill) |
 

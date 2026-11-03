@@ -26,8 +26,8 @@ import sys
 import markdown
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from course import CLASSES, COURSE, by_id, module, neighbors  # noqa: E402
-from course_en import CLASSES_EN, COURSE_EN, MODULES_EN  # noqa: E402
+from course import CLASSES, COURSE, by_id, module, neighbors, partes  # noqa: E402
+from course_en import CLASSES_EN, COURSE_EN, MODULES_EN, VIDEOS_EN  # noqa: E402
 
 OPCIONAL = {"es": "Material complementario · sin video", "en": "Supplementary material · no video"}
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -41,12 +41,13 @@ UI = {
            "prev": "Clase anterior", "next": "Clase siguiente", "module": "Módulo", "class": "Clase", "skill": "Habilidad",
            "copy": "Copiar", "copied": "¡Copiado!", "esencial": "Lo esencial", "fondo": "Paso a paso completo",
            "fondo_sub": "Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.",
-           "glos": "Ver en el glosario"},
+           "glos": "Ver en el glosario", "parte1": "Parte 1 de este video · sigue con", "parte2": "Parte 2 del video"},
     "en": {"home": "Course home", "glosario": "Glossary (ES)", "lab": "Your lab (ES)", "faq": "FAQ (ES)",
            "slides": "View slides", "nb": "Open the notebook", "colab": "Open in Colab", "cb": "Terminal cookbook (ES)",
            "prev": "Previous class", "next": "Next class", "module": "Module", "class": "Class", "skill": "Skill",
            "copy": "Copy", "copied": "Copied!", "esencial": "The essentials", "fondo": "Full step by step",
-           "fondo_sub": "All the detail, start to finish.", "glos": "See in the glossary"},
+           "fondo_sub": "All the detail, start to finish.", "glos": "See in the glossary",
+           "parte1": "Part 1 of this video · continues with", "parte2": "Part 2 of the video"},
 }
 ICONOS_ESENCIAL = [("la idea", "auto_awesome"), ("piénsalo", "interests"), ("palabras", "menu_book"),
                    ("hazlo", "edit_note"), ("qué te llevas", "check_circle"), ("tu crédito", "paid"),
@@ -229,7 +230,14 @@ def pagina_clase(c, lang):
     if c.get("opcional"):
         chips.insert(0, f'<span class="chip opt"><span class="icon">menu_book</span>{OPCIONAL[lang]}</span>')
     if c.get("videos"):
-        chips.insert(0, f'<span class="chip"><span class="icon">smart_display</span>{len(c["videos"])} videos: {" + ".join(c["videos"])}</span>')
+        videos = c["videos"] if lang == "es" else VIDEOS_EN[c["id"]]
+        chips[:0] = [f'<span class="chip"><span class="icon">smart_display</span>{E(v)}</span>' for v in videos]
+    titulo_de = lambda x: x["title"] if lang == "es" else CLASSES_EN[x["id"]][0]  # noqa: E731
+    if c.get("parte_de"):
+        x = by_id(c["parte_de"])
+        chips.insert(0, f'<a class="chip" href="../{x["slug"]}/index.html"><span class="icon">smart_display</span>{u["parte2"]} «{E(titulo_de(x))}»</a>')
+    for x in partes(c["id"]):
+        chips.insert(0, f'<a class="chip" href="../{x["slug"]}/index.html"><span class="icon">smart_display</span>{u["parte1"]} «{E(titulo_de(x))}»</a>')
     if skill:
         chips.append(f'<span class="chip primary"><span class="icon">bolt</span>{u["skill"]}: {E(skill)}</span>')
     hero = (f'<section class="hero"><span class="tag">{E(mod)}</span>'

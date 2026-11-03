@@ -1,10 +1,10 @@
-# 5.1 · La trifecta letal y la superficie de riesgo
+# 5.1 · La trifecta letal: cuando tu agente de IA se vuelve riesgo
 
 Entiende por qué un agente con herramientas es riesgoso por diseño y aprende a ubicar ese riesgo en tu propio agente.
 
 | | |
 |---|---|
-| Duración del video | ≈8 min |
+| Duración del video | ≈6 min |
 | Práctica | Guiada (hoja de análisis) + notebook opcional |
 | Habilidad | Analizar la superficie de riesgo de un agente |
 

@@ -1,10 +1,10 @@
-# 4.1 · Levanta el laboratorio NemoClaw en Brev
+# 4.1 · Cómo rentar tu primera instancia en Brev
 
 Canjea tu crédito, despliega NemoClaw en Brev, configura tu agente desde el navegador, recorre su tablero y aprende a pausarlo y borrarlo sin gastar de más.
 
 | | |
 |---|---|
-| Duración del video | ≈9 min |
+| Duración del video | 2 videos: ≈7 min + ≈13 min |
 | Práctica | Laboratorio en Brev: tablero de NemoClaw + terminal del navegador ([cookbook.md](cookbook.md)) |
 | Habilidad | Desplegar NemoClaw en Brev |
 

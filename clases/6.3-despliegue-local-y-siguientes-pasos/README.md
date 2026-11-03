@@ -1,10 +1,10 @@
-# 6.3 · Próximos pasos y despliegue local
+# 6.3 · Cómo correr tu agente de Brev en local
 
 Cierra tu proyecto, aprende qué necesitas para correr NemoClaw en tu máquina y elige por dónde seguir.
 
 | | |
 |---|---|
-| **Duración del video** | ≈8 min |
+| **Duración del video** | ≈13 min |
 | **Práctica** | Guiada en esta página + [cookbook opcional de instalación local](cookbook.md) (en tu propia computadora, fuera de Brev) |
 | **Habilidad** | Planear un despliegue local y cerrar un proyecto de agente con criterios de calidad |
 | **Material** | [Diapositivas](slides.html) · [FAQ del curso](../../FAQ.md) |

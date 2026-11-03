@@ -1,4 +1,4 @@
-# 4.3 · Agents in continuous and scheduled operation
+# 4.3 · Skills and cron: agents that work on their own
 
 > 🇪🇸 Original Spanish guide: [`clases/4.3-agentes-siempre-activos/README.md`](../../../clases/4.3-agentes-siempre-activos/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
@@ -6,7 +6,7 @@ Install the `soporte-nemoclaw` skill with the course FAQ, schedule a task that w
 
 | | |
 |---|---|
-| Video length | ≈8 min |
+| Video length | 2 videos: ≈11 min + ≈10 min |
 | Practice | Lab on Brev: NemoClaw dashboard + browser terminal ([cookbook.md (Spanish)](../../../clases/4.3-agentes-siempre-activos/cookbook.md)) |
 | Skill | Operate agents in continuous mode |
 

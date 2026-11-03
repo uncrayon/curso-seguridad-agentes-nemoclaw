@@ -4,7 +4,7 @@ Objetivo: construir desde cero un loop ReAct que pide herramientas, las ejecuta 
 
 | | |
 |---|---|
-| **Duración del video** | ≈9 min |
+| **Duración del video** | Parte 2 del video «El loop ReAct: cómo un agente observa y actúa» (≈10 min en total) |
 | **Práctica** | Notebook (≈45 min), funciona sin key en modo MOCK |
 | **Habilidad** | Implementar el patrón ReAct |
 | **Material** | [Diapositivas](slides.html) · [Notebook](2.2-patron-react.ipynb) · [Preguntas frecuentes](../../FAQ.md) |

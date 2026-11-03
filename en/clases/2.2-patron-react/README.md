@@ -6,7 +6,7 @@ Goal: build a ReAct loop from scratch that requests tools, runs them safely and 
 
 | | |
 |---|---|
-| **Video length** | ≈9 min |
+| **Video length** | Part 2 of the video «The ReAct loop: how an agent observes and acts» (≈10 min in total) |
 | **Practice** | Notebook (≈45 min), works without a key in MOCK mode |
 | **Skill** | Implement the ReAct pattern |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/2.2-patron-react/2.2-patron-react.ipynb) · [FAQ (Spanish)](../../../FAQ.md) |

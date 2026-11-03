@@ -1,10 +1,10 @@
-# 4.2 · Explora el gateway y el workspace de OpenClaw
+# 4.2 · Primeros pasos con el agente en OpenClaw
 
 Abre la carpeta que define a tu agente, compara lo que el agente dice de sí mismo con lo que hay en disco y personalízalo para el proyecto Soporte NemoClaw.
 
 | | |
 |---|---|
-| Duración del video | ≈8 min |
+| Duración del video | 2 videos: ≈10 min + ≈8 min |
 | Práctica | Laboratorio en Brev: tablero de NemoClaw + terminal del navegador ([cookbook.md](cookbook.md)) |
 | Habilidad | Orientación (sin habilidad evaluada) |
 

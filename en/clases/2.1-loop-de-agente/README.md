@@ -1,4 +1,4 @@
-# 2.1 · From a single call to the agent loop
+# 2.1 · The ReAct loop: how an agent observes and acts
 
 > 🇪🇸 Original Spanish guide: [`clases/2.1-loop-de-agente/README.md`](../../../clases/2.1-loop-de-agente/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
@@ -6,7 +6,7 @@ Goal: build an agent from scratch and understand what changes when an LLM makes 
 
 | | |
 |---|---|
-| **Video length** | ≈9 min |
+| **Video length** | ≈10 min |
 | **Practice** | Notebook (≈45 min), works without a key in MOCK mode |
 | **Skill** | Build a basic agent loop |
 | **Materials** | [Slides](slides.html) · [Notebook (Spanish)](../../../clases/2.1-loop-de-agente/2.1-loop-de-agente.ipynb) · [FAQ (Spanish)](../../../FAQ.md) |

@@ -1,4 +1,4 @@
-# 5.2 · Identities and boundaries with OpenShell
+# 5.2 · AI agent permissions with OpenShell: defense in layers
 
 > 🇪🇸 Original Spanish guide: [`clases/5.2-identidades-openshell/README.md`](../../../clases/5.2-identidades-openshell/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
@@ -6,7 +6,7 @@ Prove with evidence who your agent is inside the sandbox, which programs can rea
 
 | | |
 |---|---|
-| Video length | ≈9 min |
+| Video length | ≈14 min |
 | Practice | Lab on Brev: NemoClaw dashboard + in-browser terminal ([cookbook.md (Spanish)](../../../clases/5.2-identidades-openshell/cookbook.md)) |
 | Skill | Configure agent identities in OpenShell |
 

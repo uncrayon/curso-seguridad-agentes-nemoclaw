@@ -1,4 +1,4 @@
-# 1.2 · Create your NVIDIA Build account and API key
+# 1.2 · How to create and protect your NVIDIA API key
 
 > 🇪🇸 Original Spanish guide: [`clases/1.2-cuenta-y-api-key-nvidia-build/README.md`](../../../clases/1.2-cuenta-y-api-key-nvidia-build/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
@@ -6,7 +6,7 @@ Goal: have an `nvapi-` API key stored safely and a first model call that answers
 
 | | |
 |---|---|
-| **Video length** | ≈6 min |
+| **Video length** | ≈15 min |
 | **Practice** | Guided, in the browser and the terminal (≈20 min) |
 | **Skill** | Manage API usage in NVIDIA Build |
 | **Materials** | [Slides](slides.html) · [FAQ (Spanish)](../../../FAQ.md) |
