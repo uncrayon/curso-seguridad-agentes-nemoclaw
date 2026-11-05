@@ -211,4 +211,4 @@ Cuéntalos con los dedos.
 .lead ¿Preguntas? Escríbelas en el chat.
 
 Notas:
-10 minutos de preguntas. Respuestas cortas en guion.md. Al terminar el live: destroy de mi-hermes y Delete de la instancia en Brev.
+10 minutos de preguntas. Respuestas cortas en guion.md. Al terminar el live: destroy de brev-hermes y Delete de la instancia en Brev.
