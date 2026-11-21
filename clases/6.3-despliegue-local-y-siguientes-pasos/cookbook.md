@@ -94,25 +94,38 @@ Cambia `nemoclaw-xxxxxx` por el nombre de tu instancia. La consola de Brev muest
 
 La GPU es **opcional** si usas inferencia alojada (NVIDIA Endpoints). La necesitas para NIM local o vLLM.
 
+En **Ubuntu nativo o la terminal de Ubuntu dentro de WSL2**:
+
 ```bash
-# Linux / WSL2
-nproc; free -h; df -h ~
-docker info >/dev/null && echo "Docker OK"
-node --version          # v22.19.0 o mayor
-# macOS
-sysctl -n hw.ncpu; sysctl -n hw.memsize; df -h ~
+nproc
+free -h
+df -h ~
 ```
+
+En **Terminal de macOS**:
+
+```bash
+sysctl -n hw.ncpu
+sysctl -n hw.memsize
+df -h ~
+```
+
+Después de preparar el runtime de tu plataforma (Receta 1), comprueba `docker info --format 'CPUs={{.NCPU}} MemoryBytes={{.MemTotal}}'`. Después de instalar NemoClaw (Receta 2), comprueba `node --version` y `npm --version`. En Windows, estos comandos también van dentro de Ubuntu.
 **Si falla:**
 - Una VM con poca RAM puede terminar con OOM (`exit 137`) aunque el Mac tenga más memoria. Revisa la capacidad del motor con `docker info`, además de los recursos del host. Si aumentas la RAM de Colima, deja margen para macOS. Para un host Linux con memoria insuficiente, consulta el swap de al menos 8 GB de los [requisitos oficiales](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/prerequisites). Los comandos de swap de Linux no aplican a macOS.
 - Node viejo: `nvm install 22 && nvm use 22`.
 
 ## Receta 1 · Prepara la plataforma
 
-**Linux (Ubuntu):** el instalador puede instalar Docker por ti. Si ya lo tienes, asegúrate de estar en el grupo `docker`:
-```bash
-sudo usermod -aG docker $USER && newgrp docker
-sudo apt-get install -y binutils     # 'strings', para verificar el binario de OpenShell
-```
+La guía tiene instrucciones completas, con terminales y resultados esperados. Sigue solo una ruta:
+
+| Plataforma | Paso a paso |
+|---|---|
+| Windows | [WSL2, Ubuntu 24.04 y Docker Desktop](README.md#windows-con-wsl2-y-docker-desktop) |
+| Linux | [Ubuntu 24.04 nativo y Docker Engine](README.md#linux-con-ubuntu-2404-y-docker-engine) |
+| macOS | [Apple Silicon y Colima](README.md#macos-con-colima) |
+
+**Linux (Ubuntu 24.04):** la ruta instala los requisitos, Docker Engine si falta, activa el servicio y verifica `docker run --rm hello-world`. Ejecuta NemoClaw con tu usuario habitual. El grupo `docker` da control equivalente a root; úsalo en tu máquina de laboratorio o con autorización del administrador. No apliques estos pasos de instalación del daemon dentro de WSL.
 
 **macOS (Apple Silicon):**
 
@@ -139,32 +152,28 @@ docker info
 
 El `export` identifica el motor para los clientes que no usan el contexto seleccionado. No reinstala Docker ni cambia los recursos de la VM. Dura en esa sesión de terminal; repítelo cuando haga falta. Para otro perfil, usa el socket que muestra `colima status`. Antes de cambiar a Docker Desktop, ejecuta `unset DOCKER_HOST DOCKER_CONTEXT` y elige su contexto con `docker context use`. Consulta la [FAQ de Colima](https://colima.run/docs/faq/#where-is-the-docker-socket-located).
 
-**Windows:** en PowerShell, instala WSL2 y Ubuntu 24.04, y activa en Docker Desktop **Settings > Resources > WSL integration** para Ubuntu:
-```powershell
-wsl --install --no-distribution
-wsl --install -d Ubuntu-24.04
-```
-Todo lo demás se corre **dentro de Ubuntu (WSL)**.
+**Windows:** sigue la ruta enlazada para instalar Ubuntu desde PowerShell, comprobar `VERSION 2`, configurar Docker Desktop con el motor WSL2 e integrar Ubuntu. Ajusta los recursos globales de WSL si hace falta y verifica Docker **dentro de Ubuntu**. Continúa las recetas de NemoClaw en esa terminal, no en PowerShell. Mantén Docker Desktop abierto y guarda los archivos del proyecto en el directorio personal de Linux, no en `/mnt/c`.
 
 **Si falla:**
 - macOS, el build se cuelga: revisa los recursos de Docker y el espacio del host antes de cambiar límites. Aumentar el timeout no corrige la falta de RAM o disco.
 - macOS, `docker: command not found` tras instalar Colima: `brew install colima docker`.
 - WSL: "WSL 2 cannot start yet" o "not fully installed": reinicia y activa la virtualización y *Virtual Machine Platform*.
-- WSL: `docker info` falla ("Cannot connect to the Docker daemon"): abre Docker Desktop, activa la integración WSL y corre `wsl --shutdown`.
+- WSL: `docker info` falla ("Cannot connect to the Docker daemon"): abre Docker Desktop y activa la integración WSL para Ubuntu-24.04. Si necesitas reiniciar WSL, guarda el trabajo de todas sus distribuciones y cierra Docker Desktop antes de `wsl --shutdown`; después abre Docker Desktop y Ubuntu.
 
 ## Receta 2 · Instala (la forma recomendada)
 
-Para la VM de Colima de la Receta 1, crea el sandbox con 3 CPUs y 8 GiB. Esto deja capacidad a la VM y sus servicios. Usa valores que quepan en el motor si elegiste otros recursos.
+En cualquiera de las tres plataformas, el ejemplo crea el sandbox con 3 CPUs y 8 GiB cuando Docker dispone de al menos 4 CPUs y cerca de 12 GiB. Esto deja capacidad para el sistema y sus servicios. Comprueba los recursos del motor antes de copiar los límites; una computadora de 8 GB no puede alojar una VM de 12 GiB.
 
 ```bash
 curl -fsSL https://www.nvidia.com/nemoclaw.sh | \
-  NEMOCLAW_AGENT=openclaw NEMOCLAW_CPU=3 NEMOCLAW_RAM=8Gi bash
+  NEMOCLAW_NO_EXPRESS=1 NEMOCLAW_AGENT=openclaw \
+  NEMOCLAW_CPU=3 NEMOCLAW_RAM=8Gi bash
 ```
 
-En otra plataforma, puedes usar el instalador sin esos límites y elegir los recursos durante el onboarding. Las variables van del lado de `bash`. Si fijas una versión con la Receta 3, agrega allí los mismos límites para Colima.
+Las variables van del lado de `bash`. Si fijas una versión con la Receta 3, agrega allí los límites que correspondan a tu motor y `NEMOCLAW_NO_EXPRESS=1` para seguir esta ruta de modelos alojados.
 
 **Esperado:** el instalador muestra un aviso de software de terceros (acéptalo), instala OpenShell y NemoClaw, y lanza `nemoclaw onboard`. Sigue la etiqueta `lkg` (*last-known-good*).
-En DGX Spark, DGX Station y WSL puede preguntar `Run express install with these settings? [Y/n]:` (inferencia local administrada, sandbox `my-assistant`, política Balanced). Para saltarlo: `NEMOCLAW_NO_EXPRESS=1`.
+`NEMOCLAW_NO_EXPRESS=1` evita la ruta automática express de inferencia local, que puede ofrecerse en WSL y equipos NVIDIA. Aquí elegiremos NVIDIA Endpoints.
 
 **Si falla:**
 - `nemoclaw: command not found` al terminar: abre otra terminal o `source ~/.bashrc` (o `~/.zshrc`). Revisa que `~/.local/bin` esté en el `PATH`.
@@ -198,7 +207,7 @@ nemoclaw doctor
 
 ## Receta 5 · Onboarding interactivo con NVIDIA Endpoints
 
-Si NemoClaw ya está instalado, usa estos límites para la VM de Colima de 4 CPUs y 12 GiB. En otra plataforma, ajusta los valores a la capacidad disponible.
+Si NemoClaw ya está instalado, usa estos límites cuando Docker tenga al menos 4 CPUs y cerca de 12 GiB. Ajusta los valores a la capacidad disponible en tu plataforma.
 
 ```bash
 NEMOCLAW_CPU=3 NEMOCLAW_RAM=8Gi nemoclaw onboard --name my-assistant
@@ -250,11 +259,11 @@ NEMOCLAW_CPU=3 NEMOCLAW_RAM=8Gi \
 
 ## Receta 6 · Onboarding sin preguntas (para scripts)
 
-Los límites de este ejemplo corresponden a la VM de Colima de la Receta 1. Ajusta ambos si usas otra capacidad.
+Los límites de este ejemplo requieren al menos 4 CPUs y cerca de 12 GiB disponibles para Docker, como en la VM de Colima de la Receta 1. Ajusta ambos si usas otra capacidad.
 
 ```bash
 curl -fsSL https://www.nvidia.com/nemoclaw.sh | \
-  NEMOCLAW_NON_INTERACTIVE=1 NEMOCLAW_ACCEPT_THIRD_PARTY_SOFTWARE=1 \
+  NEMOCLAW_NO_EXPRESS=1 NEMOCLAW_NON_INTERACTIVE=1 NEMOCLAW_ACCEPT_THIRD_PARTY_SOFTWARE=1 \
   NEMOCLAW_CPU=3 NEMOCLAW_RAM=8Gi \
   NEMOCLAW_AGENT=openclaw NEMOCLAW_PROVIDER=build \
   NVIDIA_INFERENCE_API_KEY=nvapi-xxxxxxxx NEMOCLAW_SANDBOX_NAME=my-assistant bash
@@ -322,7 +331,7 @@ nemoclaw inference set --provider nvidia-prod --model nvidia/nemotron-3-super-12
 - Timeouts con modelos locales: `export NEMOCLAW_LOCAL_INFERENCE_TIMEOUT=300` (por defecto 180 s).
 - `Local NIM unavailable — no GPU detected`: NIM local necesita una GPU NVIDIA real. Usa NVIDIA Endpoints u Ollama.
 
-## Receta 10 · Detén Colima y vuelve después
+## Receta 10 · Detén tu entorno y vuelve después
 
 Para detener solo un sandbox y dejar el motor disponible:
 
@@ -330,7 +339,7 @@ Para detener solo un sandbox y dejar el motor disponible:
 nemoclaw my-assistant stop
 ```
 
-Para apagar la VM y todos sus contenedores al terminar:
+**macOS con Colima.** Para apagar la VM y todos sus contenedores al terminar:
 
 ```bash
 colima stop
@@ -349,7 +358,31 @@ nemoclaw my-assistant status
 
 Restaura `DOCKER_HOST` antes de `docker info` si esta terminal necesita el socket de la Receta 1. Si el sandbox está detenido, ejecuta `nemoclaw my-assistant start`. Si queda sin responder, revisa el estado y usa `nemoclaw my-assistant recover`. `status` puede levantar servicios de apoyo: para verificar que Colima siga apagado, usa `colima status`.
 
-En Linux, inicia el motor con `sudo systemctl start docker`; en WSL con Docker Desktop, abre Docker Desktop. Después aplica los mismos comandos del sandbox. Un reinicio normal no requiere repetir el onboarding.
+**Windows con WSL2.** Después de detener el sandbox en Ubuntu, guarda el trabajo de todas las distribuciones y cierra Docker Desktop desde la bandeja del sistema. En **PowerShell**:
+
+```powershell
+wsl --shutdown
+wsl --list --verbose
+```
+
+Las distribuciones deben mostrar `Stopped`. Para volver, abre Docker Desktop y espera al motor; después abre Ubuntu y ejecuta `docker info`, `nemoclaw my-assistant status` y `nemoclaw my-assistant start` si está detenido. `wsl --unregister` borra la distribución; no lo uses para apagar.
+
+**Ubuntu nativo con systemd.** Puedes dejar Docker activo después de detener el sandbox. Si también quieres detener el motor, primero detén cada contenedor que quieras apagar: [live-restore](https://docs.docker.com/engine/daemon/live-restore/) puede mantener contenedores activos al detener el daemon. Luego ejecuta:
+
+```bash
+sudo systemctl stop docker.service docker.socket
+systemctl is-active docker.service docker.socket
+```
+
+Ambas unidades deben mostrar `inactive`; el código de salida distinto de cero es esperado en esta comprobación. Los servicios nativos de OpenShell y de modelos tienen su propio ciclo de vida. Para volver:
+
+```bash
+sudo systemctl start docker
+docker info
+nemoclaw my-assistant status
+```
+
+Usa `nemoclaw my-assistant start` si el sandbox está detenido. Un reinicio normal en cualquiera de las plataformas no requiere repetir el onboarding.
 
 > ⚠️ **Ojo:** `nemoclaw start` y `nemoclaw stop` **globales** están obsoletos desde v0.0.110. Usa siempre `nemoclaw <sandbox> start|stop`.
 
@@ -369,7 +402,7 @@ nemoclaw upgrade-sandboxes --auto           # reconstruye los que tengan imagen 
 
 ## Receta 12 · Limpieza y desinstalación
 
-Para terminar el día usa `colima stop`, como indica la Receta 10. Los comandos siguientes son operaciones independientes de limpieza: elige solo la que necesitas. `destroy` elimina el sandbox y su estado; respalda lo que quieras conservar antes de ejecutarlo. `colima delete` tampoco es un paso del apagado cotidiano.
+Para terminar el día sigue el apagado de tu plataforma en la Receta 10 (`colima stop` en macOS). Los comandos siguientes son operaciones independientes de limpieza: elige solo la que necesitas. `destroy` elimina el sandbox y su estado; respalda lo que quieras conservar antes de ejecutarlo. `colima delete` tampoco es un paso del apagado cotidiano.
 
 ```bash
 nemoclaw gc --dry-run                        # imágenes huérfanas que se borrarían
@@ -386,7 +419,7 @@ nemoclaw debug --quick --output /tmp/nemoclaw-debug.tar.gz
 ```
 Abre un issue en [NVIDIA/NemoClaw](https://github.com/NVIDIA/NemoClaw/issues) con: plataforma, versión, comando exacto, mensaje de error completo y el archivo de `debug`. Antes de subirlo, revisa que no tenga keys ni URLs con `#token=`.
 
-Para un problema con Colima, agrega `colima version`, `colima status` y `docker info --format 'CPUs={{.NCPU}} MemoryBytes={{.MemTotal}}'`. Distingue los recursos del Mac de los que ve Docker. Consulta primero los issues existentes, como el [error de perfiles porcentuales #14743](https://github.com/NVIDIA/NemoClaw/issues/14743).
+Agrega `docker info --format 'CPUs={{.NCPU}} MemoryBytes={{.MemTotal}}'` y distingue los recursos del host de los que ve Docker. En macOS, agrega `colima version` y `colima status`; en Windows, `wsl --version` y `wsl --list --verbose` desde PowerShell. Consulta primero los issues existentes, como el [error de perfiles porcentuales #14743](https://github.com/NVIDIA/NemoClaw/issues/14743).
 
 ---
 
@@ -397,6 +430,7 @@ Para un problema con Colima, agrega `colima version`, `colima status` y `docker 
 | `nemoclaw: command not found` | El `PATH` del shell actual no se actualizó | Terminal nueva o `source ~/.bashrc` |
 | Docker no conecta en macOS | Colima detenido, contexto o socket incorrectos | Receta 1: revisa Colima y el contexto; usa `DOCKER_HOST` si hace falta |
 | Docker no conecta en Linux | Servicio detenido o permisos del socket | Revisa el servicio y el grupo `docker` como indica la Receta 1 |
+| Docker no conecta dentro de Ubuntu en Windows | Docker Desktop cerrado o integración WSL desactivada | Abre Docker Desktop, usa el motor WSL2 y activa la integración para Ubuntu-24.04 |
 | Exit 137 / OOM al subir la imagen | Falta de RAM en la VM o el host | Revisa ambos recursos; el swap de Linux no aplica al Mac |
 | Docker rechaza la cantidad de CPUs | El perfil calculó el porcentaje sobre el host | Receta 5: límites explícitos que quepan en la VM y un nombre nuevo |
 | La variable de entorno "no hace nada" | Quedó del lado de `curl` en el pipe | `curl ... \| VARIABLE=valor bash` |

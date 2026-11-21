@@ -14,7 +14,7 @@
 <section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Full step by step</h2><p class="fondo-sub">All the detail, start to finish.</p><div class="md"><blockquote>
 <p>🇪🇸 Original Spanish guide: <a href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/index.html"><code>clases/6.3-despliegue-local-y-siguientes-pasos/README.md</code></a>. Slides, notebooks, cookbooks and video are in Spanish.</p>
 </blockquote>
-<p>Run NemoClaw on your Apple Silicon Mac with Colima, close out your project, and choose where to go next. Linux and Windows alternatives are in the cookbook.</p>
+<p>Run NemoClaw on Windows, Linux, or macOS, close out your project, and choose where to go next. Pick your operating system below; macOS uses Colima.</p>
 <table>
 <thead>
 <tr>
@@ -89,9 +89,36 @@
 </tbody>
 </table>
 <p>For a separate deployment with hosted models: endpoint <code>https://integrate.api.nvidia.com/v1</code> and your NVIDIA key. Check your account's current access and quota.</p>
-<h3 id="2-prepare-your-mac-with-colima">2. Prepare your Mac with Colima</h3>
-<p>This walkthrough uses <strong>Colima with Docker and NVIDIA Endpoints</strong>. Your agent runs locally; model requests go to NVIDIA's hosted API. You do not need a local NVIDIA GPU.</p>
-<p>Docker is the container runtime. The <code>docker</code> command is its client; Colima supplies the Linux VM that runs the engine on macOS. Docker Desktop is an alternative that supplies its own VM. Colima is our choice here, not a NemoClaw requirement.</p>
+<h3 id="2-prepare-your-operating-system">2. Prepare your operating system</h3>
+<p>All three paths use <strong>Docker and NVIDIA Endpoints</strong>. Your agent runs locally; model requests go to NVIDIA's hosted API. You do not need a local NVIDIA GPU.</p>
+<p>Follow only the path for your machine, then continue to step 3:</p>
+<table>
+<thead>
+<tr>
+<th>Your system</th>
+<th>Follow this path</th>
+<th>Where you run NemoClaw</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td><a href="#windows-with-wsl2-and-docker-desktop">Windows with WSL2 and Docker Desktop</a></td>
+<td>The Ubuntu terminal inside WSL2</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td><a href="#linux-with-ubuntu-2404-and-docker-engine">Linux with Ubuntu 24.04 and Docker Engine</a></td>
+<td>Your Ubuntu terminal, as your normal user</td>
+</tr>
+<tr>
+<td>macOS on Apple Silicon</td>
+<td><a href="#macos-with-colima">macOS with Colima</a></td>
+<td>Terminal on the Mac</td>
+</tr>
+</tbody>
+</table>
+<p>Docker runs the containers. Windows and macOS need a Linux VM for this path; native Ubuntu runs Docker Engine directly. Colima supplies the VM on our Mac. Windows uses Docker Desktop's WSL2 engine.</p>
 <table>
 <thead>
 <tr>
@@ -118,8 +145,8 @@
 </tr>
 <tr>
 <td>Software</td>
-<td>Colima + Docker CLI on this Mac, Node.js 22.19+, npm 10+</td>
-<td>Homebrew for the commands below</td>
+<td>Docker, Node.js 22.19+, npm 10+</td>
+<td>Install the runtime for your operating system below</td>
 </tr>
 <tr>
 <td>Platforms</td>
@@ -128,38 +155,112 @@
 </tr>
 </tbody>
 </table>
-<p>Check the Mac's resources first. <code>hw.memsize</code> reports bytes:</p>
+<p>The examples in step 3 use a sandbox limited to 3 CPUs and 8 GiB, with at least 4 CPUs and roughly 12 GiB available to Docker. The general minimum above does not mean an 8-GB computer can run a 12-GiB VM. Leave memory for the host and adjust your plan before installing if it cannot fit.</p>
+<h4 id="macos-with-colima">macOS with Colima</h4>
+<p><strong>1. Check the host in Terminal.</strong> <code>hw.memsize</code> reports bytes:</p>
 <div class="highlight"><pre><span></span><code>sysctl<span class="w"> </span>-n<span class="w"> </span>hw.ncpu
 sysctl<span class="w"> </span>-n<span class="w"> </span>hw.memsize
 df<span class="w"> </span>-h<span class="w"> </span>~
 </code></pre></div>
-<p>Install <a href="https://brew.sh/">Homebrew</a> if it is missing. If Xcode Command Line Tools are missing, run <code>xcode-select --install</code> and finish the dialog before continuing.</p>
+<p><strong>2. Install and start the runtime.</strong> Install <a href="https://brew.sh/">Homebrew</a> if it is missing. If Xcode Command Line Tools are missing, run <code>xcode-select --install</code> and finish the dialog before continuing. Docker Desktop is another supported Mac runtime, but use Colima for this walkthrough.</p>
 <div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>colima<span class="w"> </span>docker
 colima<span class="w"> </span>start<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">12</span><span class="w"> </span>--disk<span class="w"> </span><span class="m">100</span>
 </code></pre></div>
 <p>The example gives the VM 4 CPUs, 12 GiB of RAM, and a 100 GiB virtual disk. It is a starting point for the 18 GiB Mac used in this walkthrough, not a guarantee for every workload. Leave memory for macOS and your other apps. The virtual disk limit does not create free space on the Mac; image downloads and builds still need real disk space. If Colima is already running and you need to change its resources, run <code>colima stop</code> before the new <code>colima start</code> command. This stops all workloads in that VM.</p>
-<p>Select the default Colima profile and check the engine:</p>
+<p><strong>3. Select the default Colima profile and check the engine.</strong></p>
 <div class="highlight"><pre><span></span><code><span class="nb">unset</span><span class="w"> </span>DOCKER_HOST<span class="w"> </span>DOCKER_CONTEXT
 docker<span class="w"> </span>context<span class="w"> </span>use<span class="w"> </span>colima
 colima<span class="w"> </span>status
 docker<span class="w"> </span>info<span class="w"> </span>--format<span class="w"> </span><span class="s1">'CPUs={{.NCPU}} MemoryBytes={{.MemTotal}}'</span>
 </code></pre></div>
 <p>Expect a running Colima VM and <strong>4 CPUs</strong> in Docker's output. Available memory can be slightly below 12 GiB. These engine values, rather than the Mac's totals, determine what the containers can use.</p>
-<p>If <code>docker info</code> works but NemoClaw or OpenShell still cannot find Docker, set the socket explicitly in the terminal where you will run them:</p>
+<p><strong>4. Set the socket only if needed.</strong> If <code>docker info</code> works but NemoClaw or OpenShell still cannot find Docker, set the socket explicitly in the terminal where you will run them:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">unset</span><span class="w"> </span>DOCKER_CONTEXT
 <span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span><span class="s2">"unix://</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.colima/default/docker.sock"</span>
 docker<span class="w"> </span>info
 </code></pre></div>
 <p><code>DOCKER_HOST</code> tells a client where to connect. This is a socket-selection workaround, not proof of a broken Docker installation. The path above is for Colima's default profile; use <code>colima status</code> to find a named profile's socket. The export lasts for this terminal session. Repeat it in a new terminal if needed. Before switching runtimes, unset it and select the intended Docker context. See the <a href="https://colima.run/docs/faq/#where-is-the-docker-socket-located">Colima socket FAQ</a> and <a href="https://docs.docker.com/engine/manage-resources/contexts/">Docker context documentation</a>.</p>
+<p><strong>5. Continue to step 3 in this Mac terminal.</strong> Skip the Windows and Linux setup sections.</p>
+<h4 id="windows-with-wsl2-and-docker-desktop">Windows with WSL2 and Docker Desktop</h4>
+<p>Use a Windows version supported by <a href="https://docs.docker.com/desktop/setup/install/windows-install/">Docker Desktop</a> and enable hardware virtualization in BIOS/UEFI if WSL requests it. This path uses Linux containers inside WSL2.</p>
+<p><strong>1. Install Ubuntu in WSL2.</strong> Open <strong>PowerShell as Administrator</strong> and run:</p>
+<div class="highlight"><pre><span></span><code><span class="n">wsl</span> <span class="p">-</span><span class="n">-install</span> <span class="n">-d</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">24</span><span class="p">.</span><span class="n">04</span>
+</code></pre></div>
+<p>Restart Windows if prompted. Open <strong>Ubuntu 24.04</strong> from the Start menu and create your Linux username and password. Keep the password for <code>sudo</code> commands. If this distribution already exists, keep it and skip installation.</p>
+<p><strong>2. Update and verify WSL.</strong> In <strong>PowerShell</strong>, run:</p>
+<div class="highlight"><pre><span></span><code><span class="n">wsl</span> <span class="p">-</span><span class="n">-update</span>
+<span class="n">wsl</span> <span class="p">-</span><span class="n">-list</span> <span class="p">-</span><span class="n">-verbose</span>
+</code></pre></div>
+<p>Expect <code>Ubuntu-24.04</code> with <code>VERSION</code> equal to <code>2</code>. If it shows <code>1</code>, run <code>wsl --set-version Ubuntu-24.04 2</code>. Follow Microsoft's <a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL installation guide</a> if installation or virtualization fails.</p>
+<p><strong>3. Connect Docker Desktop to Ubuntu.</strong> Install and open <a href="https://docs.docker.com/desktop/setup/install/windows-install/">Docker Desktop for Windows</a>. Select the <strong>WSL 2</strong> engine in <strong>Settings → General</strong>. Under <strong>Settings → Resources → WSL Integration</strong>, enable <strong>Ubuntu-24.04</strong>, then apply the settings. Keep Docker Desktop running. If the integration section is missing, check that Docker uses Linux containers and the WSL2 engine. Do not install a second Docker daemon inside this Ubuntu distribution for this path.</p>
+<p><strong>4. Give WSL enough resources.</strong> If Docker exposes too little memory for the example, open <strong>WSL Settings</strong> and adjust memory and CPU limits. Alternatively, edit <code>%UserProfile%\.wslconfig</code> on Windows. On a host with enough RAM to leave room for Windows, merge these values into the existing <code>[wsl2]</code> section:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[wsl2]</span>
+<span class="na">memory</span><span class="o">=</span><span class="s">12GB</span>
+<span class="na">processors</span><span class="o">=</span><span class="s">4</span>
+</code></pre></div>
+<p>These limits affect all WSL2 distributions. Save your Linux work and quit Docker Desktop before applying a change. In <strong>PowerShell</strong>, run:</p>
+<div class="highlight"><pre><span></span><code><span class="n">wsl</span> <span class="p">-</span><span class="n">-shutdown</span>
+</code></pre></div>
+<p>Then reopen Docker Desktop and Ubuntu. This stops WSL workloads without deleting their files. See Microsoft's <a href="https://learn.microsoft.com/en-us/windows/wsl/wsl-config#configuration-settings-for-wslconfig">WSL resource configuration</a>.</p>
+<p><strong>5. Verify Docker inside Ubuntu.</strong> The following commands run in the <strong>Ubuntu terminal</strong>, not PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>git<span class="w"> </span>binutils
+<span class="nb">unset</span><span class="w"> </span>DOCKER_HOST<span class="w"> </span>DOCKER_CONTEXT
+docker<span class="w"> </span>version
+docker<span class="w"> </span>info<span class="w"> </span>--format<span class="w"> </span><span class="s1">'CPUs={{.NCPU}} MemoryBytes={{.MemTotal}}'</span>
+df<span class="w"> </span>-h<span class="w"> </span>~
+</code></pre></div>
+<p>Expect both Docker <strong>Client</strong> and <strong>Server</strong> information, enough engine capacity for the sandbox, and sufficient free disk. If the server is missing, recheck Docker Desktop and WSL integration. Do not use the Colima socket path on Windows. Keep the installation and project files under your Linux home directory, such as <code>~/nemoclaw-course</code>, rather than <code>/mnt/c</code>.</p>
+<p><strong>6. Continue to step 3 in this Ubuntu terminal.</strong> Use the Windows browser for the local dashboard URL that NemoClaw reports.</p>
+<h4 id="linux-with-ubuntu-2404-and-docker-engine">Linux with Ubuntu 24.04 and Docker Engine</h4>
+<p>These commands target native <strong>Ubuntu 24.04 with systemd</strong>. If you are on Windows, use the WSL2 path above instead. Other distributions need their own supported installation instructions.</p>
+<p><strong>1. Check the host.</strong> In your Ubuntu terminal, run:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/etc/os-release
+nproc
+free<span class="w"> </span>-h
+df<span class="w"> </span>-h<span class="w"> </span>~
+</code></pre></div>
+<p>Expect Ubuntu 24.04 and enough resources for the chosen sandbox. If Ubuntu itself is a VM, check its allocation too.</p>
+<p><strong>2. Install the prerequisites.</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>git<span class="w"> </span>binutils
+</code></pre></div>
+<p><code>binutils</code> provides <code>strings</code>, which NemoClaw uses to inspect OpenShell.</p>
+<p><strong>3. Install Docker if it is missing.</strong> If <code>docker info</code> already succeeds, skip to step 5. For a new personal development machine, Docker provides a <a href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script">convenience script</a>. Download it, review it with <code>less</code> and press <strong>q</strong> to exit, then run it:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://get.docker.com<span class="w"> </span>-o<span class="w"> </span>/tmp/nemoclaw-install-docker.sh
+less<span class="w"> </span>/tmp/nemoclaw-install-docker.sh
+sudo<span class="w"> </span>sh<span class="w"> </span>/tmp/nemoclaw-install-docker.sh
+</code></pre></div>
+<p>If Docker is already installed but stopped or inaccessible, fix that installation instead of reinstalling it. For a managed machine or production server, use your approved setup or Docker's <a href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-apt-repository">Ubuntu package repository instructions</a>.</p>
+<p><strong>4. Start Docker and grant your user access.</strong> Membership in the <code>docker</code> group grants root-level control of the host. Use this on your own lab machine or with your administrator's approval.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>docker
+sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span><span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span>
+newgrp<span class="w"> </span>docker
+</code></pre></div>
+<p><code>newgrp</code> opens a shell with the new group membership. Alternatively, log out and back in. Run NemoClaw as your normal user, without <code>sudo</code>.</p>
+<p><strong>5. Verify the engine as that user.</strong></p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>info<span class="w"> </span>--format<span class="w"> </span><span class="s1">'CPUs={{.NCPU}} MemoryBytes={{.MemTotal}}'</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>hello-world
+</code></pre></div>
+<p>Expect Docker's capacity and <code>Hello from Docker!</code>. If access is denied, check the <a href="https://docs.docker.com/engine/install/linux-postinstall/">Docker post-installation steps</a>. A download failure is a separate network problem; read its error before changing permissions.</p>
+<p><strong>6. Continue to step 3 in your Ubuntu terminal.</strong> Native Linux does not need Colima or Docker Desktop for this path.</p>
 <h3 id="3-install-use-and-pause-nemoclaw">3. Install, use, and pause NemoClaw</h3>
-<h4 id="install-with-limits-that-fit-the-vm">Install with limits that fit the VM</h4>
-<p>For the 4-CPU/12-GiB VM above, use a sandbox limit of <strong>3 CPUs and 8 GiB</strong>. This leaves capacity for the VM, Docker, and supporting processes. These are sandbox limits, not extra resources allocated outside Colima, and CPU limits do not permanently dedicate physical cores.</p>
+<p>Run this section in <strong>macOS Terminal</strong>, your <strong>native Ubuntu terminal</strong>, or <strong>Ubuntu inside WSL2</strong>. Do not paste the Bash commands into PowerShell.</p>
+<h4 id="install-with-limits-that-fit-the-engine">Install with limits that fit the engine</h4>
+<p>The example uses a sandbox limit of <strong>3 CPUs and 8 GiB</strong> when Docker has at least 4 CPUs and roughly 12 GiB of RAM. This leaves capacity for the operating system, Docker, and supporting processes. Check the engine output from your platform's steps before copying these limits. CPU limits do not permanently dedicate physical cores.</p>
 <p>We observed NemoClaw v0.0.145 resolve the developer profile's 75% against a 12-CPU/18-GiB Mac, requesting 9 CPUs/13Gi from a smaller VM. Docker rejected that CPU request. The explicit values below avoid this bug. <a href="https://github.com/NVIDIA/NemoClaw/issues/14743">Issue #14743</a> contains the proposed fix and regression evidence; a patch in a fork does not mean your installed release includes it.</p>
 <p>If NemoClaw is not installed, run:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="nv">NEMOCLAW_AGENT</span><span class="o">=</span>openclaw<span class="w"> </span><span class="nv">NEMOCLAW_CPU</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">NEMOCLAW_RAM</span><span class="o">=</span>8Gi<span class="w"> </span>bash
+<span class="w">  </span><span class="nv">NEMOCLAW_NO_EXPRESS</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">NEMOCLAW_AGENT</span><span class="o">=</span>openclaw<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">NEMOCLAW_CPU</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">NEMOCLAW_RAM</span><span class="o">=</span>8Gi<span class="w"> </span>bash
 </code></pre></div>
-<p>The variables belong on the <strong><code>bash</code> side</strong> of the pipe, so the installer and onboarding receive them. The installer checks Node.js and npm; verify <code>node --version</code> is at least 22.19 and <code>npm --version</code> is at least 10. To pin a release, follow Recipe 3 of the <a href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.html">cookbook (Spanish)</a>.</p>
+<p>The variables belong on the <strong><code>bash</code> side</strong> of the pipe, so the installer and onboarding receive them. <code>NEMOCLAW_NO_EXPRESS=1</code> keeps this hosted-model walkthrough out of the automatic local-model express path. The installer checks Node.js and npm. After installation, verify:</p>
+<div class="highlight"><pre><span></span><code>node<span class="w"> </span>--version
+npm<span class="w"> </span>--version
+nemoclaw<span class="w"> </span>--version
+</code></pre></div>
+<p>Expect Node.js 22.19 or later, npm 10 or later, and a NemoClaw version. If a command is missing, open a new terminal in the same operating system environment; on Windows, reopen Ubuntu. To pin a release, follow Recipe 3 of the <a href="../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.html">cookbook (Spanish)</a>.</p>
 <p>If NemoClaw is already installed and you are creating a sandbox, run:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">NEMOCLAW_CPU</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">NEMOCLAW_RAM</span><span class="o">=</span>8Gi<span class="w"> </span>nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--name<span class="w"> </span>my-assistant
 </code></pre></div>
@@ -176,10 +277,10 @@ nemoclaw<span class="w"> </span>launch<span class="w"> </span>my-assistant
 </code></pre></div>
 <p>Use the dashboard URL reported by your installation, normally on <code>127.0.0.1:18789</code>. Treat a URL containing a token as a password. Port 18080 normally belongs to the OpenShell gateway. To inspect a failure, run <code>nemoclaw my-assistant logs --follow</code>; press <strong>Ctrl+C</strong> to leave the log stream. Install the course skills with Recipe 8 of the cookbook.</p>
 <h4 id="stop-for-the-day-and-resume-later">Stop for the day and resume later</h4>
-<p>To stop only this sandbox while keeping Colima available for other work:</p>
+<p>On all three platforms, stop only this sandbox with:</p>
 <div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>stop
 </code></pre></div>
-<p>To stop the entire Colima VM and every container inside it:</p>
+<p><strong>macOS with Colima.</strong> To stop the entire VM and every container inside it:</p>
 <div class="highlight"><pre><span></span><code>colima<span class="w"> </span>stop
 colima<span class="w"> </span>status
 </code></pre></div>
@@ -190,7 +291,22 @@ docker<span class="w"> </span>info
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 </code></pre></div>
 <p>Restore <code>DOCKER_HOST</code> first if this terminal needs the socket workaround. If the sandbox is stopped, run <code>nemoclaw my-assistant start</code>. If it remains unhealthy, inspect the status and run <code>nemoclaw my-assistant recover</code>. Status and recovery commands can start supporting services, so use <code>colima status</code> to check that the VM remains off.</p>
-<p><code>colima stop</code> is the everyday shutdown. <code>colima delete</code>, sandbox <code>destroy</code>, and uninstall commands are cleanup operations, not shutdown steps. For updates, follow <code>nemoclaw backup-all</code>, <code>nemoclaw update</code>, and <code>nemoclaw upgrade-sandboxes --auto</code>. Let NemoClaw manage its compatible OpenShell version; do not run <code>openshell self-update</code> separately.</p>
+<p><strong>Windows with WSL2.</strong> After stopping the sandbox in Ubuntu, save work in every WSL distribution and quit Docker Desktop from its system-tray menu. In PowerShell, run:</p>
+<div class="highlight"><pre><span></span><code><span class="n">wsl</span> <span class="p">-</span><span class="n">-shutdown</span>
+<span class="n">wsl</span> <span class="p">-</span><span class="n">-list</span> <span class="p">-</span><span class="n">-verbose</span>
+</code></pre></div>
+<p>Expect the distributions to show <code>Stopped</code>. All WSL2 workloads stop; their data stays on disk. To return, open Docker Desktop, wait for its engine, then open Ubuntu. In Ubuntu, run <code>docker info</code>, <code>nemoclaw my-assistant status</code>, and <code>nemoclaw my-assistant start</code> if stopped. Do not use <code>wsl --unregister</code> for shutdown; it deletes the distribution.</p>
+<p><strong>Native Linux.</strong> Stopping the sandbox leaves Docker available for other containers. If you also want to stop the Docker service, first stop every container you intend to shut down. Live-restore can keep containers running when the daemon stops. On this systemd lab machine, run:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>docker.service<span class="w"> </span>docker.socket
+systemctl<span class="w"> </span>is-active<span class="w"> </span>docker.service<span class="w"> </span>docker.socket
+</code></pre></div>
+<p>Expect both units to report <code>inactive</code>; the check returns a nonzero exit code for inactive services. Other host services, including a native OpenShell gateway or model server, have their own lifecycle. To return, run:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker
+docker<span class="w"> </span>info
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
+</code></pre></div>
+<p>Use <code>nemoclaw my-assistant start</code> if the sandbox is stopped. A routine restart on any platform does not require reinstalling or repeating onboarding.</p>
+<p>On macOS, <code>colima stop</code> is the everyday shutdown. <code>colima delete</code>, sandbox <code>destroy</code>, and uninstall commands are cleanup operations, not shutdown steps. For updates, follow <code>nemoclaw backup-all</code>, <code>nemoclaw update</code>, and <code>nemoclaw upgrade-sandboxes --auto</code>. Let NemoClaw manage its compatible OpenShell version; do not run <code>openshell self-update</code> separately.</p>
 <h3 id="4-map-the-production-pieces-onto-your-project">4. Map the production pieces onto your project</h3>
 <table>
 <thead>
@@ -290,7 +406,7 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 <h2 id="check-that-it-worked">Check that it worked</h2>
 <ul>
 <li>☐ You know whether your machine meets the requirements (or what it's missing).</li>
-<li>☐ If you installed locally, Docker reports the VM capacity, the agent responds, and you can stop and resume Colima without deleting data.</li>
+<li>☐ If you installed locally, Docker reports the engine capacity, the agent responds, and you can stop and resume your platform's runtime without deleting data.</li>
 <li>☐ You wrote one line per production piece for your project.</li>
 <li>☐ You checked off the delivery checklist and have your rubric score.</li>
 <li>☐ Your Brev instance is deleted and you checked your balance.</li>
@@ -341,6 +457,21 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 <td>Follow cookbook Recipe 1; Linux Docker-group commands do not apply to macOS</td>
 </tr>
 <tr>
+<td><code>wsl --list --verbose</code> shows version 1</td>
+<td>The distribution uses WSL1</td>
+<td>Convert it with <code>wsl --set-version Ubuntu-24.04 2</code> in PowerShell</td>
+</tr>
+<tr>
+<td>Docker works in PowerShell but not Ubuntu</td>
+<td>WSL integration is off or the wrong engine is selected</td>
+<td>Select the WSL2 engine and enable Ubuntu-24.04 in Docker Desktop's WSL Integration settings</td>
+</tr>
+<tr>
+<td>Windows has enough RAM but Docker reports too little</td>
+<td>WSL2 has its own resource limit</td>
+<td>Adjust WSL Settings or <code>.wslconfig</code>, restart WSL and Docker Desktop, then verify <code>docker info</code></td>
+</tr>
+<tr>
 <td>CPU request exceeds Docker's limit, followed by a readiness timeout</td>
 <td>A percentage profile used host capacity</td>
 <td>Compare <code>docker info</code> with the request; retry with the explicit limits in step 3 and a new sandbox name</td>
@@ -384,6 +515,8 @@ nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
 <li>NVIDIA DLI · Going Further (04c). This class is based on lesson 04c of the NVIDIA DLI course (Apache-2.0).</li>
 <li>NemoClaw · <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/prerequisites">Prerequisites</a> · <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/quickstart">OpenClaw quickstart</a> · <a href="https://github.com/NVIDIA/NemoClaw/issues/14743">Docker capacity bug and proposed fix</a></li>
 <li>Colima · <a href="https://colima.run/docs/getting-started/">Getting started</a> · <a href="https://colima.run/docs/configuration/">Configuration</a> · <a href="https://colima.run/docs/commands/">Commands</a></li>
+<li>Windows · <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Install WSL</a> · <a href="https://docs.docker.com/desktop/features/wsl/">Docker Desktop WSL2 integration</a></li>
+<li>Linux · <a href="https://docs.docker.com/engine/install/ubuntu/">Docker Engine on Ubuntu</a> · <a href="https://docs.docker.com/engine/install/linux-postinstall/">Docker user permissions</a></li>
 <li>NVIDIA · <a href="https://docs.nvidia.com/nim/">NIM</a> · <a href="https://github.com/NVIDIA/NeMo-Guardrails">NeMo Guardrails</a> · <a href="https://github.com/NVIDIA/NeMo-Curator">NeMo Curator</a> · <a href="https://build.nvidia.com/nvidia/aiq">AI-Q Blueprint</a></li>
 <li>NVIDIA · <a href="https://build.nvidia.com/spark/nemoclaw-applications">NemoClaw playbooks for DGX Spark</a> · <a href="https://build.nvidia.com/spark/nemoclaw/instructions">NemoClaw on DGX Spark</a></li>
 <li>NVIDIA · <a href="https://developer.nvidia.com/topics/ai/agentic-ai-learning-path">Agentic AI Learning Path</a> · <a href="https://developer.nvidia.com/blog/category/generative-ai/">Generative AI blog</a></li>
