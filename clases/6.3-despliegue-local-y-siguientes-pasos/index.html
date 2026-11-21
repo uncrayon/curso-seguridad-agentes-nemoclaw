@@ -11,7 +11,7 @@
 </div></header>
 <main class="wrap">
 <section class="hero"><span class="tag">Despliegue local</span><h1>Cómo correr tu agente de Brev en local</h1><p class="chips"><span class="chip"><span class="icon">play_arrow</span>Diapositivas</span></p><p class="acciones"><a class="btn primary" href="slides.html"><span class="icon">pages</span>Ver diapositivas</a><a class="btn" href="cookbook.html"><span class="icon">terminal</span>Recetario de terminal</a></p></section>
-<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Puedes seguir en Brev, llevar tu agente a tu propia computadora (con 16 GB de memoria y Docker) o a un servidor. Para producción, NVIDIA tiene piezas que mejoran el modelo, la búsqueda y los filtros de lo que entra y sale, pero ninguna reemplaza al sandbox. Y si no lo hiciste al final del laboratorio, guarda tu trabajo y borra tu instancia: detenida sigue cobrando el disco.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Pasar de una <a href="../../GLOSARIO.html">oficina rentada por horas</a> a montar la oficina en tu casa, y entregar la llave de la rentada al irte.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p>Despliegue local (tener el agente en tu propia máquina), Docker (un programa que empaqueta otros programas en cajas estándar, como contenedores de barco), proveedor de inferencia (quien te presta el modelo: la oficina a la que tu agente le manda las preguntas).</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Responde sí o no a este checklist: <em>¿mi organización está lista para tener un agente?</em> 1) Sabemos qué tarea concreta hará y quién lo va a operar. 2) Hicimos su hoja de trifecta (clase 5.1): qué datos privados lee, qué contenido de desconocidos recibe y por dónde puede sacar información. 3) Va a correr dentro de un sandbox con reglas escritas, y alguien sabe leerlas. 4) Las claves de acceso quedan fuera del agente y sabemos cómo cambiarlas si se filtran. 5) Una persona aprueba las acciones riesgosas: enviar, pagar, borrar, instalar. 6) Revisamos sus skills y tareas programadas como revisamos un contrato. 7) Queda un registro de lo que hace y alguien lo mira. 8) Sabemos cuánto cuesta al mes y quién lo apaga. 9) Sabemos dónde viven los datos y si pueden salir de la empresa. 10) Tenemos un plan para cuando se equivoque. Si marcaste "no" en tres o más, empieza con una prueba pequeña, sin datos reales.</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Sabes qué necesitas para tener tu propio agente y puedes decir, con una lista concreta, si tu organización está lista para usar uno.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Cierra tu proyecto, aprende qué necesitas para correr NemoClaw en tu máquina y elige por dónde seguir.</p>
+<section class="esencial" id="lo-esencial"><h2><span class="icon">auto_awesome</span>Lo esencial</h2><div class="esencial-grid"><article class="es-card"><header><span class="icon">auto_awesome</span>La idea</header><p>Puedes seguir en Brev, llevar tu agente a tu propia computadora (con 16 GB de memoria y Docker) o a un servidor. Para producción, NVIDIA tiene piezas que mejoran el modelo, la búsqueda y los filtros de lo que entra y sale, pero ninguna reemplaza al sandbox. Y si no lo hiciste al final del laboratorio, guarda tu trabajo y borra tu instancia: detenida sigue cobrando el disco.</p></article><article class="es-card"><header><span class="icon">interests</span>Piénsalo como</header><p>Pasar de una <a href="../../GLOSARIO.html">oficina rentada por horas</a> a montar la oficina en tu casa, y entregar la llave de la rentada al irte.</p></article><article class="es-card"><header><span class="icon">menu_book</span>Palabras nuevas</header><p>Despliegue local (tener el agente en tu propia máquina), Docker (un programa que empaqueta otros programas en cajas estándar, como contenedores de barco), proveedor de inferencia (quien te presta el modelo: la oficina a la que tu agente le manda las preguntas).</p></article><article class="es-card wide"><header><span class="icon">edit_note</span>Hazlo sin programar (≈10 min)</header><p>Responde sí o no a este checklist: <em>¿mi organización está lista para tener un agente?</em> 1) Sabemos qué tarea concreta hará y quién lo va a operar. 2) Hicimos su hoja de trifecta (clase 5.1): qué datos privados lee, qué contenido de desconocidos recibe y por dónde puede sacar información. 3) Va a correr dentro de un sandbox con reglas escritas, y alguien sabe leerlas. 4) Las claves de acceso quedan fuera del agente y sabemos cómo cambiarlas si se filtran. 5) Una persona aprueba las acciones riesgosas: enviar, pagar, borrar, instalar. 6) Revisamos sus skills y tareas programadas como revisamos un contrato. 7) Queda un registro de lo que hace y alguien lo mira. 8) Sabemos cuánto cuesta al mes y quién lo apaga. 9) Sabemos dónde viven los datos y si pueden salir de la empresa. 10) Tenemos un plan para cuando se equivoque. Si marcaste "no" en tres o más, empieza con una prueba pequeña, sin datos reales.</p></article><article class="es-card"><header><span class="icon">check_circle</span>Qué te llevas</header><p>Sabes qué necesitas para tener tu propio agente y puedes decir, con una lista concreta, si tu organización está lista para usar uno.</p></article></div></section><section class="fondo"><h2 class="fondo-h"><span class="icon">list</span>Paso a paso completo</h2><p class="fondo-sub">Todo el detalle, para hacerlo de principio a fin. Si no programas, quédate con «Lo esencial» y vuelve aquí cuando quieras.</p><div class="md"><p>Corre NemoClaw en tu Mac con Apple Silicon y Colima, cierra tu proyecto y elige por dónde seguir. El cookbook conserva las alternativas para Linux y Windows.</p>
 <table>
 <thead>
 <tr>
@@ -86,7 +86,9 @@
 </tbody>
 </table>
 <p>Para un despliegue separado con modelos alojados: endpoint <code>https://integrate.api.nvidia.com/v1</code> y tu key de NVIDIA. Verifica el acceso y la cuota vigentes de tu cuenta.</p>
-<h3 id="2-revisa-tu-máquina-en-2-minutos">2. Revisa tu máquina en 2 minutos</h3>
+<h3 id="2-prepara-tu-mac-con-colima">2. Prepara tu Mac con Colima</h3>
+<p>Esta práctica usa <strong>Colima con Docker y NVIDIA Endpoints</strong>. El agente corre en tu computadora; las solicitudes al modelo van a la API alojada de NVIDIA. No necesitas una GPU NVIDIA local.</p>
+<p>Docker ejecuta los contenedores. El comando <code>docker</code> es su cliente; Colima proporciona la máquina virtual Linux que ejecuta el motor en macOS. Docker Desktop es otra opción que incluye su propia VM. Aquí elegimos Colima, aunque NemoClaw no lo exige.</p>
 <table>
 <thead>
 <tr>
@@ -113,8 +115,8 @@
 </tr>
 <tr>
 <td>Software</td>
-<td>Docker, Node.js 22.19+, npm 10+</td>
-<td></td>
+<td>Colima + Docker CLI en este Mac, Node.js 22.19+, npm 10+</td>
+<td>Homebrew para los comandos siguientes</td>
 </tr>
 <tr>
 <td>Plataformas</td>
@@ -123,50 +125,69 @@
 </tr>
 </tbody>
 </table>
-<p><div class="highlight"><pre><span></span><code>nproc<span class="p">;</span><span class="w"> </span>free<span class="w"> </span>-h<span class="p">;</span><span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>~<span class="w">        </span><span class="c1"># en macOS: sysctl -n hw.ncpu; sysctl -n hw.memsize; df -h ~</span>
-docker<span class="w"> </span>info<span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Docker OK"</span>
-node<span class="w"> </span>--version<span class="w">                 </span><span class="c1"># v22.19.0 o mayor</span>
+<p>Primero revisa los recursos del Mac. <code>hw.memsize</code> muestra bytes:</p>
+<div class="highlight"><pre><span></span><code>sysctl<span class="w"> </span>-n<span class="w"> </span>hw.ncpu
+sysctl<span class="w"> </span>-n<span class="w"> </span>hw.memsize
+df<span class="w"> </span>-h<span class="w"> </span>~
 </code></pre></div>
-Deberías ver: 4 o más CPUs, 8 GB o más de RAM, 20 GB o más libres, <code>Docker OK</code> y Node 22.19+. Si algo falta, el <a href="cookbook.html">cookbook</a> (Recetas 0 y 1) dice cómo arreglarlo.</p>
-<h3 id="3-opcional-instala-nemoclaw-en-local">3. (Opcional) Instala NemoClaw en local</h3>
-<p>Solo si quieres tener NemoClaw en tu propia máquina. Todo esto pasa en tu computadora, no en Brev. Sigue el <a href="cookbook.html">cookbook</a>. El camino corto:
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">NEMOCLAW_INSTALL_REF</span><span class="o">=</span><span class="w"> </span><span class="nv">NEMOCLAW_INSTALL_TAG</span><span class="o">=</span>vX.Y.Z<span class="w"> </span>bash
+<p>Instala <a href="https://brew.sh/">Homebrew</a> si te falta. Si faltan las herramientas de línea de comandos de Xcode, ejecuta <code>xcode-select --install</code> y termina el diálogo antes de continuar.</p>
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>colima<span class="w"> </span>docker
+colima<span class="w"> </span>start<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">12</span><span class="w"> </span>--disk<span class="w"> </span><span class="m">100</span>
 </code></pre></div>
-- Las variables van <strong>del lado de <code>bash</code></strong> del pipe.
-- En el onboarding, la key se lee de <code>NVIDIA_INFERENCE_API_KEY</code> (no de <code>NVIDIA_API_KEY</code>).
-- Proveedores: <strong>NVIDIA Endpoints</strong> (sin GPU), <strong>Ollama</strong> local, <strong>vLLM</strong> local, <strong>NIM</strong> local (experimental, requiere GPU NVIDIA).
-- Igual que en el laboratorio, el chat de OpenClaw queda en <code>http://127.0.0.1:18789/</code> y el gateway de OpenShell en el puerto 18080. <code>openshell status</code> te dice si está <code>Connected</code>.</p>
-<p>Día 1 y día 2 en una tabla:</p>
-<table>
-<thead>
-<tr>
-<th>Momento</th>
-<th>Comandos</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Día 1 · usar</td>
-<td><code>nemoclaw my-assistant status</code> · <code>dashboard-url --quiet</code> · <code>nemoclaw launch my-assistant</code> · <code>logs --follow</code></td>
-</tr>
-<tr>
-<td>Día 1 · tu proyecto</td>
-<td><code>nemoclaw my-assistant skill install ./skill-library/&lt;skill&gt;/</code> · <code>skill list</code></td>
-</tr>
-<tr>
-<td>Día 2 · reinicio</td>
-<td><code>nemoclaw my-assistant status</code> → <code>start</code> → <code>recover</code></td>
-</tr>
-<tr>
-<td>Día 2 · actualizar</td>
-<td><code>nemoclaw backup-all</code> → <code>nemoclaw update</code> → <code>nemoclaw upgrade-sandboxes --auto</code></td>
-</tr>
-<tr>
-<td>Nunca</td>
-<td><code>openshell self-update</code> · <code>openclaw update</code> dentro del sandbox · <code>nemoclaw start/stop</code> globales (obsoletos)</td>
-</tr>
-</tbody>
-</table>
+<p>El ejemplo asigna a la VM 4 CPUs, 12 GiB de RAM y un disco virtual de 100 GiB. Es un punto de partida para el Mac de 18 GiB usado en esta práctica, no una garantía para cualquier carga. Deja memoria para macOS y tus otras aplicaciones. El límite del disco virtual no crea espacio libre en el Mac; las descargas y los builds necesitan espacio real. Si Colima ya corre y quieres cambiar sus recursos, ejecuta <code>colima stop</code> antes del nuevo comando <code>colima start</code>. Esto detiene todas las cargas de esa VM.</p>
+<p>Selecciona el perfil predeterminado de Colima y revisa el motor:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">unset</span><span class="w"> </span>DOCKER_HOST<span class="w"> </span>DOCKER_CONTEXT
+docker<span class="w"> </span>context<span class="w"> </span>use<span class="w"> </span>colima
+colima<span class="w"> </span>status
+docker<span class="w"> </span>info<span class="w"> </span>--format<span class="w"> </span><span class="s1">'CPUs={{.NCPU}} MemoryBytes={{.MemTotal}}'</span>
+</code></pre></div>
+<p>Debes ver Colima en ejecución y <strong>4 CPUs</strong> en la salida de Docker. La memoria disponible puede quedar ligeramente por debajo de 12 GiB. Los contenedores usan la capacidad del motor, no todos los recursos del Mac.</p>
+<p>Si <code>docker info</code> funciona pero NemoClaw u OpenShell todavía no encuentran Docker, indica el socket en la terminal donde los vas a ejecutar:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">unset</span><span class="w"> </span>DOCKER_CONTEXT
+<span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span><span class="s2">"unix://</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.colima/default/docker.sock"</span>
+docker<span class="w"> </span>info
+</code></pre></div>
+<p><code>DOCKER_HOST</code> le dice al cliente dónde conectarse. Es una solución para seleccionar el socket, no una señal de que Docker esté mal instalado. La ruta anterior corresponde al perfil predeterminado de Colima; para otro perfil, consulta su socket con <code>colima status</code>. El <code>export</code> dura en esta sesión de terminal. Repítelo en una terminal nueva si hace falta. Antes de cambiar de runtime, elimina esa variable con <code>unset DOCKER_HOST</code> y selecciona el contexto que quieras. Consulta la <a href="https://colima.run/docs/faq/#where-is-the-docker-socket-located">FAQ del socket de Colima</a> y los <a href="https://docs.docker.com/engine/manage-resources/contexts/">contextos de Docker</a>.</p>
+<h3 id="3-instala-usa-y-pausa-nemoclaw">3. Instala, usa y pausa NemoClaw</h3>
+<h4 id="instala-con-límites-que-quepan-en-la-vm">Instala con límites que quepan en la VM</h4>
+<p>Para la VM anterior de 4 CPUs y 12 GiB, limita el sandbox a <strong>3 CPUs y 8 GiB</strong>. Así queda capacidad para la VM, Docker y los procesos de apoyo. Son límites dentro de Colima, no recursos adicionales. El límite de CPU tampoco reserva núcleos físicos de forma permanente.</p>
+<p>En NemoClaw v0.0.145 observamos que el perfil developer calculaba su 75 % sobre un Mac de 12 CPUs y 18 GiB. Pedía 9 CPUs y 13Gi a una VM más pequeña, y Docker rechazaba la solicitud de CPU. Los valores explícitos siguientes evitan ese error. El <a href="https://github.com/NVIDIA/NemoClaw/issues/14743">issue #14743</a> contiene la propuesta de corrección y las pruebas de regresión; que exista un parche en un fork no significa que tu versión instalada ya lo incluya.</p>
+<p>Si todavía no tienes NemoClaw, ejecuta:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">NEMOCLAW_AGENT</span><span class="o">=</span>openclaw<span class="w"> </span><span class="nv">NEMOCLAW_CPU</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">NEMOCLAW_RAM</span><span class="o">=</span>8Gi<span class="w"> </span>bash
+</code></pre></div>
+<p>Las variables van <strong>del lado de <code>bash</code></strong> del pipe para que las reciban el instalador y el onboarding. El instalador revisa Node.js y npm; verifica que <code>node --version</code> sea al menos 22.19 y <code>npm --version</code>, al menos 10. Para fijar una versión, usa la Receta 3 del <a href="cookbook.html">cookbook</a>.</p>
+<p>Si NemoClaw ya está instalado y vas a crear un sandbox, ejecuta:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">NEMOCLAW_CPU</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">NEMOCLAW_RAM</span><span class="o">=</span>8Gi<span class="w"> </span>nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--name<span class="w"> </span>my-assistant
+</code></pre></div>
+<p>Elige <strong>OpenClaw</strong>, <strong>NVIDIA Endpoints</strong> y la política <strong>Balanced</strong>. Introduce tu key de NVIDIA cuando la pida el asistente. Si usas una variable, usa <code>NVIDIA_INFERENCE_API_KEY</code> y evita que su valor real quede en el historial o en archivos compartidos. El onboarding debe mostrar los límites de CPU y RAM y terminar con <code>NemoClaw is ready</code>.</p>
+<p>Si un intento anterior falló, lee <code>nemoclaw debug --quick</code> antes de elegir cómo recuperarlo. Un timeout por sí solo no identifica la causa. Después de resolver una desconexión temporal, usa <code>nemoclaw onboard --resume</code>. Para el error de recursos, empieza otro intento con un nombre nuevo:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">NEMOCLAW_CPU</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">NEMOCLAW_RAM</span><span class="o">=</span>8Gi<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--fresh<span class="w"> </span>--name<span class="w"> </span>my-assistant-fixed
+</code></pre></div>
+<p><code>--fresh</code> descarta el checkpoint del onboarding; no cambia los límites de un sandbox existente ni libera su nombre. Conserva el sandbox fallido hasta saber si contiene datos que necesitas. Si elegiste el nombre nuevo, úsalo en los comandos siguientes. No necesitas borrar Colima ni reinstalar Docker para corregir este límite de CPU.</p>
+<h4 id="comprueba-que-responde-y-úsalo">Comprueba que responde y úsalo</h4>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>dashboard-url<span class="w"> </span>--quiet
+nemoclaw<span class="w"> </span>launch<span class="w"> </span>my-assistant
+</code></pre></div>
+<p>Abre la URL que muestra tu instalación, normalmente en <code>127.0.0.1:18789</code>. Trata una URL que incluya un token como una contraseña. El puerto 18080 suele pertenecer al gateway de OpenShell. Para revisar un fallo, ejecuta <code>nemoclaw my-assistant logs --follow</code>; sal de los logs con <strong>Ctrl+C</strong>. Instala las skills del curso con la Receta 8 del cookbook.</p>
+<h4 id="apaga-por-hoy-y-vuelve-después">Apaga por hoy y vuelve después</h4>
+<p>Para detener solo este sandbox y dejar Colima disponible para otras tareas:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>stop
+</code></pre></div>
+<p>Para detener toda la VM de Colima y todos sus contenedores:</p>
+<div class="highlight"><pre><span></span><code>colima<span class="w"> </span>stop
+colima<span class="w"> </span>status
+</code></pre></div>
+<p>Colima debe indicar que no está corriendo. La VM y sus contenedores dejan de usar CPU y RAM; sus datos siguen en disco. Pueden quedar procesos en el Mac: un servicio del gateway de OpenShell, un servidor Ollama local o un túnel de terminal corren fuera de la VM. Revisa el Monitor de Actividad y <code>brew services list</code>; detén esos servicios con el gestor que los inició. Evita comandos que maten todos los procesos por nombre.</p>
+<p>Para volver, reutiliza la configuración guardada de la VM:</p>
+<div class="highlight"><pre><span></span><code>colima<span class="w"> </span>start
+docker<span class="w"> </span>info
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
+</code></pre></div>
+<p>Antes, restaura <code>DOCKER_HOST</code> si esta terminal necesita la solución del socket. Si el sandbox está detenido, ejecuta <code>nemoclaw my-assistant start</code>. Si sigue sin estar sano, revisa su estado y ejecuta <code>nemoclaw my-assistant recover</code>. Los comandos de estado y recuperación pueden iniciar servicios de apoyo; usa <code>colima status</code> para comprobar que la VM siga apagada.</p>
+<p><code>colima stop</code> es el apagado cotidiano. <code>colima delete</code>, <code>destroy</code> y la desinstalación son operaciones de limpieza. Para actualizar, sigue <code>nemoclaw backup-all</code>, <code>nemoclaw update</code> y <code>nemoclaw upgrade-sandboxes --auto</code>. Deja que NemoClaw gestione su versión compatible de OpenShell; no ejecutes <code>openshell self-update</code> por separado.</p>
 <h3 id="4-ubica-las-piezas-de-producción-en-tu-proyecto">4. Ubica las piezas de producción en tu proyecto</h3>
 <table>
 <thead>
@@ -266,6 +287,7 @@ Deberías ver: 4 o más CPUs, 8 GB o más de RAM, 20 GB o más libres, <code>Doc
 <h2 id="comprueba-que-funcionó">Comprueba que funcionó</h2>
 <ul>
 <li>☐ Sabes si tu máquina cumple los requisitos (o qué le falta).</li>
+<li>☐ Si instalaste en local, Docker muestra la capacidad de la VM, el agente responde y puedes detener y reanudar Colima sin borrar datos.</li>
 <li>☐ Escribiste una línea por pieza de producción para tu proyecto.</li>
 <li>☐ Marcaste el checklist de entrega y tienes tu puntaje de la rúbrica.</li>
 <li>☐ Tu instancia de Brev está borrada y revisaste tu saldo.</li>
@@ -287,8 +309,8 @@ Deberías ver: 4 o más CPUs, 8 GB o más de RAM, 20 GB o más libres, <code>Doc
 </tr>
 <tr>
 <td>Exit 137 / OOM al crear el sandbox</td>
-<td>8 GB de RAM o menos</td>
-<td>16 GB, o agrega 4–8 GB de swap (cookbook, Receta 0)</td>
+<td>La VM o el host se quedaron sin memoria</td>
+<td>Revisa ambos límites. Sube la memoria de Colima solo si el Mac tiene margen; el swap de la Receta 0 es para Linux</td>
 </tr>
 <tr>
 <td><code>NEMOCLAW_INSTALL_TAG</code> "no hace nada"</td>
@@ -298,12 +320,27 @@ Deberías ver: 4 o más CPUs, 8 GB o más de RAM, 20 GB o más libres, <code>Doc
 <tr>
 <td><code>nemoclaw: command not found</code> al terminar</td>
 <td>El <code>PATH</code> de tu shell no se actualizó</td>
-<td>Terminal nueva o <code>source ~/.bashrc</code></td>
+<td>Abre una terminal nueva; en macOS con zsh, revisa <code>~/.zshrc</code> y <code>~/.local/bin</code></td>
 </tr>
 <tr>
-<td><code>Docker is not running</code> aunque Docker corre</td>
-<td>Tu usuario no está en el grupo <code>docker</code></td>
-<td><code>sudo usermod -aG docker $USER &amp;&amp; newgrp docker</code></td>
+<td><code>docker: command not found</code> tras instalar Colima</td>
+<td>Falta el cliente de Docker</td>
+<td><code>brew install docker</code></td>
+</tr>
+<tr>
+<td>Falla la conexión a Docker en macOS</td>
+<td>Colima está detenido o el cliente eligió otro socket</td>
+<td>Sigue el paso 2: <code>colima status</code>, contexto de Docker y <code>DOCKER_HOST</code> si hace falta</td>
+</tr>
+<tr>
+<td>Falla la conexión a Docker en Linux</td>
+<td>El motor está detenido o tu usuario no tiene acceso al socket</td>
+<td>Sigue la Receta 1; los comandos del grupo <code>docker</code> de Linux no aplican a macOS</td>
+</tr>
+<tr>
+<td>Docker rechaza la cantidad de CPUs y luego aparece un timeout</td>
+<td>El perfil porcentual usó la capacidad del host</td>
+<td>Compara <code>docker info</code> con la solicitud; usa los límites explícitos del paso 3 y otro nombre de sandbox</td>
 </tr>
 <tr>
 <td><code>✗ openshell &lt;versión&gt; is above the maximum supported by this NemoClaw release.</code></td>
@@ -342,7 +379,8 @@ Deberías ver: 4 o más CPUs, 8 GB o más de RAM, 20 GB o más libres, <code>Doc
 <h2 id="recursos">Recursos</h2>
 <ul>
 <li>NVIDIA DLI · Cómo profundizar en el tema (04c). Esta clase está basada en la lección 04c del curso de NVIDIA DLI (Apache-2.0).</li>
-<li>NemoClaw · <a href="https://docs.nvidia.com/nemoclaw/latest/">Documentación</a> · <a href="https://docs.nvidia.com/nemoclaw/latest/get-started/prerequisites">Requisitos</a> · <a href="https://github.com/NVIDIA/NemoClaw">Repo e issues</a></li>
+<li>NemoClaw · <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/prerequisites">Requisitos</a> · <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/quickstart">Quickstart de OpenClaw</a> · <a href="https://github.com/NVIDIA/NemoClaw/issues/14743">Error de capacidad de Docker y propuesta de corrección</a></li>
+<li>Colima · <a href="https://colima.run/docs/getting-started/">Primeros pasos</a> · <a href="https://colima.run/docs/configuration/">Configuración</a> · <a href="https://colima.run/docs/commands/">Comandos</a></li>
 <li>NVIDIA · <a href="https://docs.nvidia.com/nim/">NIM</a> · <a href="https://github.com/NVIDIA/NeMo-Guardrails">NeMo Guardrails</a> · <a href="https://github.com/NVIDIA/NeMo-Curator">NeMo Curator</a> · <a href="https://build.nvidia.com/nvidia/aiq">AI-Q Blueprint</a></li>
 <li>NVIDIA · <a href="https://build.nvidia.com/spark/nemoclaw-applications">Playbooks de NemoClaw para DGX Spark</a> · <a href="https://build.nvidia.com/spark/nemoclaw/instructions">NemoClaw en DGX Spark</a></li>
 <li>NVIDIA · <a href="https://developer.nvidia.com/topics/ai/agentic-ai-learning-path">Agentic AI Learning Path</a> · <a href="https://developer.nvidia.com/blog/category/generative-ai/">Blog de IA generativa</a></li>

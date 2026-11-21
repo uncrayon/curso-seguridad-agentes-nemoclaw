@@ -2,7 +2,7 @@
 
 > 🇪🇸 Original Spanish guide: [`clases/6.3-despliegue-local-y-siguientes-pasos/README.md`](../../../clases/6.3-despliegue-local-y-siguientes-pasos/README.md). Slides, notebooks, cookbooks and video are in Spanish.
 
-Wrap up your project, learn what you need to run NemoClaw on your own machine, and choose where to go next.
+Run NemoClaw on your Apple Silicon Mac with Colima, close out your project, and choose where to go next. Linux and Windows alternatives are in the cookbook.
 
 | | |
 |---|---|
@@ -34,41 +34,130 @@ Wrap up your project, learn what you need to run NemoClaw on your own machine, a
 
 For a separate deployment with hosted models: endpoint `https://integrate.api.nvidia.com/v1` and your NVIDIA key. Check your account's current access and quota.
 
-### 2. Check your machine in 2 minutes
+### 2. Prepare your Mac with Colima
+
+This walkthrough uses **Colima with Docker and NVIDIA Endpoints**. Your agent runs locally; model requests go to NVIDIA's hosted API. You do not need a local NVIDIA GPU.
+
+Docker is the container runtime. The `docker` command is its client; Colima supplies the Linux VM that runs the engine on macOS. Docker Desktop is an alternative that supplies its own VM. Colima is our choice here, not a NemoClaw requirement.
+
 | Resource | Minimum | Recommended |
 |---|---|---|
 | CPU | 4 vCPU | 4+ vCPU |
 | RAM | 8 GB | **16 GB** (with 8 GB, the sandbox image can run out of memory) |
 | Free disk | 20 GB | 40 GB |
-| Software | Docker, Node.js 22.19+, npm 10+ | |
+| Software | Colima + Docker CLI on this Mac, Node.js 22.19+, npm 10+ | Homebrew for the commands below |
 | Platforms | Linux (Ubuntu 24.04 validated), macOS on Apple Silicon, Windows WSL2, DGX Spark | Intel Macs are **not** supported |
 
+Check the Mac's resources first. `hw.memsize` reports bytes:
+
 ```bash
-nproc; free -h; df -h ~        # on macOS: sysctl -n hw.ncpu; sysctl -n hw.memsize; df -h ~
-docker info >/dev/null && echo "Docker OK"
-node --version                 # v22.19.0 or later
+sysctl -n hw.ncpu
+sysctl -n hw.memsize
+df -h ~
 ```
-You should see: 4 or more CPUs, 8 GB or more of RAM, 20 GB or more free, `Docker OK` and Node 22.19+. If something's missing, the [cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md) (Recipes 0 and 1) tells you how to fix it.
 
-### 3. (Optional) Install NemoClaw locally
-Only if you want NemoClaw on your own machine. All of this happens on your computer, not on Brev. Follow the [cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md). The short path:
+Install [Homebrew](https://brew.sh/) if it is missing. If Xcode Command Line Tools are missing, run `xcode-select --install` and finish the dialog before continuing.
+
 ```bash
-curl -fsSL https://www.nvidia.com/nemoclaw.sh | NEMOCLAW_INSTALL_REF= NEMOCLAW_INSTALL_TAG=vX.Y.Z bash
+brew install colima docker
+colima start --cpu 4 --memory 12 --disk 100
 ```
-- The variables go **on the `bash` side** of the pipe.
-- During onboarding, the key is read from `NVIDIA_INFERENCE_API_KEY` (not from `NVIDIA_API_KEY`).
-- Providers: **NVIDIA Endpoints** (no GPU), local **Ollama**, local **vLLM**, local **NIM** (experimental, requires an NVIDIA GPU).
-- Same as in the lab, the OpenClaw chat lives at `http://127.0.0.1:18789/` and the OpenShell gateway on port 18080. `openshell status` tells you whether it's `Connected`.
 
-Day 1 and day 2 in one table:
+The example gives the VM 4 CPUs, 12 GiB of RAM, and a 100 GiB virtual disk. It is a starting point for the 18 GiB Mac used in this walkthrough, not a guarantee for every workload. Leave memory for macOS and your other apps. The virtual disk limit does not create free space on the Mac; image downloads and builds still need real disk space. If Colima is already running and you need to change its resources, run `colima stop` before the new `colima start` command. This stops all workloads in that VM.
 
-| When | Commands |
-|---|---|
-| Day 1 · use | `nemoclaw my-assistant status` · `dashboard-url --quiet` · `nemoclaw launch my-assistant` · `logs --follow` |
-| Day 1 · your project | `nemoclaw my-assistant skill install ./skill-library/<skill>/` · `skill list` |
-| Day 2 · restart | `nemoclaw my-assistant status` → `start` → `recover` |
-| Day 2 · update | `nemoclaw backup-all` → `nemoclaw update` → `nemoclaw upgrade-sandboxes --auto` |
-| Never | `openshell self-update` · `openclaw update` inside the sandbox · global `nemoclaw start/stop` (deprecated) |
+Select the default Colima profile and check the engine:
+
+```bash
+unset DOCKER_HOST DOCKER_CONTEXT
+docker context use colima
+colima status
+docker info --format 'CPUs={{.NCPU}} MemoryBytes={{.MemTotal}}'
+```
+
+Expect a running Colima VM and **4 CPUs** in Docker's output. Available memory can be slightly below 12 GiB. These engine values, rather than the Mac's totals, determine what the containers can use.
+
+If `docker info` works but NemoClaw or OpenShell still cannot find Docker, set the socket explicitly in the terminal where you will run them:
+
+```bash
+unset DOCKER_CONTEXT
+export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+docker info
+```
+
+`DOCKER_HOST` tells a client where to connect. This is a socket-selection workaround, not proof of a broken Docker installation. The path above is for Colima's default profile; use `colima status` to find a named profile's socket. The export lasts for this terminal session. Repeat it in a new terminal if needed. Before switching runtimes, unset it and select the intended Docker context. See the [Colima socket FAQ](https://colima.run/docs/faq/#where-is-the-docker-socket-located) and [Docker context documentation](https://docs.docker.com/engine/manage-resources/contexts/).
+
+### 3. Install, use, and pause NemoClaw
+
+#### Install with limits that fit the VM
+
+For the 4-CPU/12-GiB VM above, use a sandbox limit of **3 CPUs and 8 GiB**. This leaves capacity for the VM, Docker, and supporting processes. These are sandbox limits, not extra resources allocated outside Colima, and CPU limits do not permanently dedicate physical cores.
+
+We observed NemoClaw v0.0.145 resolve the developer profile's 75% against a 12-CPU/18-GiB Mac, requesting 9 CPUs/13Gi from a smaller VM. Docker rejected that CPU request. The explicit values below avoid this bug. [Issue #14743](https://github.com/NVIDIA/NemoClaw/issues/14743) contains the proposed fix and regression evidence; a patch in a fork does not mean your installed release includes it.
+
+If NemoClaw is not installed, run:
+
+```bash
+curl -fsSL https://www.nvidia.com/nemoclaw.sh | \
+  NEMOCLAW_AGENT=openclaw NEMOCLAW_CPU=3 NEMOCLAW_RAM=8Gi bash
+```
+
+The variables belong on the **`bash` side** of the pipe, so the installer and onboarding receive them. The installer checks Node.js and npm; verify `node --version` is at least 22.19 and `npm --version` is at least 10. To pin a release, follow Recipe 3 of the [cookbook (Spanish)](../../../clases/6.3-despliegue-local-y-siguientes-pasos/cookbook.md).
+
+If NemoClaw is already installed and you are creating a sandbox, run:
+
+```bash
+NEMOCLAW_CPU=3 NEMOCLAW_RAM=8Gi nemoclaw onboard --name my-assistant
+```
+
+Choose **OpenClaw**, **NVIDIA Endpoints**, and the **Balanced** policy. Enter your NVIDIA key at the credential prompt. If using an environment variable, use `NVIDIA_INFERENCE_API_KEY` and keep the real value out of shell history and shared files. Onboarding should show the CPU/RAM overrides and finish with `NemoClaw is ready`.
+
+If an earlier attempt failed, read `nemoclaw debug --quick` before choosing recovery. A timeout alone does not identify the cause. After fixing a temporary connection problem, use `nemoclaw onboard --resume`. For the resource-limit failure, start a new attempt with a new name:
+
+```bash
+NEMOCLAW_CPU=3 NEMOCLAW_RAM=8Gi \
+  nemoclaw onboard --fresh --name my-assistant-fixed
+```
+
+`--fresh` discards the onboarding checkpoint; it does not resize an existing sandbox or erase its name. Keep the failed sandbox until you know whether it contains data you need. Use the new name in the commands below if you chose it. You do not need to delete Colima or reinstall Docker to fix a CPU-limit mismatch.
+
+#### Verify and use the agent
+
+```bash
+nemoclaw my-assistant status
+nemoclaw my-assistant dashboard-url --quiet
+nemoclaw launch my-assistant
+```
+
+Use the dashboard URL reported by your installation, normally on `127.0.0.1:18789`. Treat a URL containing a token as a password. Port 18080 normally belongs to the OpenShell gateway. To inspect a failure, run `nemoclaw my-assistant logs --follow`; press **Ctrl+C** to leave the log stream. Install the course skills with Recipe 8 of the cookbook.
+
+#### Stop for the day and resume later
+
+To stop only this sandbox while keeping Colima available for other work:
+
+```bash
+nemoclaw my-assistant stop
+```
+
+To stop the entire Colima VM and every container inside it:
+
+```bash
+colima stop
+colima status
+```
+
+Expect Colima to report that it is not running. The VM and its containers stop using CPU and RAM; their disk data remains. Host processes can remain: a macOS OpenShell gateway service, a local Ollama server, or a terminal tunnel runs outside the VM. Check Activity Monitor and `brew services list`, then stop any such service through the manager that started it. Do not use a blanket process-kill command.
+
+To resume, reuse the saved VM configuration:
+
+```bash
+colima start
+docker info
+nemoclaw my-assistant status
+```
+
+Restore `DOCKER_HOST` first if this terminal needs the socket workaround. If the sandbox is stopped, run `nemoclaw my-assistant start`. If it remains unhealthy, inspect the status and run `nemoclaw my-assistant recover`. Status and recovery commands can start supporting services, so use `colima status` to check that the VM remains off.
+
+`colima stop` is the everyday shutdown. `colima delete`, sandbox `destroy`, and uninstall commands are cleanup operations, not shutdown steps. For updates, follow `nemoclaw backup-all`, `nemoclaw update`, and `nemoclaw upgrade-sandboxes --auto`. Let NemoClaw manage its compatible OpenShell version; do not run `openshell self-update` separately.
 
 ### 4. Map the production pieces onto your project
 | Piece | What it is | What it improves in Soporte NemoClaw |
@@ -113,6 +202,7 @@ Running, the instance costs ≈USD 0.25/h. Stopped (**Stop**), the disk keeps bi
 
 ## Check that it worked
 - [ ] You know whether your machine meets the requirements (or what it's missing).
+- [ ] If you installed locally, Docker reports the VM capacity, the agent responds, and you can stop and resume Colima without deleting data.
 - [ ] You wrote one line per production piece for your project.
 - [ ] You checked off the delivery checklist and have your rubric score.
 - [ ] Your Brev instance is deleted and you checked your balance.
@@ -122,10 +212,13 @@ Running, the instance costs ≈USD 0.25/h. Stopped (**Stop**), the disk keeps bi
 | Symptom | Cause | Fix |
 |---|---|---|
 | The installer rejects your Mac | Intel Macs (x86_64) aren't supported | Use Brev, a Linux machine or an Apple Silicon Mac |
-| Exit 137 / OOM when creating the sandbox | 8 GB of RAM or less | 16 GB, or add 4–8 GB of swap (cookbook, Recipe 0) |
+| Exit 137 / OOM when creating the sandbox | The VM or host ran out of memory | Check both budgets. Increase Colima memory only if the Mac has room; see cookbook Recipe 0 for Linux swap guidance |
 | `NEMOCLAW_INSTALL_TAG` "does nothing" | The variable ended up on the `curl` side | `curl ... \| NEMOCLAW_INSTALL_REF= NEMOCLAW_INSTALL_TAG=vX.Y.Z bash` |
-| `nemoclaw: command not found` when it finishes | Your shell's `PATH` wasn't updated | Open a new terminal or run `source ~/.bashrc` |
-| `Docker is not running` even though Docker is running | Your user isn't in the `docker` group | `sudo usermod -aG docker $USER && newgrp docker` |
+| `nemoclaw: command not found` when it finishes | Your shell's `PATH` wasn't updated | Open a new terminal; on macOS with zsh, check `~/.zshrc` and `~/.local/bin` |
+| `docker: command not found` after installing Colima | The Docker CLI is missing | `brew install docker` |
+| Docker connection fails on macOS | Colima is stopped or the client selected another socket | Follow step 2: `colima status`, check the Docker context, then use `DOCKER_HOST` if needed |
+| Docker connection fails on Linux | The daemon is stopped or your user lacks socket access | Follow cookbook Recipe 1; Linux Docker-group commands do not apply to macOS |
+| CPU request exceeds Docker's limit, followed by a readiness timeout | A percentage profile used host capacity | Compare `docker info` with the request; retry with the explicit limits in step 3 and a new sandbox name |
 | `✗ openshell <version> is above the maximum supported by this NemoClaw release.` | You updated OpenShell outside NemoClaw | Don't use `openshell self-update`; reinstall the supported version |
 | Your Brev balance keeps dropping even though you no longer use the lab | The instance is stopped (**Stop**), not deleted: the disk bills | Brev console → **Compute** → your instance → **Delete** |
 | `Port 18080 is not available` during a local install | Another process is using the OpenShell gateway port | Close that process or see Recipe 5 of the cookbook |
@@ -150,7 +243,8 @@ Your project ends here. Publish it on your GitHub with:
 
 ## Resources
 - NVIDIA DLI · Going Further (04c). This class is based on lesson 04c of the NVIDIA DLI course (Apache-2.0).
-- NemoClaw · [Documentation](https://docs.nvidia.com/nemoclaw/latest/) · [Prerequisites](https://docs.nvidia.com/nemoclaw/latest/get-started/prerequisites) · [Repo and issues](https://github.com/NVIDIA/NemoClaw)
+- NemoClaw · [Prerequisites](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/prerequisites) · [OpenClaw quickstart](https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/quickstart) · [Docker capacity bug and proposed fix](https://github.com/NVIDIA/NemoClaw/issues/14743)
+- Colima · [Getting started](https://colima.run/docs/getting-started/) · [Configuration](https://colima.run/docs/configuration/) · [Commands](https://colima.run/docs/commands/)
 - NVIDIA · [NIM](https://docs.nvidia.com/nim/) · [NeMo Guardrails](https://github.com/NVIDIA/NeMo-Guardrails) · [NeMo Curator](https://github.com/NVIDIA/NeMo-Curator) · [AI-Q Blueprint](https://build.nvidia.com/nvidia/aiq)
 - NVIDIA · [NemoClaw playbooks for DGX Spark](https://build.nvidia.com/spark/nemoclaw-applications) · [NemoClaw on DGX Spark](https://build.nvidia.com/spark/nemoclaw/instructions)
 - NVIDIA · [Agentic AI Learning Path](https://developer.nvidia.com/topics/ai/agentic-ai-learning-path) · [Generative AI blog](https://developer.nvidia.com/blog/category/generative-ai/)

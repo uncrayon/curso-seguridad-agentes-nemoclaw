@@ -11,7 +11,7 @@
 </div></header>
 <main class="wrap">
 <section class="hero doc"><h1>Cookbook · NemoClaw en tu propia máquina</h1></section>
-<div class="md"><p>Recetas para instalar y operar NemoClaw fuera de Brev: en Linux, macOS con Apple Silicon o Windows con WSL2.
+<div class="md"><p>Recetas para instalar y operar NemoClaw fuera de Brev. La ruta de macOS usa Apple Silicon, Colima y Docker; también hay alternativas para Linux y Windows con WSL2.
 Es <strong>opcional</strong>: el curso se completa en Brev. Úsalo solo si quieres tu agente en tu propia máquina o en un servidor propio. Salvo la <a href="#receta-previa--respalda-tu-laboratorio-en-un-zip">receta previa</a>, que respalda tu laboratorio antes de borrarlo, nada de aquí depende de Brev: todo pasa en tu computadora.</p>
 <blockquote>
 <p><strong>Proyecto en <em>alpha</em>.</strong> NemoClaw publica versiones cada 1 a 3 días. Fija una versión (Receta 3) y revisa la <a href="https://docs.nvidia.com/nemoclaw/latest/">documentación oficial</a> antes de instalar. Las salidas cambian entre versiones: si la tuya muestra otro texto, compara la idea y sigue con el siguiente paso.</p>
@@ -138,40 +138,51 @@ node<span class="w"> </span>--version<span class="w">          </span><span clas
 sysctl<span class="w"> </span>-n<span class="w"> </span>hw.ncpu<span class="p">;</span><span class="w"> </span>sysctl<span class="w"> </span>-n<span class="w"> </span>hw.memsize<span class="p">;</span><span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>~
 </code></pre></div>
 <strong>Si falla:</strong>
-- Con 8 GB de RAM, la subida de la imagen del sandbox (~2.4 GB comprimida) puede terminar con OOM (<code>exit 137</code>). Usa 16 GB o agrega al menos 4–8 GB de swap:
-  <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/zero<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/swapfile<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>1M<span class="w"> </span><span class="nv">count</span><span class="o">=</span><span class="m">4096</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/swapfile<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>mkswap<span class="w"> </span>/swapfile<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>swapon<span class="w"> </span>/swapfile
-</code></pre></div>
+- Una VM con poca RAM puede terminar con OOM (<code>exit 137</code>) aunque el Mac tenga más memoria. Revisa la capacidad del motor con <code>docker info</code>, además de los recursos del host. Si aumentas la RAM de Colima, deja margen para macOS. Para un host Linux con memoria insuficiente, consulta el swap de al menos 8 GB de los <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/get-started/prerequisites">requisitos oficiales</a>. Los comandos de swap de Linux no aplican a macOS.
 - Node viejo: <code>nvm install 22 &amp;&amp; nvm use 22</code>.</p>
 <h2 id="receta-1--prepara-la-plataforma">Receta 1 · Prepara la plataforma</h2>
 <p><strong>Linux (Ubuntu):</strong> el instalador puede instalar Docker por ti. Si ya lo tienes, asegúrate de estar en el grupo <code>docker</code>:
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span><span class="nv">$USER</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>newgrp<span class="w"> </span>docker
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>binutils<span class="w">     </span><span class="c1"># 'strings', para verificar el binario de OpenShell</span>
 </code></pre></div></p>
-<p><strong>macOS (Apple Silicon):</strong>
-<div class="highlight"><pre><span></span><code>xcode-select<span class="w"> </span>--install
-brew<span class="w"> </span>install<span class="w"> </span>colima<span class="w"> </span>docker
-colima<span class="w"> </span>start<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">8</span>
+<p><strong>macOS (Apple Silicon):</strong></p>
+<p>Instala <a href="https://brew.sh/">Homebrew</a> si te falta. Si faltan las herramientas de Xcode, ejecuta <code>xcode-select --install</code> y termina el diálogo. Colima crea la VM Linux y su motor Docker; el paquete <code>docker</code> instala el cliente. Docker Desktop es una alternativa, pero esta receta usa Colima.</p>
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>colima<span class="w"> </span>docker
+colima<span class="w"> </span>start<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">12</span><span class="w"> </span>--disk<span class="w"> </span><span class="m">100</span>
+<span class="nb">unset</span><span class="w"> </span>DOCKER_HOST<span class="w"> </span>DOCKER_CONTEXT
+docker<span class="w"> </span>context<span class="w"> </span>use<span class="w"> </span>colima
+colima<span class="w"> </span>status
+docker<span class="w"> </span>info<span class="w"> </span>--format<span class="w"> </span><span class="s1">'CPUs={{.NCPU}} MemoryBytes={{.MemTotal}}'</span>
+</code></pre></div>
+<p><strong>Esperado:</strong> Colima en ejecución, 4 CPUs y cerca de 12 GiB para Docker. Es el ejemplo usado en un Mac de 18 GiB; ajusta los recursos para dejar memoria al host. <code>--disk 100</code> configura el tamaño del disco virtual, pero las imágenes necesitan espacio real en el Mac. Revisa <code>df -h ~</code>. Si la VM ya corre y vas a cambiar sus recursos, detenla primero con <code>colima stop</code>.</p>
+<p>Si Docker funciona pero NemoClaw u OpenShell no encuentran el motor, selecciona el socket en esa misma terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">unset</span><span class="w"> </span>DOCKER_CONTEXT
+<span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span><span class="s2">"unix://</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.colima/default/docker.sock"</span>
 docker<span class="w"> </span>info
-</code></pre></div></p>
+</code></pre></div>
+<p>El <code>export</code> identifica el motor para los clientes que no usan el contexto seleccionado. No reinstala Docker ni cambia los recursos de la VM. Dura en esa sesión de terminal; repítelo cuando haga falta. Para otro perfil, usa el socket que muestra <code>colima status</code>. Antes de cambiar a Docker Desktop, ejecuta <code>unset DOCKER_HOST DOCKER_CONTEXT</code> y elige su contexto con <code>docker context use</code>. Consulta la <a href="https://colima.run/docs/faq/#where-is-the-docker-socket-located">FAQ de Colima</a>.</p>
 <p><strong>Windows:</strong> en PowerShell, instala WSL2 y Ubuntu 24.04, y activa en Docker Desktop <strong>Settings &gt; Resources &gt; WSL integration</strong> para Ubuntu:
 <div class="highlight"><pre><span></span><code><span class="n">wsl</span> <span class="p">-</span><span class="n">-install</span> <span class="p">-</span><span class="n">-no-distribution</span>
 <span class="n">wsl</span> <span class="p">-</span><span class="n">-install</span> <span class="n">-d</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">24</span><span class="p">.</span><span class="n">04</span>
 </code></pre></div>
 Todo lo demás se corre <strong>dentro de Ubuntu (WSL)</strong>.</p>
 <p><strong>Si falla:</strong>
-- macOS, el build se cuelga: Colima arranca con 2 vCPU / 2 GiB. <code>colima stop; colima start --cpu 6 --memory 12 --disk 100</code>.
+- macOS, el build se cuelga: revisa los recursos de Docker y el espacio del host antes de cambiar límites. Aumentar el timeout no corrige la falta de RAM o disco.
 - macOS, <code>docker: command not found</code> tras instalar Colima: <code>brew install colima docker</code>.
 - WSL: "WSL 2 cannot start yet" o "not fully installed": reinicia y activa la virtualización y <em>Virtual Machine Platform</em>.
 - WSL: <code>docker info</code> falla ("Cannot connect to the Docker daemon"): abre Docker Desktop, activa la integración WSL y corre <code>wsl --shutdown</code>.</p>
 <h2 id="receta-2--instala-la-forma-recomendada">Receta 2 · Instala (la forma recomendada)</h2>
-<p><div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+<p>Para la VM de Colima de la Receta 1, crea el sandbox con 3 CPUs y 8 GiB. Esto deja capacidad a la VM y sus servicios. Usa valores que quepan en el motor si elegiste otros recursos.</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">NEMOCLAW_AGENT</span><span class="o">=</span>openclaw<span class="w"> </span><span class="nv">NEMOCLAW_CPU</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">NEMOCLAW_RAM</span><span class="o">=</span>8Gi<span class="w"> </span>bash
 </code></pre></div>
-<strong>Esperado:</strong> el instalador muestra un aviso de software de terceros (acéptalo), instala OpenShell y NemoClaw, y lanza <code>nemoclaw onboard</code>. Sigue la etiqueta <code>lkg</code> (<em>last-known-good</em>).
+<p>En otra plataforma, puedes usar el instalador sin esos límites y elegir los recursos durante el onboarding. Las variables van del lado de <code>bash</code>. Si fijas una versión con la Receta 3, agrega allí los mismos límites para Colima.</p>
+<p><strong>Esperado:</strong> el instalador muestra un aviso de software de terceros (acéptalo), instala OpenShell y NemoClaw, y lanza <code>nemoclaw onboard</code>. Sigue la etiqueta <code>lkg</code> (<em>last-known-good</em>).
 En DGX Spark, DGX Station y WSL puede preguntar <code>Run express install with these settings? [Y/n]:</code> (inferencia local administrada, sandbox <code>my-assistant</code>, política Balanced). Para saltarlo: <code>NEMOCLAW_NO_EXPRESS=1</code>.</p>
 <p><strong>Si falla:</strong>
 - <code>nemoclaw: command not found</code> al terminar: abre otra terminal o <code>source ~/.bashrc</code> (o <code>~/.zshrc</code>). Revisa que <code>~/.local/bin</code> esté en el <code>PATH</code>.
 - <code>Node.js version</code> / el shell sigue en Node 20: <code>source "$NVM_DIR/nvm.sh" &amp;&amp; nvm use 22</code>, o abre otra terminal.
-- <code>Docker is not running</code> aunque corre: te falta el grupo <code>docker</code> (Receta 1).
+- <code>Docker is not running</code>: en macOS, revisa Colima, el contexto y el socket; en Linux, revisa el servicio y los permisos del grupo <code>docker</code> (Receta 1).
 - npm <code>EACCES</code>: no uses <code>sudo</code>. <code>npm config set prefix ~/.npm-global</code> y agrega <code>~/.npm-global/bin</code> al <code>PATH</code>.</p>
 <h2 id="receta-3--fija-la-versión-recomendado-para-el-curso">Receta 3 · Fija la versión (recomendado para el curso)</h2>
 <p><div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">NEMOCLAW_INSTALL_REF</span><span class="o">=</span><span class="w"> </span><span class="nv">NEMOCLAW_INSTALL_TAG</span><span class="o">=</span>vX.Y.Z<span class="w"> </span>bash
@@ -181,19 +192,21 @@ Cambia <code>vX.Y.Z</code> por la versión que quieras fijar. Como referencia, e
 <p>⚠️ <strong>Ojo:</strong> Las variables van <strong>del lado de <code>bash</code></strong> del pipe. <code>NEMOCLAW_INSTALL_TAG=... curl ... | bash</code> <strong>no</strong> funciona: la variable se la queda <code>curl</code>.</p>
 </blockquote>
 <p><strong>Si falla:</strong> <code>migration N was previously applied</code> / <code>is missing in the resolved migrations</code>: instalaste una etiqueta <strong>más vieja</strong> que la que ya tenías y OpenShell no se puede bajar de versión. Ver "migration" en la página de troubleshooting de NemoClaw; no fuerces la etiqueta vieja.</p>
-<h2 id="receta-4--instala-sin-onboarding-y-revisa-el-host">Receta 4 · Instala sin onboarding y revisa el host</h2>
-<p>Útil si todavía no tienes la key o quieres revisar todo antes.
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash<span class="w"> </span>-s<span class="w"> </span>--<span class="w"> </span>--defer-onboarding
-nemoclaw<span class="w"> </span>host<span class="w"> </span>probe<span class="w">            </span><span class="c1"># reporte de preparación, solo lectura</span>
-nemoclaw<span class="w"> </span>doctor<span class="w">                </span><span class="c1"># chequeos de host y gateway, solo lectura</span>
+<h2 id="receta-4--revisa-el-host-y-conoce-el-onboarding-diferido">Receta 4 · Revisa el host y conoce el onboarding diferido</h2>
+<p>Para OpenClaw, usa la instalación interactiva de la Receta 2. Con NemoClaw instalado, estos comandos revisan la preparación:</p>
+<p><div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>host<span class="w"> </span>probe
+nemoclaw<span class="w"> </span>doctor
 </code></pre></div>
 <strong>Esperado:</strong> una lista de chequeos con su estado. El formato puede cambiar entre versiones.</p>
+<p><code>--defer-onboarding</code> está documentado para Hermes y LangChain Deep Agents Code con el proveedor NVIDIA alojado, cuando faltan credenciales y no hay un sandbox registrado. No es el paso de instalación de OpenClaw. Consulta las condiciones en la <a href="https://docs.nvidia.com/nemoclaw/latest/user-guide/openclaw/reference/commands#--defer-onboarding">referencia del instalador</a>.</p>
 <p><strong>Si falla:</strong> <code>host.docker.daemon_unreachable</code> → <code>sudo systemctl start docker</code> (Linux) o abre Docker Desktop / <code>colima start</code>.</p>
 <h2 id="receta-5--onboarding-interactivo-con-nvidia-endpoints">Receta 5 · Onboarding interactivo con NVIDIA Endpoints</h2>
-<p><div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NVIDIA_INFERENCE_API_KEY</span><span class="o">=</span>nvapi-xxxxxxxx<span class="w">     </span><span class="c1"># tu key de build.nvidia.com</span>
-nemoclaw<span class="w"> </span>onboard
+<p>Si NemoClaw ya está instalado, usa estos límites para la VM de Colima de 4 CPUs y 12 GiB. En otra plataforma, ajusta los valores a la capacidad disponible.</p>
+<p><div class="highlight"><pre><span></span><code><span class="nv">NEMOCLAW_CPU</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">NEMOCLAW_RAM</span><span class="o">=</span>8Gi<span class="w"> </span>nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--name<span class="w"> </span>my-assistant
 </code></pre></div>
-El asistente hace: preflight → gateway de OpenShell → agente y proveedor → credencial → nombre del sandbox → revisión (<code>1 Apply / 2 Edit provider / 3 Edit name / 4 Exit</code>) → canales opcionales → nivel de política → chequeos finales.</p>
+Introduce la key cuando la pida el asistente. Si la proporcionas por variable de entorno, usa <code>NVIDIA_INFERENCE_API_KEY</code> y no guardes la key real en el historial.</p>
+<p><strong>Por qué 3 CPUs si Colima tiene 4:</strong> Colima limita la VM completa; <code>NEMOCLAW_CPU</code> y <code>NEMOCLAW_RAM</code> limitan el sandbox dentro de ella. El margen queda para Docker y otros procesos. En v0.0.145 observamos que el perfil developer calculaba el 75 % sobre el Mac de 12 CPUs/18 GiB y solicitaba 9 CPUs/13Gi a Docker. Los valores explícitos evitan esa solicitud imposible. El <a href="https://github.com/NVIDIA/NemoClaw/issues/14743">issue #14743</a> documenta el error, el parche propuesto y las pruebas; no asumas que tu versión instalada ya lo contiene.</p>
+<p>El asistente hace: preflight → gateway de OpenShell → agente y proveedor → credencial → nombre del sandbox → revisión (<code>1 Apply / 2 Edit provider / 3 Edit name / 4 Exit</code>) → canales opcionales → nivel de política → chequeos finales.</p>
 <p>Menú de proveedores:
 <div class="highlight"><pre><span></span><code>  1) NVIDIA Endpoints
   2) OpenRouter
@@ -215,13 +228,20 @@ Logs:     nemoclaw my-assistant logs --follow
 </code></pre></div></p>
 <p><strong>Si falla:</strong>
 - <code>Invalid sandbox name</code> (y sugiere <code>Try: &lt;slug&gt;</code>): 1–19 caracteres, minúsculas, empieza con letra, guiones simples. Nombres reservados: <code>onboard</code>, <code>list</code>, <code>status</code>, <code>start</code>, <code>stop</code>, <code>debug</code>, <code>help</code>…
-- <code>Sandbox 'my-assistant' was created but did not become ready within 180s.</code>: <code>export NEMOCLAW_SANDBOX_READY_TIMEOUT=600</code>, borra el sandbox retenido con <code>nemoclaw my-assistant destroy</code> y repite (no reintentes el mismo nombre sin borrarlo).
-- Se cortó a la mitad: <code>nemoclaw onboard --resume</code> (o <code>--fresh</code> para empezar de cero).
+- <code>Sandbox 'my-assistant' was created but did not become ready within 180s.</code>: consulta <code>nemoclaw debug --quick</code> y los logs antes de actuar. Si Docker rechaza la cantidad de CPUs, corrige los límites como se indica abajo. Usa <code>NEMOCLAW_SANDBOX_READY_TIMEOUT=600</code> solo cuando la causa sea un arranque lento; esperar más no corrige límites inválidos.
+- Se cortó a la mitad por una desconexión: resuelve la conexión y usa <code>nemoclaw onboard --resume</code>. Evita destruir el sandbox como primer paso.
 - <code>Port 18789 is not available</code> / <code>Port 18080 is not available</code>: otro proceso usa el puerto (18789 es el chat de OpenClaw; 18080, el gateway de OpenShell). <code>nemoclaw onboard --control-ui-port 19000</code> o <code>NEMOCLAW_GATEWAY_PORT=&lt;otro puerto&gt; nemoclaw onboard</code>. Revisa con <code>sudo lsof -i :18789 -sTCP:LISTEN -P -n</code> (o <code>:18080</code>).
 - La key es correcta pero <code>status</code> dice <code>unauthorized</code>: <code>nemoclaw credentials reset &lt;PROVIDER&gt;</code> y <code>nemoclaw onboard</code> otra vez.</p>
+<p>Para un intento nuevo después del error de CPU, conserva el sandbox anterior y elige un nombre que no exista:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">NEMOCLAW_CPU</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">NEMOCLAW_RAM</span><span class="o">=</span>8Gi<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>nemoclaw<span class="w"> </span>onboard<span class="w"> </span>--fresh<span class="w"> </span>--name<span class="w"> </span>my-assistant-fixed
+</code></pre></div>
+<p><code>--fresh</code> descarta el checkpoint del onboarding. No cambia los límites de un sandbox existente ni libera su nombre. En adelante, sustituye <code>my-assistant</code> por <code>my-assistant-fixed</code> si usaste ese nombre. No borres Colima para resolver este error. Antes de eliminar un sandbox fallido, comprueba si contiene datos que quieras conservar.</p>
 <h2 id="receta-6--onboarding-sin-preguntas-para-scripts">Receta 6 · Onboarding sin preguntas (para scripts)</h2>
+<p>Los límites de este ejemplo corresponden a la VM de Colima de la Receta 1. Ajusta ambos si usas otra capacidad.</p>
 <p><div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://www.nvidia.com/nemoclaw.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nv">NEMOCLAW_NON_INTERACTIVE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">NEMOCLAW_ACCEPT_THIRD_PARTY_SOFTWARE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">NEMOCLAW_CPU</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">NEMOCLAW_RAM</span><span class="o">=</span>8Gi<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nv">NEMOCLAW_AGENT</span><span class="o">=</span>openclaw<span class="w"> </span><span class="nv">NEMOCLAW_PROVIDER</span><span class="o">=</span>build<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nv">NVIDIA_INFERENCE_API_KEY</span><span class="o">=</span>nvapi-xxxxxxxx<span class="w"> </span><span class="nv">NEMOCLAW_SANDBOX_NAME</span><span class="o">=</span>my-assistant<span class="w"> </span>bash
 </code></pre></div>
@@ -300,13 +320,22 @@ nemoclaw<span class="w"> </span>inference<span class="w"> </span><span class="nb
 - Las llamadas a herramientas salen como texto (JSON en la respuesta): tu servidor local no devuelve <code>tool_calls</code> estructurados. Usa otro modelo o servidor.
 - Timeouts con modelos locales: <code>export NEMOCLAW_LOCAL_INFERENCE_TIMEOUT=300</code> (por defecto 180 s).
 - <code>Local NIM unavailable — no GPU detected</code>: NIM local necesita una GPU NVIDIA real. Usa NVIDIA Endpoints u Ollama.</p>
-<h2 id="receta-10--día-2-después-de-reiniciar-la-máquina">Receta 10 · Día 2: después de reiniciar la máquina</h2>
-<p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>info<span class="w">     </span><span class="c1"># o abre Docker Desktop / colima start</span>
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status<span class="w">                   </span><span class="c1"># también levanta el gateway</span>
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>start<span class="w">                    </span><span class="c1"># si el sandbox estaba detenido</span>
-nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>recover<span class="w">                  </span><span class="c1"># si el gateway o el reenvío siguen mal</span>
+<h2 id="receta-10--detén-colima-y-vuelve-después">Receta 10 · Detén Colima y vuelve después</h2>
+<p>Para detener solo un sandbox y dejar el motor disponible:</p>
+<div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>stop
 </code></pre></div>
-<strong>Si falla:</strong> <code>sandbox_container_stopped</code> → <code>recover</code>; solo si falla, <code>nemoclaw my-assistant rebuild --yes</code> (conserva el home completo del agente).</p>
+<p>Para apagar la VM y todos sus contenedores al terminar:</p>
+<div class="highlight"><pre><span></span><code>colima<span class="w"> </span>stop
+colima<span class="w"> </span>status
+</code></pre></div>
+<p><strong>Esperado:</strong> Colima indica que no está corriendo. La VM y sus contenedores dejan de consumir CPU y RAM; sus archivos permanecen en disco. El gateway de OpenShell puede correr como servicio de macOS fuera de la VM. Ollama y los túneles también pueden seguir activos en el host. Revisa el Monitor de Actividad y <code>brew services list</code>; detén esos procesos con el gestor que los inició si también quieres apagarlos.</p>
+<p>Para volver, Colima reutiliza los recursos guardados:</p>
+<div class="highlight"><pre><span></span><code>colima<span class="w"> </span>start
+docker<span class="w"> </span>info
+nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>status
+</code></pre></div>
+<p>Restaura <code>DOCKER_HOST</code> antes de <code>docker info</code> si esta terminal necesita el socket de la Receta 1. Si el sandbox está detenido, ejecuta <code>nemoclaw my-assistant start</code>. Si queda sin responder, revisa el estado y usa <code>nemoclaw my-assistant recover</code>. <code>status</code> puede levantar servicios de apoyo: para verificar que Colima siga apagado, usa <code>colima status</code>.</p>
+<p>En Linux, inicia el motor con <code>sudo systemctl start docker</code>; en WSL con Docker Desktop, abre Docker Desktop. Después aplica los mismos comandos del sandbox. Un reinicio normal no requiere repetir el onboarding.</p>
 <blockquote>
 <p>⚠️ <strong>Ojo:</strong> <code>nemoclaw start</code> y <code>nemoclaw stop</code> <strong>globales</strong> están obsoletos desde v0.0.110. Usa siempre <code>nemoclaw &lt;sandbox&gt; start|stop</code>.</p>
 </blockquote>
@@ -324,6 +353,7 @@ nemoclaw<span class="w"> </span>upgrade-sandboxes<span class="w"> </span>--auto<
 - <code>✗ openshell &lt;versión&gt; is above the maximum supported by this NemoClaw release.</code>: alguien actualizó OpenShell por fuera. Actualiza NemoClaw o reinstala la versión de OpenShell soportada.
 - <code>Sandbox is running an outdated agent version</code>: <code>nemoclaw my-assistant rebuild</code>.</p>
 <h2 id="receta-12--limpieza-y-desinstalación">Receta 12 · Limpieza y desinstalación</h2>
+<p>Para terminar el día usa <code>colima stop</code>, como indica la Receta 10. Los comandos siguientes son operaciones independientes de limpieza: elige solo la que necesitas. <code>destroy</code> elimina el sandbox y su estado; respalda lo que quieras conservar antes de ejecutarlo. <code>colima delete</code> tampoco es un paso del apagado cotidiano.</p>
 <p><div class="highlight"><pre><span></span><code>nemoclaw<span class="w"> </span>gc<span class="w"> </span>--dry-run<span class="w">                        </span><span class="c1"># imágenes huérfanas que se borrarían</span>
 nemoclaw<span class="w"> </span>gc
 nemoclaw<span class="w"> </span>my-assistant<span class="w"> </span>destroy<span class="w"> </span>--yes<span class="w">          </span><span class="c1"># borra un sandbox (y su estado)</span>
@@ -335,6 +365,7 @@ nemoclaw<span class="w"> </span>uninstall<span class="w"> </span>--yes<span clas
 nemoclaw<span class="w"> </span>debug<span class="w"> </span>--quick<span class="w"> </span>--output<span class="w"> </span>/tmp/nemoclaw-debug.tar.gz
 </code></pre></div>
 Abre un issue en <a href="https://github.com/NVIDIA/NemoClaw/issues">NVIDIA/NemoClaw</a> con: plataforma, versión, comando exacto, mensaje de error completo y el archivo de <code>debug</code>. Antes de subirlo, revisa que no tenga keys ni URLs con <code>#token=</code>.</p>
+<p>Para un problema con Colima, agrega <code>colima version</code>, <code>colima status</code> y <code>docker info --format 'CPUs={{.NCPU}} MemoryBytes={{.MemTotal}}'</code>. Distingue los recursos del Mac de los que ve Docker. Consulta primero los issues existentes, como el <a href="https://github.com/NVIDIA/NemoClaw/issues/14743">error de perfiles porcentuales #14743</a>.</p>
 <hr />
 <h2 id="errores-comunes-de-la-instalación-local-resumen">Errores comunes de la instalación local (resumen)</h2>
 <table>
@@ -352,14 +383,24 @@ Abre un issue en <a href="https://github.com/NVIDIA/NemoClaw/issues">NVIDIA/Nemo
 <td>Terminal nueva o <code>source ~/.bashrc</code></td>
 </tr>
 <tr>
-<td><code>Docker is not running</code> / <code>permission denied</code> en el socket</td>
-<td>Tu usuario no está en el grupo <code>docker</code></td>
-<td><code>sudo usermod -aG docker $USER &amp;&amp; newgrp docker</code></td>
+<td>Docker no conecta en macOS</td>
+<td>Colima detenido, contexto o socket incorrectos</td>
+<td>Receta 1: revisa Colima y el contexto; usa <code>DOCKER_HOST</code> si hace falta</td>
+</tr>
+<tr>
+<td>Docker no conecta en Linux</td>
+<td>Servicio detenido o permisos del socket</td>
+<td>Revisa el servicio y el grupo <code>docker</code> como indica la Receta 1</td>
 </tr>
 <tr>
 <td>Exit 137 / OOM al subir la imagen</td>
-<td>Menos de 8 GB de RAM libres</td>
-<td>16 GB o swap de 4–8 GB</td>
+<td>Falta de RAM en la VM o el host</td>
+<td>Revisa ambos recursos; el swap de Linux no aplica al Mac</td>
+</tr>
+<tr>
+<td>Docker rechaza la cantidad de CPUs</td>
+<td>El perfil calculó el porcentaje sobre el host</td>
+<td>Receta 5: límites explícitos que quepan en la VM y un nombre nuevo</td>
 </tr>
 <tr>
 <td>La variable de entorno "no hace nada"</td>
@@ -368,8 +409,8 @@ Abre un issue en <a href="https://github.com/NVIDIA/NemoClaw/issues">NVIDIA/Nemo
 </tr>
 <tr>
 <td><code>did not become ready within 180s</code></td>
-<td>VM o disco lentos al primer arranque</td>
-<td><code>NEMOCLAW_SANDBOX_READY_TIMEOUT=600</code>, <code>destroy</code> y repetir</td>
+<td>El timeout es un síntoma; consulta los logs</td>
+<td>Corrige primero la causa. Solo aumenta el timeout si el arranque es lento</td>
 </tr>
 <tr>
 <td><code>Port 18789 is not available</code> (o <code>18080</code>)</td>
